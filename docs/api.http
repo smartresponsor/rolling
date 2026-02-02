@@ -1,0 +1,30 @@
+### Role API recipes
+
+# Check allow (eventual)
+POST http://localhost:8088/v2/check?consistency=eventual
+Content-Type: application/json
+X-Role-Consistency: eventual
+
+{
+  "tenant": "t1",
+  "subject": "user:1",
+  "relation": "viewer",
+  "resource": "doc:42",
+  "context": {
+    "ip": "127.0.0.1"
+  }
+}
+
+### Explain
+POST http://localhost:8088/v2/check/explain
+Content-Type: application/json
+
+{
+  "tenant": "t1",
+  "subject": "user:1",
+  "relation": "viewer",
+  "resource": "doc:42"
+}
+
+### JWKS
+GET http://localhost:8088/v2/admin/keys/jwks

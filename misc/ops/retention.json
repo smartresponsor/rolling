@@ -1,0 +1,12 @@
+{
+  "audit": {
+    "retain_days": 30,
+    "archive_before_delete": true,
+    "archive_path": "/var/log/smartresponsor/role_audit_%Y-%m.jsonl",
+    "gzip": true,
+    "batch": 1000
+  },
+  "replay": {
+    "batch": 5000
+  }
+}

@@ -1,0 +1,142 @@
+openapi: 3.0.3
+info:
+  title: SmartResponsor Role API
+  version: 0.1.0-rc4
+servers:
+  - url: http://localhost:8088/v2
+paths:
+  /check:
+    post:
+      summary: Permission check
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckRequest'
+      responses:
+        "200":
+          description: Decision
+          headers:
+            X-Role-Consistency:
+              schema: { type: string, enum: [ strong, eventual ] }
+            X-Role-Consistency-Token:
+              schema: { type: string }
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckResponse'
+  /check/explain:
+    post:
+      summary: Explain/plan for a check
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckRequest'
+      responses:
+        "200":
+          description: Graph nodes/edges + evidence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExplainResponse'
+  /tuples/watch:
+    get:
+      summary: Server-Sent Events stream of tuple changes
+      parameters:
+        - in: query
+          name: offset
+          schema: { type: integer }
+      responses:
+        "200":
+          description: SSE stream
+          content:
+            text/event-stream: { }
+  /admin/keys/jwks:
+    get:
+      summary: JWKS (RS256 public keys)
+      responses: { "200": { description: OK } }
+  /admin/keys/rotate:
+    post:
+      summary: Rotate keys (next->active)
+      responses: { "200": { description: OK }, "403": { description: Forbidden } }
+  /admin/tenants/quota:
+    get:
+      summary: Get tenant quota
+      parameters:
+        - in: query
+          name: tenant
+          required: true
+          schema: { type: string }
+      responses: { "200": { description: OK }, "403": { description: Forbidden } }
+    post:
+      summary: Set tenant quota
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tenant: { type: string }
+                per_min: { type: integer }
+      responses: { "200": { description: OK }, "403": { description: Forbidden } }
+components:
+  schemas:
+    CheckRequest:
+      type: object
+      required: [ subject, relation, resource ]
+      properties:
+        tenant: { type: string, default: "t1" }
+        subject: { type: string }
+        relation: { type: string }
+        resource: { type: string }
+        context: { type: object, additionalProperties: true }
+        obligations:
+          type: object
+          properties:
+            mask: { type: array, items: { type: string } }
+            redact:
+              type: array
+              items:
+                type: object
+                properties:
+                  path: { type: string }
+                  pattern: { type: string }
+    CheckResponse:
+      type: object
+      required: [ allowed ]
+      properties:
+        allowed: { type: boolean }
+        meta:
+          type: object
+          properties:
+            consistency: { type: string, enum: [ strong, eventual ] }
+            token: { type: string }
+            evidence: { type: object, additionalProperties: true, nullable: true }
+    ExplainResponse:
+      type: object
+      properties:
+        allowed: { type: boolean }
+        token: { type: string }
+        explain:
+          type: object
+          properties:
+            nodes:
+              type: array
+              items:
+                type: object
+                properties:
+                  id: { type: string }
+                  label: { type: string }
+                  type: { type: string }
+            edges:
+              type: array
+              items:
+                type: object
+                properties:
+                  from: { type: string }
+                  to: { type: string }
+                  label: { type: string }

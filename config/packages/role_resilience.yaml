@@ -1,0 +1,8 @@
+role_resilience:
+  breaker:
+    threshold: 3
+    window_ms: 5000
+    cool_down_ms: 500
+  backoff:
+    base_ms: 50
+    max_ms: 300

@@ -1,0 +1,19 @@
+{
+  "smoke": {
+    "paths": [
+      "src",
+      "tools",
+      "config"
+    ]
+  },
+  "slo": {
+    "read_p95_ms_max": 250,
+    "write_p95_ms_max": 700,
+    "error_rate_max": 0.5,
+    "projection_lag_s_max": 5
+  },
+  "tag": {
+    "branch": "master",
+    "require_sha256sums": true
+  }
+}

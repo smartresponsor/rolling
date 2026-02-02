@@ -1,0 +1,14 @@
+{
+  "rules": [
+    {
+      "effect": "allow",
+      "action": "view",
+      "subject": "viewer"
+    },
+    {
+      "effect": "deny",
+      "action": "view",
+      "subject": "banned"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+# RC-B1
+ConvertMessage: RC-B1
+task: "Реализовать кеш PDP v2 + инвалидации"
+scope:
+  - ключ кеша: v2:{sid}:{scope}:{action}:ctx:{sha256}:se:{epoch}
+  - bypass при obligations != []
+  - SubjectEpochs.bump(subjectId) инвалидирует кеш
+acceptance:
+  - ≥80% хитрейт на повторных запросах
+  - bump → следующий запрос miss
+
+---
+# RC-B2
+ConvertMessage: RC-B2
+task: "CircuitBreaker над RemotePdpV2"
+scope:
+  - closed → open → half-open, экспоненциальный backoff
+  - open → DENY + obligation 'degraded'
+acceptance:
+  - при серии 5xx ≥ threshold → OPEN
+  - half-open probe: успех → CLOSED, ошибка → OPEN
+
+---
+# RC-B3
+ConvertMessage: RC-B3
+task: "Batch perf: поток и частичный успех"
+scope:
+  - чанки (128), NDJSON стрим, maxItems
+acceptance:
+  - 1000 элементов без OOM, p95 ≤ X ms/item
+
+---
+# RC-B4
+ConvertMessage: RC-B4
+task: "Бенчи и профилировка"
+deliverables:
+  - docs/benchmark.md, report/bench/*
+
+---
+# RC-B5
+ConvertMessage: RC-B5
+task: "Полировка SDK"
+scope:
+  - TS: ESM+d.ts, sideEffects:false
+  - PHP: типизированные исключения
+acceptance:
+  - TS build выдаёт dist, PHP кидает нужные исключения

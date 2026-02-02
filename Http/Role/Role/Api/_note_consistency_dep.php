@@ -1,0 +1,1 @@
+<?php /* relies on App\Http\Role\Api\Consistency from D3 */

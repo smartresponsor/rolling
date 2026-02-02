@@ -1,0 +1,15 @@
+{
+  "name": "doc-view",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "if": {
+        "action": "message.read"
+      },
+      "then": "allow"
+    },
+    {
+      "else": "deny"
+    }
+  ]
+}

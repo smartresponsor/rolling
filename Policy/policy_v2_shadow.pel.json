@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "id": "allow.admin",
+      "when": [
+        "subject.roles contains admin"
+      ],
+      "effect": "allow",
+      "reason": "admin role"
+    },
+    {
+      "id": "allow.reader",
+      "when": [
+        "action == read"
+      ],
+      "effect": "allow",
+      "reason": "read any"
+    },
+    {
+      "id": "allow.owner.delete",
+      "when": [
+        "action == delete",
+        "subject.id == resource.ownerId"
+      ],
+      "effect": "allow",
+      "reason": "owner can delete own"
+    },
+    {
+      "id": "deny.default",
+      "effect": "deny",
+      "reason": "default deny"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+role_explain:
+  path: /v2/role/explain
+  controller: App\Http\Role\Api\ExplainController::explain
+  methods: [ POST ]

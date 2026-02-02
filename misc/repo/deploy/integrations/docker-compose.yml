@@ -1,0 +1,19 @@
+services:
+  adapter:
+    build:
+      context: ../../src/Http/Role/Adapters/Envoy
+    container_name: role_adapter
+    networks: [ mesh ]
+  envoy:
+    image: envoyproxy/envoy:v1.31-latest
+    container_name: role_envoy
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml:ro
+    depends_on: [ adapter, backend ]
+    ports: [ "8080:8080","9901:9901" ]
+    networks: [ mesh ]
+  backend:
+    image: kennethreitz/httpbin
+    container_name: role_backend
+    networks: [ mesh ]
+networks: { mesh: { } }

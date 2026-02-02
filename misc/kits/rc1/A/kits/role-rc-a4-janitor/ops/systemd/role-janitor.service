@@ -1,0 +1,11 @@
+[Unit]
+Description=SmartResponsor Role Janitor (GC/Retention)
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/smartresponsor
+Environment=ROLE_AUDIT_DSN=sqlite:/var/lib/smartresponsor/role.sqlite
+ExecStart=/usr/bin/php bin/role-janitor.php gc /opt/smartresponsor/ops/retention.json
+User=www-data
+Group=www-data

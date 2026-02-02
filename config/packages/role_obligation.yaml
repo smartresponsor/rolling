@@ -1,0 +1,2 @@
+role_obligation:
+  rule_source: "%env(default:%kernel.project_dir%/ops/masking_rules.ndjson:ROLE_MASK_RULE_SOURCE)%"

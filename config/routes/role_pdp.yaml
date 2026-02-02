@@ -1,0 +1,9 @@
+role_pdp_batch:
+  path: /pdp/batch
+  controller: App\Http\Role\Pdp\BatchController::post
+  methods: [ POST ]
+
+role_pdp_stream:
+  path: /pdp/stream
+  controller: App\Http\Role\Pdp\StreamController::post
+  methods: [ POST ]

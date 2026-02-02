@@ -1,0 +1,3 @@
+role_admin:
+  approvals_required: "%env(default:2:ROLE_ADMIN_APPROVALS_REQUIRED)%"
+  report_dir: "%env(default:%kernel.project_dir%/report:ROLE_ADMIN_REPORT_DIR)%"

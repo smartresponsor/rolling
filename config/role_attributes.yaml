@@ -1,0 +1,2 @@
+cache_ttl: 30
+providers: [ user, org, resource ]

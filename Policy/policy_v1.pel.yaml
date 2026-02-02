@@ -1,0 +1,7 @@
+version: 1
+rules:
+  - { id: allow.admin, effect: allow, reason: "admin role", when: [ "subject.roles contains admin" ] }
+  - { id: allow.reader, effect: allow, reason: "read any", when: [ "action == read" ] }
+  - { id: allow.writer.write, effect: allow, reason: "writer write on doc/project", when: [ "action == write","resource.type in [doc,project]","subject.roles contains writer" ] }
+  - { id: allow.owner.delete, effect: allow, reason: "owner can delete own", when: [ "action == delete","subject.id == resource.ownerId" ] }
+  - { id: deny.default, effect: deny, reason: "default deny" }

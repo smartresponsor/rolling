@@ -1,0 +1,22 @@
+artifact: role-pre-rc6-f8-resilience-breaker.zip
+created_utc: 2025-10-27T20:23:06Z
+files:
+  - repo/src/ServiceInterface/Role/Resilience/CircuitBreakerInterface.php
+  - repo/src/ServiceInterface/Role/Resilience/BackoffStrategyInterface.php
+  - repo/src/ServiceInterface/Role/Resilience/Time/ClockInterface.php
+  - repo/src/ServiceInterface/Role/Resilience/Time/SleeperInterface.php
+  - repo/src/ServiceInterface/Role/Resilience/ResilientInvokerInterface.php
+  - repo/src/Service/Role/Resilience/Time/SystemClock.php
+  - repo/src/Service/Role/Resilience/Time/SystemSleeper.php
+  - repo/src/Service/Role/Resilience/Backoff/ExponentialJitterBackoff.php
+  - repo/src/Service/Role/Resilience/CircuitBreaker/SimpleCircuitBreaker.php
+  - repo/src/Service/Role/Resilience/ErrorClassifier.php
+  - repo/src/Service/Role/Resilience/ResilientInvoker.php
+  - repo/tools/resilience/breaker_demo.php
+  - repo/config/packages/role_resilience.yaml
+  - repo/docs/resilience-breaker.md
+notes: "Circuit Breaker + Exponential Backoff; demo with flaky function; JSON report"
+acceptance_hint:
+  - "php tools/resilience/breaker_demo.php → report/breaker_demo.json (result=OK@3, attempts=3)"
+canon:
+  - "single-hyphen naming; layer-first isolation; EN-only comments"

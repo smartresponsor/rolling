@@ -1,0 +1,9 @@
+role_obligations_apply:
+  path: /v2/obligations/apply
+  controller: App\Http\Role\Api\ObligationController::apply
+  methods: [ POST ]
+
+role_check_oblige:
+  path: /v2/check/oblige
+  controller: App\Http\Role\Api\ObligationController::checkAndApply
+  methods: [ POST ]

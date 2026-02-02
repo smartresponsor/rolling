@@ -1,0 +1,6 @@
+rebac:
+  allowed_pairs:
+    - [ subject, group ]
+    - [ group, permission ]
+    - [ permission, resource ]
+  enforce_tenant_boundary: true

@@ -1,0 +1,30 @@
+{
+  "kits": [
+    [
+      "c2-rebac-minimal",
+      "/mnt/data/role-pre-rc2-c2-rebac-minimal.zip"
+    ],
+    [
+      "c3-policy-registry",
+      "/mnt/data/role-pre-rc2-c3-policy-registry.zip"
+    ],
+    [
+      "c4-opa-adapter",
+      "/mnt/data/role-pre-rc2-c4-opa-adapter.zip"
+    ],
+    [
+      "c5-consistency-tokens",
+      "/mnt/data/role-pre-rc2-c5-consistency-tokens.zip"
+    ],
+    [
+      "c6-admin-api-cli",
+      "/mnt/data/role-pre-rc2-c6-admin-api-cli.zip"
+    ],
+    [
+      "c7-sdk-extensions",
+      "/mnt/data/role-pre-rc2-c7-sdk-extensions.zip"
+    ]
+  ],
+  "created_utc": "2025-10-27T04:39:32.090015Z",
+  "integrated": true
+}

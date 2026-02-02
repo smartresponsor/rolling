@@ -1,0 +1,91 @@
+{
+  "name": "role-rc5-e1..e10-total",
+  "created_utc": "2025-10-27T18:22:21Z",
+  "order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10"
+  ],
+  "included": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10"
+  ],
+  "missing": [],
+  "artifacts": [
+    {
+      "phase": "e1",
+      "zip": "role-rc5-e1-pipeline.zip",
+      "sha256": "d2b2ddcfb68854188ccbc7946de246230f96cdc2a52b92b2c2f70dc93b683781",
+      "files_merged": 10
+    },
+    {
+      "phase": "e2",
+      "zip": "role-rc5-e2-pel.zip",
+      "sha256": "40319a55e2e891cbcc4f876deb9723a9536dc29b1dbae5a15270e2c58cf58526",
+      "files_merged": 6
+    },
+    {
+      "phase": "e3",
+      "zip": "role-rc5-e3-versioned-publish.zip",
+      "sha256": "5c9d6081dd67a1c9f8b99e51317519dd6d089b59be2686733370206c154af54d",
+      "files_merged": 6
+    },
+    {
+      "phase": "e4",
+      "zip": "role-rc5-e4-decision-graph.zip",
+      "sha256": "f232be99616ad29bebc7a60fb474216fcd37a26b48474770f24fed1e2708398e",
+      "files_merged": 5
+    },
+    {
+      "phase": "e5",
+      "zip": "role-rc5-e5-context.zip",
+      "sha256": "91d278c592ae07cc24daea69a2306b557ffd38de2790e0ba953d04262fe36ae7",
+      "files_merged": 6
+    },
+    {
+      "phase": "e6",
+      "zip": "role-rc5-e6-sod-cardinality.zip",
+      "sha256": "8773794980c1992aa930403fcc9ee32155092b77ddbca4f07a6eae1f927ff3c6",
+      "files_merged": 5
+    },
+    {
+      "phase": "e7",
+      "zip": "role-rc5-e7-what-if.zip",
+      "sha256": "0ab13becdab60b3ccfb98bc46359e9ae619738e5aad5c714afbb4022c5d85447",
+      "files_merged": 4
+    },
+    {
+      "phase": "e8",
+      "zip": "role-rc5-e8-obligations-pro.zip",
+      "sha256": "a4eb9032b9b47357b3875aaf788da3d220608b681d9d6e8849c511f3a35d8d83",
+      "files_merged": 9
+    },
+    {
+      "phase": "e9",
+      "zip": "role-rc5-e9-admin-workflow.zip",
+      "sha256": "7795ae73dc1ea2c9489d3ffba39fd945eedd8937e9a3874867cfbacc1d388559",
+      "files_merged": 14
+    },
+    {
+      "phase": "e10",
+      "zip": "role-rc5-e10-keys-residency.zip",
+      "sha256": "5f8f02cf190198bc3f0e4677f3f88d57fec66caca7d8650e286e09e16b16205d",
+      "files_merged": 19
+    }
+  ]
+}

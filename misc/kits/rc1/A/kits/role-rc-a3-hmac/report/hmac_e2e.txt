@@ -1,0 +1,6 @@
+RC-A3 HMAC e2e — заполни после прогона скриптов.
+cases:
+  - no-signature → 401
+  - valid-signature → 200
+  - replay → 401
+  - date-skew → 401

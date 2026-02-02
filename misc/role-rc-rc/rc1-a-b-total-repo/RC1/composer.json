@@ -1,0 +1,15 @@
+{
+  "name": "smartresponsor/role",
+  "description": "SmartResponsor Role component (RC1)",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "SmartResponsor\\RoleSdk\\V2\\": "sdk/php/"
+    }
+  },
+  "require": {
+    "php": ">=8.1"
+  }
+}

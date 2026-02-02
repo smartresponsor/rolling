@@ -1,0 +1,9 @@
+# config/audit.example.yaml
+enabled: true
+file: var/log/role/decision.jsonl
+mask:
+  - context.ssn
+  - resource
+redact:
+  - path: context.notes
+    pattern: "\\btoken_[a-z0-9]+\\b"

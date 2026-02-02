@@ -1,0 +1,21 @@
+{
+  "namespace": "doc",
+  "relations": {
+    "viewer": {
+      "of": "user",
+      "via": [
+        "owner",
+        "member_of_group"
+      ]
+    },
+    "editor": {
+      "of": "user",
+      "via": [
+        "owner"
+      ]
+    },
+    "owner": {
+      "of": "user"
+    }
+  }
+}

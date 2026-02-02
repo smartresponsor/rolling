@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "SmartResponsor Role RC4",
+    "_postman_id": "e7a1-rc4-role",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Check",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/v2/check?consistency=eventual",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "v2",
+            "check"
+          ],
+          "query": [
+            {
+              "key": "consistency",
+              "value": "eventual"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"tenant\": \"t1\", \"subject\": \"user:1\", \"relation\": \"viewer\", \"resource\": \"doc:42\"}"
+        }
+      }
+    },
+    {
+      "name": "Explain",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/v2/check/explain",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "v2",
+            "check",
+            "explain"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"tenant\": \"t1\", \"subject\": \"user:1\", \"relation\": \"viewer\", \"resource\": \"doc:42\"}"
+        }
+      }
+    },
+    {
+      "name": "JWKS",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base}}/v2/admin/keys/jwks",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "v2",
+            "admin",
+            "keys",
+            "jwks"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base",
+      "value": "http://localhost:8088"
+    }
+  ]
+}

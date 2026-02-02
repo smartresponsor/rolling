@@ -1,0 +1,8 @@
+plugins {
+    id 'java'
+}
+group = 'com.smartresponsor'
+version = '0.1.0-rc4'
+repositories { mavenCentral() }
+dependencies { }
+java { toolchain { languageVersion = JavaLanguageVersion.of(11) } }

@@ -1,0 +1,47 @@
+{
+  "flags": {
+    "redactSensitive": {
+      "when": [
+        {
+          "tenantId": "t1"
+        },
+        {
+          "env": "prod"
+        },
+        {
+          "percent": 50,
+          "by": "subjectId"
+        }
+      ],
+      "rules": [
+        {
+          "type": "redact_fields",
+          "params": {
+            "fields": [
+              "secret",
+              "token"
+            ]
+          }
+        },
+        {
+          "type": "watermark",
+          "params": {
+            "header": "X-Role-Policy",
+            "value": "sub={subject};act={action};scope={scope}"
+          }
+        }
+      ]
+    }
+  },
+  "routes": [
+    {
+      "actions": [
+        "message.read",
+        "message.*"
+      ],
+      "use": [
+        "redactSensitive"
+      ]
+    }
+  ]
+}

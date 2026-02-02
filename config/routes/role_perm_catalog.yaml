@@ -1,0 +1,4 @@
+role_perm_catalog:
+  path: /v2/permissions/catalog
+  methods: [ GET ]
+  controller: App\Http\Role\V2\PermCatalogController::index

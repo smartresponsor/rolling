@@ -1,0 +1,71 @@
+# RC-A1
+ConvertMessage: RC-A1  # Smoke+Lint
+task: "RC1 Smoke + Lint + Tests"
+scope:
+  - php -l по src/**, sdk/php/**, tests/**
+  - запустить unit-тесты (можно помечать @skip с комментом)
+deliverables:
+  - report/smoke.txt
+acceptance:
+  - 0 syntax errors
+  - тесты зелёные или явно @skip с причиной
+
+---
+# RC-A2
+ConvertMessage: RC-A2  # Symfony wiring
+task: "Подключить RoleBundle + маршруты + /metrics"
+files_touch:
+  - config/bundles.php
+  - config/packages/role.yaml
+  - config/routes/role.yaml
+  - config/routes/metrics.yaml
+scope:
+  - зарегистрировать App\Integration\Symfony\RoleBundle\RoleBundle
+  - завести POST /v2/access/check и /v2/access/check:batch
+  - добавить GET /metrics с PrometheusExporter
+acceptance:
+  - POST /v2/access/check → 200 JSON
+  - GET /metrics содержит role_pdp_requests_total
+
+---
+# RC-A3
+ConvertMessage: RC-A3  # HMAC guard e2e
+task: "Включить HMAC + anti-replay и проверить кейсы"
+env:
+  - ROLE_PDP_HMAC=...
+  - ROLE_AUDIT_DSN=...
+scope:
+  - слить config/packages/role.security.yaml
+  - применить SQL replay_nonce (sqlite/pgsql)
+  - прогнать no-signature, valid, replay, date-skew
+acceptance:
+  - 401 missing_signature / replay / date_skew
+  - 200 JSON на валидном запросе
+
+---
+# RC-A4
+ConvertMessage: RC-A4  # Audit + Janitor
+task: "Миграции audit/replay + запуск janitor (+systemd)"
+scope:
+  - SQL для role_audit и replay_nonce
+  - bin/role-janitor.php + ops/retention.json
+  - systemd timer
+acceptance:
+  - записи в role_audit при вызове API
+  - janitor удаляет старше retain_days и пишет JSONL(.gz)
+
+---
+# RC-A5
+ConvertMessage: RC-A5  # SDK sanity
+task: "Проверка PHP/TS SDK"
+env:
+  - ROLE_PDP_BASE_URL=...
+  - ROLE_PDP_API_KEY=...
+  - ROLE_PDP_HMAC=...
+scope:
+  - PHP SDK: Client::check()
+  - TS SDK: Client.check()
+deliverables:
+  - report/sdk_sanity.txt
+acceptance:
+  - оба примера возвращают 200 JSON с decision

@@ -1,0 +1,24 @@
+role_keys_sign:
+  path: /v2/keys/sign
+  controller: App\Http\Role\Api\SecurityController::sign
+  methods: [ POST ]
+
+role_keys_verify:
+  path: /v2/keys/verify
+  controller: App\Http\Role\Api\SecurityController::verify
+  methods: [ POST ]
+
+role_keys_rotate:
+  path: /v2/keys/rotate
+  controller: App\Http\Role\Api\SecurityController::rotate
+  methods: [ POST ]
+
+role_keys_jwks_get:
+  path: /v2/keys/jwks
+  controller: App\Http\Role\Api\SecurityController::jwksGet
+  methods: [ GET ]
+
+role_keys_jwks_put:
+  path: /v2/keys/jwks
+  controller: App\Http\Role\Api\SecurityController::jwksPut
+  methods: [ POST ]

@@ -1,0 +1,4 @@
+role_debug_policy_shadow_compare:
+  path: /v2/debug/policy/shadow
+  methods: [ POST ]
+  controller: App\Http\Role\V2\DebugPolicyShadowController::compare

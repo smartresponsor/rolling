@@ -1,0 +1,28 @@
+{
+  "included": [
+    [
+      "role_RC1.zip",
+      "RC1"
+    ],
+    [
+      "rc_a1_smoke_kit.zip",
+      "kits/role-rc-a1-smoke"
+    ],
+    [
+      "rc_a2_symfony_wiring.zip",
+      "kits/role-rc-a2-symfony"
+    ],
+    [
+      "role_rc_a3_hmac_guard.zip",
+      "kits/role-rc-a3-hmac"
+    ],
+    [
+      "role_rc_a4_audit_janitor.zip",
+      "kits/role-rc-a4-janitor"
+    ],
+    [
+      "role_rc_a5_sdk_sanity.zip",
+      "kits/role-rc-a5-sdk"
+    ]
+  ]
+}

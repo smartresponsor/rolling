@@ -1,0 +1,18 @@
+{
+  "host": "ldaps://ldap.example",
+  "bindDn": "cn=reader,ou=svc,dc=example,dc=com",
+  "bindPass": "****",
+  "baseDn": "ou=users,dc=example,dc=com",
+  "userFilter": "(uid={uid})",
+  "groupAttr": "memberOf",
+  "groupRoleMap": {
+    "cn=admins,ou=groups,dc=example,dc=com": {
+      "role": "admin",
+      "tenantId": "t1"
+    },
+    "cn=readers,ou=groups,dc=example,dc=com": {
+      "role": "reader",
+      "tenantId": "t1"
+    }
+  }
+}

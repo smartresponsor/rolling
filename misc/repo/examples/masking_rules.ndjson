@@ -1,0 +1,31 @@
+{
+  "id": "r1",
+  "resource": "user",
+  "action": "can_read",
+  "tenant": "t1",
+  "role": "support",
+  "mask": {
+    "drop": [
+      "ssn"
+    ],
+    "redact": [
+      "email"
+    ],
+    "hash": [
+      "fullName"
+    ]
+  }
+}
+{
+  "id": "r2",
+  "resource": "order",
+  "action": "can_read",
+  "mask": {
+    "redact": [
+      "creditCard"
+    ],
+    "drop": [
+      "cvv"
+    ]
+  }
+}

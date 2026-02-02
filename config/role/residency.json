@@ -1,0 +1,15 @@
+{
+  "t1": {
+    "allowedRegions": [
+      "us",
+      "eu"
+    ],
+    "defaultRegion": "us"
+  },
+  "t2": {
+    "allowedRegions": [
+      "eu"
+    ],
+    "defaultRegion": "eu"
+  }
+}

@@ -1,0 +1,25 @@
+# config/routes/role_model.yaml
+role_model_versions:
+  path: /v2/model/versions
+  controller: App\Http\Role\Api\ModelController::versions
+  methods: [ GET ]
+
+role_model_get:
+  path: /v2/model/get
+  controller: App\Http\Role\Api\ModelController::get
+  methods: [ GET ]
+
+role_model_create:
+  path: /v2/model/create
+  controller: App\Http\Role\Api\ModelController::create
+  methods: [ POST ]
+
+role_model_activate:
+  path: /v2/model/activate
+  controller: App\Http\Role\Api\ModelController::activate
+  methods: [ POST ]
+
+role_model_apply:
+  path: /v2/model/apply
+  controller: App\Http\Role\Api\ModelController::apply
+  methods: [ POST ]

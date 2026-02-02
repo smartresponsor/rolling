@@ -1,0 +1,12 @@
+{
+  "name": "@smartresponsor/role-sdk",
+  "version": "0.1.0",
+  "description": "SmartResponsor Role API v2 TypeScript SDK",
+  "type": "commonjs",
+  "main": "dist/client.js",
+  "types": "dist/types.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,31 @@
+{
+  "roles": {
+    "admin": [
+      "*"
+    ],
+    "reader": [
+      "message.read"
+    ],
+    "moderator": [
+      "message.read",
+      "message.update"
+    ]
+  },
+  "bindings": [
+    {
+      "subjectId": "u1",
+      "role": "admin",
+      "scope": "global"
+    },
+    {
+      "subjectId": "u2",
+      "role": "reader",
+      "scope": "tenant:t1"
+    },
+    {
+      "subjectId": "u3",
+      "role": "moderator",
+      "scope": "resource:t1:r42"
+    }
+  ]
+}

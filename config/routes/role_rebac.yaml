@@ -1,0 +1,9 @@
+role_rebac_write:
+  path: /v2/rebac/tuple/write
+  methods: [ POST ]
+  controller: App\Http\Role\V2\RebacController::write
+
+role_rebac_check:
+  path: /v2/rebac/check
+  methods: [ POST ]
+  controller: App\Http\Role\V2\RebacController::check

@@ -1,0 +1,4 @@
+role_tenant:
+  # backend repo: in-memory by default; wire real storage in app container
+  signer_algo: "%env(default:sha256:ROLE_SIGNER_ALGO)%"
+  rotation_bytes: "%env(default:32:ROLE_TENANT_KEY_BYTES)%"

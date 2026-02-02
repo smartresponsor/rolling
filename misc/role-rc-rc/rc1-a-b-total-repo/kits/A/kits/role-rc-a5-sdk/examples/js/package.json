@@ -1,0 +1,9 @@
+{
+  "name": "role-sdk-sanity",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0"
+  }
+}

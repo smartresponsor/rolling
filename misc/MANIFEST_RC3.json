@@ -1,0 +1,252 @@
+{
+  "name": "role-rc3-src",
+  "created_utc": "2025-10-27T05:45:15.369804Z",
+  "paths": {
+    "src": [
+      {
+        "path": "src/Attribute/Role/AttributeService.php",
+        "sha256": "ceae6d6e3721e6d6e7d2148052494f5a5ad488acc972c1645c07e3605325183e"
+      },
+      {
+        "path": "src/Attribute/Role/Provider/AttributeProviderInterface.php",
+        "sha256": "246c2a17c5c90d2b5e36f0146a94cd05130e83724c758ef941f935d491c722de"
+      },
+      {
+        "path": "src/Attribute/Role/Provider/UserProvider.php",
+        "sha256": "575ded1703c0cbd5170428316ea217704720a55894df8feb5312da8cbcbf7341"
+      },
+      {
+        "path": "src/Attribute/Role/Provider/OrgProvider.php",
+        "sha256": "09151d4a45c59ff80f1ece28fbd357773922604979fa04d85aafc290536c9818"
+      },
+      {
+        "path": "src/Attribute/Role/Provider/ResourceProvider.php",
+        "sha256": "3a8069e12de3c8247442272d06d142baf94b3b4000cabb8a956a31231b5c8d46"
+      },
+      {
+        "path": "src/Attribute/Role/Cache/ArrayCache.php",
+        "sha256": "348138ec39141dc6ac0ea013428856f3053b5d004d69cdaf60297b93ef47b56a"
+      },
+      {
+        "path": "src/Http/Role/V2/ContextEnricherSubscriber.php",
+        "sha256": "79ca0224d6aceec39c6f6494f8bd5be526b90493dc3daad8b5ff3e2fca333fd5"
+      },
+      {
+        "path": "src/Http/Role/V2/DebugPolicyShadowController.php",
+        "sha256": "23fa838009b76f3ee69ee062ef0493b8ee7e73b2271edf9c6d6a9f66bfac3b40"
+      },
+      {
+        "path": "src/Http/Role/V2/BulkController.php",
+        "sha256": "a058ee0b3cc082bef753056a983458521202a0c0af7551522e2ecc0f3f141a8e"
+      },
+      {
+        "path": "src/Http/Role/V2/PermCatalogController.php",
+        "sha256": "ac932995a6bbed1efbbc1fa671d6c7f0727bc340498e0fb3ed1c05442c133e2a"
+      },
+      {
+        "path": "src/Http/Role/V2/Context/ContextMerge.php",
+        "sha256": "9c3256e6f00c73a0640cb98183c13559592e979618f5dd03c8820fa7e729c811"
+      },
+      {
+        "path": "src/Http/Role/V2/Bulk/BulkReaderInterface.php",
+        "sha256": "658e22576ee138ae18668304289330cef80d5dd23de13620edb62017654f452a"
+      },
+      {
+        "path": "src/Http/Role/V2/Bulk/NdjsonReader.php",
+        "sha256": "b4d08da26e71393e0f2a6bb038dce7272d433e6283612d60b88192677b9951c1"
+      },
+      {
+        "path": "src/Http/Role/V2/Bulk/CsvReader.php",
+        "sha256": "9205857e068337c15dd4a628660d274088ea44119b4ce2e75d00541840c8f62a"
+      },
+      {
+        "path": "src/Http/Role/V2/Bulk/NdjsonWriter.php",
+        "sha256": "df1dab27d838f9ee5fdf4c4571dce8d0740542ff7b0f07f82ae0987cf8c70d19"
+      },
+      {
+        "path": "src/Http/Role/Security/HmacGuardSubscriber.php",
+        "sha256": "980f9d5a20aa47390e5a5c9ea18a09794b557e7c467905db51c10f2b1fb9a5e5"
+      },
+      {
+        "path": "src/Shadow/Role/Sampler/PercentageSampler.php",
+        "sha256": "ef99436e4460618dffadce0f1546bc3dd4333e84a6b1804f16f663dbd739fcaf"
+      },
+      {
+        "path": "src/Shadow/Role/Diff/DecisionDiff.php",
+        "sha256": "b800afb313b31bda26344c2b199a51601df60dad17e925ce0834a90889014df7"
+      },
+      {
+        "path": "src/Shadow/Role/Report/DiffReporterInterface.php",
+        "sha256": "725d74c0c86876a97d32e12e9d9add1e7e27b3016f3320bdd442b2e6bb282b1d"
+      },
+      {
+        "path": "src/Shadow/Role/Report/PsrLogDiffReporter.php",
+        "sha256": "96c491ac9ca171741ab96a29edc98b796a522c341eef8a38b93d6da97e48de4d"
+      },
+      {
+        "path": "src/Shadow/Role/Report/EventBusDiffReporter.php",
+        "sha256": "b4e993dbfa5c7db8fe15cf0e4f3872209e72799bd4e07cabf98754b49c0ecac0"
+      },
+      {
+        "path": "src/Policy/Role/V2/ShadowPdpV2.php",
+        "sha256": "cf526f732614f814c8bf0f5d8ea588d6fa28a1ff793da86f43ab9ffeae7bfa84"
+      },
+      {
+        "path": "src/Permission/Role/Model/PermissionDef.php",
+        "sha256": "bf2909aa48e738210f7545903b161f60a59c4d037eaf75094e44f2bfeddd540f"
+      },
+      {
+        "path": "src/Permission/Role/Catalog/Catalog.php",
+        "sha256": "6a2282e57fd8afcb5a6851747fa0817ba8e607d891b4c2c90c6ac33615d99297"
+      },
+      {
+        "path": "src/Permission/Role/Catalog/ConfigLoader.php",
+        "sha256": "a761e01b1205659d653b6087de4a313746672218ec20ba7ee8c31a843fcd1f42"
+      },
+      {
+        "path": "src/Permission/Role/Catalog/Hasher.php",
+        "sha256": "9ac9e3f9541ddedcc405734fe36aad9db11b4eb50790ff8a3010808c4c08bd8c"
+      },
+      {
+        "path": "src/Permission/Role/Catalog/CatalogService.php",
+        "sha256": "7d466037d9e34e1e150658f6a12e1b0a274a3d33726e13ba137cff411d99b6bf"
+      },
+      {
+        "path": "src/Security/Role/Util/Base64Url.php",
+        "sha256": "e398d0e9835ed91d18a02d6642da610942012c5de2e0ef1cbf1541cc510ccc5b"
+      },
+      {
+        "path": "src/Security/Role/Policy/PolicySigner.php",
+        "sha256": "8a22f5b2821eacfb18d622c36e19d9a76ef19807cf2216771a80b4a8e38ed60b"
+      },
+      {
+        "path": "src/Security/Role/Policy/PolicyVerifier.php",
+        "sha256": "55b6a675d679e85cfac1e7b52b7f86916e166564748577c2f94f80cab18848cf"
+      },
+      {
+        "path": "src/Security/Role/Hmac/Canonicalizer.php",
+        "sha256": "7dce08b09902ac657b642efcc718d1bf28123e686b52020341c81806fe07d9b3"
+      },
+      {
+        "path": "src/Security/Role/Hmac/Signer.php",
+        "sha256": "b0b514d68aad8fc1c6ce447d777b5ac16071b8c422dc4ed63f06eda6281e7556"
+      },
+      {
+        "path": "src/Security/Role/Hmac/Verifier.php",
+        "sha256": "3796608e81da540efe3dce981627b6598f950d1bf746f5425e518215776a3ebe"
+      }
+    ],
+    "config": [
+      {
+        "path": "config/role_attributes.yaml",
+        "sha256": "c86c0b92f160601b77d54457b53321e5b3b43895fbb3bad730f00abb29ba7e83"
+      },
+      {
+        "path": "config/role_shadow.yaml",
+        "sha256": "73e94c498e45dd849388a879989b55033b873de18b436be370b4aac32632804f"
+      },
+      {
+        "path": "config/role_permissions.json",
+        "sha256": "b9b104c81946d89105fce3f80952626c41319e6cab5a3a7db5c863aff69ec626"
+      },
+      {
+        "path": "config/routes/role_shadow.yaml",
+        "sha256": "e2836901ac642ed84c41aed3f870a56de6df973ebc7cee2fd34e65fd25c77bd0"
+      },
+      {
+        "path": "config/routes/role_bulk.yaml",
+        "sha256": "88d105adbbd7b3081bf2f7958f562104179baddf2096cac2630bd5a6329900d1"
+      },
+      {
+        "path": "config/routes/role_perm_catalog.yaml",
+        "sha256": "87753b30aad4a94e39a87b5f19d3309815c5683184b20443477d341c70aa6e23"
+      }
+    ],
+    "tools": [
+      {
+        "path": "tools/rc_c12_smoke.sh",
+        "sha256": "5f936e72ff298be862307aca82bcea48304dd507368d8e87dbd65b54c3a723bc"
+      },
+      {
+        "path": "tools/rc_c13_smoke.sh",
+        "sha256": "a6ac7b736249c8d92f0096af1fa1e64a80e92a450459c269ce0736784f14e598"
+      },
+      {
+        "path": "tools/rc_c14_smoke.sh",
+        "sha256": "067d2013b122228e59dfc3efc42087fec294b3924cfcec2fe6b0fafe6bc4d2bc"
+      },
+      {
+        "path": "tools/rc_c15_smoke.sh",
+        "sha256": "af15d68712255d922ec63e4656b2b56bce868c65470cc69def69f83d81d70e33"
+      },
+      {
+        "path": "tools/rc_c16_smoke.sh",
+        "sha256": "7fb922bd95893ae40e52c4b38ef2877bae76eb7c814e6564ab109b817cff92b3"
+      },
+      {
+        "path": "tools/rc_c17_smoke.sh",
+        "sha256": "04c8dc4b941277f8c9c0c64e5136dc5167499de858268ef9e928e303a29784be"
+      },
+      {
+        "path": "tools/rc_c18_smoke.sh",
+        "sha256": "723998a96fb70a26828972232b2fe47a1f9d8b53ba19dbedeeb9ace96e034c33"
+      },
+      {
+        "path": "tools/rc_c19_smoke.sh",
+        "sha256": "d7783bf29fe9e32a9ec3f402ecab8748ce77592dac2f5ae1d5c135cd959a74b2"
+      },
+      {
+        "path": "tools/rc3_smoke.sh",
+        "sha256": "489da3e0f4ed4afc5fa71746d58263a907ebd1beda0a10fd05baf60da3431edd"
+      }
+    ],
+    "docs": [
+      {
+        "path": "docs/attributes.md",
+        "sha256": "6c5add867e4b2b23f51190e0d9745aabcd80570fc86d898b54594b27222cc020"
+      },
+      {
+        "path": "docs/context_enricher.md",
+        "sha256": "46af5650b92e14899d337e72fbf04121d78c919b9bed72ad849e955f365e75d6"
+      },
+      {
+        "path": "docs/shadow_pdp.md",
+        "sha256": "da7ca8d928c7d4790788da0986d02952f1cfaed33f0617c021cb86449f1ab660"
+      },
+      {
+        "path": "docs/bulk.md",
+        "sha256": "aa4539fe8ce1c3d687cb4d7a84da2bc7c5a159c5ab3dda50f7b8f8073eb63edc"
+      },
+      {
+        "path": "docs/permissions_catalog.md",
+        "sha256": "f220c4d4b750f2956d054d7342827a9a9f736d90b24b5254c606f0f48eb0ba31"
+      },
+      {
+        "path": "docs/local_stack.md",
+        "sha256": "633743c875c5392082b08060ba6b26795397985145181f44a979de524304416a"
+      },
+      {
+        "path": "docs/perf_bench.md",
+        "sha256": "54ccef401964ad895cb61f355aaa27ad01ba9930b4af157ab26a1d6c16decc3a"
+      }
+    ],
+    "deploy": [
+      {
+        "path": "deploy/compose/docker-compose.yaml",
+        "sha256": "7f1f365bb5a28819904daf3270b2a78cf3c8d9c2731a3f816c777b40be40abc0"
+      },
+      {
+        "path": "deploy/compose/kit_mount/tools/dev-router.php",
+        "sha256": "760e27d35babfa24a58411b77e198b7418b623b80712a0f47437e8c0dbfc77e7"
+      }
+    ],
+    "bin": [],
+    "examples": [
+      {
+        "path": "examples/policies/sample_policy.json",
+        "sha256": "563010884707eed634a422a45d11a3fbd0af7bb5552d9822eb126d4800467d75"
+      }
+    ],
+    "docker": []
+  }
+}

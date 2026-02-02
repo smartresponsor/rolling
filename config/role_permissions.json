@@ -1,0 +1,40 @@
+{
+  "permissions": [
+    {
+      "key": "message.read",
+      "scopes": [
+        "global",
+        "tenant",
+        "resource"
+      ],
+      "description": "Read messages",
+      "component": "message"
+    },
+    {
+      "key": "message.write",
+      "scopes": [
+        "tenant",
+        "resource"
+      ],
+      "description": "Create/edit messages",
+      "component": "message"
+    },
+    {
+      "key": "role.admin.list",
+      "scopes": [
+        "global"
+      ],
+      "description": "List roles/assignments",
+      "component": "role"
+    },
+    {
+      "key": "role.admin.grant",
+      "scopes": [
+        "tenant",
+        "resource"
+      ],
+      "description": "Grant role/permission",
+      "component": "role"
+    }
+  ]
+}

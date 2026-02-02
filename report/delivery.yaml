@@ -1,0 +1,17 @@
+artifact: role-pre-rc7-g10-rc-gate.zip
+created_utc: 2025-10-27T21:28:13Z
+goal: "RC gate: smoke + SLO eval + manifest & SHA256SUMS"
+acceptance_hint:
+  - "php tools/rc/sample_metrics.php → report/metrics.json"
+  - "php tools/rc/rc_gate.php → report/rc_gate.json (pass:true) & release/SHA256SUMS"
+files:
+  - repo/config/role/rc_gate.json
+  - repo/tools/rc/smoke.php
+  - repo/tools/rc/slo_eval.php
+  - repo/tools/rc/manifest.php
+  - repo/tools/rc/sha256sums.php
+  - repo/tools/rc/rc_gate.php
+  - repo/tools/rc/sample_metrics.php
+  - repo/docs/rc/gate.md
+canon:
+  - "single-hyphen naming; layer-first isolation; EN-only comments"

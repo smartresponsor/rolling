@@ -1,0 +1,4 @@
+role_metrics:
+  path: /metrics
+  controller: App\Integration\Symfony\Controller\MetricsController::metrics
+  methods: [ GET ]
