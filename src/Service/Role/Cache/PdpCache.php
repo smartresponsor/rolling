@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -28,7 +29,9 @@ final class PdpCache
         $this->cacheDir = $cacheDir;
         $this->guard = $guard ?? new StampedeGuard();
         $this->tags = $tags;
-        if (!is_dir($this->cacheDir)) @mkdir($this->cacheDir, 0775, true);
+        if (!is_dir($this->cacheDir)) {
+            @mkdir($this->cacheDir, 0775, true);
+        }
     }
 
     /**
@@ -50,8 +53,8 @@ final class PdpCache
 
         // Read
         if (is_file($path)) {
-            $d = json_decode((string)file_get_contents($path), true);
-            if (is_array($d) && isset($d['expiresAt']) && $d['expiresAt'] > (int)(microtime(true) * 1000)) {
+            $d = json_decode((string) file_get_contents($path), true);
+            if (is_array($d) && isset($d['expiresAt']) && $d['expiresAt'] > (int) (microtime(true) * 1000)) {
                 return $d['value'];
             }
         }

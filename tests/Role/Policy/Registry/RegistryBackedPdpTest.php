@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Policy\Registry;
 
 use App\Policy\Role\Obligation\Applier\ArrayApplier;
-use App\Policy\Role\Registry\Policy\Role\Registry\PolicyRegistry;
-use App\Policy\Role\Registry\Policy\Role\Registry\InMemorySource;
 use PHPUnit\Framework\TestCase;
 use Policy\Role\Decorator\V2\RegistryBackedPdp;
 use Policy\Role\V2\DecisionWithObligations;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Consistency;
@@ -32,13 +33,18 @@ final class TokenAndCacheTest extends TestCase
         $policyRev = 1;
         $rebacRev = 5;
         $composer = new Composer(
-            policyTokenFn: fn() => new PolicyToken($policyRev),
-            rebacTokenFn: fn() => new RebacToken($rebacRev),
-            subjectEpochFn: fn(string $sid) => 0
+            policyTokenFn: function () use (&$policyRev): PolicyToken {
+                return new PolicyToken($policyRev);
+            },
+            rebacTokenFn: function () use (&$rebacRev): RebacToken {
+                return new RebacToken($rebacRev);
+            },
+            subjectEpochFn: fn(string $sid) => 0,
         );
         $calls = 0;
-        $inner = new class($calls) implements PdpV2Interface {
+        $inner = new class ($calls) implements PdpV2Interface {
             public int $calls = 0;
+            private int $ref = 0;
 
             /**
              * @param int $callsRef

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
@@ -48,16 +49,22 @@ final class PolicyStage implements Stage
             'resource.type' => $ctx->resource['type'] ?? '',
         ];
         foreach ($ctx->attrs as $k => $v) {
-            $map['attrs.' . $k] = is_scalar($v) ? (string)$v : json_encode($v);
+            $map['attrs.' . $k] = is_scalar($v) ? (string) $v : json_encode($v);
         }
         $expr2 = str_replace([' and ', ' or '], [' && ', ' || '], $expr);
         $expr2 = preg_replace('/\b([A-Za-z0-9_\-\.]+)\s+in\s+\[/', 'in_array(\1, [', $expr2);
         $expr2 = preg_replace_callback('/\b(subject\.role|action|resource\.type|attrs\.[A-Za-z0-9_\-]+)\b/', function (array $m) use ($map) {
             $k = $m[0];
             $v = $map[$k] ?? null;
-            if (is_string($v)) return "'" . str_replace("'", "\\'", $v) . "'";
-            if (is_bool($v)) return $v ? 'true' : 'false';
-            if (is_numeric($v)) return (string)$v;
+            if (is_string($v)) {
+                return "'" . str_replace("'", "\\'", $v) . "'";
+            }
+            if (is_bool($v)) {
+                return $v ? 'true' : 'false';
+            }
+            if (is_numeric($v)) {
+                return (string) $v;
+            }
             return 'null';
         }, $expr2);
         if (preg_match('/[^A-Za-z0-9_\-\(\)\[\]\,\'\"\s\&\|\!\.]/', $expr2)) {
@@ -68,7 +75,7 @@ final class PolicyStage implements Stage
         $tmp = tempnam(sys_get_temp_dir(), 'pel_');
         file_put_contents($tmp, $code);
         try {
-            $ok = (bool)(include $tmp);
+            $ok = (bool) (include $tmp);
         } catch (Throwable $t) {
             $ok = false;
         }

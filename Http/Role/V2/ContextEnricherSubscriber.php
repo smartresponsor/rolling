@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role\V2;
@@ -22,9 +23,7 @@ final class ContextEnricherSubscriber implements EventSubscriberInterface
      * @param \App\Attribute\Role\AttributeService $attrs
      * @param array $cfg
      */
-    public function __construct(private readonly AttributeService $attrs, private readonly array $cfg = [])
-    {
-    }
+    public function __construct(private readonly AttributeService $attrs, private readonly array $cfg = []) {}
 
     /**
      * @return array[]
@@ -41,16 +40,24 @@ final class ContextEnricherSubscriber implements EventSubscriberInterface
     public function onArgs(ControllerArgumentsEvent $ev): void
     {
         $req = $ev->getRequest();
-        if (($req->headers->get('X-Role-No-Enrich') ?? '') === '1' || $req->query->getBoolean('no_enrich')) return;
-        $payload = json_decode((string)$req->getContent(), true) ?: [];
-        $ctx = (array)($payload['context'] ?? []);
-        $user = (string)($ctx['user_id'] ?? '');
-        $org = (string)($ctx['org_id'] ?? '');
-        $res = (string)($ctx['resource_id'] ?? '');
+        if (($req->headers->get('X-Role-No-Enrich') ?? '') === '1' || $req->query->getBoolean('no_enrich')) {
+            return;
+        }
+        $payload = json_decode((string) $req->getContent(), true) ?: [];
+        $ctx = (array) ($payload['context'] ?? []);
+        $user = (string) ($ctx['user_id'] ?? '');
+        $org = (string) ($ctx['org_id'] ?? '');
+        $res = (string) ($ctx['resource_id'] ?? '');
         $server = [];
-        if ($user !== '') $server['user'] = $this->attrs->user($user);
-        if ($org !== '') $server['org'] = $this->attrs->org($org);
-        if ($res !== '') $server['resource'] = $this->attrs->resource($res);
+        if ($user !== '') {
+            $server['user'] = $this->attrs->user($user);
+        }
+        if ($org !== '') {
+            $server['org'] = $this->attrs->org($org);
+        }
+        if ($res !== '') {
+            $server['resource'] = $this->attrs->resource($res);
+        }
         $payload['_role_ctx_enriched'] = ContextMerge::merge($ctx, $server);
         $req->attributes->set('_role_payload', $payload);
     }

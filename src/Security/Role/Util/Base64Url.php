@@ -1,6 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace src\Security\Role\Util;
+
 /**
  *
  */
@@ -27,7 +30,9 @@ final class Base64Url
     {
         $re = strtr($txt, '-_', '+/');
         $pad = strlen($re) % 4;
-        if ($pad) $re .= str_repeat('=', 4 - $pad);
+        if ($pad) {
+            $re .= str_repeat('=', 4 - $pad);
+        }
         return base64_decode($re, true) ?: '';
     }
 }

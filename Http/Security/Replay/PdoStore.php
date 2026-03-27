@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Security\Replay;
@@ -19,9 +20,7 @@ final class PdoStore implements StoreInterface
      * @param \PDO $pdo
      * @param string $table
      */
-    public function __construct(private readonly PDO $pdo, private readonly string $table = 'replay_nonce')
-    {
-    }
+    public function __construct(private readonly PDO $pdo, private readonly string $table = 'replay_nonce') {}
 
     /**
      * @param string $nonce

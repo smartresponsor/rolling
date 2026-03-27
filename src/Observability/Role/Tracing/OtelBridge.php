@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Observability\Role\Tracing;
@@ -41,13 +42,13 @@ final class OtelBridge
             $span = $this->tracer->spanBuilder($name)->startSpan();
             foreach ($attrs as $k => $v) {
                 try {
-                    $span->setAttribute((string)$k, (string)$v);
+                    $span->setAttribute((string) $k, (string) $v);
                 } catch (Throwable $e) {
                 }
             }
-            return (object)['span' => $span];
+            return (object) ['span' => $span];
         }
-        return (object)['span' => null];
+        return (object) ['span' => null];
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Model;
@@ -15,9 +16,7 @@ final class Migrator
     /**
      * @param \Model\SchemaRegistry $registry
      */
-    public function __construct(private readonly SchemaRegistry $registry)
-    {
-    }
+    public function __construct(private readonly SchemaRegistry $registry) {}
 
     /** @return array{plan:array, breaking:bool} */
     public function plan(array $from, array $to): array
@@ -41,7 +40,9 @@ final class Migrator
             return ['ok' => true, 'breaking' => $p['breaking'], 'activated' => null];
         }
         $res = $this->registry->create($version, $schema);
-        if (!$res['ok']) return ['ok' => false, 'breaking' => $p['breaking'], 'activated' => null];
+        if (!$res['ok']) {
+            return ['ok' => false, 'breaking' => $p['breaking'], 'activated' => null];
+        }
         $this->registry->activate($version);
         return ['ok' => true, 'breaking' => $p['breaking'], 'activated' => $version];
     }

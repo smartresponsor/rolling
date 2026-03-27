@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -26,7 +27,9 @@ final class FileApprovalStore implements ApprovalStoreInterface
     public function __construct(string $dir = __DIR__ . '/../../../../var/approval')
     {
         $this->dir = $dir;
-        if (!is_dir($this->dir)) @mkdir($this->dir, 0775, true);
+        if (!is_dir($this->dir)) {
+            @mkdir($this->dir, 0775, true);
+        }
     }
 
     /**
@@ -48,7 +51,7 @@ final class FileApprovalStore implements ApprovalStoreInterface
             $rand = random_int(0, 1_000_000);
         } catch (\Exception $e) {
         }
-        return dechex((int)($t * 1000)) . dechex($rand);
+        return dechex((int) ($t * 1000)) . dechex($rand);
     }
 
     /**
@@ -76,8 +79,10 @@ final class FileApprovalStore implements ApprovalStoreInterface
     public function read(string $id): ?array
     {
         $p = $this->path($id);
-        if (!is_file($p)) return null;
-        return json_decode((string)file_get_contents($p), true);
+        if (!is_file($p)) {
+            return null;
+        }
+        return json_decode((string) file_get_contents($p), true);
     }
 
     /**
@@ -88,7 +93,9 @@ final class FileApprovalStore implements ApprovalStoreInterface
     public function approve(string $id, array $by): void
     {
         $rec = $this->read($id);
-        if (!$rec) return;
+        if (!$rec) {
+            return;
+        }
         $rec['state'] = 'approved';
         $rec['by'] = ['id' => $by['id'] ?? null, 'reason' => $by['reason'] ?? null, 'ts' => date('c')];
         file_put_contents($this->path($id), json_encode($rec, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
@@ -102,7 +109,9 @@ final class FileApprovalStore implements ApprovalStoreInterface
     public function reject(string $id, array $by): void
     {
         $rec = $this->read($id);
-        if (!$rec) return;
+        if (!$rec) {
+            return;
+        }
         $rec['state'] = 'rejected';
         $rec['by'] = ['id' => $by['id'] ?? null, 'reason' => $by['reason'] ?? null, 'ts' => date('c')];
         file_put_contents($this->path($id), json_encode($rec, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -51,7 +52,7 @@ final class TagInvalidator implements TagInvalidatorInterface
      */
     public function getTagVersion(string $tag): int
     {
-        return (int)($this->versions[$tag] ?? 0);
+        return (int) ($this->versions[$tag] ?? 0);
     }
 
     /**
@@ -60,7 +61,7 @@ final class TagInvalidator implements TagInvalidatorInterface
     private function load(): void
     {
         if (is_file($this->path)) {
-            $d = json_decode((string)file_get_contents($this->path), true);
+            $d = json_decode((string) file_get_contents($this->path), true);
             if (is_array($d)) {
                 $this->versions = array_map('intval', $d);
             }

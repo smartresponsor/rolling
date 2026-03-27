@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Metrics\Role\Admin;
@@ -28,7 +29,9 @@ final class AdminMetrics
      */
     public static function inc(string $name, int $delta = 1): void
     {
-        if (!isset(self::$counters[$name])) self::$counters[$name] = 0;
+        if (!isset(self::$counters[$name])) {
+            self::$counters[$name] = 0;
+        }
         self::$counters[$name] += $delta;
     }
 

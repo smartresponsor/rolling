@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Net\Role\Opa;
@@ -22,10 +23,8 @@ final class OpaHttpClient implements OpaClientInterface
     public function __construct(
         private readonly string $baseUrl, // e.g. http://127.0.0.1:8181
         private readonly int    $timeoutMs = 1500,
-        private readonly array  $headers = [] // e.g. ['Authorization' => 'Bearer ...']
-    )
-    {
-    }
+        private readonly array  $headers = [], // e.g. ['Authorization' => 'Bearer ...']
+    ) {}
 
     /**
      * @param string $dataPath
@@ -51,7 +50,7 @@ final class OpaHttpClient implements OpaClientInterface
                 'method' => 'POST',
                 'header' => implode("\r\n", $hdrLines),
                 'content' => $payload,
-                'timeout' => max(1, (int)ceil($this->timeoutMs / 1000)),
+                'timeout' => max(1, (int) ceil($this->timeoutMs / 1000)),
                 'ignore_errors' => true,
             ],
         ]);

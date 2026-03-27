@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -35,11 +36,15 @@ final class InMemoryMaskingRuleRepository implements MaskingRuleRepositoryInterf
      */
     public function loadFromNdjson(string $path): void
     {
-        if (!is_file($path)) return;
+        if (!is_file($path)) {
+            return;
+        }
         $fh = fopen($path, 'r');
         while (($line = fgets($fh)) !== false) {
             $row = json_decode($line, true);
-            if (is_array($row)) $this->rules[] = $row;
+            if (is_array($row)) {
+                $this->rules[] = $row;
+            }
         }
         fclose($fh);
     }
@@ -55,11 +60,19 @@ final class InMemoryMaskingRuleRepository implements MaskingRuleRepositoryInterf
     {
         $out = [];
         foreach ($this->rules as $r) {
-            if (($r['resource'] ?? null) !== $resourceType) continue;
-            if (($r['action'] ?? null) !== $action) continue;
-            if (isset($r['tenant']) && $tenant !== null && $r['tenant'] !== $tenant) continue;
+            if (($r['resource'] ?? null) !== $resourceType) {
+                continue;
+            }
+            if (($r['action'] ?? null) !== $action) {
+                continue;
+            }
+            if (isset($r['tenant']) && $tenant !== null && $r['tenant'] !== $tenant) {
+                continue;
+            }
             $roleCond = $r['role'] ?? null;
-            if ($roleCond !== null && !in_array($roleCond, $roles, true)) continue;
+            if ($roleCond !== null && !in_array($roleCond, $roles, true)) {
+                continue;
+            }
             $out[] = $r;
         }
         return $out;

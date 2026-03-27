@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Explain;
@@ -15,14 +16,12 @@ final class Planner
     /**
      * @param \Explain\TupleReader $reader
      */
-    public function __construct(private readonly TupleReader $reader)
-    {
-    }
+    public function __construct(private readonly TupleReader $reader) {}
 
     /** @return array{allowed:bool, token:string, nodes:list<array{id:string,label:string,type:string}>, edges:list<array{from:string,to:string,label:string}>, evidence:?array} */
     public function plan(string $tenant, string $subject, string $relation, string $resource): array
     {
-        $token = (string)@filesize(__DIR__ . '/../../../../var/tuples.ndjson') ?: '0';
+        $token = (string) @filesize(__DIR__ . '/../../../../var/tuples.ndjson') ?: '0';
         $evidence = $this->reader->exists($tenant, $subject, $relation, $resource);
         $allowed = $evidence !== null;
         $nodes = [

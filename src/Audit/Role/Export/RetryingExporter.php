@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Audit\Role\Export;
@@ -19,9 +20,7 @@ final class RetryingExporter implements ExporterInterface
      * @param int $retries
      * @param int $baseMs
      */
-    public function __construct(private readonly ExporterInterface $inner, private readonly int $retries = 2, private readonly int $baseMs = 50)
-    {
-    }
+    public function __construct(private readonly ExporterInterface $inner, private readonly int $retries = 2, private readonly int $baseMs = 50) {}
 
     /**
      * @throws \Throwable
@@ -60,7 +59,7 @@ final class RetryingExporter implements ExporterInterface
     private function backoff(int $attempt): int
     {
         $pow = min(2000, $this->baseMs * (1 << ($attempt - 1)));
-        $j = random_int(0, (int)($pow * 0.2));
+        $j = random_int(0, (int) ($pow * 0.2));
         return min(2000, $pow + $j);
     }
 }

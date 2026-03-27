@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -36,11 +37,13 @@ final class PelCompiler implements CompilerInterface
     {
         $spec = $this->loadSpec($inputPath);
         if (!isset($spec['rules']) || !is_array($spec['rules'])) {
-            throw new InvalidArgumentException("Invalid PEL spec: missing rules");
+            throw new InvalidArgumentException('Invalid PEL spec: missing rules');
         }
         $code = $this->generateEvaluator($spec['rules']);
         $outDir = $outDir ?? __DIR__ . '/../../../../var/policy_compiled';
-        if (!is_dir($outDir)) @mkdir($outDir, 0775, true);
+        if (!is_dir($outDir)) {
+            @mkdir($outDir, 0775, true);
+        }
         $outPath = rtrim($outDir, '/\\') . '/' . $name . '.php';
         file_put_contents($outPath, $code);
         return $outPath;
@@ -49,15 +52,19 @@ final class PelCompiler implements CompilerInterface
     /** @return array<string,mixed> */
     private function loadSpec(string $path): array
     {
-        $raw = (string)file_get_contents($path);
+        $raw = (string) file_get_contents($path);
         $isJson = str_starts_with(ltrim($raw), '{');
         if ($isJson) {
             $d = json_decode($raw, true);
-            if (is_array($d)) return $d;
+            if (is_array($d)) {
+                return $d;
+            }
         }
         if (function_exists('yaml_parse')) {
             $d = yaml_parse($raw);
-            if (is_array($d)) return $d;
+            if (is_array($d)) {
+                return $d;
+            }
         }
         // naive YAML subset: key: value + simple lists
         $lines = preg_split('/\r?\n/', $raw);
@@ -67,7 +74,9 @@ final class PelCompiler implements CompilerInterface
         $current = null;
         foreach ($lines as $ln) {
             $ln = trim($ln);
-            if ($ln === '' || str_starts_with($ln, '#')) continue;
+            if ($ln === '' || str_starts_with($ln, '#')) {
+                continue;
+            }
             if (preg_match('/^rules:\s*$/', $ln)) {
                 $curList = 'rules';
                 continue;
@@ -94,9 +103,9 @@ final class PelCompiler implements CompilerInterface
     {
         $ifs = [];
         foreach ($rules as $r) {
-            $id = (string)($r['id'] ?? '');
-            $effect = (string)($r['effect'] ?? 'deny');
-            $reason = addslashes((string)($r['reason'] ?? ''));
+            $id = (string) ($r['id'] ?? '');
+            $effect = (string) ($r['effect'] ?? 'deny');
+            $reason = addslashes((string) ($r['reason'] ?? ''));
             $when = $r['when'] ?? [];
             $condPhp = $this->compileWhen($when);
             $allow = $effect === 'allow' ? 'true' : 'false';
@@ -122,11 +131,15 @@ PHP;
      */
     private function compileWhen(array $when): string
     {
-        if (empty($when)) return 'true';
+        if (empty($when)) {
+            return 'true';
+        }
         $parts = [];
         foreach ($when as $expr) {
-            $expr = trim((string)$expr);
-            if ($expr === '') continue;
+            $expr = trim((string) $expr);
+            if ($expr === '') {
+                continue;
+            }
             $parts[] = $this->compileExpr($expr);
         }
         return implode(' && ', $parts);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Audit;
@@ -50,12 +51,16 @@ final class Redactor
     private function maskPath(array $event, string $path): array
     {
         $parts = $path === '' ? [] : explode('.', $path);
-        if (!$parts) return $event;
-        $ref =& $event;
+        if (!$parts) {
+            return $event;
+        }
+        $ref = & $event;
         for ($i = 0; $i < count($parts) - 1; $i++) {
             $k = $parts[$i];
-            if (!is_array($ref) || !array_key_exists($k, $ref)) return $event;
-            $ref =& $ref[$k];
+            if (!is_array($ref) || !array_key_exists($k, $ref)) {
+                return $event;
+            }
+            $ref = & $ref[$k];
         }
         $last = $parts[count($parts) - 1];
         if (is_array($ref) && array_key_exists($last, $ref)) {
@@ -72,17 +77,21 @@ final class Redactor
      */
     private function redactPath(array $event, string $path, string $pattern): array
     {
-        if ($path === '' || $pattern === '') return $event;
+        if ($path === '' || $pattern === '') {
+            return $event;
+        }
         $parts = explode('.', $path);
-        $ref =& $event;
+        $ref = & $event;
         for ($i = 0; $i < count($parts) - 1; $i++) {
             $k = $parts[$i];
-            if (!is_array($ref) || !array_key_exists($k, $ref)) return $event;
-            $ref =& $ref[$k];
+            if (!is_array($ref) || !array_key_exists($k, $ref)) {
+                return $event;
+            }
+            $ref = & $ref[$k];
         }
         $last = $parts[count($parts) - 1];
         if (is_array($ref) && array_key_exists($last, $ref) && is_string($ref[$last])) {
-            $ref[$last] = (string)preg_replace('~' . $pattern . '~', '[REDACTED]', $ref[$last]);
+            $ref[$last] = (string) preg_replace('~' . $pattern . '~', '[REDACTED]', $ref[$last]);
         }
         return $event;
     }
@@ -93,9 +102,15 @@ final class Redactor
      */
     private function maskValue(mixed $v): string
     {
-        if (is_string($v)) return str_repeat('*', min(8, max(3, (int)(strlen($v) / 2))));
-        if (is_array($v)) return '[MASKED_ARRAY]';
-        if (is_object($v)) return '[MASKED_OBJECT]';
+        if (is_string($v)) {
+            return str_repeat('*', min(8, max(3, (int) (strlen($v) / 2))));
+        }
+        if (is_array($v)) {
+            return '[MASKED_ARRAY]';
+        }
+        if (is_object($v)) {
+            return '[MASKED_OBJECT]';
+        }
         return '[MASKED]';
     }
 }

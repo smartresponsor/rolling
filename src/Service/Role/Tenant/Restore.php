@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tenant;
@@ -15,15 +16,15 @@ final class Restore
     /**
      * @param string $varDir
      */
-    public function __construct(private readonly string $varDir = __DIR__ . '/../../../../var')
-    {
-    }
+    public function __construct(private readonly string $varDir = __DIR__ . '/../../../../var') {}
 
     /** @return array{ok:bool, tuples:int} */
     public function run(string $zipPath): array
     {
         $zip = new ZipArchive();
-        if ($zip->open($zipPath) !== true) return ['ok' => false, 'tuples' => 0];
+        if ($zip->open($zipPath) !== true) {
+            return ['ok' => false, 'tuples' => 0];
+        }
         // tuples
         $tuplesCnt = 0;
         $slice = $zip->getFromName('tuples.ndjson');
@@ -40,7 +41,9 @@ final class Restore
             if (str_starts_with($name, 'tenants/')) {
                 $content = $zip->getFromIndex($i);
                 $out = $tenantDir . '/' . basename($name);
-                if (!is_dir(dirname($out))) @mkdir(dirname($out), 0775, true);
+                if (!is_dir(dirname($out))) {
+                    @mkdir(dirname($out), 0775, true);
+                }
                 file_put_contents($out, $content);
             }
         }

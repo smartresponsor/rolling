@@ -1,10 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Acl\Role;
-
-use App\Entity\Role\App\src\Entity\Role\SubjectId;
-use App\Entity\Role\App\src\Entity\Role\Scope;
 
 /**
  *
@@ -43,7 +41,9 @@ final class CachedAclSource implements AclSourceInterface
         $key = $subject->value() . '|' . $scope->key();
         $now = time();
         $hit = $this->rolesCache[$key] ?? null;
-        if ($hit && $hit['exp'] > $now) return $hit['roles'];
+        if ($hit && $hit['exp'] > $now) {
+            return $hit['roles'];
+        }
 
         $roles = $this->inner->rolesFor($subject, $scope, $ctx);
         $this->rolesCache[$key] = ['exp' => $now + $this->ttl, 'roles' => $roles];
@@ -59,7 +59,9 @@ final class CachedAclSource implements AclSourceInterface
         $key = $role;
         $now = time();
         $hit = $this->permCache[$key] ?? null;
-        if ($hit && $hit['exp'] > $now) return $hit['perms'];
+        if ($hit && $hit['exp'] > $now) {
+            return $hit['perms'];
+        }
 
         $perms = $this->inner->permissionsForRole($role);
         $this->permCache[$key] = ['exp' => $now + $this->ttl, 'perms' => $perms];

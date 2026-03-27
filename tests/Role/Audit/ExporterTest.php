@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Audit;
@@ -56,7 +57,9 @@ final class ExporterTest extends TestCase
             public function export(iterable $records, string $path): void
             {
                 $this->calls++;
-                if ($this->calls < 2) throw new RuntimeException('fail once');
+                if ($this->calls < 2) {
+                    throw new RuntimeException('fail once');
+                }
                 (new JsonlExporter())->export($records, $path);
             }
         };

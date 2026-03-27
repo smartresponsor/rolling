@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role\Api;
 
-use src\Security\Role\Admin\{Roles};
 use src\Security\Role\Admin\Voter;
 use src\Security\Role\Keys\KeyStore;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Middleware\Security;
 
-use App\Http\Server\{MiddlewareInterface};
 use Http\Response;
 use Http\Security\HmacVerifier;
 use Http\Security\Replay\StoreInterface;
 use Http\Server\HandlerInterface;
+use Http\Server\MiddlewareInterface;
 use Http\Server\Request;
 
 /**
@@ -29,10 +30,8 @@ final class HmacGuard implements MiddlewareInterface
         private readonly HmacVerifier   $verifier,
         private readonly StoreInterface $replayStore,
         private readonly string         $path = '/v2/access/check',
-        private readonly int            $nonceTtlSec = 600
-    )
-    {
-    }
+        private readonly int            $nonceTtlSec = 600,
+    ) {}
 
     /**
      * @param \Http\Server\Request $request

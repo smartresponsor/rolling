@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Acl\Role\Adapter;
@@ -25,10 +26,8 @@ final class PdoAclSource implements AclSourceInterface
     public function __construct(
         private readonly PDO    $pdo,
         private readonly string $bindingsTable = 'role_bindings',
-        private readonly string $permsTable = 'role_permissions'
-    )
-    {
-    }
+        private readonly string $permsTable = 'role_permissions',
+    ) {}
 
     /**
      * @param \src\Entity\Role\SubjectId $subject
@@ -56,10 +55,10 @@ final class PdoAclSource implements AclSourceInterface
             $params[':res'] = $parts[2];
         }
 
-        $sql = "SELECT DISTINCT role FROM {$this->bindingsTable} WHERE subject_id = :sid AND (" . implode(' OR ', $conditions) . ")";
+        $sql = "SELECT DISTINCT role FROM {$this->bindingsTable} WHERE subject_id = :sid AND (" . implode(' OR ', $conditions) . ')';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
-        return array_values(array_map(fn($r) => (string)$r['role'], $stmt->fetchAll(PDO::FETCH_ASSOC)));
+        return array_values(array_map(fn($r) => (string) $r['role'], $stmt->fetchAll(PDO::FETCH_ASSOC)));
     }
 
     /**
@@ -70,6 +69,6 @@ final class PdoAclSource implements AclSourceInterface
     {
         $stmt = $this->pdo->prepare("SELECT permission FROM {$this->permsTable} WHERE role = :r");
         $stmt->execute([':r' => $role]);
-        return array_values(array_map(fn($r) => (string)$r['permission'], $stmt->fetchAll(PDO::FETCH_ASSOC)));
+        return array_values(array_map(fn($r) => (string) $r['permission'], $stmt->fetchAll(PDO::FETCH_ASSOC)));
     }
 }

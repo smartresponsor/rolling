@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Store\Role\Rebac;
@@ -59,7 +60,9 @@ final class InMemoryTupleStore implements TupleStoreInterface
     public function readByObject(string $ns, string $objType, string $objId, string $relation): iterable
     {
         foreach ($this->tuples as $t) {
-            if ($t->ns === $ns && $t->objType === $objType && $t->objId === $objId && $t->relation === $relation) yield $t;
+            if ($t->ns === $ns && $t->objType === $objType && $t->objId === $objId && $t->relation === $relation) {
+                yield $t;
+            }
         }
     }
 
@@ -73,7 +76,9 @@ final class InMemoryTupleStore implements TupleStoreInterface
     public function readBySubject(string $ns, string $subjType, string $subjId, ?string $subjRel = null): iterable
     {
         foreach ($this->tuples as $t) {
-            if ($t->ns === $ns && $t->subjType === $subjType && $t->subjId === $subjId && $t->subjRel === $subjRel) yield $t;
+            if ($t->ns === $ns && $t->subjType === $subjType && $t->subjId === $subjId && $t->subjRel === $subjRel) {
+                yield $t;
+            }
         }
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Acl\Role\Adapter;
@@ -49,27 +50,33 @@ final class GithubAclSource implements AclSourceInterface
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
     {
         $login = $this->resolver->githubLogin($subject);
-        if (!$login) return [];
+        if (!$login) {
+            return [];
+        }
 
         $roles = [];
-        $mappings = (array)($this->cfg['mappings'] ?? []);
-        $org = (string)($this->cfg['org'] ?? '');
-        $token = getenv((string)($this->cfg['tokenEnv'] ?? '')) ?: null;
+        $mappings = (array) ($this->cfg['mappings'] ?? []);
+        $org = (string) ($this->cfg['org'] ?? '');
+        $token = getenv((string) ($this->cfg['tokenEnv'] ?? '')) ?: null;
         $headers = ['User-Agent' => 'SmartResponsor-Role', 'Accept' => 'application/vnd.github+json'];
-        if ($token) $headers['Authorization'] = 'Bearer ' . $token;
+        if ($token) {
+            $headers['Authorization'] = 'Bearer ' . $token;
+        }
 
         $scopeKey = $scope->key();
         foreach ($mappings as $m) {
-            $team = (string)($m['team'] ?? '');
-            $role = (string)($m['role'] ?? '');
-            $tenantId = isset($m['tenantId']) ? (string)$m['tenantId'] : null;
+            $team = (string) ($m['team'] ?? '');
+            $role = (string) ($m['role'] ?? '');
+            $tenantId = isset($m['tenantId']) ? (string) $m['tenantId'] : null;
             // Соответствие scope: global/tenant/resource (тут используем только tenant/global)
             if ($tenantId) {
                 if (!str_starts_with($scopeKey, 'tenant:') || !str_contains($scopeKey, ':' . $tenantId)) {
                     continue;
                 }
             } else {
-                if ($scopeKey !== 'global') continue;
+                if ($scopeKey !== 'global') {
+                    continue;
+                }
             }
 
             if ($this->isMember($org, $team, $login, $headers)) {
@@ -105,7 +112,9 @@ final class GithubAclSource implements AclSourceInterface
                 $data = json_decode($resp['body'] ?? 'null', true);
                 return is_array($data) && (($data['state'] ?? '') === 'active');
             }
-            if ($resp['status'] === 404) return false;
+            if ($resp['status'] === 404) {
+                return false;
+            }
         } catch (Throwable $e) {
         }
         return false;

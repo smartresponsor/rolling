@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Observability\Role\Metrics;
@@ -15,9 +16,7 @@ final class PrometheusExporter
     /**
      * @param \App\Observability\Role\Metrics\Registry $registry
      */
-    public function __construct(private readonly Registry $registry)
-    {
-    }
+    public function __construct(private readonly Registry $registry) {}
 
     /**
      * @return string
@@ -42,12 +41,15 @@ final class PrometheusExporter
                     $labels = $this->labels($d['names'], $key);
                     $acc = 0;
                     foreach ($m->buckets() as $b) {
-                        $acc = $row['buckets'][(float)$b] ?? $acc;
-                        $bstr = is_infinite($b) ? '+Inf' : (string)$b;
-                        $lines[] = "{$name}_bucket{$labels},le=\"{$bstr}\" " . $this->fmt($acc);
+                        $acc = $row['buckets'][(string) $b] ?? $acc;
+                        $bstr = is_infinite($b) ? '+Inf' : (string) $b;
+                        $bucketLabels = $labels === ''
+                            ? '{le="' . $this->labelEscape($bstr) . '"}'
+                            : substr($labels, 0, -1) . ',le="' . $this->labelEscape($bstr) . '"}';
+                        $lines[] = "{$name}_bucket{$bucketLabels} " . $this->fmt($acc);
                     }
                     $lines[] = "{$name}_sum{$labels} " . $this->fmt($row['sum']);
-                    $lines[] = "{$name}_count{$labels} " . (int)$row['count'];
+                    $lines[] = "{$name}_count{$labels} " . (int) $row['count'];
                 }
             }
         }
@@ -69,7 +71,7 @@ final class PrometheusExporter
      */
     private function escape(string $s): string
     {
-        return str_replace(["\\", "\n"], ["\\\\", "\\n"], $s);
+        return str_replace(['\\', "\n"], ['\\\\', '\\n'], $s);
     }
 
     /**
@@ -88,12 +90,14 @@ final class PrometheusExporter
      */
     private function labels(array $names, string $key): string
     {
-        if (!$names) return '';
+        if (!$names) {
+            return '';
+        }
         $vals = explode("\x1f", $key);
         $pairs = [];
         foreach ($names as $i => $n) {
             $v = $vals[$i] ?? '';
-            $pairs[] = $this->sanitize((string)$n) . '="' . $this->labelEscape($v) . '"';
+            $pairs[] = $this->sanitize((string) $n) . '="' . $this->labelEscape($v) . '"';
         }
         return '{' . implode(',', $pairs) . '}';
     }

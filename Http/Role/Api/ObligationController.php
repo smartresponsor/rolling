@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role\Api;
@@ -26,9 +27,7 @@ final class ObligationController
     /**
      * @param string $baseDir
      */
-    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var')
-    {
-    }
+    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var') {}
 
     // Apply only (no decision); expects {tenant, relation, decision:{allowed}, attrs, resource?, version?}
 
@@ -38,13 +37,13 @@ final class ObligationController
      */
     public function apply(Request $req): JsonResponse
     {
-        $p = json_decode((string)$req->getContent(), true) ?? [];
-        $tenant = (string)($p['tenant'] ?? 't1');
-        $relation = (string)($p['relation'] ?? 'viewer');
-        $decision = (array)($p['decision'] ?? ['allowed' => false]);
-        $attrs = (array)($p['attrs'] ?? []);
-        $resource = isset($p['resource']) ? (array)$p['resource'] : null;
-        $version = (string)($p['version'] ?? 'active');
+        $p = json_decode((string) $req->getContent(), true) ?? [];
+        $tenant = (string) ($p['tenant'] ?? 't1');
+        $relation = (string) ($p['relation'] ?? 'viewer');
+        $decision = (array) ($p['decision'] ?? ['allowed' => false]);
+        $attrs = (array) ($p['attrs'] ?? []);
+        $resource = isset($p['resource']) ? (array) $p['resource'] : null;
+        $version = (string) ($p['version'] ?? 'active');
         $applier = new ObligationApplier(new ObligationFsStore($this->baseDir . '/policy'));
         $out = $applier->apply($tenant, $relation, $decision, $attrs, $resource, $version);
         return new JsonResponse($out, 200);
@@ -58,12 +57,12 @@ final class ObligationController
      */
     public function checkAndApply(Request $req): JsonResponse
     {
-        $p = json_decode((string)$req->getContent(), true) ?? [];
-        $tenant = (string)($p['tenant'] ?? 't1');
-        $relation = (string)($p['relation'] ?? 'viewer');
-        $attrs = (array)($p['attrs'] ?? []);
-        $resource = isset($p['resource']) ? (array)$p['resource'] : null;
-        $version = (string)($p['version'] ?? 'active');
+        $p = json_decode((string) $req->getContent(), true) ?? [];
+        $tenant = (string) ($p['tenant'] ?? 't1');
+        $relation = (string) ($p['relation'] ?? 'viewer');
+        $attrs = (array) ($p['attrs'] ?? []);
+        $resource = isset($p['resource']) ? (array) $p['resource'] : null;
+        $version = (string) ($p['version'] ?? 'active');
 
         if (!class_exists(PolicyEngine::class)) {
             return new JsonResponse(['error' => 'PolicyEngine not available in this package; use /v2/obligations/apply or merge with E2/E3'], 501);

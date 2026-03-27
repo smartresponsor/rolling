@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
@@ -18,9 +19,7 @@ final class ApprovalFsStore implements ApprovalStorePort
     /**
      * @param string $baseDir
      */
-    public function __construct(private readonly string $baseDir)
-    {
-    } // var/admin/approvals/<id>.json
+    public function __construct(private readonly string $baseDir) {} // var/admin/approvals/<id>.json
 
     /**
      * @param array $row
@@ -50,8 +49,10 @@ final class ApprovalFsStore implements ApprovalStorePort
     public function load(string $id): ?array
     {
         $f = $this->baseDir . "/approvals/$id.json";
-        if (!is_file($f)) return null;
-        $j = json_decode((string)file_get_contents($f), true);
+        if (!is_file($f)) {
+            return null;
+        }
+        $j = json_decode((string) file_get_contents($f), true);
         return is_array($j) ? $j : null;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tenant;
@@ -19,10 +20,11 @@ final class Backup
      */
     public function __construct(
         private readonly string $varDir = __DIR__ . '/../../../../var',
-        private readonly string $backupDir = __DIR__ . '/../../../../var/backup'
-    )
-    {
-        if (!is_dir($this->backupDir)) @mkdir($this->backupDir, 0775, true);
+        private readonly string $backupDir = __DIR__ . '/../../../../var/backup',
+    ) {
+        if (!is_dir($this->backupDir)) {
+            @mkdir($this->backupDir, 0775, true);
+        }
     }
 
     /** @return array{ok:bool, path:string} */

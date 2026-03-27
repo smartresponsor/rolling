@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile
+    ports:
+      - '28080:8000'
+    volumes:
+      - .:/app
+    healthcheck:
+      test: ['CMD', 'php', '-r', "exit((int) (file_get_contents('http://127.0.0.1:8000/healthz') === false));"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

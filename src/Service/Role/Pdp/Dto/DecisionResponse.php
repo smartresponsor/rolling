@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -23,9 +24,7 @@ final class DecisionResponse
         public readonly string $ruleId,
         public readonly string $reason,
         public readonly float  $latencyMs,
-    )
-    {
-    }
+    ) {}
 
     /** @return array<string,mixed> */
     public function toArray(): array

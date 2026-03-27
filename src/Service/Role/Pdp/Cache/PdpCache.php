@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -27,10 +28,8 @@ final class PdpCache implements PolicyDecisionProviderInterface
     public function __construct(
         private readonly PolicyDecisionProviderInterface $inner,
         private readonly CacheInterface                  $cache,
-        private readonly int                             $ttlSeconds = 60
-    )
-    {
-    }
+        private readonly int                             $ttlSeconds = 60,
+    ) {}
 
     /**
      * @param array $subject
@@ -43,7 +42,9 @@ final class PdpCache implements PolicyDecisionProviderInterface
     {
         $key = $this->makeKey($subject, $action, $resource, $context);
         $cached = $this->cache->get($key);
-        if ($cached !== null) return (bool)$cached;
+        if ($cached !== null) {
+            return (bool) $cached;
+        }
 
         $res = $this->inner->isAllowed($subject, $action, $resource, $context);
         $this->cache->set($key, $res, $this->ttlSeconds);
@@ -75,7 +76,9 @@ final class PdpCache implements PolicyDecisionProviderInterface
     private function ksortDeep(array $a): array
     {
         foreach ($a as $k => $v) {
-            if (is_array($v)) $a[$k] = $this->ksortDeep($v);
+            if (is_array($v)) {
+                $a[$k] = $this->ksortDeep($v);
+            }
         }
         ksort($a);
         return $a;

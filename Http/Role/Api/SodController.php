@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role\Api;
@@ -22,8 +23,8 @@ final class SodController
      */
     public function check(Request $r): JsonResponse
     {
-        $p = json_decode((string)$r->getContent(), true) ?? [];
+        $p = json_decode((string) $r->getContent(), true) ?? [];
         $g = new SodGuard();
-        return new JsonResponse($g->validate((array)($p['attrs'] ?? [])), 200);
+        return new JsonResponse($g->validate((array) ($p['attrs'] ?? [])), 200);
     }
 }

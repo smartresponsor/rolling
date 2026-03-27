@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role\V2;
@@ -24,7 +25,7 @@ final class ConsistencyHeaders
     {
         $etag = '"' . substr($t->hash(), 0, 16) . '"';
         $r->headers->set('ETag', $etag);
-        $r->headers->set('X-Role-Consistency', (string)$t);
+        $r->headers->set('X-Role-Consistency', (string) $t);
         // Note: 304 for POST is unusual; we just expose ETag for client-side optimization.
     }
 }

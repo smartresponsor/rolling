@@ -1,10 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Acl\Role;
-
-use App\Entity\Role\App\src\Entity\Role\SubjectId;
-use App\Entity\Role\App\src\Entity\Role\Scope;
 
 /**
  *

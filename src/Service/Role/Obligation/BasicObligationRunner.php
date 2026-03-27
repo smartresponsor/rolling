@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -28,10 +29,8 @@ final class BasicObligationRunner implements ObligationRunnerInterface
         private readonly array               $config = [
             // map obligation → behavior
             // e.g. 'mask.email' => ['mask' => ['email' => 'redact']]
-        ]
-    )
-    {
-    }
+        ],
+    ) {}
 
     /**
      * @param array $decision
@@ -42,7 +41,7 @@ final class BasicObligationRunner implements ObligationRunnerInterface
     public function apply(array $decision, array $subject, array $resource): array
     {
         $effects = [];
-        $obls = (array)($decision['obligations'] ?? []);
+        $obls = (array) ($decision['obligations'] ?? []);
         foreach ($obls as $obl) {
             if (str_starts_with($obl, 'audit')) {
                 $this->audit->write([
@@ -53,20 +52,20 @@ final class BasicObligationRunner implements ObligationRunnerInterface
                     'resource' => $resource['id'] ?? null,
                     'result' => $decision['allowed'] ?? null,
                 ]);
-                $effects[] = "audit:" . $obl;
+                $effects[] = 'audit:' . $obl;
                 continue;
             }
             if (str_starts_with($obl, 'mask.')) {
                 $rule = substr($obl, 5); // e.g. "email:redact" or "phone:last4"
                 [$field, $mode] = array_pad(explode(':', $rule, 2), 2, 'redact');
                 $resource = $this->masker->mask($resource, [$field => $mode]);
-                $effects[] = "mask:" . $field . ":" . $mode;
+                $effects[] = 'mask:' . $field . ':' . $mode;
                 continue;
             }
             if (str_starts_with($obl, 'redact.')) {
                 $field = substr($obl, 7);
                 $resource = $this->masker->mask($resource, [$field => 'redact']);
-                $effects[] = "redact:" . $field;
+                $effects[] = 'redact:' . $field;
             }
         }
 

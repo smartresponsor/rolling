@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
@@ -27,8 +28,6 @@ final class RequestContext
         /** @var array<string,mixed> */
         public array  $resource = [],
         /** @var array<string,mixed> */
-        public array  $attrs = []
-    )
-    {
-    }
+        public array  $attrs = [],
+    ) {}
 }

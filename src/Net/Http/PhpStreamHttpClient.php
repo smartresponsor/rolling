@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Net\Http;
+
 /**
  *
  */
@@ -31,7 +33,7 @@ final class PhpStreamHttpClient implements SimpleHttpClientInterface
         if (isset($http_response_header) && is_array($http_response_header)) {
             foreach ($http_response_header as $line) {
                 if (preg_match('#HTTP/\S+ (\d{3})#', $line, $m)) {
-                    $status = (int)$m[1];
+                    $status = (int) $m[1];
                     break;
                 }
             }

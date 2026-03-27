@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -36,9 +37,7 @@ final class SimpleCircuitBreaker implements CircuitBreakerInterface
         private readonly int            $threshold = 5,
         private readonly int            $windowMs = 10_000,
         private readonly int            $coolDownMs = 5_000,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @return bool

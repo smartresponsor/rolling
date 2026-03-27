@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -20,7 +21,9 @@ final class ResidencyStorage
      */
     public function __construct(private readonly ResidencyPolicyInterface $policy, private readonly string $root = __DIR__ . '/../../../../var/residency')
     {
-        if (!is_dir($this->root)) @mkdir($this->root, 0775, true);
+        if (!is_dir($this->root)) {
+            @mkdir($this->root, 0775, true);
+        }
     }
 
     /**
@@ -33,7 +36,9 @@ final class ResidencyStorage
     {
         $region = $this->policy->regionForTenant($tenant);
         $dir = $this->root . '/' . $region . '/' . $tenant . '/' . $kind;
-        if (!is_dir($dir)) @mkdir($dir, 0775, true);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
         return $dir . '/' . $name;
     }
 
@@ -60,7 +65,9 @@ final class ResidencyStorage
     public function read(string $tenant, string $kind, string $name): ?string
     {
         $p = $this->path($tenant, $kind, $name);
-        if (!is_file($p)) return null;
-        return (string)file_get_contents($p);
+        if (!is_file($p)) {
+            return null;
+        }
+        return (string) file_get_contents($p);
     }
 }

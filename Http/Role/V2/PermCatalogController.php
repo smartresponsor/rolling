@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role\V2;
@@ -19,9 +20,7 @@ final class PermCatalogController
     /**
      * @param \App\Permission\Role\Catalog\CatalogService $svc
      */
-    public function __construct(private readonly CatalogService $svc)
-    {
-    }
+    public function __construct(private readonly CatalogService $svc) {}
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $r
@@ -30,7 +29,7 @@ final class PermCatalogController
     public function index(Request $r): JsonResponse
     {
         $component = $r->query->get('component');
-        $snap = $this->svc->snapshot($component ? (string)$component : null);
+        $snap = $this->svc->snapshot($component ? (string) $component : null);
         $etag = '"' . substr($snap['version'], 0, 16) . '"';
         $reqEtag = $r->headers->get('If-None-Match');
         if ($reqEtag && $reqEtag === $etag) {

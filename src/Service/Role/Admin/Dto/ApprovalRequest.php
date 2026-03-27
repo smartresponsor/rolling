@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -48,8 +49,7 @@ final class ApprovalRequest
         public int     $requiredApprovals = 2,
         public int     $createdAt = 0,
         public int     $updatedAt = 0,
-    )
-    {
+    ) {
         $this->createdAt = $this->createdAt ?: time();
         $this->updatedAt = $this->updatedAt ?: $this->createdAt;
     }

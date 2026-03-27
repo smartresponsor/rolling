@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Model;
@@ -30,7 +31,7 @@ final class FileSchemaStorage implements SchemaStorageInterface
      */
     public function load(): array
     {
-        $raw = (string)@file_get_contents($this->path);
+        $raw = (string) @file_get_contents($this->path);
         $data = json_decode($raw, true);
         if (!is_array($data)) {
             $data = ['active' => null, 'versions' => []];

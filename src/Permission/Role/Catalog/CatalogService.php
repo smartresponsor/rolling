@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Permission\Role\Catalog;
+
 /**
  *
  */
@@ -15,9 +17,7 @@ final class CatalogService
      * @param \App\Permission\Role\Catalog\Catalog $cat
      * @param \App\Permission\Role\Catalog\Hasher $hasher
      */
-    public function __construct(private readonly Catalog $cat, private readonly Hasher $hasher)
-    {
-    }
+    public function __construct(private readonly Catalog $cat, private readonly Hasher $hasher) {}
 
     /** @return array{version:string, items:list<array<string,mixed>>} */
     public function snapshot(?string $component = null): array

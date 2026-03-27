@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Housekeeping\Role;
@@ -12,9 +13,7 @@ final class PdoReplayGc
      * @param \PDO $pdo
      * @param string $table
      */
-    public function __construct(private readonly PDO $pdo, private readonly string $table = 'replay_nonce')
-    {
-    }
+    public function __construct(private readonly PDO $pdo, private readonly string $table = 'replay_nonce') {}
 
     /**
      * @param int $nowEpoch
@@ -30,13 +29,17 @@ final class PdoReplayGc
             $sel->bindValue(':lim', $batchSize, PDO::PARAM_INT);
             $sel->execute();
             $ids = $sel->fetchAll(PDO::FETCH_COLUMN, 0);
-            if (!$ids) break;
+            if (!$ids) {
+                break;
+            }
             $in = implode(',', array_fill(0, count($ids), '?'));
             $del = $this->pdo->prepare("DELETE FROM {$this->table} WHERE nonce IN ($in)");
             $del->execute(array_map('strval', $ids));
             $aff = $del->rowCount();
             $total += $aff;
-            if ($aff < $batchSize) break;
+            if ($aff < $batchSize) {
+                break;
+            }
         }
         return $total;
     }

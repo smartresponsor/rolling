@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Model;
@@ -27,7 +28,9 @@ final class Diff
         foreach (array_intersect($fromR, $toR) as $r) {
             $a = json_encode($from['relations'][$r]);
             $b = json_encode($to['relations'][$r]);
-            if ($a !== $b) $changed[] = $r;
+            if ($a !== $b) {
+                $changed[] = $r;
+            }
         }
         $breaking = count($removed) > 0;
         return compact('breaking', 'added', 'removed', 'changed');

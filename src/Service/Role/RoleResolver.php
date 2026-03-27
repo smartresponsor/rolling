@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use App\Acl\Role\AclSourceInterface;
@@ -18,9 +19,7 @@ final class RoleResolver
     /**
      * @param \App\Acl\Role\AclSourceInterface $source
      */
-    public function __construct(private readonly AclSourceInterface $source)
-    {
-    }
+    public function __construct(private readonly AclSourceInterface $source) {}
 
     /** @return list<string> roles */
     public function subjectRoles(SubjectId $subject, Scope $scope, array $ctx = []): array
@@ -50,7 +49,9 @@ final class RoleResolver
     public function can(SubjectId $subject, PermissionKey $action, Scope $scope, array $ctx = []): bool
     {
         $perms = $this->subjectPermissions($subject, $scope, $ctx);
-        if (in_array('*', $perms, true)) return true;
+        if (in_array('*', $perms, true)) {
+            return true;
+        }
         return in_array($action->value(), $perms, true);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Integration\Symfony\Controller;
@@ -18,9 +19,7 @@ final class MetricsController
     /**
      * @param \App\Observability\Role\Metrics\PrometheusExporter $exporter
      */
-    public function __construct(private readonly PrometheusExporter $exporter)
-    {
-    }
+    public function __construct(private readonly PrometheusExporter $exporter) {}
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response

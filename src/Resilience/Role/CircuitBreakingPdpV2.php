@@ -1,11 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Resilience\Role;
 
-use App\Entity\Role\App\src\Entity\Role\SubjectId;
-use App\Entity\Role\App\src\Entity\Role\Scope;
-use App\Entity\Role\App\src\Entity\Role\PermissionKey;
 use App\Net\Http\RemoteHttpException;
 use Policy\Role\Obligation\Obligation;
 use Policy\Role\Obligation\Obligations;
@@ -39,9 +37,8 @@ final class CircuitBreakingPdpV2 implements PdpV2Interface
         private readonly int            $failureThreshold = 3,
         private readonly int            $openBaseSeconds = 5,
         private readonly int            $openMaxSeconds = 120,
-        private readonly Clock          $clock = new SystemClock()
-    )
-    {
+        private readonly Clock          $clock = new SystemClock(),
+    ) {
         $this->id = $breakerId;
     }
 
@@ -147,7 +144,7 @@ final class CircuitBreakingPdpV2 implements PdpV2Interface
      */
     private function currentOpenSeconds(): int
     {
-        $sec = (int)($this->openBaseSeconds * (2 ** max(0, $this->retries - 1)));
+        $sec = (int) ($this->openBaseSeconds * (2 ** max(0, $this->retries - 1)));
         return min($sec, $this->openMaxSeconds);
     }
 

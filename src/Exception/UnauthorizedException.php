@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SmartResponsor\RoleSdk\V2\Exception;
+
 /**
  *
  */
@@ -9,6 +11,4 @@ namespace SmartResponsor\RoleSdk\V2\Exception;
 /**
  *
  */
-final class UnauthorizedException extends ApiException
-{
-}
+final class UnauthorizedException extends ApiException {}

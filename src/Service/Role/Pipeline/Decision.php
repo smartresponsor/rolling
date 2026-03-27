@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
@@ -19,9 +20,7 @@ final class Decision
      * @param array $headers
      * @param array $explain
      */
-    public function __construct(public bool $allow, public string $reason, public array $headers = [], public array $explain = [])
-    {
-    }
+    public function __construct(public bool $allow, public string $reason, public array $headers = [], public array $explain = []) {}
 
     /**
      * @param \Pipeline\Trace $t

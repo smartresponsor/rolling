@@ -1,11 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PolicyInterface\Role;
 
-use App\Entity\Role\App\src\Entity\Role\SubjectId;
-use App\Entity\Role\App\src\Entity\Role\Scope;
-use App\Entity\Role\App\src\Entity\Role\PermissionKey;
 use Policy\Role\V2\DecisionWithObligations;
 
 /**

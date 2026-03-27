@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Policy\Role\Decorator\V2;
@@ -24,9 +25,7 @@ final class AuditingPdp implements PdpV2Interface
      * @param \PolicyInterface\Role\PdpV2Interface $inner
      * @param \App\Audit\Role\AuditWriter $writer
      */
-    public function __construct(private readonly PdpV2Interface $inner, private readonly AuditWriter $writer)
-    {
-    }
+    public function __construct(private readonly PdpV2Interface $inner, private readonly AuditWriter $writer) {}
 
     /**
      * @param \src\Entity\Role\SubjectId $subject
@@ -47,7 +46,7 @@ final class AuditingPdp implements PdpV2Interface
                 decision: $d->isAllow() ? 'ALLOW' : 'DENY',
                 reason: $d->reason,
                 obligations: ObligationSummary::summarize($d->obligations),
-                context: $context
+                context: $context,
             );
             $this->writer->write($rec);
         } catch (Throwable $e) {

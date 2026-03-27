@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -21,9 +22,7 @@ class SpiceDbClient implements RebacClientInterface
     /**
      * @param \App\Infra\Role\Rebac\HttpClient $http
      */
-    public function __construct(private readonly HttpClient $http)
-    {
-    }
+    public function __construct(private readonly HttpClient $http) {}
 
     /**
      * @return array

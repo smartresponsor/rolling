@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 // Minimal PSR-7/17/18 implementations for tests (no external deps)
 
@@ -297,9 +298,7 @@ namespace Tests\Support {
         /**
          * @return void
          */
-        public function close()
-        {
-        }
+        public function close() {}
 
         /**
          * @return null
@@ -366,16 +365,12 @@ namespace Tests\Support {
          * @param $w
          * @return void
          */
-        public function seek($o, $w = SEEK_SET)
-        {
-        }
+        public function seek($o, $w = SEEK_SET) {}
 
         /**
          * @return void
          */
-        public function rewind()
-        {
-        }
+        public function rewind() {}
 
         /**
          * @return true
@@ -465,9 +460,7 @@ namespace Tests\Support {
          * @param array $headers
          * @param string $body
          */
-        public function __construct(private readonly int $code, private readonly array $headers, private readonly string $body)
-        {
-        }
+        public function __construct(private readonly int $code, private readonly array $headers, private readonly string $body) {}
 
         /**
          * @return int
@@ -558,7 +551,9 @@ namespace Tests\Support {
         {
             $n = strtolower($name);
             foreach ($this->headers as $k => $v) {
-                if (strtolower($k) === $n) return implode(', ', (array)$v);
+                if (strtolower($k) === $n) {
+                    return implode(', ', (array) $v);
+                }
             }
             return '';
         }
@@ -587,7 +582,7 @@ namespace Tests\Support {
         public function withHeader($name, $value)
         {
             $c = clone $this;
-            $c->headers[$name] = (array)$value;
+            $c->headers[$name] = (array) $value;
             return $c;
         }
 
@@ -639,7 +634,7 @@ namespace Tests\Support {
          */
         public function createRequest(string $method, $uri): RequestInterface
         {
-            return new MemoryRequest($method, (string)$uri);
+            return new MemoryRequest($method, (string) $uri);
         }
     }
 

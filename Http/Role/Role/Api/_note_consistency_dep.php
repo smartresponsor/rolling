@@ -1,1 +1,4 @@
-<?php /* relies on App\Http\Role\Api\Consistency from D3 */
+<?php
+
+declare(strict_types=1);
+/* relies on App\Http\Role\Api\Consistency from D3 */

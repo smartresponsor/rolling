@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -32,9 +33,7 @@ final class ApprovalWorkflow implements ApprovalWorkflowInterface
         private readonly ApprovalRequestRepositoryInterface $repo,
         private readonly ApprovalGuardInterface             $guard,
         private readonly GrantRoleActionInterface           $applier,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param string $requestedBy
@@ -106,7 +105,9 @@ final class ApprovalWorkflow implements ApprovalWorkflowInterface
     private function mustGet(string $id): ApprovalRequest
     {
         $req = $this->repo->get($id);
-        if (!$req) throw new RuntimeException("Approval request not found: " . $id);
+        if (!$req) {
+            throw new RuntimeException('Approval request not found: ' . $id);
+        }
         return $req;
     }
 

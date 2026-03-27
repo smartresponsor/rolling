@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Integration\Symfony\Controller;
@@ -37,7 +38,7 @@ final class RoleApiV2Controller
     public function check(Request $req): JsonResponse
     {
         $json = json_decode($req->getContent() ?: '{}', true);
-        $resp = $this->api->check((array)$json);
+        $resp = $this->api->check((array) $json);
         return new JsonResponse(json_decode($resp->body, true), $resp->status, $resp->headers);
     }
 
@@ -48,7 +49,7 @@ final class RoleApiV2Controller
     public function checkBatch(Request $req): JsonResponse
     {
         $json = json_decode($req->getContent() ?: '{}', true);
-        $resp = $this->batch->checkBatch((array)$json);
+        $resp = $this->batch->checkBatch((array) $json);
         return new JsonResponse(json_decode($resp->body, true), $resp->status, $resp->headers);
     }
 }

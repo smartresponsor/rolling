@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Batch;
@@ -37,7 +38,7 @@ final class CheckBatchProcessorTest extends TestCase
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
             {
-                if (((int)($ctx['i'] ?? -1)) % 10 === 0) {
+                if (((int) ($ctx['i'] ?? -1)) % 10 === 0) {
                     throw new RuntimeException('boom');
                 }
                 return DecisionWithObligations::allow('ok', Obligations::empty());
@@ -54,7 +55,11 @@ final class CheckBatchProcessorTest extends TestCase
         $seen = [];
         foreach ($proc->process($reqs, ['chunkSize' => 16]) as $row) {
             $seen[] = $row['idx'];
-            if ($row['ok']) $ok++; else $fail++;
+            if ($row['ok']) {
+                $ok++;
+            } else {
+                $fail++;
+            }
         }
         sort($seen);
         $this->assertSame(range(0, 99), $seen);

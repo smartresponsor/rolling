@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Role\Rebac;
@@ -28,10 +29,8 @@ final class Tuple
         public string  $relation,
         public string  $subjType,
         public string  $subjId,
-        public ?string $subjRel = null
-    )
-    {
-    }
+        public ?string $subjRel = null,
+    ) {}
 
     /**
      * @param array $a
@@ -40,13 +39,13 @@ final class Tuple
     public static function fromArray(array $a): self
     {
         return new self(
-            (string)$a['ns'],
-            (string)$a['obj_type'],
-            (string)$a['obj_id'],
-            (string)$a['relation'],
-            (string)$a['subj_type'],
-            (string)$a['subj_id'],
-            isset($a['subj_rel']) ? (string)$a['subj_rel'] : null
+            (string) $a['ns'],
+            (string) $a['obj_type'],
+            (string) $a['obj_id'],
+            (string) $a['relation'],
+            (string) $a['subj_type'],
+            (string) $a['subj_id'],
+            isset($a['subj_rel']) ? (string) $a['subj_rel'] : null,
         );
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -21,9 +22,7 @@ final class FileAuditRepository implements AuditRepositoryInterface
     /**
      * @param string $path
      */
-    public function __construct(private readonly string $path)
-    {
-    }
+    public function __construct(private readonly string $path) {}
 
     /**
      * @param array $data

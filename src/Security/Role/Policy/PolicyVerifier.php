@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace src\Security\Role\Policy;
@@ -28,14 +29,12 @@ interface KeyProviderInterface
 /**
  *
  */
-final class FileKeyProvider implements \App\Security\Role\Policy\KeyProviderInterface
+final class FileKeyProvider implements KeyProviderInterface
 {
     /**
      * @param array $map
      */
-    public function __construct(private readonly array $map)
-    {
-    }
+    public function __construct(private readonly array $map) {}
 
     /**
      * @param string $kid
@@ -44,7 +43,9 @@ final class FileKeyProvider implements \App\Security\Role\Policy\KeyProviderInte
     public function publicPem(string $kid): ?string
     {
         $p = $this->map[$kid] ?? null;
-        if (!$p || !is_file($p)) return null;
+        if (!$p || !is_file($p)) {
+            return null;
+        }
         return file_get_contents($p) ?: null;
     }
 }
@@ -59,11 +60,9 @@ final class FileKeyProvider implements \App\Security\Role\Policy\KeyProviderInte
 final class PolicyVerifier
 {
     /**
-     * @param \App\src\Security\Role\Policy\KeyProviderInterface $keys
+     * @param \src\Security\Role\Policy\KeyProviderInterface $keys
      */
-    public function __construct(private readonly \App\src\Security\Role\Policy\KeyProviderInterface $keys)
-    {
-    }
+    public function __construct(private readonly KeyProviderInterface $keys) {}
 
     /**
      * @param array $bundle
@@ -72,19 +71,32 @@ final class PolicyVerifier
      */
     public function verify(array $bundle, int $maxSkewSec = 300): bool
     {
-        foreach (['alg', 'kid', 'ts', 'hash', 'sig', 'doc'] as $k) if (!array_key_exists($k, $bundle)) return false;
-        $alg = (string)$bundle['alg'];
-        $kid = (string)$bundle['kid'];
-        $ts = (int)$bundle['ts'];
-        if (abs(time() - $ts) > $maxSkewSec) return false;
-        $sig = Base64Url::dec((string)$bundle['sig']);
-        $hash = (string)$bundle['hash'];
-        if (!str_starts_with($hash, 'sha256:')) return false;
+        foreach (['alg', 'kid', 'ts', 'hash', 'sig', 'doc'] as $k) {
+            if (!array_key_exists($k, $bundle)) {
+                return false;
+            }
+        }
+        $alg = (string) $bundle['alg'];
+        $kid = (string) $bundle['kid'];
+        $ts = (int) $bundle['ts'];
+        if (abs(time() - $ts) > $maxSkewSec) {
+            return false;
+        }
+        $sig = Base64Url::dec((string) $bundle['sig']);
+        $hash = (string) $bundle['hash'];
+        if (!str_starts_with($hash, 'sha256:')) {
+            return false;
+        }
         $docJson = json_encode($bundle['doc'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION);
         $calc = 'sha256:' . hash('sha256', $docJson);
-        if (!hash_equals($hash, $calc)) return false;
-        $payload = $alg . '|' . $kid . '|' . $ts . '|' . $calc[7:]
-        $pub = $this->keys->publicPem($kid); if (!$pub) return false;
-        return openssl_verify($alg . '|' . $kid . '|' . $ts . '|' . substr($hash, 7), $sig, $pub, OPENSSL_ALGO_SHA256) === 1;
+        if (!hash_equals($hash, $calc)) {
+            return false;
+        }
+        $payload = $alg . '|' . $kid . '|' . $ts . '|' . substr($calc, 7);
+        $pub = $this->keys->publicPem($kid);
+        if (!$pub) {
+            return false;
+        }
+        return openssl_verify($payload, $sig, $pub, OPENSSL_ALGO_SHA256) === 1;
     }
 }

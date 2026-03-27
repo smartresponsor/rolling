@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Shadow\Role\Report;
+
 /**
  *
  */
@@ -11,7 +13,6 @@ namespace App\Shadow\Role\Report;
  */
 interface DiffReporterInterface
 {
-
     /**
      * @param array $payload
      */

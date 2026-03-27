@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 use Http\Role\Client;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Reference;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services();

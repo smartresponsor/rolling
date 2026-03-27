@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Permission\Role\Catalog;
@@ -35,7 +36,9 @@ final class Catalog
     /** @return list<PermissionDef> */
     public function byComponent(?string $c): array
     {
-        if ($c === null) return $this->all();
+        if ($c === null) {
+            return $this->all();
+        }
         return array_values(array_filter($this->items, fn($p) => $p->component === $c));
     }
 }

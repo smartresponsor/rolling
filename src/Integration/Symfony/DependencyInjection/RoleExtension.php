@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Integration\Symfony\DependencyInjection;
@@ -23,7 +24,6 @@ use Policy\Role\Registry\InMemorySource;
 use Policy\Role\Registry\PolicyRegistry;
 use PolicyInterface\Role\PdpV2Interface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -145,8 +145,10 @@ final class RoleExtension extends Extension
     /** @return array<string,mixed> */
     private function loadJson(string $path): array
     {
-        if (!is_file($path)) return [];
-        $data = json_decode((string)@file_get_contents($path), true);
+        if (!is_file($path)) {
+            return [];
+        }
+        $data = json_decode((string) @file_get_contents($path), true);
         return is_array($data) ? $data : [];
     }
 }

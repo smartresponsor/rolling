@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -22,9 +23,7 @@ class OpenFgaClient implements RebacClientInterface
      * @param \App\Infra\Role\Rebac\HttpClient $http
      * @param string $storeId
      */
-    public function __construct(private readonly HttpClient $http, private readonly string $storeId)
-    {
-    }
+    public function __construct(private readonly HttpClient $http, private readonly string $storeId) {}
 
     /**
      * @return array
@@ -98,7 +97,9 @@ class OpenFgaClient implements RebacClientInterface
             ],
         ];
         $res = $this->http->postJson("/stores/{$this->storeId}/check", $payload);
-        if (!($res['ok'] ?? false)) return false;
-        return (bool)($res['data']['allowed'] ?? false);
+        if (!($res['ok'] ?? false)) {
+            return false;
+        }
+        return (bool) ($res['data']['allowed'] ?? false);
     }
 }

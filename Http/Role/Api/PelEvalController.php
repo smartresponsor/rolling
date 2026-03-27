@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role\Api;
@@ -30,8 +31,8 @@ final class PelEvalController
 
     public function eval(Request $req): JsonResponse
     {
-        $p = json_decode((string)$req->getContent(), true) ?? [];
-        $ctx = new RequestContext((string)($p['tenant'] ?? 't1'), (string)($p['subject'] ?? 'u1'), (string)($p['action'] ?? 'read'), (array)($p['resource'] ?? []), (array)($p['attrs'] ?? []));
+        $p = json_decode((string) $req->getContent(), true) ?? [];
+        $ctx = new RequestContext((string) ($p['tenant'] ?? 't1'), (string) ($p['subject'] ?? 'u1'), (string) ($p['action'] ?? 'read'), (array) ($p['resource'] ?? []), (array) ($p['attrs'] ?? []));
         $d = $this->pipe()->evaluate($ctx);
         return new JsonResponse(['allow' => $d->allow, 'reason' => $d->reason, 'explain' => $d->explain], 200);
     }

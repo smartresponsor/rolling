@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -17,9 +18,7 @@ final class SimpleEncryptor
     /**
      * @param \src\ServiceInterface\Role\Key\KeyProviderInterface $provider
      */
-    public function __construct(private readonly KeyProviderInterface $provider)
-    {
-    }
+    public function __construct(private readonly KeyProviderInterface $provider) {}
 
     /**
      * @param string $tenant
@@ -50,7 +49,9 @@ final class SimpleEncryptor
     public function decrypt(string $tenant, string $kid, string $ivB64, string $ctB64, string $tagB64): ?string
     {
         $k = $this->provider->getById($tenant, $kid);
-        if (!$k) return null;
+        if (!$k) {
+            return null;
+        }
         $key = base64_decode($k['material'], true) ?: '';
         $iv = base64_decode($ivB64, true) ?: '';
         $ct = base64_decode($ctB64, true) ?: '';

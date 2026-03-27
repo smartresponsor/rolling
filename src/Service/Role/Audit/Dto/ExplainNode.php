@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -29,10 +30,8 @@ final class ExplainNode
         public string $type,
         public string $label,
         public bool   $pass,
-        public array  $data = []
-    )
-    {
-    }
+        public array  $data = [],
+    ) {}
 
     /**
      * @param \Audit\Dto\ExplainNode $n

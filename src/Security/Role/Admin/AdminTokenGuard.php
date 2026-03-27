@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace src\Security\Role\Admin;
@@ -18,9 +19,7 @@ final class AdminTokenGuard
     /**
      * @param string $tokenEnvVar
      */
-    public function __construct(private readonly string $tokenEnvVar = 'ROLE_ADMIN_TOKEN')
-    {
-    }
+    public function __construct(private readonly string $tokenEnvVar = 'ROLE_ADMIN_TOKEN') {}
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $r

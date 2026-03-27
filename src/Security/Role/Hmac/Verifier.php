@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace src\Security\Role\Hmac;
@@ -33,9 +34,7 @@ final class InMemorySecretProvider implements \App\Security\Role\Hmac\SecretProv
     /**
      * @param array $map
      */
-    public function __construct(private readonly array $map)
-    {
-    }
+    public function __construct(private readonly array $map) {}
 
     /**
      * @param string $keyId
@@ -83,9 +82,17 @@ final class InMemoryNonceStore implements NonceStoreInterface
     public function seen(string $nonce, int $ttlSec): bool
     {
         $now = time();
-        foreach ($this->exp as $n => $e) if ($e < $now) unset($this->exp[$n]);
-        if ($nonce === '') return false;
-        if (isset($this->exp[$nonce]) && $this->exp[$nonce] >= $now) return true;
+        foreach ($this->exp as $n => $e) {
+            if ($e < $now) {
+                unset($this->exp[$n]);
+            }
+        }
+        if ($nonce === '') {
+            return false;
+        }
+        if (isset($this->exp[$nonce]) && $this->exp[$nonce] >= $now) {
+            return true;
+        }
         $this->exp[$nonce] = $now + $ttlSec;
         return false;
     }
@@ -105,9 +112,7 @@ final class Verifier
      * @param \src\Security\Role\Hmac\NonceStoreInterface|null $nonces
      * @param int $maxSkewSec
      */
-    public function __construct(private readonly SecretProviderInterface $secrets, private readonly ?NonceStoreInterface $nonces = null, private readonly int $maxSkewSec = 300)
-    {
-    }
+    public function __construct(private readonly SecretProviderInterface $secrets, private readonly ?NonceStoreInterface $nonces = null, private readonly int $maxSkewSec = 300) {}
 
     /**
      * @param string $method
@@ -119,14 +124,22 @@ final class Verifier
     public function verify(string $method, string $pathWithQuery, string $body, array $headers): bool
     {
         $kid = $headers['x-role-key'] ?? '';
-        $ts = (int)($headers['x-role-date'] ?? '0');
+        $ts = (int) ($headers['x-role-date'] ?? '0');
         $sig = $headers['x-role-sig'] ?? '';
         $nonce = $headers['x-role-nonce'] ?? '';
-        if ($kid === '' || $ts === 0 || $sig === '') return false;
-        if (abs(time() - $ts) > $this->maxSkewSec) return false;
-        if ($this->nonces && $nonce !== '' && $this->nonces->seen($nonce, 300)) return false;
+        if ($kid === '' || $ts === 0 || $sig === '') {
+            return false;
+        }
+        if (abs(time() - $ts) > $this->maxSkewSec) {
+            return false;
+        }
+        if ($this->nonces && $nonce !== '' && $this->nonces->seen($nonce, 300)) {
+            return false;
+        }
         $secret = $this->secrets->secret($kid);
-        if (!$secret) return false;
+        if (!$secret) {
+            return false;
+        }
         $canon = Canonicalizer::canonical($method, $pathWithQuery, $body, $ts, $nonce);
         $calc = Base64Url::enc(hash_hmac('sha256', $canon, $secret, true));
         return hash_equals($calc, $sig);

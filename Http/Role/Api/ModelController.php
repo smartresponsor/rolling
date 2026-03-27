@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role\Api;
@@ -45,7 +46,7 @@ final class ModelController
      */
     public function get(Request $req): JsonResponse
     {
-        $v = (string)$req->query->get('version');
+        $v = (string) $req->query->get('version');
         $s = $this->registry->get($v);
         return new JsonResponse(['version' => $v, 'schema' => $s]);
     }
@@ -56,7 +57,7 @@ final class ModelController
      */
     public function create(Request $req): JsonResponse
     {
-        $payload = json_decode((string)$req->getContent(), true) ?? [];
+        $payload = json_decode((string) $req->getContent(), true) ?? [];
         $version = $payload['version'] ?? null;
         $schema = $payload['schema'] ?? null;
         if (!$version || !is_array($schema)) {
@@ -72,9 +73,11 @@ final class ModelController
      */
     public function activate(Request $req): JsonResponse
     {
-        $payload = json_decode((string)$req->getContent(), true) ?? [];
+        $payload = json_decode((string) $req->getContent(), true) ?? [];
         $version = $payload['version'] ?? null;
-        if (!$version) return new JsonResponse(['ok' => false, 'error' => 'version required'], 400);
+        if (!$version) {
+            return new JsonResponse(['ok' => false, 'error' => 'version required'], 400);
+        }
         $ok = $this->registry->activate($version);
         return new JsonResponse(['ok' => $ok, 'active' => $ok ? $version : $this->registry->active()], $ok ? 200 : 404);
     }
@@ -85,11 +88,13 @@ final class ModelController
      */
     public function apply(Request $req): JsonResponse
     {
-        $payload = json_decode((string)$req->getContent(), true) ?? [];
+        $payload = json_decode((string) $req->getContent(), true) ?? [];
         $version = $payload['version'] ?? null;
         $schema = $payload['schema'] ?? null;
-        $dry = (bool)($payload['dry_run'] ?? false);
-        if (!$version || !is_array($schema)) return new JsonResponse(['ok' => false, 'error' => 'version/schema required'], 400);
+        $dry = (bool) ($payload['dry_run'] ?? false);
+        if (!$version || !is_array($schema)) {
+            return new JsonResponse(['ok' => false, 'error' => 'version/schema required'], 400);
+        }
         $res = $this->migrator->apply($version, $schema, $dry);
         return new JsonResponse($res, $res['ok'] ? 200 : 400);
     }

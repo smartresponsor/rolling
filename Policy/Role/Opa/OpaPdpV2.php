@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Policy\Role\Opa;
@@ -29,10 +30,8 @@ final class OpaPdpV2 implements PdpV2Interface
     public function __construct(
         private readonly OpaClientInterface $client,
         private readonly InputBuilder       $input,
-        private readonly string             $decisionPath = 'role/v2/decision' // OPA data path
-    )
-    {
-    }
+        private readonly string             $decisionPath = 'role/v2/decision', // OPA data path
+    ) {}
 
     /**
      * @param \src\Entity\Role\SubjectId $s
@@ -51,15 +50,15 @@ final class OpaPdpV2 implements PdpV2Interface
             // conservative deny
             return DecisionWithObligations::deny('opa_no_result', Obligations::empty());
         }
-        $allow = (bool)($res['allow'] ?? false);
-        $reason = (string)($res['reason'] ?? ($allow ? 'allow' : 'deny'));
+        $allow = (bool) ($res['allow'] ?? false);
+        $reason = (string) ($res['reason'] ?? ($allow ? 'allow' : 'deny'));
         $obs = Obligations::empty();
         if (isset($res['obligations']) && is_array($res['obligations'])) {
             foreach ($res['obligations'] as $o) {
                 if (is_array($o) && isset($o['type'])) {
                     /** @var array<string,mixed> $p */
-                    $p = (array)($o['params'] ?? []);
-                    $obs = $obs->with(new Obligation((string)$o['type'], $p));
+                    $p = (array) ($o['params'] ?? []);
+                    $obs = $obs->with(new Obligation((string) $o['type'], $p));
                 }
             }
         }

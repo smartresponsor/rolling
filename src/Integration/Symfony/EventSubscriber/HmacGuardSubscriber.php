@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Integration\Symfony\EventSubscriber;
@@ -29,10 +30,8 @@ final class HmacGuardSubscriber implements EventSubscriberInterface
         private readonly HmacVerifier   $verifier,
         private readonly StoreInterface $replayStore,
         private readonly string         $path = '/v2/access/check',
-        private readonly int            $nonceTtlSec = 600
-    )
-    {
-    }
+        private readonly int            $nonceTtlSec = 600,
+    ) {}
 
     /**
      * @return array[]

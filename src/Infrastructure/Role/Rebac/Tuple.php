@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -30,10 +31,8 @@ final class Tuple
         public string  $relation,
         public string  $objectType,
         public string  $objectId,
-        public ?string $tenant = null
-    )
-    {
-    }
+        public ?string $tenant = null,
+    ) {}
 
     /**
      * @param array $a
@@ -42,9 +41,12 @@ final class Tuple
     public static function fromArray(array $a): self
     {
         return new self(
-            $a['userType'], $a['userId'],
-            $a['relation'], $a['objectType'], $a['objectId'],
-            $a['tenant'] ?? null
+            $a['userType'],
+            $a['userId'],
+            $a['relation'],
+            $a['objectType'],
+            $a['objectId'],
+            $a['tenant'] ?? null,
         );
     }
 

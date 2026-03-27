@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -26,17 +27,19 @@ final class DataMasker implements DataMaskerInterface
     public function mask(array $data, array $rules): array
     {
         foreach ($rules as $field => $rule) {
-            if (!array_key_exists($field, $data)) continue;
+            if (!array_key_exists($field, $data)) {
+                continue;
+            }
             $v = $data[$field];
             switch ($rule) {
                 case 'redact':
                     $data[$field] = '***';
                     break;
                 case 'hash':
-                    $data[$field] = hash('sha256', (string)$v);
+                    $data[$field] = hash('sha256', (string) $v);
                     break;
                 case 'last4':
-                    $s = (string)$v;
+                    $s = (string) $v;
                     $data[$field] = (strlen($s) > 4) ? str_repeat('*', len: max(0, strlen($s) - 4)) . substr($s, -4) : $s;
                     break;
                 case 'remove':

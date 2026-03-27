@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Policy\Role\Registry;
@@ -26,8 +27,6 @@ final class PolicyRecord
         public string $version,
         public string $docJson,
         public int    $createdAt,
-        public bool   $isActive
-    )
-    {
-    }
+        public bool   $isActive,
+    ) {}
 }

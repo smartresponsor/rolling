@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -35,7 +36,9 @@ final class AttributeVoter implements VoterInterface
         if (($resource['ownerId'] ?? null) && ($subject['id'] ?? null)) {
             if ($resource['ownerId'] === $subject['id']) {
                 // owner can_read/can_write by default; tighten per product later.
-                if ($action === 'can_read' || $action === 'can_write') return self::GRANT;
+                if ($action === 'can_read' || $action === 'can_write') {
+                    return self::GRANT;
+                }
             }
         }
         return self::ABSTAIN;

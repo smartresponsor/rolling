@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Policy\Role\V2;
@@ -19,8 +20,16 @@ final class DecisionWithObligations
      * @param string $reason
      * @param \Policy\Role\Obligation\Obligations $obligations
      */
-    public function __construct(private readonly bool $allow, public string $reason, public Obligations $obligations)
+    public function __construct(private readonly bool $allow, public string $reason, public Obligations $obligations) {}
+
+    /**
+     * @param string $reason
+     * @param \Policy\Role\Obligation\Obligations $o
+     * @return self
+     */
+    public static function allow(string $reason, ?Obligations $o = null): self
     {
+        return new self(true, $reason, $o ?? Obligations::empty());
     }
 
     /**
@@ -28,19 +37,9 @@ final class DecisionWithObligations
      * @param \Policy\Role\Obligation\Obligations $o
      * @return self
      */
-    public static function allow(string $reason, Obligations $o): self
+    public static function deny(string $reason, ?Obligations $o = null): self
     {
-        return new self(true, $reason, $o);
-    }
-
-    /**
-     * @param string $reason
-     * @param \Policy\Role\Obligation\Obligations $o
-     * @return self
-     */
-    public static function deny(string $reason, Obligations $o): self
-    {
-        return new self(false, $reason, $o);
+        return new self(false, $reason, $o ?? Obligations::empty());
     }
 
     /**
@@ -49,5 +48,10 @@ final class DecisionWithObligations
     public function isAllow(): bool
     {
         return $this->allow;
+    }
+
+    public function isDeny(): bool
+    {
+        return !$this->allow;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace src\Security\Role\Keys;
@@ -19,7 +20,9 @@ final class KeyStore
      */
     public function __construct(private readonly string $dir = __DIR__ . '/../../../../var/keys')
     {
-        if (!is_dir($this->dir)) @mkdir($this->dir, 0775, true);
+        if (!is_dir($this->dir)) {
+            @mkdir($this->dir, 0775, true);
+        }
         $this->ensureInitial();
     }
 
@@ -79,9 +82,9 @@ final class KeyStore
     public function getSlot(string $slot): array
     {
         return [
-            'private' => (string)@file_get_contents($this->path($slot . '.pem')),
-            'public' => (string)@file_get_contents($this->pubPath($slot)),
-            'kid' => trim((string)@file_get_contents($this->kidPath($slot))),
+            'private' => (string) @file_get_contents($this->path($slot . '.pem')),
+            'public' => (string) @file_get_contents($this->pubPath($slot)),
+            'kid' => trim((string) @file_get_contents($this->kidPath($slot))),
         ];
     }
 
@@ -89,7 +92,9 @@ final class KeyStore
     private function pemToJwkPublic(string $pem, string $kid): array
     {
         $res = openssl_pkey_get_public($pem);
-        if ($res === false) return [];
+        if ($res === false) {
+            return [];
+        }
         $det = openssl_pkey_get_details($res);
         $n = $det['rsa']['n'] ?? null;
         $e = $det['rsa']['e'] ?? null;
@@ -114,7 +119,9 @@ final class KeyStore
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ];
         $res = openssl_pkey_new($cfg);
-        if ($res === false) throw new RuntimeException('openssl_pkey_new failed');
+        if ($res === false) {
+            throw new RuntimeException('openssl_pkey_new failed');
+        }
         openssl_pkey_export($res, $priv);
         $det = openssl_pkey_get_details($res);
         $pub = $det['key'];
@@ -171,7 +178,7 @@ final class KeyStore
      */
     public function jwks(): array
     {
-        $raw = (string)@file_get_contents($this->path('jwks.json'));
+        $raw = (string) @file_get_contents($this->path('jwks.json'));
         $data = json_decode($raw, true);
         return is_array($data) ? $data : ['keys' => []];
     }

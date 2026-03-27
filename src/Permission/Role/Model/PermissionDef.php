@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Permission\Role\Model;
+
 /**
  *
  */
@@ -17,9 +19,7 @@ final class PermissionDef
      * @param string $description
      * @param string|null $component
      */
-    public function __construct(public string $key, public array $scopes = ['global'], public string $description = '', public ?string $component = null)
-    {
-    }
+    public function __construct(public string $key, public array $scopes = ['global'], public string $description = '', public ?string $component = null) {}
 
     /** @return array<string,mixed> */
     public function toArray(): array

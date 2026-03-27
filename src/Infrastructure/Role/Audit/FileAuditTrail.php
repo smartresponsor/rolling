@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -23,7 +24,9 @@ final class FileAuditTrail implements AuditTrailInterface
      */
     public function __construct(private readonly string $dir = __DIR__ . '/../../../../var/audit')
     {
-        if (!is_dir($this->dir)) @mkdir($this->dir, 0775, true);
+        if (!is_dir($this->dir)) {
+            @mkdir($this->dir, 0775, true);
+        }
     }
 
     /**

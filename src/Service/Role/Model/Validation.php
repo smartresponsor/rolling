@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Model;
@@ -24,7 +25,7 @@ final class Validation
         }
         // simple keys/values check
         foreach (($schema['relations'] ?? []) as $name => $def) {
-            if (!preg_match('/^[a-z][a-z0-9_]*$/', (string)$name)) {
+            if (!preg_match('/^[a-z][a-z0-9_]*$/', (string) $name)) {
                 $errors[] = "Invalid relation name: $name";
             }
             if (!is_array($def) || !isset($def['of'])) {

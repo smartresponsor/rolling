@@ -1,10 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Acl\Role;
-
-use App\Entity\Role\App\src\Entity\Role\SubjectId;
-use App\Entity\Role\App\src\Entity\Role\Scope;
 
 /**
  *
@@ -18,9 +16,7 @@ final class ChainAclSource implements AclSourceInterface
     /**
      * @param array $sources
      */
-    public function __construct(private readonly array $sources)
-    {
-    }
+    public function __construct(private readonly array $sources) {}
 
     /**
      * @param \src\Entity\Role\SubjectId $subject

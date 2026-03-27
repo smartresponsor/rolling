@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Policy\Role\Registry;
@@ -17,9 +18,7 @@ final class RegistryService
     /**
      * @param \Policy\Role\Registry\RegistryStoreInterface $store
      */
-    public function __construct(private readonly RegistryStoreInterface $store)
-    {
-    }
+    public function __construct(private readonly RegistryStoreInterface $store) {}
 
     /**
      * @param string $ns

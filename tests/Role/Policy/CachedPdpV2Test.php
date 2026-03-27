@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Policy;
@@ -30,13 +31,11 @@ final class CachedPdpV2Test extends TestCase
     public function testHitMissAndBypass(): void
     {
         $calls = 0;
-        $inner = new class($calls) implements PdpV2Interface {
+        $inner = new class ($calls) implements PdpV2Interface {
             /**
              * @param int $calls
              */
-            public function __construct(private int &$calls)
-            {
-            }
+            public function __construct(private int &$calls) {}
 
             /**
              * @param \src\Entity\Role\SubjectId $s
@@ -93,13 +92,11 @@ final class CachedPdpV2Test extends TestCase
     public function testInvalidationBump(): void
     {
         $calls = 0;
-        $inner = new class($calls) implements PdpV2Interface {
+        $inner = new class ($calls) implements PdpV2Interface {
             /**
              * @param int $calls
              */
-            public function __construct(private int &$calls)
-            {
-            }
+            public function __construct(private int &$calls) {}
 
             /**
              * @param \src\Entity\Role\SubjectId $s

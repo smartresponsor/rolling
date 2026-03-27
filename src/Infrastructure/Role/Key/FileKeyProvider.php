@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -20,7 +21,9 @@ final class FileKeyProvider implements KeyProviderInterface
      */
     public function __construct(private readonly string $dir = __DIR__ . '/../../../../var/keys')
     {
-        if (!is_dir($this->dir)) @mkdir($this->dir, 0775, true);
+        if (!is_dir($this->dir)) {
+            @mkdir($this->dir, 0775, true);
+        }
     }
 
     /**
@@ -30,7 +33,9 @@ final class FileKeyProvider implements KeyProviderInterface
     private function tenantDir(string $tenant): string
     {
         $d = $this->dir . '/' . $tenant;
-        if (!is_dir($d)) @mkdir($d, 0775, true);
+        if (!is_dir($d)) {
+            @mkdir($d, 0775, true);
+        }
         return $d;
     }
 
@@ -40,10 +45,12 @@ final class FileKeyProvider implements KeyProviderInterface
         $d = $this->tenantDir($tenant);
         $activePath = $d . '/active.json';
         if (is_file($activePath)) {
-            $j = json_decode((string)file_get_contents($activePath), true);
+            $j = json_decode((string) file_get_contents($activePath), true);
             if (is_array($j) && isset($j['kid'])) {
-                $kp = $this->getById($tenant, (string)$j['kid']);
-                if ($kp) return $kp;
+                $kp = $this->getById($tenant, (string) $j['kid']);
+                if ($kp) {
+                    return $kp;
+                }
             }
         }
         // bootstrap
@@ -58,10 +65,14 @@ final class FileKeyProvider implements KeyProviderInterface
     public function getById(string $tenant, string $kid): ?array
     {
         $p = $this->tenantDir($tenant) . '/key_' . $kid . '.json';
-        if (!is_file($p)) return null;
-        $j = json_decode((string)file_get_contents($p), true);
-        if (!is_array($j)) return null;
-        return ['kid' => (string)$j['kid'], 'material' => (string)$j['material']];
+        if (!is_file($p)) {
+            return null;
+        }
+        $j = json_decode((string) file_get_contents($p), true);
+        if (!is_array($j)) {
+            return null;
+        }
+        return ['kid' => (string) $j['kid'], 'material' => (string) $j['material']];
     }
 
     /**

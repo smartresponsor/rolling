@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -35,9 +36,7 @@ final class ResilientInvoker implements ResilientInvokerInterface
         private readonly BackoffStrategyInterface $backoff,
         private readonly ClockInterface           $clock,
         private readonly SleeperInterface         $sleeper,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @throws \Throwable
@@ -56,7 +55,7 @@ final class ResilientInvoker implements ResilientInvokerInterface
      */
     public function invoke(callable $fn, array $options = [])
     {
-        $maxAttempts = (int)($options['maxAttempts'] ?? 5);
+        $maxAttempts = (int) ($options['maxAttempts'] ?? 5);
         $classifyPermanent = $options['classifyPermanent'] ?? [ErrorClassifier::class, 'isPermanent'];
 
         for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
@@ -72,7 +71,9 @@ final class ResilientInvoker implements ResilientInvokerInterface
                 if (is_callable($classifyPermanent) && $classifyPermanent($e)) {
                     throw $e;
                 }
-                if ($attempt >= $maxAttempts) throw $e;
+                if ($attempt >= $maxAttempts) {
+                    throw $e;
+                }
                 $delay = $this->backoff->nextDelayMs($attempt);
                 $this->sleeper->sleepMs($delay);
             }

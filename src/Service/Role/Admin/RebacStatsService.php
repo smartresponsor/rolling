@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Admin;
@@ -18,9 +19,7 @@ final class RebacStatsService
     /**
      * @param object $store
      */
-    public function __construct(private readonly object $store)
-    {
-    }
+    public function __construct(private readonly object $store) {}
 
     /** @return array{ns:string,tuples:int} */
     public function stats(string $ns): array
@@ -32,9 +31,9 @@ final class RebacStatsService
             $prop->setAccessible(true);
             /** @var \PDO $pdo */
             $pdo = $prop->getValue($this->store);
-            $st = $pdo->prepare("SELECT COUNT(*) FROM role_tuple WHERE ns=?");
+            $st = $pdo->prepare('SELECT COUNT(*) FROM role_tuple WHERE ns=?');
             $st->execute([$ns]);
-            $cnt = (int)$st->fetchColumn();
+            $cnt = (int) $st->fetchColumn();
             return ['ns' => $ns, 'tuples' => $cnt];
         }
         // Fallback: iterate (may be slow), requires readBySubject readByObject not efficient; skip deep stats

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Cache\Role;
@@ -24,7 +25,9 @@ final class Psr16CacheAdapter implements KeyValueCache
      */
     public function get(string $key): mixed
     {
-        if (!method_exists($this->psr, 'get')) return null;
+        if (!method_exists($this->psr, 'get')) {
+            return null;
+        }
         /** @var mixed */
         return $this->psr->get($key);
     }
@@ -37,7 +40,9 @@ final class Psr16CacheAdapter implements KeyValueCache
      */
     public function set(string $key, mixed $value, int $ttlSeconds): void
     {
-        if (!method_exists($this->psr, 'set')) return;
+        if (!method_exists($this->psr, 'set')) {
+            return;
+        }
         $ttl = $ttlSeconds > 0 ? $ttlSeconds : null;
         $this->psr->set($key, $value, $ttl);
     }
@@ -48,7 +53,9 @@ final class Psr16CacheAdapter implements KeyValueCache
      */
     public function delete(string $key): void
     {
-        if (method_exists($this->psr, 'delete')) $this->psr->delete($key);
+        if (method_exists($this->psr, 'delete')) {
+            $this->psr->delete($key);
+        }
     }
 
     /**
@@ -56,6 +63,8 @@ final class Psr16CacheAdapter implements KeyValueCache
      */
     public function clear(): void
     {
-        if (method_exists($this->psr, 'clear')) $this->psr->clear();
+        if (method_exists($this->psr, 'clear')) {
+            $this->psr->clear();
+        }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role\Api;
@@ -20,9 +21,7 @@ final class ResidencyController
     /**
      * @param string $conf
      */
-    public function __construct(private readonly string $conf = __DIR__ . '/../../../../config/role/residency.json')
-    {
-    }
+    public function __construct(private readonly string $conf = __DIR__ . '/../../../../config/role/residency.json') {}
 
     /**
      * @return \App\Service\Role\Residency\ResidencyGuard
@@ -38,10 +37,10 @@ final class ResidencyController
      */
     public function enforce(Request $req): JsonResponse
     {
-        $p = json_decode((string)$req->getContent(), true) ?? [];
-        $tenant = (string)($p['tenant'] ?? 't1');
-        $attrs = (array)($p['attrs'] ?? []);
-        $action = (string)($p['action'] ?? 'read');
+        $p = json_decode((string) $req->getContent(), true) ?? [];
+        $tenant = (string) ($p['tenant'] ?? 't1');
+        $attrs = (array) ($p['attrs'] ?? []);
+        $action = (string) ($p['action'] ?? 'read');
         $res = $this->guard()->enforce($tenant, $attrs);
         return new JsonResponse($res, 200);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -8,11 +9,7 @@ declare(strict_types=1);
 namespace Tenant;
 
 use App\InfraInterface\Role\Tenant\TenantKeyRepositoryInterface;
-use App\Service\Role\Tenant\TenantKeyProviderInterface;
-use App\ServiceInterface\Role;
-
-/
-Tenant / TenantKeyProviderInterface;
+use App\ServiceInterface\Role\Tenant\TenantKeyProviderInterface;
 
 /**
  *
@@ -26,9 +23,7 @@ final class TenantKeyProvider implements TenantKeyProviderInterface
     /**
      * @param \App\InfraInterface\Role\Tenant\TenantKeyRepositoryInterface $repo
      */
-    public function __construct(private readonly TenantKeyRepositoryInterface $repo)
-    {
-    }
+    public function __construct(private readonly TenantKeyRepositoryInterface $repo) {}
 
     /**
      * @param string $tenant
@@ -59,6 +54,7 @@ final class TenantKeyProvider implements TenantKeyProviderInterface
         try {
             $raw = random_bytes($bytes);
         } catch (\Exception $e) {
+            $raw = str_repeat('x', $bytes);
         }
         return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
     }

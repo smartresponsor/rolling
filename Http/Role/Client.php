@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Http\Role;
@@ -20,10 +21,8 @@ final class Client
     public function __construct(
         private readonly string  $endpoint,
         private readonly ?string $hmacKey = null,
-        private readonly int     $timeoutMs = 800
-    )
-    {
-    }
+        private readonly int     $timeoutMs = 800,
+    ) {}
 
     /** @return array{allowed:bool, meta?:array} */
     public function check(string $subject, string $relation, string $resource, array $context = []): array
@@ -39,10 +38,12 @@ final class Client
             CURLOPT_TIMEOUT_MS => $this->timeoutMs,
         ]);
         $out = curl_exec($ch);
-        if ($out === false) return ['allowed' => false, 'meta' => ['error' => curl_error($ch)]];
+        if ($out === false) {
+            return ['allowed' => false, 'meta' => ['error' => curl_error($ch)]];
+        }
         $code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         curl_close($ch);
-        $j = json_decode((string)$out, true);
-        return is_array($j) ? ['allowed' => (bool)($j['allowed'] ?? false), 'meta' => $j] : ['allowed' => $code == 200];
+        $j = json_decode((string) $out, true);
+        return is_array($j) ? ['allowed' => (bool) ($j['allowed'] ?? false), 'meta' => $j] : ['allowed' => $code == 200];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -74,7 +75,7 @@ class NullRebacClient implements RebacClientInterface
     public function check(array $subject, string $relation, array $object, array $context = []): bool
     {
         $tenant = $context['tenant'] ?? '';
-        $key = ($subject['type'] ?? 'user') . ":" . $subject['id'] . "|" . $relation . "|" . ($object['type'] ?? 'object') . ":" . $object['id'] . "|" . $tenant;
+        $key = ($subject['type'] ?? 'user') . ':' . $subject['id'] . '|' . $relation . '|' . ($object['type'] ?? 'object') . ':' . $object['id'] . '|' . $tenant;
         return $this->index[$key] ?? false;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -27,10 +28,8 @@ final class ApprovalGate implements ApprovalGateInterface
             'action' => 'delete',
             'resource.type' => 'doc',
             'skipRole' => 'admin',
-        ]
-    )
-    {
-    }
+        ],
+    ) {}
 
     /**
      * @param array $decision
@@ -44,8 +43,8 @@ final class ApprovalGate implements ApprovalGateInterface
         $need = false;
 
         if (($action === ($this->rule['action'] ?? null)) && (($resource['type'] ?? null) === ($this->rule['resource.type'] ?? null))) {
-            $roles = (array)($subject['roles'] ?? []);
-            if (!in_array((string)($this->rule['skipRole'] ?? ''), array_map('strval', $roles), true)) {
+            $roles = (array) ($subject['roles'] ?? []);
+            if (!in_array((string) ($this->rule['skipRole'] ?? ''), array_map('strval', $roles), true)) {
                 $need = true;
             }
         }
@@ -83,12 +82,16 @@ final class ApprovalGate implements ApprovalGateInterface
     public function resolve(string $id): ?array
     {
         $rec = $this->store->read($id);
-        if (!$rec) return null;
-        if ($rec['state'] !== 'approved') return null;
+        if (!$rec) {
+            return null;
+        }
+        if ($rec['state'] !== 'approved') {
+            return null;
+        }
         $case = $rec['case'] ?? [];
         return [
             'allowed' => true,
-            'ruleId' => (string)($case['ruleId'] ?? ''),
+            'ruleId' => (string) ($case['ruleId'] ?? ''),
             'reason' => 'four-eyes approved',
             'approvalId' => $id,
             'sod' => 'approved',

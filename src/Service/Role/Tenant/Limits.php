@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tenant;
@@ -11,9 +12,7 @@ final class Limits
     /**
      * @param string $baseDir
      */
-    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var/tenants')
-    {
-    }
+    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var/tenants') {}
 
     /**
      * @param string $tenant
@@ -22,7 +21,9 @@ final class Limits
     private function path(string $tenant): string
     {
         $dir = rtrim($this->baseDir, '/') . '/' . preg_replace('~[^a-zA-Z0-9_.-]~', '_', $tenant);
-        if (!is_dir($dir)) @mkdir($dir, 0775, true);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
         return $dir . '/limits.json';
     }
 
@@ -30,10 +31,10 @@ final class Limits
     public function get(string $tenant): array
     {
         $p = $this->path($tenant);
-        $d = json_decode((string)@file_get_contents($p), true);
+        $d = json_decode((string) @file_get_contents($p), true);
         return [
-            'max_tuples' => isset($d['max_tuples']) ? (int)$d['max_tuples'] : null,
-            'residency' => isset($d['residency']) ? (string)$d['residency'] : null,
+            'max_tuples' => isset($d['max_tuples']) ? (int) $d['max_tuples'] : null,
+            'residency' => isset($d['residency']) ? (string) $d['residency'] : null,
         ];
     }
 

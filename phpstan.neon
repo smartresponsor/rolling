@@ -1,0 +1,20 @@
+parameters:
+  level: 0
+  paths:
+    - src/Cache
+    - src/Command
+    - src/Consistency
+    - src/Controller
+    - src/Entity
+    - src/Integration
+    - src/Observability
+    - Policy
+    - PolicyInterface
+    - Http/Middleware
+    - Http/Role/V2
+    - Http/Security
+    - tests
+  tmpDir: var/cache/phpstan
+  excludePaths:
+    analyse:
+      - tests/SDK/PHP/psr_stubs.php

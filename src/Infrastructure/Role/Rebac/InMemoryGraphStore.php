@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -44,7 +45,9 @@ final class InMemoryGraphStore implements GraphStoreInterface
     public function removeEdge(string $tenant, string $namespace, string $subject, string $relation, string $object): void
     {
         $list = &$this->edges[$tenant][$namespace];
-        if (!is_array($list)) return;
+        if (!is_array($list)) {
+            return;
+        }
         $this->edges[$tenant][$namespace] = array_values(array_filter($list, function ($e) use ($subject, $relation, $object) {
             return !($e['subject'] === $subject && $e['relation'] === $relation && $e['object'] === $object);
         }));
@@ -60,7 +63,9 @@ final class InMemoryGraphStore implements GraphStoreInterface
     {
         $out = [];
         foreach ($this->edges[$tenant][$namespace] ?? [] as $e) {
-            if ($e['subject'] === $subject) $out[] = $e;
+            if ($e['subject'] === $subject) {
+                $out[] = $e;
+            }
         }
         return $out;
     }
@@ -83,11 +88,15 @@ final class InMemoryGraphStore implements GraphStoreInterface
         while ($q) {
             [$ns, $node] = array_shift($q);
             $key = $ns . '|' . $node;
-            if (isset($visited[$key])) continue;
+            if (isset($visited[$key])) {
+                continue;
+            }
             $visited[$key] = true;
 
             foreach ($this->edges[$tenant][$ns] ?? [] as $e) {
-                if ($e['subject'] !== $node) continue;
+                if ($e['subject'] !== $node) {
+                    continue;
+                }
                 $toNs = $e['namespace']; // same as $ns by storage, but keep pattern
                 $nextNode = $e['object'];
 
@@ -104,10 +113,16 @@ final class InMemoryGraphStore implements GraphStoreInterface
 
             // cross-namespace fanout: try all namespaces where transition is allowed (no edge copy)
             foreach ($this->edges[$tenant] ?? [] as $otherNs => $list) {
-                if ($otherNs === $ns) continue;
-                if (!$constraints->canTraverse($ns, $otherNs)) continue;
+                if ($otherNs === $ns) {
+                    continue;
+                }
+                if (!$constraints->canTraverse($ns, $otherNs)) {
+                    continue;
+                }
                 foreach ($list as $e2) {
-                    if ($e2['subject'] !== $node) continue;
+                    if ($e2['subject'] !== $node) {
+                        continue;
+                    }
                     $q[] = [$otherNs, $e2['object']];
                 }
             }

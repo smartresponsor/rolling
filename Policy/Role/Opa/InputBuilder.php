@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Policy\Role\Opa;
@@ -26,12 +27,12 @@ final class InputBuilder
     public function build(SubjectId $s, PermissionKey $a, Scope $sc, array $context = []): array
     {
         return [
-            'subject' => ['id' => (string)$s],
-            'action' => (string)$a,
+            'subject' => ['id' => $s->value()],
+            'action' => $a->value(),
             'scope' => [
-                'type' => $sc->type(),       // 'global' | 'tenant' | 'resource'
-                'tenantId' => $sc->tenantId(), // may be null
-                'resourceId' => $sc->resourceId(), // may be null
+                'type' => $sc->type(),
+                'tenantId' => $sc->tenantId(),
+                'resourceId' => $sc->resourceId(),
                 'key' => $sc->key(),
             ],
             'context' => $context,

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -30,7 +31,5 @@ final class DecisionInput
         public array  $context = [],
         /** @var array<int, array<string,mixed>> $voterTrace */
         public array  $voterTrace = [],
-    )
-    {
-    }
+    ) {}
 }

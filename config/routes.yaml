@@ -1,0 +1,8 @@
+health:
+  resource: routes/health.yaml
+
+metrics:
+  resource: routes/metrics.yaml
+
+role:
+  resource: routes/role.yaml
