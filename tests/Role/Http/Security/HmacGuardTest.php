@@ -12,79 +12,77 @@ use Http\Server\HandlerInterface;
 use Http\Server\Request;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-
-/**
- *
- */
 final class HmacGuardTest extends TestCase
 {
     public function testOkPassesToHandler(): void
     {
-        $date = gmdate('D, d M Y H:i:s \G\M\T');
-        $body = '{"a":1}';
-        $base = 'POST /v2/access/check' . "\n" . $date . "\n" . $body;
-        $sig = 'v1=' . base64_encode(hash_hmac('sha256', $base, 'k', true));
-        $req = new class (['Date' => $date, 'X-Signature' => $sig], $body) implements Request {
-            public function __construct(private readonly array $h, private readonly string $body) {}
+        $request = $this->signedRequest();
+        $guard = new HmacGuard(new HmacVerifier('k'), $this->replayStore());
 
-            public function method(): string
-            {
-                return 'POST';
-            }
+        $response = $guard->process($request, $this->okHandler());
 
-            public function path(): string
-            {
-                return '/v2/access/check';
-            }
-
-            public function header(string $n): ?string
-            {
-                return $this->h[$n] ?? null;
-            }
-
-            public function body(): string
-            {
-                return $this->body;
-            }
-        };
-
-        $store = new class implements StoreInterface {
-            private array $seen = [];
-
-            public function seen(string $n, int $ttl): bool
-            {
-                if (isset($this->seen[$n])) {
-                    return false;
-                }
-
-                $this->seen[$n] = time() + $ttl;
-
-                return true;
-            }
-        };
-        $handler = new class implements HandlerInterface {
-            public function handle(Request $r): Response
-            {
-                return new Response(200, ['Content-Type' => 'application/json'], '{"ok":1}');
-            }
-        };
-
-        $g = new HmacGuard(new HmacVerifier('k'), $store);
-        $res = $g->process($req, $handler);
-        $this->assertSame(200, $res->status);
+        $this->assertSame(200, $response->status);
     }
 
     public function testReplayBlocked(): void
     {
+        $request = $this->signedRequest();
+        $guard = new HmacGuard(new HmacVerifier('k'), $this->replayStore());
+
+        $guard->process($request, $this->okHandler());
+        $response = $guard->process($request, $this->okHandler());
+
+        $this->assertSame(401, $response->status);
+        $this->assertSame('replay', $response->headers['X-Auth-Error']);
+    }
+
+    public function testBypassesOtherPaths(): void
+    {
+        $request = $this->request('/healthz', [], '');
+        $guard = new HmacGuard(new HmacVerifier('k'), $this->replayStore());
+
+        $response = $guard->process($request, $this->okHandler());
+
+        $this->assertSame(200, $response->status);
+    }
+
+    public function testInvalidSignatureReturnsStructuredUnauthorizedResponse(): void
+    {
+        $request = $this->request(
+            '/v2/access/check',
+            [
+                'Date' => gmdate('D, d M Y H:i:s \G\M\T'),
+                'X-Signature' => 'v1=bad',
+            ],
+            '{"a":1}',
+        );
+        $guard = new HmacGuard(new HmacVerifier('k'), $this->replayStore());
+
+        $response = $guard->process($request, $this->okHandler());
+
+        $this->assertSame(401, $response->status);
+        $this->assertSame('signature_mismatch', $response->headers['X-Auth-Error']);
+        $this->assertStringContainsString('"error":"unauthorized"', $response->body);
+    }
+
+    private function signedRequest(): Request
+    {
         $date = gmdate('D, d M Y H:i:s \G\M\T');
         $body = '{"a":1}';
         $base = 'POST /v2/access/check' . "\n" . $date . "\n" . $body;
-        $sig = 'v1=' . base64_encode(hash_hmac('sha256', $base, 'k', true));
-        $req = new class (['Date' => $date, 'X-Signature' => $sig], $body) implements Request {
-            public function __construct(private readonly array $h, private readonly string $body) {}
+        $signature = 'v1=' . base64_encode(hash_hmac('sha256', $base, 'k', true));
+
+        return $this->request('/v2/access/check', ['Date' => $date, 'X-Signature' => $signature], $body);
+    }
+
+    private function request(string $path, array $headers, string $body): Request
+    {
+        return new class ($path, $headers, $body) implements Request {
+            public function __construct(
+                private readonly string $path,
+                private readonly array $headers,
+                private readonly string $body,
+            ) {}
 
             public function method(): string
             {
@@ -93,12 +91,12 @@ final class HmacGuardTest extends TestCase
 
             public function path(): string
             {
-                return '/v2/access/check';
+                return $this->path;
             }
 
-            public function header(string $n): ?string
+            public function header(string $name): ?string
             {
-                return $this->h[$n] ?? null;
+                return $this->headers[$name] ?? null;
             }
 
             public function body(): string
@@ -106,31 +104,33 @@ final class HmacGuardTest extends TestCase
                 return $this->body;
             }
         };
+    }
 
-        $store = new class implements StoreInterface {
+    private function replayStore(): StoreInterface
+    {
+        return new class implements StoreInterface {
             private array $seen = [];
 
-            public function seen(string $n, int $ttl): bool
+            public function seen(string $nonce, int $ttl): bool
             {
-                if (isset($this->seen[$n])) {
+                if (isset($this->seen[$nonce])) {
                     return false;
                 }
 
-                $this->seen[$n] = time() + $ttl;
+                $this->seen[$nonce] = time() + $ttl;
 
                 return true;
             }
         };
-        $handler = new class implements HandlerInterface {
-            public function handle(Request $r): Response
+    }
+
+    private function okHandler(): HandlerInterface
+    {
+        return new class implements HandlerInterface {
+            public function handle(Request $request): Response
             {
                 return new Response(200, ['Content-Type' => 'application/json'], '{"ok":1}');
             }
         };
-
-        $g = new HmacGuard(new HmacVerifier('k'), $store);
-        $g->process($req, $handler);
-        $res2 = $g->process($req, $handler);
-        $this->assertSame(401, $res2->status);
     }
 }

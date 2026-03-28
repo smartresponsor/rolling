@@ -11,21 +11,8 @@ use Http\Server\HandlerInterface;
 use Http\Server\MiddlewareInterface;
 use Http\Server\Request;
 
-/**
- *
- */
-
-/**
- *
- */
 final class HmacGuard implements MiddlewareInterface
 {
-    /**
-     * @param \Http\Security\HmacVerifier $verifier
-     * @param \Http\Security\Replay\StoreInterface $replayStore
-     * @param string $path
-     * @param int $nonceTtlSec
-     */
     public function __construct(
         private readonly HmacVerifier   $verifier,
         private readonly StoreInterface $replayStore,
@@ -33,31 +20,74 @@ final class HmacGuard implements MiddlewareInterface
         private readonly int            $nonceTtlSec = 600,
     ) {}
 
-    /**
-     * @param \Http\Server\Request $request
-     * @param \Http\Server\HandlerInterface $handler
-     * @return \Http\Response
-     */
     public function process(Request $request, HandlerInterface $handler): Response
     {
-        if ($request->path() !== $this->path) {
+        if (!$this->shouldHandle($request)) {
             return $handler->handle($request);
         }
 
-        $date = $request->header('Date') ?? '';
-        $sig = $request->header('X-Signature') ?? '';
-        $body = $request->body();
-        $res = $this->verifier->verify($request->method(), $this->path, $date, $body, $sig);
-        if (!$res['ok']) {
-            return new Response(401, ['Content-Type' => 'application/json', 'X-Auth-Error' => $res['reason'] ?? 'unauthorized'], json_encode(['error' => 'unauthorized', 'reason' => $res['reason'] ?? ''], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $failure = $this->verifyRequest($request);
+        if ($failure !== null) {
+            return $failure;
         }
 
-        // Anti-replay
-        $nonce = $request->header('X-Nonce') ?? HmacVerifier::derivedNonce($date, $body);
-        if (!$this->replayStore->seen($nonce, $this->nonceTtlSec)) {
-            return new Response(401, ['Content-Type' => 'application/json', 'X-Auth-Error' => 'replay'], json_encode(['error' => 'unauthorized', 'reason' => 'replay'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $failure = $this->protectAgainstReplay($request);
+        if ($failure !== null) {
+            return $failure;
         }
 
         return $handler->handle($request);
+    }
+
+    private function shouldHandle(Request $request): bool
+    {
+        return $request->path() === $this->path;
+    }
+
+    private function verifyRequest(Request $request): ?Response
+    {
+        $date = $request->header('Date') ?? '';
+        $body = $request->body();
+        $result = $this->verifier->verify(
+            $request->method(),
+            $this->path,
+            $date,
+            $body,
+            $request->header('X-Signature') ?? '',
+        );
+
+        if ($result['ok']) {
+            return null;
+        }
+
+        return $this->unauthorized($result['reason'] ?? 'unauthorized');
+    }
+
+    private function protectAgainstReplay(Request $request): ?Response
+    {
+        $body = $request->body();
+        $date = $request->header('Date') ?? '';
+        $nonce = $request->header('X-Nonce') ?? HmacVerifier::derivedNonce($date, $body);
+
+        if ($this->replayStore->seen($nonce, $this->nonceTtlSec)) {
+            return null;
+        }
+
+        return $this->unauthorized('replay');
+    }
+
+    private function unauthorized(string $reason): Response
+    {
+        return new Response(
+            401,
+            [
+                'Content-Type' => 'application/json',
+                'X-Auth-Error' => $reason,
+            ],
+            (string) json_encode(
+                ['error' => 'unauthorized', 'reason' => $reason],
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
+            ),
+        );
     }
 }

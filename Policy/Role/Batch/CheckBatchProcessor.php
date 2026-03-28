@@ -11,18 +11,11 @@ use src\Entity\Role\PermissionKey;
 use src\Entity\Role\SubjectId;
 use Throwable;
 
-/**
- *
- */
-
-/**
- *
- */
 final class CheckBatchProcessor
 {
-    /**
-     * @param \PolicyInterface\Role\PdpV2Interface $pdp
-     */
+    private const DEFAULT_CHUNK_SIZE = 128;
+    private const DEFAULT_MAX_ITEMS = 10000;
+
     public function __construct(private readonly PdpV2Interface $pdp) {}
 
     /**
@@ -32,64 +25,47 @@ final class CheckBatchProcessor
      */
     public function process(iterable $requests, array $opts = []): Generator
     {
-        $chunk = (int) ($opts['chunkSize'] ?? 128);
-        $limit = (int) ($opts['maxItems'] ?? 10000);
+        $chunkSize = $this->normalizePositiveInt($opts['chunkSize'] ?? null, self::DEFAULT_CHUNK_SIZE);
+        $maxItems = $this->normalizePositiveInt($opts['maxItems'] ?? null, self::DEFAULT_MAX_ITEMS);
         /** @var callable(int,int):void|null $progress */
         $progress = $opts['onProgress'] ?? null;
 
-        $buf = [];
-        $i = 0;
-        foreach ($requests as $req) {
-            if ($i >= $limit) {
+        $buffer = [];
+        $index = 0;
+        foreach ($requests as $request) {
+            if ($index >= $maxItems) {
                 break;
             }
-            $buf[] = [$i, $this->normalize($req)];
-            if (count($buf) >= $chunk) {
-                yield from $this->handleChunk($buf, $progress);
-                $buf = [];
+
+            $buffer[] = [$index, $this->normalize($request)];
+            if (count($buffer) >= $chunkSize) {
+                yield from $this->handleChunk($buffer, $progress);
+                $buffer = [];
             }
-            $i++;
+
+            $index++;
         }
-        if ($buf) {
-            yield from $this->handleChunk($buf, $progress);
+
+        if ($buffer !== []) {
+            yield from $this->handleChunk($buffer, $progress);
         }
     }
 
     /**
-     * @param array $buf
-     * @param callable|null $progress
+     * @param list<array{0:int,1:array<string,mixed>}> $buffer
+     * @param callable(int,int):void|null $progress
      * @return \Generator<int,array<string,mixed>>
      */
-    private function handleChunk(array $buf, ?callable $progress): Generator
+    private function handleChunk(array $buffer, ?callable $progress): Generator
     {
         $done = 0;
-        $total = count($buf);
-        foreach ($buf as [$idx, $r]) {
+        $total = count($buffer);
+
+        foreach ($buffer as [$index, $request]) {
             try {
-                $sid = new SubjectId((string) ($r['subjectId'] ?? ''));
-                $act = new PermissionKey((string) ($r['action'] ?? ''));
-                $sc = match ($r['scopeType'] ?? 'global') {
-                    'tenant' => Scope::tenant((string) ($r['tenantId'] ?? '')),
-                    'resource' => Scope::resource((string) ($r['tenantId'] ?? ''), (string) ($r['resourceId'] ?? '')),
-                    default => Scope::global(),
-                };
-                /** @var array<string,mixed> $ctx */
-                $ctx = (array) ($r['context'] ?? []);
-                $dec = $this->pdp->check($sid, $act, $sc, $ctx);
-                yield [
-                    'idx' => $idx,
-                    'ok' => true,
-                    'decision' => $dec->isAllow() ? 'ALLOW' : 'DENY',
-                    'reason' => $dec->reason,
-                    'scope' => $sc->key(),
-                ];
+                yield $this->processOne($index, $request);
             } catch (Throwable $e) {
-                yield [
-                    'idx' => $idx,
-                    'ok' => false,
-                    'error' => get_class($e),
-                    'message' => $e->getMessage(),
-                ];
+                yield $this->failureResult($index, $e);
             } finally {
                 $done++;
                 if ($progress) {
@@ -100,14 +76,68 @@ final class CheckBatchProcessor
     }
 
     /**
-     * @param array $r
-     * @return array
+     * @param array<string,mixed> $request
+     * @return array<string,mixed>
      */
-    private function normalize(array $r): array
+    private function normalize(array $request): array
     {
-        // лёгкая нормализация: гарантируем ключи
-        $r['scopeType'] = $r['scopeType'] ?? 'global';
-        $r['context'] = (array) ($r['context'] ?? []);
-        return $r;
+        $request['scopeType'] = $request['scopeType'] ?? 'global';
+        $request['context'] = (array) ($request['context'] ?? []);
+
+        return $request;
+    }
+
+    /**
+     * @param array<string,mixed> $request
+     * @return array<string,mixed>
+     */
+    private function processOne(int $index, array $request): array
+    {
+        $subject = new SubjectId((string) ($request['subjectId'] ?? ''));
+        $action = new PermissionKey((string) ($request['action'] ?? ''));
+        $scope = $this->buildScope($request);
+        /** @var array<string,mixed> $context */
+        $context = $request['context'];
+        $decision = $this->pdp->check($subject, $action, $scope, $context);
+
+        return [
+            'idx' => $index,
+            'ok' => true,
+            'decision' => $decision->isAllow() ? 'ALLOW' : 'DENY',
+            'reason' => $decision->reason,
+            'scope' => $scope->key(),
+        ];
+    }
+
+    /**
+     * @param array<string,mixed> $request
+     */
+    private function buildScope(array $request): Scope
+    {
+        return match ($request['scopeType']) {
+            'tenant' => Scope::tenant((string) ($request['tenantId'] ?? '')),
+            'resource' => Scope::resource((string) ($request['tenantId'] ?? ''), (string) ($request['resourceId'] ?? '')),
+            default => Scope::global(),
+        };
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    private function failureResult(int $index, Throwable $exception): array
+    {
+        return [
+            'idx' => $index,
+            'ok' => false,
+            'error' => $exception::class,
+            'message' => $exception->getMessage(),
+        ];
+    }
+
+    private function normalizePositiveInt(mixed $value, int $default): int
+    {
+        $normalized = (int) $value;
+
+        return $normalized > 0 ? $normalized : $default;
     }
 }

@@ -4,67 +4,56 @@ declare(strict_types=1);
 
 namespace App\Acl\Role;
 
-/**
- *
- */
-
-/**
- *
- */
 final class CachedAclSource implements AclSourceInterface
 {
-    private int $ttl;
-    private AclSourceInterface $inner;
-    /** @var array */
+    /** @var array<string,array{exp:int,roles:array<int,string>}> */
     private array $rolesCache = [];
-    /** @var array */
+    /** @var array<string,array{exp:int,perms:array<int,string>}> */
     private array $permCache = [];
 
-    /**
-     * @param \App\Acl\Role\AclSourceInterface $inner
-     * @param int $ttlSeconds
-     */
-    public function __construct(AclSourceInterface $inner, int $ttlSeconds = 300)
-    {
-        $this->inner = $inner;
-        $this->ttl = $ttlSeconds;
-    }
+    public function __construct(
+        private readonly AclSourceInterface $inner,
+        private readonly int $ttlSeconds = 300,
+    ) {}
 
-    /**
-     * @param \src\Entity\Role\SubjectId $subject
-     * @param \src\Entity\Role\Scope $scope
-     * @param array $ctx
-     * @return array
-     */
     public function rolesFor(\src\Entity\Role\SubjectId $subject, \src\Entity\Role\Scope $scope, array $ctx = []): array
     {
         $key = $subject->value() . '|' . $scope->key();
-        $now = time();
-        $hit = $this->rolesCache[$key] ?? null;
-        if ($hit && $hit['exp'] > $now) {
-            return $hit['roles'];
+        $cached = $this->rolesCache[$key] ?? null;
+        if ($this->isFresh($cached)) {
+            return $cached['roles'];
         }
 
         $roles = $this->inner->rolesFor($subject, $scope, $ctx);
-        $this->rolesCache[$key] = ['exp' => $now + $this->ttl, 'roles' => $roles];
+        $this->rolesCache[$key] = [
+            'exp' => time() + $this->ttlSeconds,
+            'roles' => $roles,
+        ];
+
         return $roles;
     }
 
-    /**
-     * @param string $role
-     * @return array
-     */
     public function permissionsForRole(string $role): array
     {
-        $key = $role;
-        $now = time();
-        $hit = $this->permCache[$key] ?? null;
-        if ($hit && $hit['exp'] > $now) {
-            return $hit['perms'];
+        $cached = $this->permCache[$role] ?? null;
+        if ($this->isFresh($cached)) {
+            return $cached['perms'];
         }
 
         $perms = $this->inner->permissionsForRole($role);
-        $this->permCache[$key] = ['exp' => $now + $this->ttl, 'perms' => $perms];
+        $this->permCache[$role] = [
+            'exp' => time() + $this->ttlSeconds,
+            'perms' => $perms,
+        ];
+
         return $perms;
+    }
+
+    /**
+     * @param array{exp:int}|null $cached
+     */
+    private function isFresh(?array $cached): bool
+    {
+        return $cached !== null && $cached['exp'] > time();
     }
 }

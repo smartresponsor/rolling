@@ -4,49 +4,43 @@ declare(strict_types=1);
 
 namespace App\Acl\Role;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ChainAclSource implements AclSourceInterface
 {
-    /**
-     * @param array $sources
-     */
+    /** @param list<AclSourceInterface> $sources */
     public function __construct(private readonly array $sources) {}
 
-    /**
-     * @param \src\Entity\Role\SubjectId $subject
-     * @param \src\Entity\Role\Scope $scope
-     * @param array $ctx
-     * @return array
-     */
     public function rolesFor(\src\Entity\Role\SubjectId $subject, \src\Entity\Role\Scope $scope, array $ctx = []): array
     {
-        $set = [];
-        foreach ($this->sources as $s) {
-            foreach ($s->rolesFor($subject, $scope, $ctx) as $r) {
-                $set[$r] = true;
-            }
+        $roles = [];
+        foreach ($this->sources as $source) {
+            array_push($roles, ...$source->rolesFor($subject, $scope, $ctx));
         }
-        return array_keys($set);
+
+        return $this->uniqueValues($roles);
+    }
+
+    public function permissionsForRole(string $role): array
+    {
+        $permissions = [];
+        foreach ($this->sources as $source) {
+            array_push($permissions, ...$source->permissionsForRole($role));
+        }
+
+        return $this->uniqueValues($permissions);
     }
 
     /**
-     * @param string $role
-     * @return array
+     * @param list<string> $values
+     * @return list<string>
      */
-    public function permissionsForRole(string $role): array
+    private function uniqueValues(array $values): array
     {
-        $set = [];
-        foreach ($this->sources as $s) {
-            foreach ($s->permissionsForRole($role) as $p) {
-                $set[$p] = true;
-            }
+        $unique = [];
+        foreach ($values as $value) {
+            $unique[$value] = true;
         }
-        return array_keys($set);
+
+        /** @var list<string> */
+        return array_keys($unique);
     }
 }
