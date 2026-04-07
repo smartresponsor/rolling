@@ -1,0 +1,24 @@
+{
+  "wave": "w22",
+  "base": "rolling-w21-cumulative-snapshot.zip",
+  "migrated_policy_commands": [
+    "app:role:policy:import",
+    "app:role:policy:activate",
+    "app:role:policy:export",
+    "app:role:policy:migrate"
+  ],
+  "migrated_admin_commands": [
+    "app:role:admin:policy:import",
+    "app:role:admin:policy:activate",
+    "app:role:admin:policy:export"
+  ],
+  "migrated_janitor_commands": [
+    "app:role:janitor:gc-audit",
+    "app:role:janitor:gc-replay",
+    "app:role:janitor:archive-audit"
+  ],
+  "remaining_legacy_scripts": [
+    "bin/role-batch-perf.php",
+    "bin/role-bench.php"
+  ]
+}

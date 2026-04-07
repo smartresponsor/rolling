@@ -1,0 +1,20 @@
+{
+  "wave": "w38",
+  "title": "compatibility alias usage pruning",
+  "base": "rolling-37-compatibility-core-consolidation-cumulative.zip",
+  "modified_files": 1,
+  "added_files": 0,
+  "deleted_files": 0,
+  "removed_alias_pairs": 76,
+  "kept_alias_pairs": 1,
+  "kept_alias": "RoleResolver",
+  "residual_structural_tail": [
+    "src/Legacy/Entity/Role"
+  ],
+  "checks": {
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass",
+    "no_namespace_audit": "pass",
+    "canon_scan": "pass"
+  }
+}

@@ -1,0 +1,65 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Role\Console;
+
+use App\Infrastructure\Console\RoleConsoleApplication;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Tester\CommandTester;
+
+final class RoleCliMigrationParityTest extends TestCase
+{
+    public function testMigratedPolicyAndJanitorCommandsAreRegistered(): void
+    {
+        $application = (new RoleConsoleApplication())->build();
+
+        self::assertNotNull($application->find('app:role:policy:import'));
+        self::assertNotNull($application->find('app:role:policy:activate'));
+        self::assertNotNull($application->find('app:role:policy:export'));
+        self::assertNotNull($application->find('app:role:policy:migrate'));
+        self::assertNotNull($application->find('app:role:admin:policy:import'));
+        self::assertNotNull($application->find('app:role:admin:policy:activate'));
+        self::assertNotNull($application->find('app:role:admin:policy:export'));
+        self::assertNotNull($application->find('app:role:janitor:gc-audit'));
+        self::assertNotNull($application->find('app:role:janitor:gc-replay'));
+        self::assertNotNull($application->find('app:role:janitor:archive-audit'));
+    }
+
+    public function testPolicyImportActivateAndExportRoundTripReturnsStructuredJson(): void
+    {
+        $application = (new RoleConsoleApplication())->build();
+        $policyPath = dirname(__DIR__, 3) . '/misc/example-policy.json';
+
+        $import = new CommandTester($application->find('app:role:policy:import'));
+        self::assertSame(0, $import->execute(['name' => 'default-policy', 'version' => 'v1', 'file' => $policyPath]));
+
+        $activate = new CommandTester($application->find('app:role:policy:activate'));
+        self::assertSame(0, $activate->execute(['name' => 'default-policy', 'version' => 'v1']));
+
+        $export = new CommandTester($application->find('app:role:policy:export'));
+        self::assertSame(0, $export->execute(['name' => 'default-policy', 'version' => 'v1']));
+        $payload = json_decode($export->getDisplay(), true, flags: JSON_THROW_ON_ERROR);
+
+        self::assertTrue($payload['ok']);
+        self::assertSame('default-policy', $payload['name']);
+        self::assertStringContainsString('viewer', (string) $payload['document']);
+    }
+
+    public function testJanitorSpecializedCommandsReturnStructuredJson(): void
+    {
+        $application = (new RoleConsoleApplication())->build();
+
+        $gcAudit = new CommandTester($application->find('app:role:janitor:gc-audit'));
+        self::assertSame(0, $gcAudit->execute(['days' => '30', 'batch' => '1000', '--dsn' => 'sqlite::memory:']));
+        $auditPayload = json_decode($gcAudit->getDisplay(), true, flags: JSON_THROW_ON_ERROR);
+        self::assertTrue($auditPayload['ok']);
+        self::assertArrayHasKey('deleted', $auditPayload);
+
+        $gcReplay = new CommandTester($application->find('app:role:janitor:gc-replay'));
+        self::assertSame(0, $gcReplay->execute(['batch' => '1000', '--dsn' => 'sqlite::memory:']));
+        $replayPayload = json_decode($gcReplay->getDisplay(), true, flags: JSON_THROW_ON_ERROR);
+        self::assertTrue($replayPayload['ok']);
+        self::assertArrayHasKey('deleted', $replayPayload);
+    }
+}

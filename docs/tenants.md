@@ -19,7 +19,7 @@ HTTP (admin, requires D4 admin voter headers):
 PHP usage (server-side enforcement example):
 
 ```php
-use Tenant\Quota;
+use App\Legacy\Service\Tenant\Quota;
 $q = new Quota(__DIR__.'/var/tenants');
 $r = $q->consume('t1', 1);
 if (!$r['allowed']) { /* return 429 with X-RateLimit-* headers */ }

@@ -1,0 +1,60 @@
+{
+  "perf": {
+    "smoke": {
+      "max-duration-ms": 1000,
+      "max-per-item-ms": 1,
+      "min-throughput-per-sec": 500,
+      "max-peak-mb": 256,
+      "max-duration-regression-pct": 15,
+      "max-per-item-regression-pct": 15,
+      "max-peak-regression-pct": 15,
+      "max-throughput-drop-pct": 15
+    },
+    "standard": {
+      "max-duration-ms": 900,
+      "max-per-item-ms": 0.9,
+      "min-throughput-per-sec": 700,
+      "max-peak-mb": 192,
+      "max-duration-regression-pct": 10,
+      "max-per-item-regression-pct": 10,
+      "max-peak-regression-pct": 10,
+      "max-throughput-drop-pct": 10
+    },
+    "strict": {
+      "max-duration-ms": 700,
+      "max-per-item-ms": 0.7,
+      "min-throughput-per-sec": 900,
+      "max-peak-mb": 160,
+      "max-duration-regression-pct": 5,
+      "max-per-item-regression-pct": 5,
+      "max-peak-regression-pct": 5,
+      "max-throughput-drop-pct": 5
+    }
+  },
+  "bench": {
+    "smoke": {
+      "max-p95-ms": 5,
+      "max-p99-ms": 10,
+      "max-batch-per-item-ms": 1,
+      "max-p95-regression-pct": 15,
+      "max-p99-regression-pct": 15,
+      "max-batch-per-item-regression-pct": 15
+    },
+    "standard": {
+      "max-p95-ms": 4,
+      "max-p99-ms": 8,
+      "max-batch-per-item-ms": 0.8,
+      "max-p95-regression-pct": 10,
+      "max-p99-regression-pct": 10,
+      "max-batch-per-item-regression-pct": 10
+    },
+    "strict": {
+      "max-p95-ms": 3,
+      "max-p99-ms": 6,
+      "max-batch-per-item-ms": 0.6,
+      "max-p95-regression-pct": 5,
+      "max-p99-regression-pct": 5,
+      "max-batch-per-item-regression-pct": 5
+    }
+  }
+}

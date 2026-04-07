@@ -2,12 +2,12 @@
 <?php
 declare(strict_types=1);
 
-use App\Service\Role\Cache\TagInvalidator;
-use App\Service\Role\Cache\PdpCache;
+use App\Service\Cache\TagInvalidator;
+use App\Service\Cache\PdpCache;
 
-require_once __DIR__ . '/../../src/Service/Role/Cache/TagInvalidator.php';
-require_once __DIR__ . '/../../src/Service/Role/Cache/StampedeGuard.php';
-require_once __DIR__ . '/../../src/Service/Role/Cache/PdpCache.php';
+require_once __DIR__ . '/../../src/Service/Cache/TagInvalidator.php';
+require_once __DIR__ . '/../../src/Service/Cache/StampedeGuard.php';
+require_once __DIR__ . '/../../src/Service/Cache/PdpCache.php';
 
 @mkdir(__DIR__ . '/../../report', 0775, true);
 

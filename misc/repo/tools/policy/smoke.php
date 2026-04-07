@@ -2,11 +2,11 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Policy\InMemoryGrantRepository;
-use App\Service\Role\Policy\PolicyEngine;
-use App\Service\Role\Policy\Voter\AttributeVoter;
-use App\Service\Role\Policy\Voter\RoleVoter;
-use App\Service\Role\Policy\Voter\TenantBoundaryVoter;
+use App\Infrastructure\Policy\InMemoryGrantRepository;
+use App\Service\Policy\PolicyEngine;
+use App\Service\Policy\Voter\AttributeVoter;
+use App\Service\Policy\Voter\RoleVoter;
+use App\Service\Policy\Voter\TenantBoundaryVoter;
 
 // requires
 require_once __DIR__ . '/../../src/Service/Role/Policy/Decision.php';

@@ -37,5 +37,5 @@ php bin/role-admin.php rebac:stats
 
 ## Metrics (Prometheus)
 
-- in-memory counters (see `App\Metrics\Role\Admin\AdminMetrics`).
+- in-memory counters (see `App\Legacy\Metrics\Admin\AdminMetrics`).
 - Wire into your `/metrics` exporter: append `AdminMetrics::renderPrometheus()`.

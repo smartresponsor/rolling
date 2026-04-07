@@ -1,0 +1,13 @@
+wave: w45
+message: compatibility core stabilization
+base: rolling-44-compatibility-tail-removal-cumulative.zip
+artifacts:
+  touched: rolling-45-compatibility-core-stabilization-touched.zip
+  cumulative: rolling-45-compatibility-core-stabilization-cumulative.zip
+changes:
+  added:
+    - src/Legacy/Compatibility/legacy_role_compatibility_core.php
+  modified:
+    - src/Legacy/Compatibility/legacy_role_aliases_bootstrap.php
+  deleted:
+    - src/Legacy/Compatibility/legacy_role_w37_aliases.php

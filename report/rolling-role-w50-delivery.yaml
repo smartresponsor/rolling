@@ -1,0 +1,6 @@
+wave: w50
+base: rolling-49-obligation-polyfill-consolidation-cumulative.zip
+removed_internal_unused_compatibility_entries: 14
+remaining_compatibility_core_only_includes:
+  - symfony_console_polyfill.php
+structural_tail: none

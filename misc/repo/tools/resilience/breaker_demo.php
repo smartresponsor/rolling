@@ -2,17 +2,17 @@
 <?php
 declare(strict_types=1);
 
-use Resilience\Backoff\ExponentialJitterBackoff;
-use Resilience\CircuitBreaker\SimpleCircuitBreaker;
-use Resilience\ResilientInvoker;
-use Resilience\Time\SystemClock;
-use Resilience\Time\SystemSleeper;
+use App\Service\Resilience\Backoff\ExponentialJitterBackoff;
+use App\Service\Resilience\CircuitBreaker\SimpleCircuitBreaker;
+use App\Service\Resilience\ResilientInvoker;
+use App\Service\Resilience\Time\SystemClock;
+use App\Service\Resilience\Time\SystemSleeper;
 
-require_once __DIR__ . '/../../src/Service/Role/Resilience/Time/SystemClock.php';
-require_once __DIR__ . '/../../src/Service/Role/Resilience/Time/SystemSleeper.php';
-require_once __DIR__ . '/../../src/Service/Role/Resilience/Backoff/ExponentialJitterBackoff.php';
-require_once __DIR__ . '/../../src/Service/Role/Resilience/CircuitBreaker/SimpleCircuitBreaker.php';
-require_once __DIR__ . '/../../src/Service/Role/Resilience/ResilientInvoker.php';
+require_once __DIR__ . '/../../src/Service/Resilience/Time/SystemClock.php';
+require_once __DIR__ . '/../../src/Service/Resilience/Time/SystemSleeper.php';
+require_once __DIR__ . '/../../src/Service/Resilience/Backoff/ExponentialJitterBackoff.php';
+require_once __DIR__ . '/../../src/Service/Resilience/CircuitBreaker/SimpleCircuitBreaker.php';
+require_once __DIR__ . '/../../src/Service/Resilience/ResilientInvoker.php';
 
 $reportDir = __DIR__ . '/../../report';
 @mkdir($reportDir, 0775, true);

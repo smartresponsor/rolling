@@ -1,0 +1,16 @@
+wave: w23
+base: rolling-w22-cumulative-snapshot.zip
+focus:
+  - native benchmark commands
+  - performance stats services
+  - legacy operational parity completion
+artifacts:
+  - src/Infrastructure/Console/Command/BatchPerfCommand.php
+  - src/Infrastructure/Console/Command/BenchCommand.php
+  - src/Infrastructure/Console/Command/PerfStatsCommand.php
+  - src/Infrastructure/Console/Command/BenchStatsCommand.php
+  - src/Infrastructure/Console/Support/BatchPerfRuntime.php
+  - src/Infrastructure/Console/Support/BenchRuntime.php
+  - src/Infrastructure/Console/Support/PerfStatsService.php
+  - src/Infrastructure/Console/Support/BenchStatsService.php
+  - tests/Role/Console/RoleBenchmarkCommandTest.php

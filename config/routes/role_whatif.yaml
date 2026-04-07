@@ -1,4 +1,4 @@
 role_what_if:
   path: /v2/role/what-if
-  controller: App\Http\Role\Api\WhatIfController::run
+  controller: App\Controller\Api\WhatIfController::run
   methods: [ POST ]

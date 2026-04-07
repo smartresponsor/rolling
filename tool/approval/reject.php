@@ -2,7 +2,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Approval\FileApprovalStore;
+use App\Infrastructure\Approval\FileApprovalStore;
 
 require_once __DIR__ . '/../../src/Infra/Role/Approval/FileApprovalStore.php';
 require_once __DIR__ . '/../../src/ServiceInterface/Role/Approval/ApprovalStoreInterface.php';

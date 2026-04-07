@@ -1,0 +1,20 @@
+wave: w10
+message: rolling-10-acl-model-collapse-and-autoload-bootstrap-hardening
+base_snapshot: rolling-09-small-role-groups-collapse-cumulative.zip
+artifacts:
+  touched_zip: rolling-10-acl-model-collapse-and-autoload-bootstrap-hardening-touched.zip
+  cumulative_zip: rolling-10-acl-model-collapse-and-autoload-bootstrap-hardening-cumulative.zip
+checks:
+  php_lint_all: pass
+  canon_scan: pass
+  namespace_audit: pass
+  autoload_continuity_audit: pass
+  no_namespace_audit: pass
+metrics:
+  acl_role_collapsed: true
+  request_context_moved_to_legacy_model: true
+  composer_autoload_files_collapsed_to_bootstrap: true
+  no_namespace_audit_unexpected_count: 0
+  forbidden_directory_count_all: 1
+  psr4_entries_total: 2
+  files_entries_total: 1

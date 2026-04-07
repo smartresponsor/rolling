@@ -1,0 +1,11 @@
+wave: w25
+title: legacy service bridge thinning
+base: rolling-24-audit-cache-explain-resilience-canonical-extraction-cumulative.zip
+modified_files: 52
+added_files: 0
+deleted_files: 0
+checks:
+  autoload_continuity_audit: pass
+  namespace_audit: pass
+  no_namespace_audit: pass
+  canon_scan: pass

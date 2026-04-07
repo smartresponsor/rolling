@@ -1,0 +1,7 @@
+wave: w42
+base: rolling-41-internal-infra-reference-cleanup-cumulative.zip
+modified_files: 1
+added_files: 0
+deleted_files: 0
+removed_internal_unused_aliases: 152
+remaining_alias_entries: 95

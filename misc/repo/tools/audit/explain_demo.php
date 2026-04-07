@@ -2,12 +2,12 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Audit\FileAuditRepository;
-use Audit\Dto\DecisionInput;
-use Audit\Dto\DecisionRecord;
-use Audit\Dto\DecisionResult;
-use Audit\Explain\RuleExplainer;
-use Audit\SimpleAuditLogger;
+use App\Infrastructure\Audit\FileAuditRepository;
+use App\Legacy\Service\Audit\Dto\DecisionInput;
+use App\Legacy\Service\Audit\Dto\DecisionRecord;
+use App\Legacy\Service\Audit\Dto\DecisionResult;
+use App\Legacy\Service\Audit\Explain\RuleExplainer;
+use App\Legacy\Service\Audit\SimpleAuditLogger;
 
 require_once __DIR__ . '/../../src/Infra/Role/Audit/FileAuditRepository.php';
 require_once __DIR__ . '/../../src/Service/Role/Audit/SimpleAuditLogger.php';

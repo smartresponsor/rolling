@@ -2,8 +2,8 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Policy\Masking\InMemoryMaskingRuleRepository;
-use App\Service\Role\Policy\Obligation\Masking\MaskingEngine;
+use App\Infrastructure\Policy\Masking\InMemoryMaskingRuleRepository;
+use App\Service\Policy\Obligation\Masking\MaskingEngine;
 
 require_once __DIR__ . '/../../src/Infra/Role/Policy/Masking/InMemoryMaskingRuleRepository.php';
 require_once __DIR__ . '/../../src/Service/Role/Policy/Obligation/Masking/MaskingEngine.php';

@@ -2,15 +2,12 @@
 <?php
 declare(strict_types=1);
 
-use Admin\Action\GrantRoleAction;
-use Admin\ApprovalWorkflow;
-use Admin\Guard\FourEyesApprovalGuard;
-use App\Infra\Role\Admin\InMemoryApprovalRequestRepository;
+use App\Service\Admin\Action\GrantRoleAction;
+use App\Service\Admin\ApprovalWorkflow;
+use App\Service\Admin\Guard\FourEyesApprovalGuard;
+use App\Infrastructure\Admin\InMemoryApprovalRequestRepository;
 
-require_once __DIR__ . '/../../src/Infra/Role/Admin/InMemoryApprovalRequestRepository.php';
-require_once __DIR__ . '/../../src/Service/Role/Admin/Guard/FourEyesApprovalGuard.php';
-require_once __DIR__ . '/../../src/Service/Role/Admin/Action/GrantRoleAction.php';
-require_once __DIR__ . '/../../src/Service/Role/Admin/ApprovalWorkflow.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 $reportDir = __DIR__ . '/../../report';
 @mkdir($reportDir, 0775, true);

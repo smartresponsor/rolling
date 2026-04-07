@@ -1,21 +1,13 @@
 <?php
 declare(strict_types=1);
 
-use Model\Diff;
+namespace App\Tests\Role\Model;
+
+use App\Service\Model\Diff;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-
-/**
- *
- */
 final class DiffTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testAddedRemovedChanged(): void
     {
         $from = ['namespace' => 'doc', 'relations' => ['viewer' => ['of' => 'user']]];
@@ -25,9 +17,6 @@ final class DiffTest extends TestCase
         $this->assertContains('editor', $d['added']);
     }
 
-    /**
-     * @return void
-     */
     public function testBreakingOnRemoval(): void
     {
         $from = ['namespace' => 'doc', 'relations' => ['viewer' => ['of' => 'user'], 'editor' => ['of' => 'user']]];

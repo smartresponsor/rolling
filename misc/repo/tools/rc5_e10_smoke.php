@@ -4,8 +4,8 @@ declare(strict_types=1);
 require __DIR__ . '/../src/Http/Role/Api/SecurityController.php';
 require __DIR__ . '/../src/Http/Role/Api/ResidencyController.php';
 
-use Http\Role\Api\ResidencyController;
-use Http\Role\Api\SecurityController;
+use App\Legacy\Http\Api\ResidencyController;
+use App\Legacy\Http\Api\SecurityController;
 use Symfony\Component\HttpFoundation\Request;
 
 $sec = new SecurityController(__DIR__ . '/../var');

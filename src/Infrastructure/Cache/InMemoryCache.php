@@ -5,9 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace App\Infra\Cache;
+namespace App\Infrastructure\Cache;
 
-use App\InfraInterface\Cache\CacheInterface;
+use App\InfrastructureInterface\Cache\CacheInterface;
 
 /**
  *

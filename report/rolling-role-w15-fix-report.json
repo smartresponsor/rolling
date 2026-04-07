@@ -1,0 +1,20 @@
+{
+  "wave": "w15",
+  "title": "http-security-infrastructure-extraction",
+  "summary": {
+    "canonical_security_files_added": 1,
+    "canonical_infrastructure_interface_files_added": 1,
+    "canonical_infrastructure_files_added": 5,
+    "modified_files": 14,
+    "added_files": 7,
+    "deleted_files": 0
+  },
+  "checks": {
+    "php_lint_all": "pass",
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass",
+    "no_namespace_audit": "pass",
+    "canon_scan": "pass"
+  },
+  "remaining_legacy_exception": "src/Legacy/Entity/Role"
+}

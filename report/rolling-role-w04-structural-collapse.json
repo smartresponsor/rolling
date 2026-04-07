@@ -1,0 +1,21 @@
+{
+  "wave": "w04",
+  "performed_moves": [
+    {
+      "from": "src/Domain/Role",
+      "to": "src/Legacy/Domain/Role"
+    },
+    {
+      "from": "src/Acl/Role/Adapter",
+      "to": "src/Legacy/Acl/Role/Adapter"
+    }
+  ],
+  "continuity_mappings": {
+    "App\\Domain\\Role\\": "src/Legacy/Domain/Role/",
+    "App\\Acl\\Role\\Adapter\\": "src/Legacy/Acl/Role/Adapter/"
+  },
+  "notes": [
+    "Forbidden src/Domain canonical placement removed from production tree.",
+    "Adapter placement moved out of canonical tree without mass namespace rewrite."
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "wave": "w11",
+  "remaining_unexpected_no_namespace_files": [],
+  "fixed_files": [
+    "src/Legacy/Http/Role/Role/Api/_note_consistency_dep.php",
+    "src/Legacy/Http/Role/Role/SymfonyBundle/Resources/config/services.php",
+    "src/Legacy/Service/Role/RoleResolver.php"
+  ],
+  "compatibility_files": [
+    "src/Legacy/Compatibility/legacy_role_global_aliases.php"
+  ]
+}

@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\Role\Acl;
 
-use App\Acl\Role\Adapter\PdoAclSource;
+use App\Infrastructure\Acl\Source\PdoAclSource;
 use PDO;
 use PHPUnit\Framework\TestCase;
-use src\Entity\Role\{Scope};
-use src\Entity\Role\SubjectId;
+use App\Entity\Role\Scope;
+use App\Entity\Role\SubjectId;
 
 /**
  *

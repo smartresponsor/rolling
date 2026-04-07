@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../src/Http/Role/Api/ExplainController.php';
 
-use Http\Role\Api\ExplainController;
+use App\Legacy\Http\Api\ExplainController;
 use Symfony\Component\HttpFoundation\Request;
 
 $ctl = new ExplainController();

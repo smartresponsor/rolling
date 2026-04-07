@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace Tests\Role\Consistency;
 
-use App\Cache\Role\ConsistentCachePdpV2;
-use App\Consistency\Role\{Composer};
-use App\Consistency\Role\Policy\Token as PolicyToken;
-use App\Consistency\Role\Rebac\Token as RebacToken;
+use App\Infrastructure\Cache\ConsistentCachePdpV2;
+use App\Service\Consistency\{Composer};
+use App\Service\Consistency\Policy\Token as PolicyToken;
+use App\Service\Consistency\Rebac\Token as RebacToken;
 use PHPUnit\Framework\TestCase;
-use Policy\Role\Obligation\Obligations;
-use Policy\Role\V2\DecisionWithObligations;
-use PolicyInterface\Role\PdpV2Interface;
-use src\Entity\Role\{Scope};
-use src\Entity\Role\PermissionKey;
-use src\Entity\Role\SubjectId;
+use App\Policy\Obligation\Obligations;
+use App\Policy\V2\DecisionWithObligations;
+use App\PolicyInterface\PdpV2Interface;
+use App\Entity\Role\Scope;
+use App\Entity\Role\PermissionKey;
+use App\Entity\Role\SubjectId;
 
 /**
  *
@@ -32,13 +32,15 @@ final class TokenAndCacheTest extends TestCase
         $policyRev = 1;
         $rebacRev = 5;
         $composer = new Composer(
-            policyTokenFn: fn() => new PolicyToken($policyRev),
-            rebacTokenFn: fn() => new RebacToken($rebacRev),
+            policyTokenFn: function () use (&$policyRev) { return new PolicyToken($policyRev); },
+            rebacTokenFn: function () use (&$rebacRev) { return new RebacToken($rebacRev); },
             subjectEpochFn: fn(string $sid) => 0
         );
         $calls = 0;
         $inner = new class($calls) implements PdpV2Interface {
             public int $calls = 0;
+            /** @var int */
+            private $ref;
 
             /**
              * @param int $callsRef
@@ -46,13 +48,13 @@ final class TokenAndCacheTest extends TestCase
             public function __construct(int &$callsRef)
             {
                 $this->calls = 0;
-                $this->ref = &$callsRef;
+                $this->ref =& $callsRef;
             }
 
             /**
-             * @param \src\Entity\Role\SubjectId $s
-             * @param \src\Entity\Role\PermissionKey $a
-             * @param \src\Entity\Role\Scope $sc
+             * @param \App\Entity\Role\SubjectId $s
+             * @param \App\Entity\Role\PermissionKey $a
+             * @param \App\Entity\Role\Scope $sc
              * @param array $ctx
              * @return \Policy\Role\V2\DecisionWithObligations
              */

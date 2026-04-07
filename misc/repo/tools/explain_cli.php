@@ -1,13 +1,13 @@
 #!/usr/bin/env php
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/../src/Service/Role/Explain/TupleReader.php';
-require_once __DIR__ . '/../src/Service/Role/Explain/Planner.php';
-require_once __DIR__ . '/../src/Service/Role/Explain/Renderer.php';
+require_once __DIR__ . '/../src/Service/Explain/TupleReader.php';
+require_once __DIR__ . '/../src/Service/Explain/Planner.php';
+require_once __DIR__ . '/../src/Service/Explain/Renderer.php';
 
-use Explain\{Planner};
-use Explain\Renderer;
-use Explain\TupleReader;
+use App\Service\Explain\{Planner};
+use App\Service\Explain\Renderer;
+use App\Service\Explain\TupleReader;
 
 [$_, $subject, $relation, $resource, $tenant] = $argv + [null, null, null, null, 't1'];
 if (!$subject || !$relation || !$resource) {

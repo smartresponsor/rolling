@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\Role\Observability;
 
-use App\Observability\Role\Metrics\{PrometheusExporter, Registry};
-use App\Observability\Role\Metrics\Decorators\MetricsPdpV2;
+use App\Infrastructure\Observability\Metrics\{PrometheusExporter, Registry};
+use App\Infrastructure\Observability\Metrics\Decorators\MetricsPdpV2;
 use PHPUnit\Framework\TestCase;
-use Policy\Role\Obligation\Obligations;
-use Policy\Role\V2\DecisionWithObligations;
-use PolicyInterface\Role\PdpV2Interface;
-use src\Entity\Role\{Scope};
-use src\Entity\Role\PermissionKey;
-use src\Entity\Role\SubjectId;
+use App\Policy\Obligation\Obligations;
+use App\Policy\V2\DecisionWithObligations;
+use App\PolicyInterface\PdpV2Interface;
+use App\Entity\Role\Scope;
+use App\Entity\Role\PermissionKey;
+use App\Entity\Role\SubjectId;
 
 /**
  *
@@ -30,9 +30,9 @@ final class MetricsSmokeTest extends TestCase
         $reg = new Registry();
         $pdp = new class implements PdpV2Interface {
             /**
-             * @param \src\Entity\Role\SubjectId $s
-             * @param \src\Entity\Role\PermissionKey $a
-             * @param \src\Entity\Role\Scope $sc
+             * @param \App\Entity\Role\SubjectId $s
+             * @param \App\Entity\Role\PermissionKey $a
+             * @param \App\Entity\Role\Scope $sc
              * @param array $c
              * @return \Policy\Role\V2\DecisionWithObligations
              */

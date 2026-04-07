@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../src/Service/Role/Model/Diff.php';
 require_once __DIR__ . '/../src/Service/Role/Model/Validation.php';
 
-use Model\Diff;
+use App\Service\Model\Diff;
 
 [$_, $fromPath, $toPath] = $argv + [null, null, null];
 if (!$fromPath || !$toPath) {

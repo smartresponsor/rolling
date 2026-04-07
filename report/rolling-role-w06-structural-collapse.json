@@ -1,0 +1,25 @@
+{
+  "wave": "w06",
+  "moved_directories": [
+    {
+      "from": "src/Infrastructure/Role/",
+      "to": "src/Legacy/Infrastructure/Role/"
+    },
+    {
+      "from": "src/InfrastructureInterface/Role/",
+      "to": "src/Legacy/InfrastructureInterface/Role/"
+    },
+    {
+      "from": "src/Service/Role/",
+      "to": "src/Legacy/Service/Role/"
+    },
+    {
+      "from": "src/ServiceInterface/Role/",
+      "to": "src/Legacy/ServiceInterface/Role/"
+    }
+  ],
+  "php_files_in_relocated_trees": 137,
+  "canonical_forbidden_directory_count": null,
+  "legacy_only_forbidden_directory_count": 129,
+  "external_roots_count": null
+}

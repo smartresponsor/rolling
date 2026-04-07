@@ -1,0 +1,18 @@
+wave: w20
+base: rolling-w19-cumulative-snapshot.zip
+focus: symfony-native-console-layer
+artifacts:
+  - composer.json
+  - src/Infrastructure/Console/RoleConsoleApplication.php
+  - src/Infrastructure/Console/Command/AbstractRoleCommand.php
+  - src/Infrastructure/Console/Command/FixtureListCommand.php
+  - src/Infrastructure/Console/Command/FixtureShowCommand.php
+  - src/Infrastructure/Console/Command/FixtureSmokeCommand.php
+  - src/Infrastructure/Console/Command/ScenarioListCommand.php
+  - src/Infrastructure/Console/Command/ScenarioRunCommand.php
+  - src/Infrastructure/Console/Command/ScenarioOperationCommand.php
+  - src/Infrastructure/Console/Command/ExplainCommand.php
+  - src/Infrastructure/Console/Command/AuditCommand.php
+  - tests/Role/Console/SymfonyConsoleCommandTest.php
+  - docs/canon/rolling-role-w20-symfony-native-console-layer.md
+  - report/rolling-role-w20-foundation.json

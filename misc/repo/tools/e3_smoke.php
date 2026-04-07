@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../src/Http/Role/Api/PolicyController.php';
 
-use Http\Role\Api\PolicyController;
+use App\Legacy\Http\Api\PolicyController;
 use Symfony\Component\HttpFoundation\Request;
 
 $ctl = new PolicyController();

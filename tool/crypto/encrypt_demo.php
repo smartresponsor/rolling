@@ -2,12 +2,12 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Key\FileKeyProvider;
-use App\Service\Role\Security\SimpleEncryptor;
+use App\Infrastructure\Key\FileKeyProvider;
+use App\Service\Security\SimpleEncryptor;
 
-require_once __DIR__ . '/../../src/Infra/Role/Key/FileKeyProvider.php';
-require_once __DIR__ . '/../../src/Service/Role/Security/SimpleEncryptor.php';
-require_once __DIR__ . '/../../src/ServiceInterface/Role/Key/KeyProviderInterface.php';
+require_once __DIR__ . '/../../src/Infrastructure/Key/FileKeyProvider.php';
+require_once __DIR__ . '/../../src/Service/Security/SimpleEncryptor.php';
+require_once __DIR__ . '/../../src/ServiceInterface/Key/KeyProviderInterface.php';
 
 $tenant = $argv[1] ?? 't1';
 $data = $argv[2] ?? 'secret';

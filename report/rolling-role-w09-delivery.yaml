@@ -1,0 +1,7 @@
+wave: w09
+base: rolling-08-http-tree-collapse-cumulative.zip
+summary: remaining smaller legacy role-groups collapsed
+checks:
+  - php bin/php-lint-all.php
+  - php bin/autoload-continuity-audit.php
+  - php bin/namespace-audit.php

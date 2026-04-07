@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Role\Audit;
 
-use App\Audit\Role\{AuditRecord, PdoAuditWriter};
+use App\Infrastructure\Audit\{AuditRecord, PdoAuditWriter};
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +22,7 @@ final class PdoAuditWriterTest extends TestCase
     public function testInsertRecord(): void
     {
         $pdo = new PDO('sqlite::memory:');
-        $pdo->exec(file_get_contents(__DIR__ . '/../../../ops/db/sqlite/role_audit.sql'));
+        $pdo->exec(file_get_contents(__DIR__ . '/../../../misc/ops/db/sqlite/role_audit.sql'));
 
         $w = new PdoAuditWriter($pdo);
         $rec = new AuditRecord(time(), 'u1', 'message.read', 'tenant:t1', 'ALLOW', 'ok', ['types' => ['redact_fields'], 'count' => 1], ['ip' => '127.0.0.1', 'email' => 'a@b.c']);

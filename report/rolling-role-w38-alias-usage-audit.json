@@ -1,0 +1,8 @@
+{
+  "total_alias_pairs_in_w37_before": 77,
+  "unused_internal_alias_pairs_removed": 76,
+  "remaining_internal_alias_pairs": 1,
+  "remaining_aliases": [
+    "RoleResolver"
+  ]
+}

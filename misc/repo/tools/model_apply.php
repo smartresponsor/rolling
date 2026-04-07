@@ -7,9 +7,9 @@ require_once __DIR__ . '/../src/Service/Role/Model/SchemaRegistry.php';
 require_once __DIR__ . '/../src/Service/Role/Model/Diff.php';
 require_once __DIR__ . '/../src/Service/Role/Model/Migrator.php';
 
-use Model\{Migrator};
-use Model\FileSchemaStorage;
-use Model\SchemaRegistry;
+use App\Service\Model\Migrator;
+use App\Service\Model\FileSchemaStorage;
+use App\Service\Model\SchemaRegistry;
 
 [$_, $version, $schemaPath, $dry] = $argv + [null, null, null, "0"];
 if (!$version || !$schemaPath) {

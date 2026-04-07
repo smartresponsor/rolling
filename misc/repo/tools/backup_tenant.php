@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../src/Service/Role/Tenant/Backup.php';
 
-use Tenant\Backup;
+use App\Service\Tenant\Backup;
 
 $tenant = $argv[1] ?? null;
 if (!$tenant) {

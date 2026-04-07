@@ -1,9 +1,9 @@
 role_eval_one:
   path: /v2/role/eval
-  controller: App\Http\Role\Api\EvalController::eval
+  controller: App\Controller\Api\EvalController::eval
   methods: [ POST ]
 
 role_eval_batch:
   path: /v2/role/eval-batch
-  controller: App\Http\Role\Api\EvalController::evalBatch
+  controller: App\Controller\Api\EvalController::evalBatch
   methods: [ POST ]

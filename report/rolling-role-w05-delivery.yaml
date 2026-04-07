@@ -1,0 +1,26 @@
+wave: w05
+base: rolling-04-structural-vocabulary-collapse-cumulative.zip
+delivery:
+  touched_archive: rolling-05-service-tree-collapse-touched.zip
+  cumulative_archive: rolling-05-service-tree-collapse-cumulative.zip
+facts:
+  psr4_entries_total: 16
+  legacy_psr4_entries_total: 14
+  files_entries_total: 5
+  non_app_namespace_files: 3
+  modified_files: 79
+  added_files: 116
+  deleted_files: 115
+changes:
+  - collapsed: src/Legacy/Service/Role -> src/Legacy/Service
+  - collapsed: src/Legacy/ServiceInterface/Role -> src/Legacy/ServiceInterface
+  - added: src/Legacy/Compatibility/legacy_role_w05_aliases.php
+  - removed_psr4:
+      - App\Service\Role\
+      - App\Legacy\Service\Role\
+      - App\ServiceInterface\Role\
+      - Service\
+validation:
+  - php bin/php-lint-all.php
+  - php bin/autoload-continuity-audit.php
+  - php bin/namespace-audit.php

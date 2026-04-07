@@ -18,7 +18,7 @@ curl -s http://127.0.0.1:8181/v1/data/role/v2/decision \
 ## Wire in PHP
 
 ```php
-use App\Net\Role\Opa\OpaHttpClient;use Policy\Role\Opa\{InputBuilder};use Policy\Role\Opa\OpaPdpV2;
+use App\Legacy\Net\Opa\OpaHttpClient;use App\Legacy\Policy\Opa\{InputBuilder};use App\Legacy\Policy\Opa\OpaPdpV2;
 
 $client = new OpaHttpClient('http://127.0.0.1:8181');
 $pdp = new OpaPdpV2($client, new InputBuilder(), 'role/v2/decision');

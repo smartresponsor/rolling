@@ -1,0 +1,6 @@
+wavelength: w24
+summary: canonical audit-cache-explain-resilience extraction
+modified_files: 12
+added_files: 32
+deleted_files: 0
+base_cumulative: rolling-23-policy-store-canonicalization-and-legacy-interface-bridge-thinning-cumulative.zip

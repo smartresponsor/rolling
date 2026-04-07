@@ -1,0 +1,12 @@
+{
+  "wave": "w14",
+  "psr4_entries_total": 40,
+  "classmap_entries_total": 1,
+  "files_entries_total": 2,
+  "remaining_classmap_entries": [
+    "src/Legacy/Service/Role/Pipeline/DecisionPipeline.php"
+  ],
+  "serviceinterface_classmap_eliminated": true,
+  "service_classmap_reduced_to_file_outlier": true,
+  "outlier_reason": "Pipeline\\Stage\\DecisionPipeline is stored at Pipeline/DecisionPipeline.php instead of Pipeline/Stage/DecisionPipeline.php"
+}

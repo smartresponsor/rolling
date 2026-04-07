@@ -1,0 +1,15 @@
+wave: w44
+title: compatibility syntax blocker removal and internal alias tail deletion
+base: rolling-43-remaining-internal-alias-pruning-cumulative.zip
+deliverables:
+  touched: rolling-44-compatibility-tail-removal-touched.zip
+  cumulative: rolling-44-compatibility-tail-removal-cumulative.zip
+changes:
+  deleted_files:
+    - src/Legacy/Compatibility/legacy_role_w36_aliases.php
+verification:
+  php_lint_legacy_role_w37_aliases: pass
+  autoload_continuity_audit: pass
+  namespace_audit: pass
+  no_namespace_audit: pass
+  canon_scan: pass

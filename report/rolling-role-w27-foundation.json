@@ -1,0 +1,17 @@
+{
+  "wave": "w27",
+  "based_on": "rolling-w26-cumulative-snapshot.zip",
+  "capabilities": [
+    "baseline-manifest-management",
+    "known-good-baseline-promotion",
+    "ci-comparison-profile-catalog",
+    "profile-aware-regression-checks"
+  ],
+  "new_commands": [
+    "app:role:profile:list",
+    "app:role:perf:baseline:promote",
+    "app:role:bench:baseline:promote",
+    "app:role:perf:profile-check",
+    "app:role:bench:profile-check"
+  ]
+}

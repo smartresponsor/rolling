@@ -1,0 +1,17 @@
+{
+  "wave": "w28",
+  "title": "acl-attribute-permission-canonical-extraction",
+  "modified_files": 29,
+  "added_files": 20,
+  "deleted_files": 0,
+  "canonical_infrastructure_files_added": 8,
+  "canonical_service_files_added": 10,
+  "canonical_service_interface_files_added": 1,
+  "checks": {
+    "php_lint_changed_files": "pass",
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass",
+    "no_namespace_audit": "pass",
+    "canon_scan": "pass"
+  }
+}

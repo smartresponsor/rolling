@@ -1,24 +1,24 @@
 role_admin_start:
   path: /v2/admin/approval/start
-  controller: App\Http\Role\Api\AdminController::start
+  controller: App\Controller\Api\AdminController::start
   methods: [ POST ]
 
 role_admin_approve:
   path: /v2/admin/approval/approve
-  controller: App\Http\Role\Api\AdminController::approve
+  controller: App\Controller\Api\AdminController::approve
   methods: [ POST ]
 
 role_admin_reject:
   path: /v2/admin/approval/reject
-  controller: App\Http\Role\Api\AdminController::reject
+  controller: App\Controller\Api\AdminController::reject
   methods: [ POST ]
 
 role_admin_delegate:
   path: /v2/admin/delegate
-  controller: App\Http\Role\Api\AdminController::delegate
+  controller: App\Controller\Api\AdminController::delegate
   methods: [ POST ]
 
 role_admin_override:
   path: /v2/admin/override
-  controller: App\Http\Role\Api\AdminController::override
+  controller: App\Controller\Api\AdminController::override
   methods: [ POST ]

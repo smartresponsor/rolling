@@ -1,0 +1,12 @@
+wave: w15
+message: http-security-infrastructure-extraction
+base: rolling-14-controller-edge-layer-extraction-cumulative.zip
+artifacts:
+  touched: rolling-15-http-security-infrastructure-extraction-touched.zip
+  cumulative: rolling-15-http-security-infrastructure-extraction-cumulative.zip
+checks:
+  php_lint_all: pass
+  autoload_continuity_audit: pass
+  namespace_audit: pass
+  no_namespace_audit: pass
+  canon_scan: pass

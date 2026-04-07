@@ -1,0 +1,19 @@
+wave: w40
+slug: legacy-entity-role-canonicalization
+base: rolling-39-role-resolver-alias-pruning-cumulative.zip
+artifacts:
+  touched: rolling-40-legacy-entity-role-canonicalization-touched.zip
+  cumulative: rolling-40-legacy-entity-role-canonicalization-cumulative.zip
+summary:
+  canonical_entity_files_added: 3
+  compatibility_files_added: 1
+  deleted_legacy_entity_files: 3
+  modified_files: 48
+  added_files: 4
+  deleted_files: 3
+checks:
+  php_lint_changed_files: pass
+  autoload_continuity_audit: pass
+  namespace_audit: pass
+  no_namespace_audit: pass
+  canon_scan: pass

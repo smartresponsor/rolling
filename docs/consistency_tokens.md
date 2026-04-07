@@ -13,8 +13,8 @@ String form: `p:<int>;r:<int>;s:<int?>;` ; header `X-Role-Consistency` and short
 ## Usage
 
 ```php
-use App\Consistency\Role\Composer;
-use App\Cache\Role\ConsistentCachePdpV2;
+use App\Service\Consistency\Composer;
+use App\Infrastructure\Cache\ConsistentCachePdpV2;
 
 // build composer
 $composer = new Composer(

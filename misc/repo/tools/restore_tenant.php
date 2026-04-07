@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../src/Service/Role/Tenant/Restore.php';
 
-use Tenant\Restore;
+use App\Service\Tenant\Restore;
 
 $path = $argv[1] ?? null;
 if (!$path || !file_exists($path)) {

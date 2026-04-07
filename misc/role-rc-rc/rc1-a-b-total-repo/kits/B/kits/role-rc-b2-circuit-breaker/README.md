@@ -3,7 +3,7 @@
 Подключение:
 
 ```php
-use App\Resilience\Role\CircuitBreakingPdpV2;use App\Resilience\Role\SystemClock;
+use App\Legacy\Resilience\CircuitBreakingPdpV2;use App\Legacy\Resilience\SystemClock;
 
 /** @var \PolicyInterface\Role\PdpV2Interface $remote */
 $pdp = new CircuitBreakingPdpV2($remote, breakerId: 'remote-pdp', failureThreshold: 3, openBaseSeconds: 5, openMaxSeconds: 60, clock: new SystemClock());

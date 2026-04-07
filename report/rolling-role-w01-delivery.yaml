@@ -1,0 +1,40 @@
+wave: w01
+component: rolling-role
+message: syntax-catch-hardening
+base: Rolling current slice provided on 2026-03-20
+artifacts:
+  touched: rolling-01-syntax-catch-hardening-touched.zip
+  cumulative: rolling-01-syntax-catch-hardening-cumulative.zip
+highlights:
+  - Fixed parse error in misc/repo/bench/lib/Stats.php
+  - Fixed parse error in misc/repo/examples/audit/read.php
+  - Rebuilt src/Legacy/Service/Role/Tenant/TenantKeyProvider.php into valid PHP
+  - Replaced silent catch blocks with logged fallbacks in key/id/jitter/tracing/audit paths
+validation:
+  - php bin/php-lint-all.php completed without parse errors in this environment
+limitations:
+  - PHPUnit could not be executed here because required PHP extensions are unavailable in the container: dom, mbstring, xml, xmlwriter
+  - Canonical structural drift remains large in src/Legacy and composer PSR-4 mappings; documented in report/rolling-role-w01-fix-report.json
+next_focus:
+  - Collapse noncanonical PSR-4 aliases toward App\\ => src/
+  - Eliminate src\\* namespaces in favor of canonical App\\* namespaces or explicit compatibility aliases
+  - Plan staged relocation of legacy Role/Port/Adapter trees into canonical Symfony-oriented layers
+files_touched:
+  - misc/repo/bench/lib/Stats.php
+  - misc/repo/examples/audit/read.php
+  - report/rolling-role-w01-delivery.yaml
+  - report/rolling-role-w01-fix-report.json
+  - src/Legacy/Acl/Role/Adapter/GithubAclSource.php
+  - src/Legacy/Audit/PdoAuditWriter.php
+  - src/Legacy/Infrastructure/Role/Admin/ApprovalFsStore.php
+  - src/Legacy/Infrastructure/Role/Approval/FileApprovalStore.php
+  - src/Legacy/Infrastructure/Role/Key/FileKeyProvider.php
+  - src/Legacy/Infrastructure/Role/Security/HmacKeyFsStore.php
+  - src/Legacy/Observability/Tracing/OtelBridge.php
+  - src/Legacy/Policy/Role/Decorator/V2/AuditingPdp.php
+  - src/Legacy/Security/Role/Keys/KeyStore.php
+  - src/Legacy/Service/Role/Admin/ApprovalWorkflow.php
+  - src/Legacy/Service/Role/Cache/StampedeGuard.php
+  - src/Legacy/Service/Role/Resilience/Backoff/ExponentialJitterBackoff.php
+  - src/Legacy/Service/Role/Security/SimpleEncryptor.php
+  - src/Legacy/Service/Role/Tenant/TenantKeyProvider.php

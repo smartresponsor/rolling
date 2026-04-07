@@ -3,52 +3,49 @@ declare(strict_types=1);
 
 namespace Tests\Role\Acl;
 
-use App\Acl\Role\{CachedAclSource, ChainAclSource};
+use App\InfrastructureInterface\Acl\AclSourceInterface;
+use App\Infrastructure\Acl\CachedAclSource;
+use App\Infrastructure\Acl\ChainAclSource;
 use PHPUnit\Framework\TestCase;
-use src\Entity\Role\{Scope};
-use src\Entity\Role\SubjectId;
+use App\Entity\Role\Scope;
+use App\Entity\Role\SubjectId;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ChainAndCacheTest extends TestCase
 {
-final private class Stub implements AclSourceInterface
-{
-    /**
-     * @return string[]
-     */
-    public function rolesFor(): array
+    public function testChainMergesAndCacheWorks(): void
     {
-        return ['a', 'b'];
+        $chain = new ChainAclSource([
+            new class implements AclSourceInterface {
+                public function rolesFor(SubjectId $subjectId, Scope $scope, array $ctx = []): array
+                {
+                    return ['a', 'b'];
+                }
+
+                public function permissionsForRole(string $role): array
+                {
+                    return ['x'];
+                }
+            },
+            new class implements AclSourceInterface {
+                public function rolesFor(SubjectId $subjectId, Scope $scope, array $ctx = []): array
+                {
+                    return ['a', 'b'];
+                }
+
+                public function permissionsForRole(string $role): array
+                {
+                    return ['x'];
+                }
+            },
+        ]);
+
+        $roles = $chain->rolesFor(new SubjectId('u'), Scope::global());
+        $this->assertSame(['a', 'b'], $roles);
+
+        $cached = new CachedAclSource($chain, 3600);
+        $r1 = $cached->rolesFor(new SubjectId('u'), Scope::global());
+        $r2 = $cached->rolesFor(new SubjectId('u'), Scope::global());
+
+        $this->assertSame($r1, $r2);
     }
-
-    /**
-     * @return string[]
-     */
-    public function permissionsForRole(): array
-    {
-        return ['x'];
-    }
-}
-
-public
-/**
- * @return void
- */
-function testChainMergesAndCacheWorks(): void
-{
-    $chain = new ChainAclSource([new self::Stub(), new self::Stub()]);
-    $roles = $chain->rolesFor(new SubjectId('u'), Scope::global());
-    $this->assertSame(['a', 'b'], $roles);
-
-    $cached = new CachedAclSource($chain, 3600);
-    $r1 = $cached->rolesFor(new SubjectId('u'), Scope::global());
-    $r2 = $cached->rolesFor(new SubjectId('u'), Scope::global());
-    $this->assertSame($r1, $r2);
-}
 }

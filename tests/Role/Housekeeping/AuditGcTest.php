@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Role\Housekeeping;
 
-use App\Housekeeping\Role\PdoAuditGc;
+use App\Infrastructure\Housekeeping\PdoAuditGc;
 use PDO;
 use PHPUnit\Framework\TestCase;
 

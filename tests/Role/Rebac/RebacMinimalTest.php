@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Tests\Role\Rebac;
 
-use App\Model\Role\Rebac\Tuple;
-use App\Service\Role\Rebac\{Checker, Writer};
-use App\Store\Role\Rebac\InMemoryTupleStore;
+use App\Legacy\Model\Rebac\Tuple;
+use App\Service\Rebac\{Checker, Writer};
+use App\Infrastructure\Rebac\InMemoryTupleStore;
 use PHPUnit\Framework\TestCase;
 
 /**

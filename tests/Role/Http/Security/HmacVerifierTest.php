@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Role\Http\Security;
 
-use Http\Security\HmacVerifier;
+use App\Security\Http\HmacRequestVerifier;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +20,7 @@ final class HmacVerifierTest extends TestCase
      */
     public function testVerifyOk(): void
     {
-        $v = new HmacVerifier('secret', 300);
+        $v = new HmacRequestVerifier('secret', 300);
         $date = gmdate('D, d M Y H:i:s \G\M\T');
         $method = 'POST';
         $path = '/v2/access/check';
@@ -37,7 +37,7 @@ final class HmacVerifierTest extends TestCase
      */
     public function testVerifySkewFails(): void
     {
-        $v = new HmacVerifier('secret', 1);
+        $v = new HmacRequestVerifier('secret', 1);
         $date = gmdate('D, d M Y H:i:s \G\M\T', time() - 3600);
         $res = $v->verify('POST', '/v2/access/check', $date, '{}', 'v1=aaa');
         $this->assertFalse($res['ok']);

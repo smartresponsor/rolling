@@ -2,10 +2,10 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Key\FileKeyProvider;
+use App\Infrastructure\Key\FileKeyProvider;
 
-require_once __DIR__ . '/../../src/Infra/Role/Key/FileKeyProvider.php';
-require_once __DIR__ . '/../../src/ServiceInterface/Role/Key/KeyProviderInterface.php';
+require_once __DIR__ . '/../../src/Infrastructure/Key/FileKeyProvider.php';
+require_once __DIR__ . '/../../src/ServiceInterface/Key/KeyProviderInterface.php';
 
 $tenant = $argv[1] ?? 't1';
 $kp = new FileKeyProvider();

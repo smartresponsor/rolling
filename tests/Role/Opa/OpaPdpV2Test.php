@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Tests\Role\Opa;
 
-use App\Net\Role\Opa\OpaClientInterface;
+use App\Legacy\Net\Opa\OpaClientInterface;
 use App\Policy\Role\Opa\Policy\Role\Opa\OpaPdpV2;
 use App\Policy\Role\Opa\Policy\Role\Opa\InputBuilder;
 use PHPUnit\Framework\TestCase;
-use src\Entity\Role\{Scope};
-use src\Entity\Role\PermissionKey;
-use src\Entity\Role\SubjectId;
+use App\Entity\Role\Scope;
+use App\Entity\Role\PermissionKey;
+use App\Entity\Role\SubjectId;
 
 /**
  *

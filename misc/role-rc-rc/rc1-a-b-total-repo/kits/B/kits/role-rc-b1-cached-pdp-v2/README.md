@@ -3,7 +3,7 @@
 ## Как подключить
 
 ```php
-use App\Cache\Role\InMemoryCache;use App\Invalidation\Role\SubjectEpochs;use Policy\Role\Decorator\V2\CachedPdpV2;
+use App\Legacy\Cache\InMemoryCache;use App\Legacy\Invalidation\SubjectEpochs;use App\Legacy\Policy\Decorator\V2\CachedPdpV2;
 
 /** @var \PolicyInterface\Role\PdpV2Interface $inner */
 $cache = new InMemoryCache();

@@ -1,0 +1,52 @@
+{
+  "wave": "w21",
+  "console_layer": {
+    "registration": "service-based registry/factory",
+    "application_version": "w21"
+  },
+  "migrated_operational_commands": [
+    {
+      "command": "app:role:rebac:write",
+      "legacy_script": "bin/role-rebac.php",
+      "legacy_subcommand": "write"
+    },
+    {
+      "command": "app:role:rebac:check",
+      "legacy_script": "bin/role-rebac.php",
+      "legacy_subcommand": "check"
+    },
+    {
+      "command": "app:role:policy:list",
+      "legacy_script": "bin/role-policy.php",
+      "legacy_subcommand": "list"
+    },
+    {
+      "command": "app:role:admin:rebac:stats",
+      "legacy_script": "bin/role-admin.php",
+      "legacy_subcommand": "rebac:stats"
+    },
+    {
+      "command": "app:role:janitor:gc",
+      "legacy_script": "bin/role-janitor.php",
+      "legacy_subcommand": "gc"
+    }
+  ],
+  "remaining_root_scripts": [
+    "bin/role-admin.php",
+    "bin/role-batch-perf.php",
+    "bin/role-bench.php",
+    "bin/role-janitor.php",
+    "bin/role-policy.php",
+    "bin/role-rebac.php"
+  ],
+  "remaining_unmigrated_operations": [
+    "policy:import",
+    "policy:activate",
+    "policy:export",
+    "policy:migrate",
+    "archive-audit",
+    "gc-audit",
+    "gc-replay",
+    "bench/perf flows"
+  ]
+}

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../src/Http/Role/Api/EvalController.php';
 
-use Http\Role\Api\EvalController;
+use App\Legacy\Http\Api\EvalController;
 use Symfony\Component\HttpFoundation\Request;
 
 $ctl = new EvalController();

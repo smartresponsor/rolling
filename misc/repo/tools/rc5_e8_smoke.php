@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../src/Http/Role/Api/ObligationController.php';
 
-use Http\Role\Api\ObligationController;
+use App\Legacy\Http\Api\ObligationController;
 use Symfony\Component\HttpFoundation\Request;
 
 $ctl = new ObligationController(__DIR__ . '/../var');

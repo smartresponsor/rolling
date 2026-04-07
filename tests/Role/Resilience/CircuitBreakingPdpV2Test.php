@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace Tests\Role\Resilience;
 
 use App\Net\Http\RemoteHttpException;
-use App\Resilience\Role\{CircuitBreakingPdpV2, Clock};
+use App\Legacy\Resilience\{CircuitBreakingPdpV2, Clock};
 use PHPUnit\Framework\TestCase;
-use Policy\Role\Obligation\Obligations;
-use Policy\Role\V2\DecisionWithObligations;
-use PolicyInterface\Role\PdpV2Interface;
-use src\Entity\Role\{Scope};
-use src\Entity\Role\PermissionKey;
-use src\Entity\Role\SubjectId;
+use App\Policy\Obligation\Obligations;
+use App\Policy\V2\DecisionWithObligations;
+use App\PolicyInterface\PdpV2Interface;
+use App\Entity\Role\Scope;
+use App\Entity\Role\PermissionKey;
+use App\Entity\Role\SubjectId;
 use Throwable;
 
 /**
@@ -24,7 +24,7 @@ use Throwable;
 final class CircuitBreakingPdpV2Test extends TestCase
 {
     /**
-     * @return \src\Entity\Role\SubjectId
+     * @return \App\Entity\Role\SubjectId
      */
     private function sid(): SubjectId
     {
@@ -32,7 +32,7 @@ final class CircuitBreakingPdpV2Test extends TestCase
     }
 
     /**
-     * @return \src\Entity\Role\PermissionKey
+     * @return \App\Entity\Role\PermissionKey
      */
     private function act(): PermissionKey
     {
@@ -40,7 +40,7 @@ final class CircuitBreakingPdpV2Test extends TestCase
     }
 
     /**
-     * @return \src\Entity\Role\Scope
+     * @return \App\Entity\Role\Scope
      */
     private function sc(): Scope
     {
@@ -91,9 +91,9 @@ final class CircuitBreakingPdpV2Test extends TestCase
             }
 
             /**
-             * @param \src\Entity\Role\SubjectId $s
-             * @param \src\Entity\Role\PermissionKey $a
-             * @param \src\Entity\Role\Scope $sc
+             * @param \App\Entity\Role\SubjectId $s
+             * @param \App\Entity\Role\PermissionKey $a
+             * @param \App\Entity\Role\Scope $sc
              * @param array $ctx
              * @return \Policy\Role\V2\DecisionWithObligations
              */

@@ -2,13 +2,10 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Approval\FileApprovalStore;
-use App\Service\Role\Approval\ApprovalGate;
+use App\Infrastructure\Approval\FileApprovalStore;
+use App\Service\Approval\ApprovalGate;
 
-require_once __DIR__ . '/../../src/Infra/Role/Approval/FileApprovalStore.php';
-require_once __DIR__ . '/../../src/Service/Role/Approval/ApprovalGate.php';
-require_once __DIR__ . '/../../src/ServiceInterface/Role/Approval/ApprovalStoreInterface.php';
-require_once __DIR__ . '/../../src/ServiceInterface/Role/Approval/ApprovalGateInterface.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 $id = $argv[1] ?? null;
 $actor = $argv[2] ?? 'approver';

@@ -1,0 +1,60 @@
+{
+  "wave": "w07",
+  "title": "policy-security-tree-collapse",
+  "base_slice": "rolling-06-infrastructure-tree-collapse-cumulative.zip",
+  "summary": {
+    "policy_role_tree_removed": true,
+    "policy_interface_role_tree_removed": true,
+    "security_role_tree_removed": true,
+    "moved_php_files": 32,
+    "compatibility_alias_symbols": 32
+  },
+  "migrations": {
+    "physical_moves": [
+      [
+        "src/Legacy/Policy/Role/*",
+        "src/Legacy/Policy/*"
+      ],
+      [
+        "src/Legacy/PolicyInterface/Role/*",
+        "src/Legacy/PolicyInterface/*"
+      ],
+      [
+        "src/Legacy/Security/Role/*",
+        "src/Legacy/Security/*"
+      ]
+    ],
+    "namespace_rewrites": [
+      [
+        "App\\Legacy\\Policy\\Role\\...",
+        "App\\Legacy\\Policy\\..."
+      ],
+      [
+        "App\\Legacy\\PolicyInterface\\Role\\...",
+        "App\\Legacy\\PolicyInterface\\..."
+      ],
+      [
+        "App\\Legacy\\Security\\Role\\...",
+        "App\\Legacy\\Security\\..."
+      ]
+    ]
+  },
+  "checks": {
+    "php_lint_all": "pass",
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass"
+  },
+  "metrics": {
+    "psr4_entries_total": 16,
+    "legacy_psr4_entries_total": 14,
+    "files_entries_total": 7,
+    "non_app_namespace_files": 3,
+    "app_namespace_files": 373,
+    "files_under_src_legacy": 303
+  },
+  "diff": {
+    "modified_files": 41,
+    "added_files": 33,
+    "deleted_files": 32
+  }
+}

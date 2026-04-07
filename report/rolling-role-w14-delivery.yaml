@@ -1,0 +1,18 @@
+wave: w14
+message: controller-edge-layer-extraction
+base: rolling-13-admin-approval-canonical-extraction-cumulative.zip
+artifacts:
+  touched: rolling-14-controller-edge-layer-extraction-touched.zip
+  cumulative: rolling-14-controller-edge-layer-extraction-cumulative.zip
+stats:
+  modified_files: 27
+  added_files: 22
+  deleted_files: 0
+checks:
+  php_lint_all: pass
+  autoload_continuity_audit: pass
+  namespace_audit: pass
+  no_namespace_audit: pass
+  canon_scan: pass
+remaining_tail:
+  - src/Legacy/Entity/Role

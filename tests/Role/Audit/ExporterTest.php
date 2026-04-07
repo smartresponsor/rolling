@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Tests\Role\Audit;
 
-use App\Audit\Role\{AuditRecord};
-use App\Audit\Role\Export\{ExporterInterface, JsonlExporter, RetryingExporter};
+use App\Infrastructure\Audit\{AuditRecord};
+use App\InfrastructureInterface\Audit\Export\ExporterInterface;
+use App\Infrastructure\Audit\Export\{JsonlExporter, RetryingExporter};
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -23,7 +24,7 @@ final class ExporterTest extends TestCase
     public function testJsonlExporterWritesLines(): void
     {
         $path = sys_get_temp_dir() . '/audit.jsonl';
-        @unlink($path);
+        self::removeFile($path);
 
         $exp = new JsonlExporter();
         $recs = [
@@ -36,7 +37,7 @@ final class ExporterTest extends TestCase
         $this->assertCount(2, $lines);
         $row = json_decode($lines[0], true);
         $this->assertSame('u1', $row['subjectId']);
-        @unlink($path);
+        self::removeFile($path);
     }
 
     /**
@@ -62,12 +63,19 @@ final class ExporterTest extends TestCase
         };
         $exp = new RetryingExporter($inner, retries: 2, baseMs: 10);
         $path = sys_get_temp_dir() . '/audit_retry.jsonl';
-        @unlink($path);
+        self::removeFile($path);
         try {
             $exp->export([new AuditRecord(1, 'u', 'a', 'global', 'ALLOW')], $path);
         } catch (\Throwable $e) {
         }
         $this->assertFileExists($path);
-        @unlink($path);
+        self::removeFile($path);
+    }
+
+    private static function removeFile(string $path): void
+    {
+        if (is_file($path)) {
+            unlink($path);
+        }
     }
 }

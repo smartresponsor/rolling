@@ -2,9 +2,9 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Audit\FileAuditTrail;
-use App\Service\Role\Mask\DataMasker;
-use App\Service\Role\Obligation\BasicObligationRunner;
+use App\Infrastructure\Audit\FileAuditTrail;
+use App\Service\Mask\DataMasker;
+use App\Service\Obligation\BasicObligationRunner;
 
 require_once __DIR__ . '/../../src/Infra/Role/Audit/FileAuditTrail.php';
 require_once __DIR__ . '/../../src/Service/Role/Mask/DataMasker.php';

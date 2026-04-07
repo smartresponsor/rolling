@@ -1,0 +1,21 @@
+{
+  "wave": "w17",
+  "title": "infrastructure-observability-canonical-extraction",
+  "modified_files": 10,
+  "added_files": 26,
+  "deleted_files": 0,
+  "canonical_infrastructure_interface_files_added": 6,
+  "canonical_infrastructure_files_added": 12,
+  "canonical_observability_files_added": 6,
+  "compatibility_files_added": 1,
+  "checks": {
+    "php_lint_all": "pass",
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass",
+    "no_namespace_audit": "pass",
+    "canon_scan": "pass"
+  },
+  "remaining_structural_tail": [
+    "src/Legacy/Entity/Role"
+  ]
+}

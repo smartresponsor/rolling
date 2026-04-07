@@ -2,8 +2,8 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Rebac\InMemoryGraphStore;
-use App\Service\Role\Rebac\NamespaceConstraint;
+use App\Infrastructure\Rebac\InMemoryGraphStore;
+use App\Service\Rebac\NamespaceConstraint;
 
 // Autoload (direct requires for demo)
 require_once __DIR__ . '/../../src/Infra/Role/Rebac/InMemoryGraphStore.php';

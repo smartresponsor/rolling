@@ -1,0 +1,9 @@
+wave: w11
+message: policy-security-canonical-extraction
+summary:
+  modified_files: 4
+  added_files: 16
+  deleted_files: 0
+outputs:
+  touched_archive: rolling-11-policy-security-canonical-extraction-touched.zip
+  cumulative_archive: rolling-11-policy-security-canonical-extraction-cumulative.zip

@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace Tests\Role\Policy\Registry;
 
-use App\Policy\Role\Obligation\Applier\ArrayApplier;
+use App\Policy\Obligation\Applier\ArrayApplier;
 use App\Policy\Role\Registry\Policy\Role\Registry\PolicyRegistry;
 use App\Policy\Role\Registry\Policy\Role\Registry\InMemorySource;
 use PHPUnit\Framework\TestCase;
-use Policy\Role\Decorator\V2\RegistryBackedPdp;
-use Policy\Role\V2\DecisionWithObligations;
-use PolicyInterface\Role\PdpV2Interface;
-use src\Entity\Role\{Scope};
-use src\Entity\Role\PermissionKey;
-use src\Entity\Role\SubjectId;
+use App\Legacy\Policy\Decorator\V2\RegistryBackedPdp;
+use App\Policy\V2\DecisionWithObligations;
+use App\PolicyInterface\PdpV2Interface;
+use App\Entity\Role\Scope;
+use App\Entity\Role\PermissionKey;
+use App\Entity\Role\SubjectId;
 
 /**
  *
@@ -30,9 +30,9 @@ final class RegistryBackedPdpTest extends TestCase
     {
         return new class implements PdpV2Interface {
             /**
-             * @param \src\Entity\Role\SubjectId $s
-             * @param \src\Entity\Role\PermissionKey $a
-             * @param \src\Entity\Role\Scope $sc
+             * @param \App\Entity\Role\SubjectId $s
+             * @param \App\Entity\Role\PermissionKey $a
+             * @param \App\Entity\Role\Scope $sc
              * @param array $c
              * @return \Policy\Role\V2\DecisionWithObligations
              */

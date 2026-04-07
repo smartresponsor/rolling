@@ -1,0 +1,20 @@
+{
+  "wave": "w46",
+  "title": "compatibility console polyfill dedup",
+  "base": "rolling-45-compatibility-core-stabilization-cumulative.zip",
+  "changes": {
+    "modified_files": 1,
+    "added_files": 0,
+    "deleted_files": 2,
+    "deleted_polyfills": [
+      "src/Legacy/Compatibility/symfony_console_input_polyfill.php",
+      "src/Legacy/Compatibility/symfony_console_output_polyfill.php"
+    ]
+  },
+  "checks": {
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass",
+    "no_namespace_audit": "pass",
+    "canon_scan": "pass"
+  }
+}

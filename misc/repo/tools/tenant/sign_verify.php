@@ -2,9 +2,9 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Tenant\InMemoryTenantKeyRepository;
-use Service\Role\Security\HmacSigner;
-use Tenant\TenantKeyProvider;
+use App\Infrastructure\Tenant\InMemoryTenantKeyRepository;
+use App\Legacy\Service\Security\HmacSigner;
+use App\Service\Tenant\TenantKeyProvider;
 
 require_once __DIR__ . '/../../src/Infra/Role/Tenant/InMemoryTenantKeyRepository.php';
 require_once __DIR__ . '/../../src/Service/Role/Tenant/TenantKeyProvider.php';

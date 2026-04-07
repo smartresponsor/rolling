@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\Role\Acl;
 
-use App\Acl\Role\Adapter\JsonAclSource;
+use App\Infrastructure\Acl\Source\JsonAclSource;
 use PHPUnit\Framework\TestCase;
-use src\Entity\Role\{Scope};
-use src\Entity\Role\SubjectId;
+use App\Entity\Role\Scope;
+use App\Entity\Role\SubjectId;
 
 /**
  *

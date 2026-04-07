@@ -1,0 +1,51 @@
+{
+  "scanned_php_files": 316,
+  "files_without_namespace": 12,
+  "files_under_src_legacy": 291,
+  "app_namespace_files": 165,
+  "non_app_namespace_files": 139,
+  "legacy_non_app_namespace_files": 139,
+  "non_legacy_non_app_namespace_files": 0,
+  "non_legacy_non_app_entries": [],
+  "no_namespace_entries": [
+    {
+      "path": "bin/canon-scan.php"
+    },
+    {
+      "path": "bin/namespace-audit.php"
+    },
+    {
+      "path": "bin/role-admin.php"
+    },
+    {
+      "path": "bin/role-batch-perf.php"
+    },
+    {
+      "path": "bin/role-bench.php",
+      "symbol": "SimpleCache"
+    },
+    {
+      "path": "bin/role-janitor.php"
+    },
+    {
+      "path": "bin/role-policy.php"
+    },
+    {
+      "path": "bin/role-rebac.php"
+    },
+    {
+      "path": "src/Legacy/Compatibility/role_sdk_exception_aliases.php"
+    },
+    {
+      "path": "src/Legacy/Http/Role/Role/Api/_note_consistency_dep.php"
+    },
+    {
+      "path": "src/Legacy/Http/Role/Role/SymfonyBundle/Resources/config/services.php"
+    },
+    {
+      "path": "src/Legacy/Service/Role/RoleResolver.php",
+      "symbol": "RoleResolver"
+    }
+  ],
+  "generated_at_utc": "2026-03-18T21:25:17Z"
+}

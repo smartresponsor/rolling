@@ -1,0 +1,8 @@
+wave: w18
+message: security-key-residency-infrastructure-extraction
+list
+modified_files: 13
+added_files: 15
+deleted_files: 0
+remaining_structural_tail:
+  - src/Legacy/Entity/Role

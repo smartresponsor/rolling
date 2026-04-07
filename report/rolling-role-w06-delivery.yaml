@@ -1,0 +1,15 @@
+wave: w06
+base_snapshot: rolling-05-service-tree-collapse-cumulative.zip
+message: infrastructure-tree-collapse
+modified_files: 36
+added_files: 32
+deleted_files: 31
+moved_infrastructure_php_files: 31
+alias_entries_added: 31
+checks:
+  php_lint_all: pass
+  autoload_continuity_audit: pass
+  namespace_audit: pass
+artifacts:
+  touched: rolling-06-infrastructure-tree-collapse-touched.zip
+  cumulative: rolling-06-infrastructure-tree-collapse-cumulative.zip

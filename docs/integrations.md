@@ -20,9 +20,9 @@ cd deploy/integrations/envoy && bash demo.sh
 
 ## Symfony bundle
 
-- Namespace: `App\Http\Role\SymfonyBundle`.
-- Config keys: `role.endpoint`, `role.hmac_key`, `role.timeout_ms`.
-- Client class: `App\Http\Role\Client` (`check(subject, relation, resource, context)`).
-- Register bundle and set config in your app, then DI will wire `Client`.
+- Namespace: `App\Infrastructure\Symfony\RoleBundle` (legacy bridge aliases remain available during migration).
+- Config keys live under canonical `role.pdp.*` and `role.security.*` trees via `App\Infrastructure\Symfony\DependencyInjection\Configuration`.
+- Primary HTTP access entrypoint is `App\Controller\V2\AccessController`; legacy integration bundle classes remain bridge-only during migration.
+- Register the canonical bundle and config; legacy `App\Integration\Symfony\...` / `App\Legacy\Http\SymfonyBundle\...` names are bridge-only compatibility paths.
 
 All pieces comply with layer-first isolation and can be moved under your mono-repo roots.

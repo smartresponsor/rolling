@@ -1,12 +1,12 @@
 #!/usr/bin/env php
 <?php
 declare(strict_types=1);
-require __DIR__ . '/../src/Service/Role/Explain/TupleReader.php';
-require __DIR__ . '/../src/Service/Role/Audit/Logger.php';
+require __DIR__ . '/../src/Service/Explain/TupleReader.php';
+require __DIR__ . '/../src/Service/Audit/Logger.php';
 require __DIR__ . '/../src/Http/Role/Api/Consistency.php';
 require __DIR__ . '/../src/Http/Role/Api/CheckController.php';
 
-use Http\Role\Api\CheckController;
+use App\Legacy\Http\Api\CheckController;
 use Symfony\Component\HttpFoundation\Request;
 
 [$_, $subject, $relation, $resource, $tenant] = $argv + [null, null, null, null, 't1'];

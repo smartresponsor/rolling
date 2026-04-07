@@ -1,0 +1,23 @@
+{
+  "wave": "w12",
+  "title": "service-interface-and-application-service-extraction",
+  "base_snapshot": "rolling-11-policy-security-canonical-extraction-cumulative.zip",
+  "canonical_service_files_added": 18,
+  "canonical_service_interface_files_added": 11,
+  "compatibility_files_added": 1,
+  "modified_files": 19,
+  "added_files": 31,
+  "deleted_files": 0,
+  "checks": {
+    "php_lint_all": "pass",
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass",
+    "no_namespace_audit": "pass",
+    "canon_scan": "pass"
+  },
+  "notes": [
+    "Extracted winning application-service slice from Legacy/Service* into canonical src/Service* and src/ServiceInterface*.",
+    "Legacy classes remain as donor/compatibility zone through legacy_role_w12_aliases.php.",
+    "Remaining forbidden directory is src/Legacy/Entity/Role under the allowed entity-scoped exception policy."
+  ]
+}

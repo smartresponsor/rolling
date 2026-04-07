@@ -1,0 +1,11 @@
+wave: w26
+base: rolling-25-legacy-service-bridge-thinning-cumulative.zip
+modified_count: 16
+added_count: 7
+deleted_count: 0
+canonical_service_files_added: 4
+canonical_service_interface_files_added: 2
+legacy_bridge_files_modified: 6
+compatibility_files_added: 1
+residual_structural_tail:
+  - src/Legacy/Entity/Role

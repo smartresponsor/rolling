@@ -24,7 +24,9 @@ foreach ($rules as $i => $r) {
         $errors[] = ['idx' => $i, 'msg' => 'missing id'];
         continue;
     }
-    if (!preg_match('/^[a-z0-9_.\-]+$/', $id)) $errors . append = ['idx' => $i, 'id' => $id, 'msg' => 'invalid id chars'];
+    if (!preg_match('/^[a-z0-9_.\-]+$/', $id)) {
+        $errors[] = ['idx' => $i, 'id' => $id, 'msg' => 'invalid id chars'];
+    }
     if (isset($seen[$id])) $errors[] = ['idx' => $i, 'id' => $id, 'msg' => 'duplicate id'];
     $seen[$id] = true;
 

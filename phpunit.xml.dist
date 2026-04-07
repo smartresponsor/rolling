@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory="var/phpunit/cache"
+         colors="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         failOnDeprecation="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnPhpunitDeprecations="true">
+    <testsuites>
+        <testsuite name="unit">
+            <directory>tests/Role</directory>
+            <directory>tests/SDK</directory>
+        </testsuite>
+        <testsuite name="e2e">
+            <directory>tests/E2E</directory>
+            <directory>tests/Integration</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="display_errors" value="1"/>
+        <server name="APP_ENV" value="test"/>
+    </php>
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </source>
+</phpunit>

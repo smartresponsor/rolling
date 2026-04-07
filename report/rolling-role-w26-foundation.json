@@ -1,0 +1,23 @@
+{
+  "wave": "w26",
+  "baseline": "rolling-w25-cumulative-snapshot.zip",
+  "capabilities": {
+    "threshold_gating": true,
+    "baseline_file_comparison": true,
+    "comparative_perf_gating": true,
+    "comparative_bench_gating": true
+  },
+  "new_files": [
+    "src/Infrastructure/Console/Support/JsonReportLoader.php",
+    "src/Infrastructure/Console/Support/PerfRegressionComparator.php",
+    "src/Infrastructure/Console/Support/BenchRegressionComparator.php",
+    "tests/Role/Console/RolePerfBaselineComparisonCommandTest.php",
+    "docs/canon/rolling-role-w26-baseline-regression-comparison.md"
+  ],
+  "updated_files": [
+    "composer.json",
+    "src/Infrastructure/Console/Command/PerfRegressionCheckCommand.php",
+    "src/Infrastructure/Console/Command/BenchRegressionCheckCommand.php",
+    "src/Infrastructure/Console/Support/DefaultRoleCommandFactory.php"
+  ]
+}

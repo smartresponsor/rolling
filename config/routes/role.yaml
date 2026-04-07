@@ -1,9 +1,9 @@
 role_access_check:
   path: /v2/access/check
-  controller: App\Integration\Symfony\Controller\RoleApiV2Controller::check
+  controller: App\Controller\V2\AccessController::check
   methods: [ POST ]
 
 role_access_check_batch:
   path: /v2/access/check:batch
-  controller: App\Integration\Symfony\Controller\RoleApiV2Controller::checkBatch
+  controller: App\Controller\V2\AccessController::checkBatch
   methods: [ POST ]

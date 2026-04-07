@@ -1,0 +1,24 @@
+{
+  "wave": "w27",
+  "message": "pipeline-model-pel-tenant-canonical-extraction",
+  "modified_files": 0,
+  "added_files": 0,
+  "deleted_files": 0,
+  "canonical_service_files_added": 0,
+  "canonical_service_interface_files_added": 0,
+  "remaining_structural_tail": [
+    "src/Legacy/Entity/Role"
+  ],
+  "checks": {
+    "php_l_changed_files": "pass",
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass",
+    "no_namespace_audit": "pass",
+    "canon_scan": "pass"
+  },
+  "notes": [
+    "Canonical Pipeline, Model, Pel, and Tenant backup/quota/restore slices added under App\\Service and App\\ServiceInterface.",
+    "Legacy service files on those slices converted to bridge/alias layers.",
+    "Controllers/tests/tools updated to canonical App layer where directly used."
+  ]
+}

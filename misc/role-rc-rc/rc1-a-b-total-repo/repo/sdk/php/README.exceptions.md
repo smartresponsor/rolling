@@ -3,7 +3,7 @@
 Пример:
 
 ```php
-use Http\ResponseErrorMapper;
+use App\Legacy\Http\ResponseErrorMapper;
 
 $res = $http->sendRequest($req);
 ResponseErrorMapper::throwOnError($res); // кидает исключение по статусу

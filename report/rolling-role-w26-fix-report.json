@@ -1,0 +1,44 @@
+{
+  "wave": "w26",
+  "base": "rolling-25-legacy-service-bridge-thinning-cumulative.zip",
+  "modified_files": [
+    "misc/repo/tools/tenant/keygen.php",
+    "misc/repo/tools/tenant/sign_verify.php",
+    "report/rolling-role-w10-namespace-audit.json",
+    "report/rolling-role-w10-no-namespace-audit.json",
+    "report/rolling-role-w12-autoload-audit.json",
+    "src/Controller/Api/SodController.php",
+    "src/Legacy/Compatibility/legacy_role_namespace_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w04_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w05_aliases.php",
+    "src/Legacy/Service/Mask/DataMasker.php",
+    "src/Legacy/Service/Sod/SodGuard.php",
+    "src/Legacy/Service/Tenant/SimpleTenantContextResolver.php",
+    "src/Legacy/Service/Tenant/TenantKeyProvider.php",
+    "src/Legacy/ServiceInterface/Tenant/TenantContextResolverInterface.php",
+    "src/Legacy/ServiceInterface/Tenant/TenantKeyProviderInterface.php",
+    "tool/obligation/demo.php"
+  ],
+  "added_files": [
+    "src/Legacy/Compatibility/legacy_role_w26_aliases.php",
+    "src/Service/Mask/DataMasker.php",
+    "src/Service/Sod/SodGuard.php",
+    "src/Service/Tenant/SimpleTenantContextResolver.php",
+    "src/Service/Tenant/TenantKeyProvider.php",
+    "src/ServiceInterface/Tenant/TenantContextResolverInterface.php",
+    "src/ServiceInterface/Tenant/TenantKeyProviderInterface.php"
+  ],
+  "deleted_files": [],
+  "modified_count": 16,
+  "added_count": 7,
+  "deleted_count": 0,
+  "summary": {
+    "canonical_service_files_added": 4,
+    "canonical_service_interface_files_added": 2,
+    "legacy_bridge_files_modified": 6,
+    "compatibility_files_added": 1,
+    "residual_structural_tail": [
+      "src/Legacy/Entity/Role"
+    ]
+  }
+}

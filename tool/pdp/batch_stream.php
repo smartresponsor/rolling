@@ -2,8 +2,8 @@
 <?php
 declare(strict_types=1);
 
-use App\Service\Role\Pdp\BatchDecision;
-use App\Service\Role\Pdp\Dto\DecisionRequest;
+use App\Service\Pdp\BatchDecision;
+use App\Service\Pdp\Dto\DecisionRequest;
 
 require_once __DIR__ . '/../../src/Service/Role/Pdp/BatchDecision.php';
 require_once __DIR__ . '/../../src/Service/Role/Pdp/Dto/DecisionRequest.php';

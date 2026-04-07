@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Role\Housekeeping;
 
-use App\Housekeeping\Role\Archive\JsonlAuditArchiver;
+use App\Infrastructure\Housekeeping\Archive\JsonlAuditArchiver;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -28,13 +28,20 @@ final class ArchiveTest extends TestCase
         }
         $arch = new JsonlAuditArchiver($pdo);
         $path = sys_get_temp_dir() . '/audit_arch_test.jsonl';
-        @unlink($path);
+        self::removeFile($path);
         $res = $arch->archiveOlderThanEpoch(10, $path, 2);
         $this->assertSame(5, $res['exported']);
         $this->assertSame(5, $res['deleted']);
         $this->assertFileExists($path);
         $lines = file($path, FILE_IGNORE_NEW_LINES);
         $this->assertCount(5, $lines);
-        @unlink($path);
+        self::removeFile($path);
+    }
+
+    private static function removeFile(string $path): void
+    {
+        if (is_file($path)) {
+            unlink($path);
+        }
     }
 }

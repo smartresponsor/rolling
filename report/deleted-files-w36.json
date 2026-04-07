@@ -1,0 +1,24 @@
+{
+  "deleted_files": [
+    "src/Legacy/Compatibility/legacy_role_w04_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w05_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w06_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w07_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w08_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w09_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w10_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w11_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w12_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w13_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w14_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w16_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w17_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w18_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w19_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w23_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w26_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w27_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w28_aliases.php",
+    "src/Legacy/Compatibility/legacy_role_w35_aliases.php"
+  ]
+}

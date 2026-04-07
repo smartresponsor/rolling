@@ -1,0 +1,21 @@
+{
+  "wave": "w51",
+  "title": "console polyfill removal",
+  "base": "rolling-50-compatibility-core-minimum-cumulative.zip",
+  "deleted_files": [
+    "src/Legacy/Compatibility/legacy_role_compatibility_core.php",
+    "src/Legacy/Compatibility/symfony_console_polyfill.php"
+  ],
+  "modified_files": [
+    "src/Legacy/Compatibility/legacy_role_aliases_bootstrap.php"
+  ],
+  "checks": {
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass",
+    "no_namespace_audit": "pass",
+    "canon_scan": "pass"
+  },
+  "notes": [
+    "symfony/console is already a required package; internal console fallback is no longer needed"
+  ]
+}

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../src/Http/Role/Api/AdminController.php';
 
-use Http\Role\Api\AdminController;
+use App\Legacy\Http\Api\AdminController;
 use Symfony\Component\HttpFoundation\Request;
 
 $ctl = new AdminController(__DIR__ . '/../var');

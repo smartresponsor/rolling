@@ -2,9 +2,9 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Rebac\NullRebacClient;
-use App\Service\Role\Pdp\Policy\InMemoryPolicyProvider;
-use App\Service\Role\Pdp\Policy\TupleMapper;
+use App\Infrastructure\Rebac\NullRebacClient;
+use App\Service\Pdp\Policy\InMemoryPolicyProvider;
+use App\Service\Pdp\Policy\TupleMapper;
 
 require_once __DIR__ . '/../../src/Service/Role/Pdp/Policy/InMemoryPolicyProvider.php';
 require_once __DIR__ . '/../../src/Service/Role/Pdp/Policy/TupleMapper.php';

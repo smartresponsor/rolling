@@ -1,0 +1,10 @@
+{
+  "name": "default-policy",
+  "version": "v1",
+  "rules": [
+    {
+      "effect": "allow",
+      "relation": "viewer"
+    }
+  ]
+}

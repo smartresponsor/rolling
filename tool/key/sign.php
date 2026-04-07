@@ -2,12 +2,12 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Key\FileKeyProvider;
-use Service\Role\Security\HmacSigner;
+use App\Infrastructure\Key\FileKeyProvider;
+use App\Legacy\Service\Security\HmacSigner;
 
-require_once __DIR__ . '/../../src/Infra/Role/Key/FileKeyProvider.php';
+require_once __DIR__ . '/../../src/Infrastructure/Key/FileKeyProvider.php';
 require_once __DIR__ . '/../../src/Service/Role/Security/HmacSigner.php';
-require_once __DIR__ . '/../../src/ServiceInterface/Role/Key/KeyProviderInterface.php';
+require_once __DIR__ . '/../../src/ServiceInterface/Key/KeyProviderInterface.php';
 
 $tenant = $argv[1] ?? 't1';
 $payload = $argv[2] ?? 'example';

@@ -2,7 +2,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Service\Role\Policy\PelCompiler;
+use App\Service\Policy\PelCompiler;
 
 require_once __DIR__ . '/../../src/Service/Role/Policy/PelCompiler.php';
 require_once __DIR__ . '/../../src/ServiceInterface/Role/Policy/CompilerInterface.php';

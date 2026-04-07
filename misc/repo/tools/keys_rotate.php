@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../src/Security/Role/Keys/KeyStore.php';
 
-use src\Security\Role\Keys\KeyStore;
+use App\Legacy\Security\Keys\KeyStore;
 
 $dir = $argv[1] ?? __DIR__ . '/../var/keys';
 $keys = new KeyStore($dir);

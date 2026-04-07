@@ -1,0 +1,16 @@
+{
+  "wave": "w09",
+  "base": "rolling-08-http-tree-collapse-cumulative.zip",
+  "psr4_entries_total": 2,
+  "legacy_psr4_entries_total": 0,
+  "files_entries_total": 9,
+  "non_app_namespace_files": 38,
+  "remaining_role_directories_total": 5,
+  "remaining_role_directories": [
+    "/mnt/data/rolling_w09/src/Legacy/Acl/Role",
+    "/mnt/data/rolling_w09/src/Legacy/Domain/Role",
+    "/mnt/data/rolling_w09/src/Legacy/Entity/Role",
+    "/mnt/data/rolling_w09/src/Legacy/Domain/Role/Model",
+    "/mnt/data/rolling_w09/src/Legacy/Acl/Role/Source"
+  ]
+}

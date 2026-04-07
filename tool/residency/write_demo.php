@@ -2,12 +2,12 @@
 <?php
 declare(strict_types=1);
 
-use App\Infra\Role\Residency\ResidencyStorage;
-use App\Service\Role\Residency\StaticResidencyPolicy;
+use App\Infrastructure\Residency\ResidencyStorage;
+use App\Service\Residency\StaticResidencyPolicy;
 
-require_once __DIR__ . '/../../src/Infra/Role/Residency/ResidencyStorage.php';
-require_once __DIR__ . '/../../src/Service/Role/Residency/StaticResidencyPolicy.php';
-require_once __DIR__ . '/../../src/ServiceInterface/Role/Residency/ResidencyPolicyInterface.php';
+require_once __DIR__ . '/../../src/Infrastructure/Residency/ResidencyStorage.php';
+require_once __DIR__ . '/../../src/Service/Residency/StaticResidencyPolicy.php';
+require_once __DIR__ . '/../../src/ServiceInterface/Residency/ResidencyPolicyInterface.php';
 
 $tenant = $argv[1] ?? 't1';
 $kind = $argv[2] ?? 'policy';

@@ -1,10 +1,10 @@
 #!/usr/bin/env php
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/../src/Service/Role/Audit/Redactor.php';
-require_once __DIR__ . '/../src/Service/Role/Audit/Logger.php';
+require_once __DIR__ . '/../src/Service/Audit/Redactor.php';
+require_once __DIR__ . '/../src/Service/Audit/Logger.php';
 
-use Audit\Logger;
+use App\Service\Audit\Logger;
 
 $repo = realpath(__DIR__ . '/..');
 $log = new Logger($repo . '/var/log/role');

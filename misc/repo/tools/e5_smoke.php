@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../src/Http/Role/Api/ContextController.php';
 
-use Http\Role\Api\ContextController;
+use App\Legacy\Http\Api\ContextController;
 use Symfony\Component\HttpFoundation\Request;
 
 putenv('ROLE_SUBJECT=u42');

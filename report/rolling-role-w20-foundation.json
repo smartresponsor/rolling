@@ -1,0 +1,20 @@
+{
+  "wave": "w20",
+  "cli_layer": "symfony_console",
+  "command_classes": 8,
+  "preserved_command_surface": [
+    "app:role:fixture:list",
+    "app:role:fixture:show",
+    "app:role:fixture:smoke",
+    "app:role:scenario:list",
+    "app:role:test:scenario",
+    "app:role:propagation:preview",
+    "app:role:propagation:run",
+    "app:role:elimination:preview",
+    "app:role:elimination:run",
+    "app:role:explain",
+    "app:role:audit"
+  ],
+  "framework_bundle": false,
+  "di_container_registration": false
+}

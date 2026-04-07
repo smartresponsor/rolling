@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../src/Http/Role/Api/SodController.php';
 
-use Http\Role\Api\SodController;
+use App\Legacy\Http\Api\SodController;
 use Symfony\Component\HttpFoundation\Request;
 
 $ctl = new SodController();

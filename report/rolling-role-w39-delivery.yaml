@@ -1,0 +1,20 @@
+wave: w39
+base: rolling-38-compatibility-alias-usage-pruning-cumulative.zip
+message: role-resolver-alias-pruning
+artifacts:
+  touched: rolling-39-role-resolver-alias-pruning-touched.zip
+  cumulative: rolling-39-role-resolver-alias-pruning-cumulative.zip
+checks:
+  autoload_continuity_audit: pass
+  namespace_audit: pass
+  no_namespace_audit: pass
+  canon_scan: pass
+changes:
+  modified_files: 1
+  added_files: 5
+  deleted_files: 0
+result:
+  removed_internal_aliases: 1
+  remaining_internal_aliases: 0
+  remaining_structural_tail:
+    - src/Legacy/Entity/Role

@@ -1,0 +1,27 @@
+{
+  "wave": "w19",
+  "summary": "bootstrap hardening and obligation-store interface normalization",
+  "metrics": {
+    "modified_files": 6,
+    "added_files": 2,
+    "deleted_files": 0,
+    "dynamic_alias_bootstrap": true,
+    "canonical_obligation_store_interface_namespace": true,
+    "residual_structural_tail": [
+      "src/Legacy/Entity/Role"
+    ]
+  },
+  "modified": [
+    "report/rolling-role-w10-namespace-audit.json",
+    "report/rolling-role-w10-no-namespace-audit.json",
+    "report/rolling-role-w12-autoload-audit.json",
+    "src/Infrastructure/Obligation/ObligationFsStore.php",
+    "src/Legacy/Compatibility/legacy_role_aliases_bootstrap.php",
+    "src/ServiceInterface/ObligationStoreInterface.php"
+  ],
+  "added": [
+    "docs/canon/rolling-role-w19-bootstrap-and-interface-normalization.md",
+    "src/Legacy/Compatibility/legacy_role_w19_aliases.php"
+  ],
+  "deleted": []
+}

@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Infra\Cache\InMemoryCache;
-use App\Service\Role\Pdp\Cache\PdpCache;
-use App\ServiceInterface\Role\Pdp\PolicyDecisionProviderInterface;
+use App\Service\Pdp\Cache\PdpCache;
+use App\ServiceInterface\Pdp\PolicyDecisionProviderInterface;
 
 require_once __DIR__ . '/../../src/ServiceInterface/Role/Pdp/PolicyDecisionProviderInterface.php';
 require_once __DIR__ . '/../../src/Service/Role/Pdp/Cache/PdpCache.php';

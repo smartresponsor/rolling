@@ -1,0 +1,21 @@
+{
+  "wave": "w22",
+  "title": "legacy-http-policy-security-bridge-thinning",
+  "base_cumulative": "rolling-21-legacy-infrastructure-observability-bridge-thinning-cumulative.zip",
+  "modified_files": 33,
+  "added_files": 0,
+  "deleted_files": 0,
+  "legacy_http_bridged": 19,
+  "legacy_policy_bridged": 10,
+  "legacy_security_bridged": 4,
+  "remaining_structural_tail": [
+    "src/Legacy/Entity/Role"
+  ],
+  "checks": {
+    "php_l_modified_files": "pass",
+    "autoload_continuity_audit": "pass",
+    "namespace_audit": "pass",
+    "no_namespace_audit": "pass",
+    "canon_scan": "pass"
+  }
+}

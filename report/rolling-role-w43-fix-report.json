@@ -1,0 +1,11 @@
+{
+  "wave": "w43",
+  "title": "remaining-internal-alias-pruning",
+  "base": "rolling-42-internal-unused-alias-pruning-cumulative.zip",
+  "modified_files": [
+    "src/Legacy/Compatibility/legacy_role_w36_aliases.php"
+  ],
+  "removed_internal_unused_aliases": 87,
+  "remaining_internal_used_aliases": 8,
+  "left_structural_tail": "none"
+}
