@@ -1,28 +1,68 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
+declare(strict_types=1);
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+$finder = Finder::create()
     ->in([
-        __DIR__ . '/bin',
-        __DIR__ . '/config',
-        __DIR__ . '/Http',
-        __DIR__ . '/Policy',
-        __DIR__ . '/PolicyInterface',
-        __DIR__ . '/public',
-        __DIR__ . '/Service',
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
-        __DIR__ . '/tools',
+        __DIR__.'/src',
+        __DIR__.'/tests',
+        __DIR__.'/config',
     ])
-    ->notPath('reference.php')
+    ->exclude([
+        'var',
+        'vendor',
+        'node_modules',
+        'public/build',
+    ])
     ->name('*.php');
 
-return (new PhpCsFixer\Config())
+$config = new Config();
+
+$config
     ->setRiskyAllowed(true)
+    ->setUsingCache(true)
+    ->setCacheFile(__DIR__.'/var/.php-cs-fixer.cache')
     ->setRules([
-        '@PER-CS' => true,
-        'array_syntax' => ['syntax' => 'short'],
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+
+        // keep strict_types
         'declare_strict_types' => true,
+
+        // ok to delete unused imports
         'no_unused_imports' => true,
-        'single_quote' => true,
+        'ordered_imports' => [
+            'imports_order' => ['class', 'function', 'const'],
+            'sort_algorithm' => 'alpha',
+        ],
+        'single_import_per_statement' => true,
+
+        // risky (category 1) — force OFF
+        'no_unreachable_default_argument_value' => false,
+        'logical_operators' => false,
+        'error_suppression' => false,
+        'set_type_to_cast' => false,
+        'static_lambda' => false,
+        'psr_autoloading' => false,
+        'string_line_ending' => false,
+        'non_printable_character' => false,
+        'ereg_to_preg' => false,
+        'modern_serialization_methods' => false,
+        'native_function_invocation' => false,
+        'native_constant_invocation' => false,
+        'no_alias_functions' => false,
+        'function_to_constant' => false,
+        'no_php4_constructor' => false,
+        'ordered_traits' => false,
+        'no_homoglyph_names' => false,
+        'single_line_comment_style' => false,
+        'phpdoc_to_comment' => false,
+        'no_superfluous_phpdoc_tags' => false,
+        'comment_to_phpdoc' => false,
     ])
     ->setFinder($finder);
+
+return $config;
