@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Acl\Source;
@@ -37,7 +38,9 @@ final class DefaultGithubResolver implements GithubSubjectResolver
     public function githubLogin(SubjectId $subject): ?string
     {
         $s = $subject->value();
-        if (str_starts_with($s, 'github:')) return substr($s, 7);
+        if (str_starts_with($s, 'github:')) {
+            return substr($s, 7);
+        }
         return $s; // fallback — прямое соответствие
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -25,9 +26,7 @@ final class PolicyEngine implements PolicyEngineInterface
     /**
      * @param string $strategy
      */
-    public function __construct(private readonly string $strategy = 'affirmative')
-    {
-    }
+    public function __construct(private readonly string $strategy = 'affirmative') {}
 
     /**
      * @return string
@@ -71,9 +70,13 @@ final class PolicyEngine implements PolicyEngineInterface
         foreach ($this->voters as $id => $voter) {
             $res = $voter->vote($subject, $action, $resource, $context);
             $trace[] = ['voter' => $id, 'result' => $res];
-            if ($res === VoterInterface::GRANT) $grants++;
-            elseif ($res === VoterInterface::DENY) $denies++;
-            else $abstains++;
+            if ($res === VoterInterface::GRANT) {
+                $grants++;
+            } elseif ($res === VoterInterface::DENY) {
+                $denies++;
+            } else {
+                $abstains++;
+            }
         }
 
         $strategy = $this->strategy;
@@ -82,24 +85,34 @@ final class PolicyEngine implements PolicyEngineInterface
         switch ($strategy) {
             case 'unanimous':
                 // All non-abstain must GRANT, and no DENY.
-                if ($denies > 0) return Decision::deny($meta);
+                if ($denies > 0) {
+                    return Decision::deny($meta);
+                }
                 if ($grants > 0 && $denies === 0) {
                     $nonAbstain = $grants + $denies;
-                    if ($nonAbstain === $grants) return Decision::allow($meta);
+                    if ($nonAbstain === $grants) {
+                        return Decision::allow($meta);
+                    }
                 }
                 return Decision::deny($meta);
 
             case 'consensus':
                 // Majority of non-abstain voters must GRANT; no hard deny dominance.
-                if ($grants > $denies) return Decision::allow($meta);
+                if ($grants > $denies) {
+                    return Decision::allow($meta);
+                }
                 return Decision::deny($meta);
 
             case 'affirmative':
             default:
                 // Any GRANT wins unless there is an explicit DENY-voter policy preference.
                 // Here: if any GRANT and no DENY -> allow. If both present, prefer DENY.
-                if ($grants > 0 && $denies === 0) return Decision::allow($meta);
-                if ($denies > 0) return Decision::deny($meta);
+                if ($grants > 0 && $denies === 0) {
+                    return Decision::allow($meta);
+                }
+                if ($denies > 0) {
+                    return Decision::deny($meta);
+                }
                 return Decision::deny($meta);
         }
     }

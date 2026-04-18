@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Policy\Registry;
@@ -47,7 +48,7 @@ final class InMemoryRegistryStore implements RegistryStoreInterface
     public function activate(string $ns, string $name, string $version): Token
     {
         if (!isset($this->db[$ns][$name][$version])) {
-            throw new RuntimeException("version not found");
+            throw new RuntimeException('version not found');
         }
         // deactivate all
         foreach ($this->db[$ns][$name] ?? [] as $v => $rec) {

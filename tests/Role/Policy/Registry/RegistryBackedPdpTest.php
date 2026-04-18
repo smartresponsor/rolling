@@ -1,11 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Policy\Registry;
 
+<<<<<<< HEAD
 use App\Policy\Obligation\Applier\ArrayApplier;
 use App\Policy\Role\Registry\Policy\Role\Registry\PolicyRegistry;
 use App\Policy\Role\Registry\Policy\Role\Registry\InMemorySource;
+=======
+use App\Policy\Role\Obligation\Applier\ArrayApplier;
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa
 use PHPUnit\Framework\TestCase;
 use App\Legacy\Policy\Decorator\V2\RegistryBackedPdp;
 use App\Policy\V2\DecisionWithObligations;

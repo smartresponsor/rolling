@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Observability\Metrics;
@@ -67,7 +68,7 @@ final class Counter
     {
         $vals = [];
         foreach ($this->labelNames as $n) {
-            $vals[] = (string)($labels[$n] ?? '');
+            $vals[] = (string) ($labels[$n] ?? '');
         }
         return implode("\x1f", $vals);
     }

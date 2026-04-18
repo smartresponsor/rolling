@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Policy\Registry;
@@ -21,9 +22,7 @@ final class PolicyRegistry
      * @param \Policy\Role\Registry\SourceInterface $source
      * @param \Policy\Role\Registry\FlagEvaluator $flags
      */
-    public function __construct(private readonly SourceInterface $source, private readonly FlagEvaluator $flags = new FlagEvaluator())
-    {
-    }
+    public function __construct(private readonly SourceInterface $source, private readonly FlagEvaluator $flags = new FlagEvaluator()) {}
 
     /** @return array<string,mixed> */
     public function raw(): array
@@ -49,7 +48,7 @@ final class PolicyRegistry
             if (!$flag || !$this->flags->isEnabled($flag, $subject, $action, $scope, $ctx)) {
                 continue;
             }
-            foreach ((array)($flag['rules'] ?? []) as $r) {
+            foreach ((array) ($flag['rules'] ?? []) as $r) {
                 $rule = $this->mkRule($r);
                 if ($rule) {
                     $rules[] = $rule;
@@ -63,11 +62,11 @@ final class PolicyRegistry
     private function flagsForAction(string $action, array $cfg): array
     {
         $out = [];
-        foreach ((array)($cfg['routes'] ?? []) as $route) {
-            foreach ((array)($route['actions'] ?? []) as $pat) {
-                if ($this->matchAction($action, (string)$pat)) {
-                    foreach ((array)($route['use'] ?? []) as $fn) {
-                        $out[] = (string)$fn;
+        foreach ((array) ($cfg['routes'] ?? []) as $route) {
+            foreach ((array) ($route['actions'] ?? []) as $pat) {
+                if ($this->matchAction($action, (string) $pat)) {
+                    foreach ((array) ($route['use'] ?? []) as $fn) {
+                        $out[] = (string) $fn;
                     }
                 }
             }
@@ -82,7 +81,9 @@ final class PolicyRegistry
      */
     private function matchAction(string $action, string $pattern): bool
     {
-        if ($pattern === '*') return true;
+        if ($pattern === '*') {
+            return true;
+        }
         if (str_ends_with($pattern, '.*')) {
             $prefix = substr($pattern, 0, -2);
             return str_starts_with($action, $prefix . '.') || $action === $prefix;
@@ -96,11 +97,11 @@ final class PolicyRegistry
      */
     private function mkRule(array $r): ?object
     {
-        $type = (string)($r['type'] ?? '');
-        $params = (array)($r['params'] ?? []);
+        $type = (string) ($r['type'] ?? '');
+        $params = (array) ($r['params'] ?? []);
         return match ($type) {
-            'redact_fields' => new RedactFieldsRule((array)($params['actions'] ?? ['*']), (array)($params['fields'] ?? [])),
-            'watermark' => new WatermarkRule((string)($params['header'] ?? 'X-Policy'), (string)($params['value'] ?? '')),
+            'redact_fields' => new RedactFieldsRule((array) ($params['actions'] ?? ['*']), (array) ($params['fields'] ?? [])),
+            'watermark' => new WatermarkRule((string) ($params['header'] ?? 'X-Policy'), (string) ($params['value'] ?? '')),
             default => null,
         };
     }

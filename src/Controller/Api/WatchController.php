@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -34,7 +35,7 @@ final class WatchController
     /** Server-Sent Events: streams tuple changes as ndjson wrapped in SSE 'data:' lines */
     public function watch(Request $req): StreamedResponse
     {
-        $since = (int)($req->query->get('offset') ?? 0);
+        $since = (int) ($req->query->get('offset') ?? 0);
         $resp = new StreamedResponse(function () use ($since) {
             @ob_end_flush();
             @ob_implicit_flush(1);
@@ -54,10 +55,12 @@ final class WatchController
                 }
                 $pos = ftell($f);
                 $payload = trim($line);
-                if ($payload === '') continue;
+                if ($payload === '') {
+                    continue;
+                }
                 echo "event: tuple\n";
-                echo "data: " . $payload . "\n";
-                echo "id: " . $pos . "\n\n";
+                echo 'data: ' . $payload . "\n";
+                echo 'id: ' . $pos . "\n\n";
                 flush();
             }
             fclose($f);

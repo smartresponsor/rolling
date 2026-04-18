@@ -1,0 +1,22 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Integration\Symfony\Controller\:
+    resource: '../src/Integration/Symfony/Controller/'
+    tags: [ 'controller.service_arguments' ]
+
+  App\Controller\:
+    resource: '../src/Controller/'
+    tags: [ 'controller.service_arguments' ]
+
+  App\Command\:
+    resource: '../src/Command/'
+
+  App\Observability\Role\Metrics\:
+    resource: '../src/Observability/Role/Metrics/'
+
+  App\Integration\Symfony\DemoPdpV2: ~
+
+  PolicyInterface\Role\PdpV2Interface: '@App\Integration\Symfony\DemoPdpV2'

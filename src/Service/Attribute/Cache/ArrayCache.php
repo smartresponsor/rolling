@@ -1,7 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
+<<<<<<< HEAD:src/Service/Attribute/Cache/ArrayCache.php
 namespace App\Service\Attribute\Cache;
+=======
+namespace App\Attribute\Role\Cache;
+
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Attribute/Role/Cache/ArrayCache.php
 /**
  *
  */
@@ -28,7 +34,9 @@ final class ArrayCache
     public function get(string $k): ?array
     {
         $r = $this->m[$k] ?? null;
-        if (!$r) return null;
+        if (!$r) {
+            return null;
+        }
         if ($r['exp'] < time()) {
             unset($this->m[$k]);
             return null;

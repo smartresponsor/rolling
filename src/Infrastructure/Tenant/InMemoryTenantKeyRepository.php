@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -27,7 +28,7 @@ final class InMemoryTenantKeyRepository implements TenantKeyRepositoryInterface
     public function __construct(array $seed = [])
     {
         foreach ($seed as $tenant => $key) {
-            $this->map[(string)$tenant] = (string)$key;
+            $this->map[(string) $tenant] = (string) $key;
         }
     }
 

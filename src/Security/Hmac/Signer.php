@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Security\Hmac;
 
@@ -17,9 +19,7 @@ final class Signer
      * @param string $keyId
      * @param string $secret
      */
-    public function __construct(private readonly string $keyId, private readonly string $secret)
-    {
-    }
+    public function __construct(private readonly string $keyId, private readonly string $secret) {}
 
     /**
      * @param string $m

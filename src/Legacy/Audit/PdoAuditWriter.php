@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Audit;
@@ -64,12 +65,14 @@ final class PdoAuditWriter implements AuditWriter
     {
         $out = $ctx;
         foreach (['secret', 'token', 'password', 'email'] as $k) {
-            if (array_key_exists($k, $out)) $out[$k] = '***';
+            if (array_key_exists($k, $out)) {
+                $out[$k] = '***';
+            }
         }
         if (isset($out['ip'])) {
             // обрежем до /24 для IPv4, иначе просто маска
-            if (preg_match('/^\d+\.\d+\.\d+\.\d+$/', (string)$out['ip'])) {
-                $parts = explode('.', (string)$out['ip']);
+            if (preg_match('/^\d+\.\d+\.\d+\.\d+$/', (string) $out['ip'])) {
+                $parts = explode('.', (string) $out['ip']);
                 $out['ip'] = $parts[0] . '.' . $parts[1] . '.' . $parts[2] . '.0/24';
             } else {
                 $out['ip'] = '***';

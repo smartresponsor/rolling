@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Policy\V2;
@@ -28,9 +29,7 @@ final class ShadowPdpV2 implements PdpV2Interface
      * @param \App\Legacy\Shadow\Report\DiffReporterInterface $reporter
      * @param bool $alwaysRunOnHeader
      */
-    public function __construct(private readonly PdpV2Interface $live, private readonly PdpV2Interface $shadow, private readonly PercentageSampler $sampler, private readonly DiffReporterInterface $reporter, private readonly bool $alwaysRunOnHeader = true)
-    {
-    }
+    public function __construct(private readonly PdpV2Interface $live, private readonly PdpV2Interface $shadow, private readonly PercentageSampler $sampler, private readonly DiffReporterInterface $reporter, private readonly bool $alwaysRunOnHeader = true) {}
 
     /**
      * @param \App\Entity\Role\SubjectId $s
@@ -42,17 +41,17 @@ final class ShadowPdpV2 implements PdpV2Interface
     public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $context = []): DecisionWithObligations
     {
         $liveDec = $this->live->check($s, $a, $sc, $context);
-        $force = (bool)($context['_force_shadow'] ?? false);
+        $force = (bool) ($context['_force_shadow'] ?? false);
         $key = $s . '|' . $a . '|' . $sc->key();
         if ($force || $this->sampler->hit($key)) {
             try {
                 $shadowDec = $this->shadow->check($s, $a, $sc, $context);
                 $diff = DecisionDiff::diff($liveDec, $shadowDec);
                 if (!$diff['equal']) {
-                    $this->reporter->report(['type' => 'shadow_diff', 'subject' => (string)$s, 'action' => (string)$a, 'scope' => $sc->key(), 'diff' => $diff,]);
+                    $this->reporter->report(['type' => 'shadow_diff', 'subject' => (string) $s, 'action' => (string) $a, 'scope' => $sc->key(), 'diff' => $diff,]);
                 }
             } catch (Throwable $e) {
-                $this->reporter->report(['type' => 'shadow_error', 'subject' => (string)$s, 'action' => (string)$a, 'scope' => $sc->key(), 'error' => $e->getMessage(),]);
+                $this->reporter->report(['type' => 'shadow_error', 'subject' => (string) $s, 'action' => (string) $a, 'scope' => $sc->key(), 'error' => $e->getMessage(),]);
             }
         }
         return $liveDec;

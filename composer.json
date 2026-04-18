@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "name": "smartresponsor/role",
     "description": "SmartResponsor Role component (RC1)",
     "type": "library",
@@ -125,4 +126,91 @@
         "role:perf:compare:smoke": "@php bin/console app:role:perf:profile-check 1000 0 128 --profile=smoke",
         "role:bench:compare:smoke": "@php bin/console app:role:bench:profile-check 20000 3000 200 --profile=smoke"
     }
+=======
+  "name": "smartresponse/rolling",
+  "description": "Local development and QA harness for the Rolling Symfony workspace",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": "^8.4",
+    "ext-ctype": "*",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
+    "ext-pdo": "*",
+    "psr/simple-cache": "^3.0",
+    "symfony/config": "^7.3",
+    "symfony/dependency-injection": "^7.3",
+    "symfony/dotenv": "^7.3",
+    "symfony/error-handler": "^7.3",
+    "symfony/event-dispatcher": "^7.3",
+    "symfony/framework-bundle": "^7.3",
+    "symfony/http-foundation": "^7.3",
+    "symfony/http-kernel": "^7.3",
+    "symfony/routing": "^7.3",
+    "symfony/yaml": "^7.3"
+  },
+  "require-dev": {
+    "dbrekelmans/bdi": "^1.4.1",
+    "friendsofphp/php-cs-fixer": "^3.88",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^11.5",
+    "symfony/browser-kit": "^7.3",
+    "symfony/css-selector": "^7.3",
+    "symfony/panther": "^2.2",
+    "symfony/var-dumper": "^7.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "SmartResponsor\\RoleSdk\\V2\\": "misc/sdk/php/"
+    },
+    "classmap": [
+      "src/",
+      "Http/",
+      "Policy/",
+      "PolicyInterface/",
+      "Service/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    },
+    "files": [
+      "tests/SDK/PHP/psr_stubs.php"
+    ]
+  },
+  "scripts": {
+    "server:start": [
+      "Composer\\Config::disableProcessTimeout",
+      "@php -S 127.0.0.1:8001 -t public public/index.php"
+    ],
+    "test": "vendor/bin/phpunit --testsuite=default --testdox",
+    "test:panther": "vendor/bin/bdi detect drivers >/dev/null && PANTHER_NO_SANDBOX=1 PANTHER_CHROME_BINARY=${PANTHER_CHROME_BINARY:-/usr/bin/google-chrome} PANTHER_CHROME_DRIVER_BINARY=${PANTHER_CHROME_DRIVER_BINARY:-drivers/chromedriver} php tools/qa/panther-smoke.php",
+    "lint": [
+      "@php tools/qa/php-lint.php",
+      "@php bin/console lint:yaml config",
+      "@php bin/console lint:container --no-debug"
+    ],
+    "phpstan": "vendor/bin/phpstan analyse --memory-limit=1G",
+    "cs:check": "vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff --verbose",
+    "cs:fix": "vendor/bin/php-cs-fixer fix --allow-risky=yes --verbose",
+    "fixtures:dry-run": "@php bin/console app:fixtures:dry-run --env=dev",
+    "qa": [
+      "@lint",
+      "@phpstan",
+      "@test"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa
 }

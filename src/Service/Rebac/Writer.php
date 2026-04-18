@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Rebac;
@@ -19,9 +20,7 @@ final class Writer
     /**
      * @param \App\InfrastructureInterface\Rebac\TupleStoreInterface $store
      */
-    public function __construct(private readonly TupleStoreInterface $store)
-    {
-    }
+    public function __construct(private readonly TupleStoreInterface $store) {}
 
     /**
      * @param string $ns

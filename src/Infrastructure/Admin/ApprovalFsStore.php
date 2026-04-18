@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
@@ -9,9 +10,16 @@ use Exception;
 
 final class ApprovalFsStore implements ApprovalStoreInterface
 {
+<<<<<<< HEAD:src/Infrastructure/Admin/ApprovalFsStore.php
     public function __construct(private readonly string $baseDir)
     {
     }
+=======
+    /**
+     * @param string $baseDir
+     */
+    public function __construct(private readonly string $baseDir) {} // var/admin/approvals/<id>.json
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Infrastructure/Role/Admin/ApprovalFsStore.php
 
     public function create(array $row): string
     {
@@ -41,9 +49,13 @@ final class ApprovalFsStore implements ApprovalStoreInterface
         if (!is_file($f)) {
             return null;
         }
+<<<<<<< HEAD:src/Infrastructure/Admin/ApprovalFsStore.php
 
         $j = json_decode((string) file_get_contents($f), true);
 
+=======
+        $j = json_decode((string) file_get_contents($f), true);
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Infrastructure/Role/Admin/ApprovalFsStore.php
         return is_array($j) ? $j : null;
     }
 

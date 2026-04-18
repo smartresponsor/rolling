@@ -30,9 +30,9 @@ final class InputBuilder
             'subject' => ['id' => $s->value()],
             'action' => $a->value(),
             'scope' => [
-                'type' => $sc->type(),       // 'global' | 'tenant' | 'resource'
-                'tenantId' => $sc->tenantId(), // may be null
-                'resourceId' => $sc->resourceId(), // may be null
+                'type' => $sc->type(),
+                'tenantId' => $sc->tenantId(),
+                'resourceId' => $sc->resourceId(),
                 'key' => $sc->key(),
             ],
             'context' => $context,

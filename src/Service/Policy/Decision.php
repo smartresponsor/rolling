@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -23,10 +24,8 @@ final class Decision
     public function __construct(
         public bool  $allowed,
         /** @var array<string, mixed> */
-        public array $meta = []
-    )
-    {
-    }
+        public array $meta = [],
+    ) {}
 
     /**
      * @param array $meta

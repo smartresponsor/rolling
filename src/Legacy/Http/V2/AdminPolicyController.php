@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Http\V2;
@@ -23,9 +24,7 @@ final class AdminPolicyController
      * @param \App\Legacy\Security\Admin\AdminTokenGuard $guard
      * @param \Policy\Role\Registry\RegistryService $svc
      */
-    public function __construct(private readonly AdminTokenGuard $guard, private readonly RegistryService $svc)
-    {
-    }
+    public function __construct(private readonly AdminTokenGuard $guard, private readonly RegistryService $svc) {}
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $r
@@ -36,14 +35,14 @@ final class AdminPolicyController
         try {
             $this->guard->assert($r);
             /** @var array{ns:string,name:string,version:string,doc:string} $in */
-            $in = json_decode((string)$r->getContent(), true) ?? [];
-            $ns = (string)$in['ns'];
-            $name = (string)$in['name'];
-            $ver = (string)$in['version'];
-            $doc = (string)$in['doc'];
+            $in = json_decode((string) $r->getContent(), true) ?? [];
+            $ns = (string) $in['ns'];
+            $name = (string) $in['name'];
+            $ver = (string) $in['version'];
+            $doc = (string) $in['doc'];
             $tok = $this->svc->importPolicy($ns, $name, $ver, $doc);
             AdminMetrics::inc('role_admin_policy_import_total');
-            return new JsonResponse(['ok' => true, 'rev' => (string)$tok]);
+            return new JsonResponse(['ok' => true, 'rev' => (string) $tok]);
         } catch (Throwable $e) {
             AdminMetrics::inc('role_admin_errors_total');
             return new JsonResponse(['ok' => false, 'error' => $e->getMessage()], 401);
@@ -59,13 +58,13 @@ final class AdminPolicyController
         try {
             $this->guard->assert($r);
             /** @var array{ns:string,name:string,version:string} $in */
-            $in = json_decode((string)$r->getContent(), true) ?? [];
-            $ns = (string)$in['ns'];
-            $name = (string)$in['name'];
-            $ver = (string)$in['version'];
+            $in = json_decode((string) $r->getContent(), true) ?? [];
+            $ns = (string) $in['ns'];
+            $name = (string) $in['name'];
+            $ver = (string) $in['version'];
             $tok = $this->svc->activatePolicy($ns, $name, $ver);
             AdminMetrics::inc('role_admin_policy_activate_total');
-            return new JsonResponse(['ok' => true, 'rev' => (string)$tok]);
+            return new JsonResponse(['ok' => true, 'rev' => (string) $tok]);
         } catch (Throwable $e) {
             AdminMetrics::inc('role_admin_errors_total');
             return new JsonResponse(['ok' => false, 'error' => $e->getMessage()], 401);
@@ -76,8 +75,8 @@ final class AdminPolicyController
     {
         try {
             $this->guard->assert($r);
-            $ns = (string)$r->query->get('ns');
-            $name = (string)$r->query->get('name');
+            $ns = (string) $r->query->get('ns');
+            $name = (string) $r->query->get('name');
             $rows = array_map(fn($rec) => ['ns' => $rec->ns, 'name' => $rec->name, 'version' => $rec->version, 'is_active' => $rec->isActive, 'created_at' => $rec->createdAt], $this->svc->listVersions($ns, $name));
             return new JsonResponse(['ok' => true, 'versions' => $rows]);
         } catch (Throwable $e) {
@@ -94,11 +93,13 @@ final class AdminPolicyController
     {
         try {
             $this->guard->assert($r);
-            $ns = (string)$r->query->get('ns');
-            $name = (string)$r->query->get('name');
-            $ver = (string)$r->query->get('version');
+            $ns = (string) $r->query->get('ns');
+            $name = (string) $r->query->get('name');
+            $ver = (string) $r->query->get('version');
             $doc = $this->svc->exportPolicy($ns, $name, $ver);
-            if ($doc === null) return new JsonResponse(['ok' => false, 'error' => 'not_found'], 404);
+            if ($doc === null) {
+                return new JsonResponse(['ok' => false, 'error' => 'not_found'], 404);
+            }
             return new JsonResponse(['ok' => true, 'doc' => json_decode($doc, true)]);
         } catch (Throwable $e) {
             AdminMetrics::inc('role_admin_errors_total');

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Housekeeping;
@@ -21,8 +22,12 @@ final class ArchiveTest extends TestCase
      */
     public function testArchiveAndDelete(): void
     {
+        if (!extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped('pdo_sqlite is not available in the local PHP CLI.');
+        }
+
         $pdo = new PDO('sqlite::memory:');
-        $pdo->exec("CREATE TABLE role_audit(id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, subject_id TEXT, action TEXT, scope_key TEXT, decision TEXT, reason TEXT, obligations TEXT, ctx TEXT)");
+        $pdo->exec('CREATE TABLE role_audit(id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, subject_id TEXT, action TEXT, scope_key TEXT, decision TEXT, reason TEXT, obligations TEXT, ctx TEXT)');
         for ($i = 0; $i < 5; $i++) {
             $pdo->exec("INSERT INTO role_audit(ts,subject_id,action,scope_key,decision,obligations,ctx) VALUES (1,'u','a','g','ALLOW','{}','{}')");
         }

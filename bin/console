@@ -3,8 +3,24 @@
 
 declare(strict_types=1);
 
+<<<<<<< HEAD
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Infrastructure\Console\RoleConsoleApplication;
 
 exit((new RoleConsoleApplication())->run($_SERVER['argv']));
+=======
+use App\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Dotenv\Dotenv;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+if (is_file(dirname(__DIR__) . '/.env')) {
+    (new Dotenv())->bootEnv(dirname(__DIR__) . '/.env');
+}
+
+$kernel = new Kernel($_SERVER['APP_ENV'] ?? 'dev', (bool) ($_SERVER['APP_DEBUG'] ?? true));
+$application = new Application($kernel);
+$application->run();
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa

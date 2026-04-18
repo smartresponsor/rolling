@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Observability\Metrics;
@@ -46,7 +47,7 @@ final class Histogram
             $this->values[$k] = ['buckets' => array_fill_keys($this->buckets, 0), 'sum' => 0.0, 'count' => 0];
         }
         foreach (array_keys($this->values[$k]['buckets']) as $b) {
-            if ($value <= (float)$b) {
+            if ($value <= (float) $b) {
                 $this->values[$k]['buckets'][$b]++;
             }
         }
@@ -92,7 +93,7 @@ final class Histogram
     {
         $vals = [];
         foreach ($this->labelNames as $n) {
-            $vals[] = (string)($labels[$n] ?? '');
+            $vals[] = (string) ($labels[$n] ?? '');
         }
         return implode("\x1f", $vals);
     }

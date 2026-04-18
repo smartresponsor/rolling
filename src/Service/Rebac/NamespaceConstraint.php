@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -27,7 +28,9 @@ final class NamespaceConstraint implements NamespaceConstraintInterface
         foreach ($allowedPairs as $p) {
             $a = $p[0] ?? '';
             $b = $p[1] ?? '';
-            if ($a !== '' && $b !== '') $this->allow[$a][$b] = true;
+            if ($a !== '' && $b !== '') {
+                $this->allow[$a][$b] = true;
+            }
         }
         $this->enforceTenantBoundary = $enforceTenantBoundary;
     }

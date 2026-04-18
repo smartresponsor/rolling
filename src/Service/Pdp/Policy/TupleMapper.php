@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -29,7 +30,7 @@ final class TupleMapper
             $objectType = $g['resourceType'] ?? 'object';
             $objectId = $g['resourceId'] ?? '*';
             $tenant = $g['tenant'] ?? null;
-            $out[] = new Tuple($userType, (string)$userId, (string)$relation, (string)$objectType, (string)$objectId, $tenant ? (string)$tenant : null);
+            $out[] = new Tuple($userType, (string) $userId, (string) $relation, (string) $objectType, (string) $objectId, $tenant ? (string) $tenant : null);
         }
         return $out;
     }

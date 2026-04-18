@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -22,9 +23,7 @@ final class MaskingEngine implements ObligationApplierInterface
     /**
      * @param \App\InfrastructureInterface\Policy\MaskingRuleRepositoryInterface $repo
      */
-    public function __construct(private readonly MaskingRuleRepositoryInterface $repo)
-    {
-    }
+    public function __construct(private readonly MaskingRuleRepositoryInterface $repo) {}
 
     /**
      * @param array $subject
@@ -36,11 +35,13 @@ final class MaskingEngine implements ObligationApplierInterface
     public function apply(array $subject, string $action, array $resource, array $context = []): array
     {
         $tenant = $context['tenant'] ?? ($resource['tenant'] ?? ($subject['tenant'] ?? null));
-        $rtype = (string)($resource['type'] ?? 'object');
+        $rtype = (string) ($resource['type'] ?? 'object');
         $roles = $subject['roles'] ?? [];
 
         $rules = $this->repo->find($rtype, $action, $tenant, $roles);
-        if (!$rules) return ['resource' => $resource, 'meta' => ['maskApplied' => false, 'changedKeys' => []]];
+        if (!$rules) {
+            return ['resource' => $resource, 'meta' => ['maskApplied' => false, 'changedKeys' => []]];
+        }
 
         $changed = [];
         foreach ($rules as $r) {
@@ -56,7 +57,7 @@ final class MaskingEngine implements ObligationApplierInterface
             if (!empty($mask['redact'])) {
                 foreach ($mask['redact'] as $k) {
                     if (array_key_exists($k, $resource)) {
-                        $resource[$k] = self::redact((string)$resource[$k]);
+                        $resource[$k] = self::redact((string) $resource[$k]);
                         $changed[$k] = 'redact';
                     }
                 }
@@ -64,7 +65,7 @@ final class MaskingEngine implements ObligationApplierInterface
             if (!empty($mask['hash'])) {
                 foreach ($mask['hash'] as $k) {
                     if (array_key_exists($k, $resource)) {
-                        $resource[$k] = hash('sha256', (string)$resource[$k]);
+                        $resource[$k] = hash('sha256', (string) $resource[$k]);
                         $changed[$k] = 'hash';
                     }
                 }
@@ -88,7 +89,9 @@ final class MaskingEngine implements ObligationApplierInterface
     private static function redact(string $s): string
     {
         $len = mb_strlen($s);
-        if ($len <= 2) return str_repeat('*', $len);
+        if ($len <= 2) {
+            return str_repeat('*', $len);
+        }
         $keep = max(1, int($len * 0.25));
         return mb_substr($s, 0, $keep) . str_repeat('*', $len - $keep);
     }

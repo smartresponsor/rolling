@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Acl\Source;
@@ -25,7 +26,7 @@ final class JsonAclSource implements AclSourceInterface
     public function __construct(array|string $cfgOrPath)
     {
         if (is_string($cfgOrPath)) {
-            $data = json_decode((string)@file_get_contents($cfgOrPath), true);
+            $data = json_decode((string) @file_get_contents($cfgOrPath), true);
             $this->cfg = is_array($data) ? $data : ['roles' => [], 'bindings' => []];
         } else {
             $this->cfg = $cfgOrPath;
@@ -42,10 +43,14 @@ final class JsonAclSource implements AclSourceInterface
     {
         $key = $scope->key();
         $roles = [];
-        foreach ((array)($this->cfg['bindings'] ?? []) as $b) {
-            if (($b['subjectId'] ?? null) !== $subject->value()) continue;
-            if (($b['scope'] ?? '') !== $key && ($b['scope'] ?? '') !== 'global') continue;
-            $roles[] = (string)$b['role'];
+        foreach ((array) ($this->cfg['bindings'] ?? []) as $b) {
+            if (($b['subjectId'] ?? null) !== $subject->value()) {
+                continue;
+            }
+            if (($b['scope'] ?? '') !== $key && ($b['scope'] ?? '') !== 'global') {
+                continue;
+            }
+            $roles[] = (string) $b['role'];
         }
         return array_values(array_unique($roles));
     }
@@ -56,7 +61,7 @@ final class JsonAclSource implements AclSourceInterface
      */
     public function permissionsForRole(string $role): array
     {
-        $perms = (array)(($this->cfg['roles'] ?? [])[$role] ?? []);
+        $perms = (array) (($this->cfg['roles'] ?? [])[$role] ?? []);
         return array_values(array_unique(array_map('strval', $perms)));
     }
 }

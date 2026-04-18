@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Security\Keys;
@@ -15,9 +16,7 @@ final class BundleVerifier
     /**
      * @param \App\Legacy\Security\Keys\KeyStore $keys
      */
-    public function __construct(private readonly KeyStore $keys)
-    {
-    }
+    public function __construct(private readonly KeyStore $keys) {}
 
     /**
      * @param string $payload raw bytes of bundle content
@@ -31,7 +30,9 @@ final class BundleVerifier
             return false; // expired
         }
         $pubPem = $this->findPublicByKid($kid);
-        if ($pubPem === null) return false;
+        if ($pubPem === null) {
+            return false;
+        }
         $ok = openssl_verify($payload, base64_decode($sigB64), $pubPem, OPENSSL_ALGO_SHA256);
         return $ok === 1;
     }
@@ -44,7 +45,9 @@ final class BundleVerifier
     {
         foreach (['active', 'next'] as $slot) {
             $slotData = $this->keys->getSlot($slot);
-            if ($slotData['kid'] === $kid) return $slotData['public'];
+            if ($slotData['kid'] === $kid) {
+                return $slotData['public'];
+            }
         }
         return null;
     }

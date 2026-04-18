@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -26,11 +27,11 @@ final class BatchDecision implements BatchDecisionInterface
         $out = [];
         foreach ($requests as $req) {
             $start = microtime(true);
-            $roles = (array)($req->subject['roles'] ?? []);
-            $uid = (string)($req->subject['id'] ?? '');
-            $rtype = (string)($req->resource['type'] ?? '');
-            $rid = (string)($req->resource['id'] ?? '');
-            $owner = (string)($req->resource['ownerId'] ?? '');
+            $roles = (array) ($req->subject['roles'] ?? []);
+            $uid = (string) ($req->subject['id'] ?? '');
+            $rtype = (string) ($req->resource['type'] ?? '');
+            $rid = (string) ($req->resource['id'] ?? '');
+            $owner = (string) ($req->resource['ownerId'] ?? '');
             $action = $req->action;
 
             $allowed = false;

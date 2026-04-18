@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Housekeeping\Archive;
@@ -16,9 +17,7 @@ final class JsonlAuditArchiver
      * @param \PDO $pdo
      * @param string $table
      */
-    public function __construct(private readonly PDO $pdo, private readonly string $table = 'role_audit')
-    {
-    }
+    public function __construct(private readonly PDO $pdo, private readonly string $table = 'role_audit') {}
 
     /**
      * @return array{exported:int, deleted:int, path:string}
@@ -52,7 +51,9 @@ final class JsonlAuditArchiver
             $stmt->bindValue(':lim', $batchSize, PDO::PARAM_INT);
             $stmt->execute();
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if (!$rows) break;
+            if (!$rows) {
+                break;
+            }
 
             foreach ($rows as $r) {
                 fwrite($fh, json_encode($r, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");
@@ -61,10 +62,12 @@ final class JsonlAuditArchiver
 
             $in = implode(',', array_fill(0, count($rows), '?'));
             $del = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id IN ($in)");
-            $del->execute(array_map(fn($r) => (int)$r['id'], $rows));
+            $del->execute(array_map(fn($r) => (int) $r['id'], $rows));
             $deleted += $del->rowCount();
 
-            if (count($rows) < $batchSize) break;
+            if (count($rows) < $batchSize) {
+                break;
+            }
         }
         fclose($fh);
 

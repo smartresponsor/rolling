@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -38,8 +39,8 @@ final class RuleExplainer implements ExplainerInterface
         $group = new ExplainNode('voters', 'Voters', true);
         $allPass = true;
         foreach ($in->voterTrace as $i => $v) {
-            $pass = (bool)($v['allow'] ?? false);
-            $node = new ExplainNode('voter', (string)($v['name'] ?? ('v' . $i)), $pass, [
+            $pass = (bool) ($v['allow'] ?? false);
+            $node = new ExplainNode('voter', (string) ($v['name'] ?? ('v' . $i)), $pass, [
                 'reason' => $v['reason'] ?? null,
                 'ruleId' => $v['ruleId'] ?? null,
                 'weight' => $v['weight'] ?? 1,

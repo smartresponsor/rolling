@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -18,9 +19,7 @@ final class StaticResidencyPolicy implements ResidencyPolicyInterface
      * @param array $map
      * @param string $fallback
      */
-    public function __construct(private readonly array $map = ['t1' => 'us', 't2' => 'eu'], private readonly string $fallback = 'us')
-    {
-    }
+    public function __construct(private readonly array $map = ['t1' => 'us', 't2' => 'eu'], private readonly string $fallback = 'us') {}
 
     /**
      * @param string $tenant

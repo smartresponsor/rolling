@@ -29,10 +29,8 @@ final class CachedPdpV2 implements PdpV2Interface
         private readonly PdpV2Interface $inner,
         private readonly KeyValueCache  $cache,
         private readonly SubjectEpochs  $epochs,
-        private readonly int            $ttlSeconds = 600
-    )
-    {
-    }
+        private readonly int            $ttlSeconds = 600,
+    ) {}
 
     /**
      * @param \App\Entity\Role\SubjectId $s
@@ -125,9 +123,9 @@ final class CachedPdpV2 implements PdpV2Interface
     {
         $obs = Obligations::empty();
         foreach ($a['obligations'] as $o) {
-            $obs = $obs->with(new Obligation((string)$o['type'], (array)($o['params'] ?? [])));
+            $obs = $obs->with(new Obligation((string) $o['type'], (array) ($o['params'] ?? [])));
         }
-        return $a['allow'] ? DecisionWithObligations::allow((string)$a['reason'], $obs)
-            : DecisionWithObligations::deny((string)$a['reason'], $obs);
+        return $a['allow'] ? DecisionWithObligations::allow((string) $a['reason'], $obs)
+            : DecisionWithObligations::deny((string) $a['reason'], $obs);
     }
 }

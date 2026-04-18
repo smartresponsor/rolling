@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php" cacheDirectory="var/cache/phpunit" colors="true">
+  <php>
+    <env name="APP_ENV" value="test"/>
+    <env name="APP_DEBUG" value="1"/>
+    <env name="PANTHER_APP_ENV" value="test"/>
+    <env name="KERNEL_CLASS" value="App\Kernel"/>
+  </php>
+  <testsuites>
+    <testsuite name="default">
+      <directory>tests/Integration</directory>
+      <directory>tests/Role</directory>
+      <directory>tests/SDK</directory>
+    </testsuite>
+    <testsuite name="panther">
+      <directory>tests/Panther</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

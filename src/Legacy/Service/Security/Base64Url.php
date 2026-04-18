@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -32,7 +33,9 @@ final class Base64Url
     public static function decode(string $b64): string
     {
         $pad = strlen($b64) % 4;
-        if ($pad) $b64 .= str_repeat('=', 4 - $pad);
+        if ($pad) {
+            $b64 .= str_repeat('=', 4 - $pad);
+        }
         return base64_decode(strtr($b64, '-_', '+/'));
     }
 }

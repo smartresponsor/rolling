@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
@@ -34,12 +35,18 @@ final class PolicyStage implements StageInterface
             'subject.role' => $ctx->attrs['role'] ?? ($ctx->resource['role'] ?? ''),
             'resource.type' => $ctx->resource['type'] ?? '',
         ];
+<<<<<<< HEAD:src/Service/Pipeline/Stage/PolicyStage.php
 
         foreach ($ctx->attrs as $key => $value) {
             $map['attrs.' . $key] = is_scalar($value) ? (string) $value : json_encode($value);
+=======
+        foreach ($ctx->attrs as $k => $v) {
+            $map['attrs.' . $k] = is_scalar($v) ? (string) $v : json_encode($v);
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/Pipeline/Stage/PolicyStage.php
         }
 
         $expr2 = str_replace([' and ', ' or '], [' && ', ' || '], $expr);
+<<<<<<< HEAD:src/Service/Pipeline/Stage/PolicyStage.php
         $expr2 = preg_replace('/\b([A-Za-z0-9_\-\.]+)\s+in\s+\[/', 'in_array(\1, [', $expr2) ?? $expr2;
         $expr2 = preg_replace_callback('/\b(subject\.role|action|resource\.type|attrs\.[A-Za-z0-9_\-]+)\b/', static function (array $m) use ($map): string {
             $value = $map[$m[0]] ?? null;
@@ -51,6 +58,20 @@ final class PolicyStage implements StageInterface
             }
             if (is_numeric($value)) {
                 return (string) $value;
+=======
+        $expr2 = preg_replace('/\b([A-Za-z0-9_\-\.]+)\s+in\s+\[/', 'in_array(\1, [', $expr2);
+        $expr2 = preg_replace_callback('/\b(subject\.role|action|resource\.type|attrs\.[A-Za-z0-9_\-]+)\b/', function (array $m) use ($map) {
+            $k = $m[0];
+            $v = $map[$k] ?? null;
+            if (is_string($v)) {
+                return "'" . str_replace("'", "\\'", $v) . "'";
+            }
+            if (is_bool($v)) {
+                return $v ? 'true' : 'false';
+            }
+            if (is_numeric($v)) {
+                return (string) $v;
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/Pipeline/Stage/PolicyStage.php
             }
             return 'null';
         }, $expr2) ?? $expr2;
@@ -66,7 +87,11 @@ final class PolicyStage implements StageInterface
 
         try {
             $ok = (bool) (include $tmp);
+<<<<<<< HEAD:src/Service/Pipeline/Stage/PolicyStage.php
         } catch (Throwable) {
+=======
+        } catch (Throwable $t) {
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/Pipeline/Stage/PolicyStage.php
             $ok = false;
         }
 

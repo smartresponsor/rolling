@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Policy\Registry;
@@ -47,17 +48,27 @@ final class FlagEvaluator
     private function matchCond(array $c, SubjectId $subject, PermissionKey $action, array $ctx): bool
     {
         // tenant/env matchers
-        if (isset($c['tenantId']) && ($ctx['tenantId'] ?? null) !== $c['tenantId']) return false;
-        if (isset($c['env']) && ($ctx['env'] ?? null) !== $c['env']) return false;
-        if (isset($c['action']) && $c['action'] !== $action->value()) return false;
+        if (isset($c['tenantId']) && ($ctx['tenantId'] ?? null) !== $c['tenantId']) {
+            return false;
+        }
+        if (isset($c['env']) && ($ctx['env'] ?? null) !== $c['env']) {
+            return false;
+        }
+        if (isset($c['action']) && $c['action'] !== $action->value()) {
+            return false;
+        }
         // percentage rollout
         if (isset($c['percent'])) {
-            $by = (string)($c['by'] ?? 'subjectId');
-            $id = $by === 'tenantId' ? (string)($ctx['tenantId'] ?? '') : $subject->value();
-            if ($id === '') return false;
-            $pct = (int)$c['percent'];
+            $by = (string) ($c['by'] ?? 'subjectId');
+            $id = $by === 'tenantId' ? (string) ($ctx['tenantId'] ?? '') : $subject->value();
+            if ($id === '') {
+                return false;
+            }
+            $pct = (int) $c['percent'];
             $bucket = $this->bucket($id);
-            if ($bucket >= $pct) return false;
+            if ($bucket >= $pct) {
+                return false;
+            }
         }
         return true;
     }

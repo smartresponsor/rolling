@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Audit;
@@ -30,10 +31,8 @@ final class AuditRecord
         public string $decision,
         public string $reason = '',
         public array  $obligations = [],
-        public array  $context = []
-    )
-    {
-    }
+        public array  $context = [],
+    ) {}
 
     /** @return array<string,mixed> */
     public function toArray(): array

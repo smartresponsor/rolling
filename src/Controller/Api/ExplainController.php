@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -27,8 +28,8 @@ final class ExplainController
      */
     public function explain(Request $req): JsonResponse
     {
-        $p = json_decode((string)$req->getContent(), true) ?? [];
-        $ctx = new RequestContext((string)($p['tenant'] ?? 't1'), (string)($p['subject'] ?? 'u1'), (string)($p['action'] ?? 'read'), (array)($p['resource'] ?? []), (array)($p['attrs'] ?? []));
+        $p = json_decode((string) $req->getContent(), true) ?? [];
+        $ctx = new RequestContext((string) ($p['tenant'] ?? 't1'), (string) ($p['subject'] ?? 'u1'), (string) ($p['action'] ?? 'read'), (array) ($p['resource'] ?? []), (array) ($p['attrs'] ?? []));
         $pipe = new DecisionPipeline([new ContextStage(), new StrictDenyStage()]);
         // rerun to capture Trace (we don't expose pipeline internals here; mimic)
         $trace = new Trace();

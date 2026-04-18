@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Cache;
@@ -51,7 +52,9 @@ final class Cache
     public function get(string $tenant, string $subject, string $relation, string $resource, string $mode): mixed
     {
         $k = $this->key($tenant, $subject, $relation, $resource, $mode);
-        if (!isset($this->store[$k])) return null;
+        if (!isset($this->store[$k])) {
+            return null;
+        }
         $e = $this->store[$k];
         if (time() - $e['ts'] > $this->ttlSeconds) {
             unset($this->store[$k]);

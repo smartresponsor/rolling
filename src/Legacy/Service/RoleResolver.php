@@ -11,9 +11,16 @@ use App\Entity\Role\SubjectId;
 
 final class RoleResolver
 {
+<<<<<<< HEAD:src/Legacy/Service/RoleResolver.php
     public function __construct(private readonly AclSourceInterface $source)
     {
     }
+=======
+    /**
+     * @param \App\Acl\Role\AclSourceInterface $source
+     */
+    public function __construct(private readonly AclSourceInterface $source) {}
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/RoleResolver.php
 
     /** @return list<string> */
     public function subjectRoles(SubjectId $subject, Scope $scope, array $ctx = []): array
@@ -37,11 +44,17 @@ final class RoleResolver
     public function can(SubjectId $subject, PermissionKey $action, Scope $scope, array $ctx = []): bool
     {
         $perms = $this->subjectPermissions($subject, $scope, $ctx);
+<<<<<<< HEAD:src/Legacy/Service/RoleResolver.php
 
         if (in_array('*', $perms, true)) {
             return true;
         }
 
+=======
+        if (in_array('*', $perms, true)) {
+            return true;
+        }
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/RoleResolver.php
         return in_array($action->value(), $perms, true);
     }
 }

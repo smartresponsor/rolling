@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -48,6 +49,6 @@ interface GraphStoreInterface
         string                       $subject,
         string                       $relation,
         string                       $object,
-        NamespaceConstraintInterface $constraints
+        NamespaceConstraintInterface $constraints,
     ): bool;
 }

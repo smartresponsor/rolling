@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -35,11 +36,15 @@ final class InMemoryGrantRepository implements GrantRepositoryInterface
      */
     public function loadFromNdjson(string $path): void
     {
-        if (!is_file($path)) return;
+        if (!is_file($path)) {
+            return;
+        }
         $fh = fopen($path, 'r');
         while (($line = fgets($fh)) !== false) {
             $row = json_decode($line, true);
-            if (is_array($row)) $this->grants[] = $row;
+            if (is_array($row)) {
+                $this->grants[] = $row;
+            }
         }
         fclose($fh);
     }
@@ -54,9 +59,15 @@ final class InMemoryGrantRepository implements GrantRepositoryInterface
     {
         $out = [];
         foreach ($this->grants as $g) {
-            if (($g['resource'] ?? null) !== $resourceType) continue;
-            if (($g['action'] ?? null) !== $action) continue;
-            if (isset($g['tenant']) && $tenant !== null && $g['tenant'] !== $tenant) continue;
+            if (($g['resource'] ?? null) !== $resourceType) {
+                continue;
+            }
+            if (($g['action'] ?? null) !== $action) {
+                continue;
+            }
+            if (isset($g['tenant']) && $tenant !== null && $g['tenant'] !== $tenant) {
+                continue;
+            }
             $out[] = $g;
         }
         return $out;

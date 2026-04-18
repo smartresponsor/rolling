@@ -1,9 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Cache;
 
+<<<<<<< HEAD:src/Infrastructure/Cache/ConsistentCachePdpV2.php
 use App\Service\Consistency\TokenSet;
+=======
+use App\Consistency\Role\TokenSet;
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Cache/Role/ConsistentCachePdpV2.php
 use Closure;
 use App\Policy\V2\DecisionWithObligations;
 use App\PolicyInterface\PdpV2Interface;
@@ -26,10 +31,8 @@ final class ConsistentCachePdpV2 implements PdpV2Interface
      */
     public function __construct(
         private readonly PdpV2Interface $inner,
-        private readonly Closure        $tokenFn // fn(?string $subjectId): TokenSet
-    )
-    {
-    }
+        private readonly Closure        $tokenFn, // fn(?string $subjectId): TokenSet
+    ) {}
 
     /**
      * @param \App\Entity\Role\SubjectId $s
@@ -41,9 +44,11 @@ final class ConsistentCachePdpV2 implements PdpV2Interface
     public function check(\App\Entity\Role\SubjectId $s, \App\Entity\Role\PermissionKey $a, \App\Entity\Role\Scope $sc, array $context = []): DecisionWithObligations
     {
         /** @var TokenSet $tok */
-        $tok = ($this->tokenFn)((string)$s);
+        $sid = $s->value();
+        $act = $a->value();
+        $tok = ($this->tokenFn)($sid);
 
-        $key = $this->makeKey((string)$s, (string)$a, $sc->key(), $context, (string)$tok);
+        $key = $this->makeKey($sid, $act, $sc->key(), $context, (string) $tok);
         if (isset($this->cache[$key])) {
             return $this->cache[$key];
         }

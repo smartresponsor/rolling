@@ -1,10 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api\Admin;
 
+<<<<<<< HEAD:src/Controller/Api/Admin/TenantAdminController.php
 use App\Legacy\Security\Admin\Voter;
 use App\Legacy\Security\Admin\Roles;
+=======
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:Http/Role/Api/Admin/TenantAdminController.php
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\Tenant\{Quota};
@@ -33,10 +37,16 @@ final class TenantAdminController
      */
     public function __construct(
         string $secretPath = __DIR__ . '/../../../../../var/admin_secret.txt',
+<<<<<<< HEAD:src/Controller/Api/Admin/TenantAdminController.php
         string $varDir = __DIR__ . '/../../../../../var'
     )
     {
         $this->voter = new Voter($secretPath);
+=======
+        string $varDir = __DIR__ . '/../../../../../var',
+    ) {
+        $this->voter = new \src\Security\Role\Admin\Voter($secretPath);
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:Http/Role/Api/Admin/TenantAdminController.php
         $this->quota = new Quota($varDir . '/tenants');
         $this->limits = new Limits($varDir . '/tenants');
         $this->backup = new Backup($varDir, $varDir . '/backup');
@@ -52,8 +62,10 @@ final class TenantAdminController
         if (!$this->voter->isAdmin($req)) {
             return new JsonResponse(['ok' => false, 'error' => 'forbidden'], 403);
         }
-        $tenant = (string)($req->query->get('tenant') ?? '');
-        if ($tenant === '') return new JsonResponse(['ok' => false, 'error' => 'tenant required'], 400);
+        $tenant = (string) ($req->query->get('tenant') ?? '');
+        if ($tenant === '') {
+            return new JsonResponse(['ok' => false, 'error' => 'tenant required'], 400);
+        }
         $limit = $this->quota->getLimit($tenant);
         return new JsonResponse(['ok' => true, 'tenant' => $tenant, 'limit' => $limit]);
     }
@@ -67,10 +79,12 @@ final class TenantAdminController
         if (!$this->voter->isAdmin($req)) {
             return new JsonResponse(['ok' => false, 'error' => 'forbidden'], 403);
         }
-        $payload = json_decode((string)$req->getContent(), true) ?? [];
-        $tenant = (string)($payload['tenant'] ?? '');
-        $perMin = (int)($payload['per_min'] ?? 0);
-        if ($tenant === '' || $perMin <= 0) return new JsonResponse(['ok' => false, 'error' => 'tenant/per_min required'], 400);
+        $payload = json_decode((string) $req->getContent(), true) ?? [];
+        $tenant = (string) ($payload['tenant'] ?? '');
+        $perMin = (int) ($payload['per_min'] ?? 0);
+        if ($tenant === '' || $perMin <= 0) {
+            return new JsonResponse(['ok' => false, 'error' => 'tenant/per_min required'], 400);
+        }
         $this->quota->setLimit($tenant, $perMin);
         return new JsonResponse(['ok' => true, 'tenant' => $tenant, 'limit' => ['limit_per_min' => $perMin]]);
     }
@@ -84,9 +98,11 @@ final class TenantAdminController
         if (!$this->voter->isAdmin($req)) {
             return new JsonResponse(['ok' => false, 'error' => 'forbidden'], 403);
         }
-        $payload = json_decode((string)$req->getContent(), true) ?? [];
-        $tenant = (string)($payload['tenant'] ?? '');
-        if ($tenant === '') return new JsonResponse(['ok' => false, 'error' => 'tenant required'], 400);
+        $payload = json_decode((string) $req->getContent(), true) ?? [];
+        $tenant = (string) ($payload['tenant'] ?? '');
+        if ($tenant === '') {
+            return new JsonResponse(['ok' => false, 'error' => 'tenant required'], 400);
+        }
         $res = $this->backup->run($tenant);
         return new JsonResponse($res, $res['ok'] ? 200 : 500);
     }
@@ -100,9 +116,11 @@ final class TenantAdminController
         if (!$this->voter->isAdmin($req, [Roles::OWNER])) {
             return new JsonResponse(['ok' => false, 'error' => 'forbidden'], 403);
         }
-        $payload = json_decode((string)$req->getContent(), true) ?? [];
-        $path = (string)($payload['path'] ?? '');
-        if ($path === '' || !file_exists($path)) return new JsonResponse(['ok' => false, 'error' => 'valid path required'], 400);
+        $payload = json_decode((string) $req->getContent(), true) ?? [];
+        $path = (string) ($payload['path'] ?? '');
+        if ($path === '' || !file_exists($path)) {
+            return new JsonResponse(['ok' => false, 'error' => 'valid path required'], 400);
+        }
         $res = $this->restore->run($path);
         return new JsonResponse($res, $res['ok'] ? 200 : 500);
     }

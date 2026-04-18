@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -23,10 +24,8 @@ final class CheckController
      */
     public function __construct(
         private readonly string $tuplesPath = __DIR__ . '/../../../../var/tuples.ndjson',
-        private readonly string $logDir = __DIR__ . '/../../../../var/log/role'
-    )
-    {
-    }
+        private readonly string $logDir = __DIR__ . '/../../../../var/log/role',
+    ) {}
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $req
@@ -34,11 +33,11 @@ final class CheckController
      */
     public function check(Request $req): JsonResponse
     {
-        $payload = json_decode((string)$req->getContent(), true) ?? [];
-        $tenant = (string)($payload['tenant'] ?? 't1');
-        $subject = (string)($payload['subject'] ?? '');
-        $relation = (string)($payload['relation'] ?? '');
-        $resource = (string)($payload['resource'] ?? '');
+        $payload = json_decode((string) $req->getContent(), true) ?? [];
+        $tenant = (string) ($payload['tenant'] ?? 't1');
+        $subject = (string) ($payload['subject'] ?? '');
+        $relation = (string) ($payload['relation'] ?? '');
+        $resource = (string) ($payload['resource'] ?? '');
         $context = is_array($payload['context'] ?? null) ? $payload['context'] : [];
         $oblig = is_array($payload['obligations'] ?? null) ? $payload['obligations'] : [];
 
@@ -46,7 +45,7 @@ final class CheckController
         $reader = new TupleReader($this->tuplesPath);
         $evidence = $reader->exists($tenant, $subject, $relation, $resource);
         $allowed = $evidence !== null;
-        $token = (string)@filesize($this->tuplesPath) ?: '0';
+        $token = (string) @filesize($this->tuplesPath) ?: '0';
 
         // audit
         $logger = new Logger($this->logDir);

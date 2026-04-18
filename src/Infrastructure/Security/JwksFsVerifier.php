@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
@@ -18,9 +19,13 @@ final class JwksFsVerifier implements JwksVerifierInterface
     /**
      * @param \App\InfrastructureInterface\Security\KeyStoreInterface $store
      */
+<<<<<<< HEAD:src/Infrastructure/Security/JwksFsVerifier.php
     public function __construct(private readonly KeyStoreInterface $store)
     {
     }
+=======
+    public function __construct(private readonly KeyStorePort $store) {}
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Infrastructure/Role/Security/JwksFsVerifier.php
 
     /**
      * @param string $tenant
@@ -30,24 +35,28 @@ final class JwksFsVerifier implements JwksVerifierInterface
     public function verify(string $tenant, string $jwt): array
     {
         $parts = explode('.', $jwt);
-        if (count($parts) !== 3) return ['ok' => false, 'header' => [], 'payload' => [], 'kid' => null];
+        if (count($parts) !== 3) {
+            return ['ok' => false, 'header' => [], 'payload' => [], 'kid' => null];
+        }
         [$h, $p, $s] = $parts;
         $header = json_decode(JoseUtil::b64urld($h), true) ?: [];
         $payload = json_decode(JoseUtil::b64urld($p), true) ?: [];
-        $alg = (string)($header['alg'] ?? '');
-        $kid = (string)($header['kid'] ?? '');
+        $alg = (string) ($header['alg'] ?? '');
+        $kid = (string) ($header['kid'] ?? '');
         $data = $h . '.' . $p;
         if ($alg === 'HS256') {
             $key = $kid ? $this->store->loadHmac($tenant, $kid) : $this->store->currentHmac($tenant)['key'];
-            if ($key === null) return ['ok' => false, 'header' => $header, 'payload' => $payload, 'kid' => $kid];
+            if ($key === null) {
+                return ['ok' => false, 'header' => $header, 'payload' => $payload, 'kid' => $kid];
+            }
             $calc = JoseUtil::b64url(JoseUtil::hmac256($data, $key));
             return ['ok' => hash_equals($calc, $s), 'header' => $header, 'payload' => $payload, 'kid' => $kid ?: $this->store->currentHmac($tenant)['kid']];
         }
         if ($alg === 'RS256') {
             $jwks = $this->store->jwks($tenant);
-            foreach ((array)($jwks['keys'] ?? []) as $k) {
+            foreach ((array) ($jwks['keys'] ?? []) as $k) {
                 if (($k['kid'] ?? '') === $kid && isset($k['pem'])) {
-                    return ['ok' => JoseUtil::rs256_verify($data, $s, (string)$k['pem']), 'header' => $header, 'payload' => $payload, 'kid' => $kid];
+                    return ['ok' => JoseUtil::rs256_verify($data, $s, (string) $k['pem']), 'header' => $header, 'payload' => $payload, 'kid' => $kid];
                 }
             }
             return ['ok' => false, 'header' => $header, 'payload' => $payload, 'kid' => $kid];

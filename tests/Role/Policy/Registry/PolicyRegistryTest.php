@@ -1,10 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Policy\Registry;
 
-use App\Policy\Role\Registry\Policy\Role\Registry\RegistryService;
-use App\Policy\Role\Registry\Policy\Role\Registry\InMemoryRegistryStore;
 use PHPUnit\Framework\TestCase;
 
 /**

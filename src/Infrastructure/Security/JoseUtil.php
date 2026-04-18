@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
@@ -30,8 +31,10 @@ final class JoseUtil
     {
         $s = strtr($s, '-_', '+/');
         $pad = strlen($s) % 4;
-        if ($pad) $s .= str_repeat('=', 4 - $pad);
-        return (string)base64_decode($s);
+        if ($pad) {
+            $s .= str_repeat('=', 4 - $pad);
+        }
+        return (string) base64_decode($s);
     }
 
     /**

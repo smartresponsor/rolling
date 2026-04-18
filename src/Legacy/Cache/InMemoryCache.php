@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Cache;
@@ -22,7 +23,9 @@ final class InMemoryCache implements KeyValueCache
     public function get(string $key): mixed
     {
         $now = time();
-        if (!isset($this->m[$key])) return null;
+        if (!isset($this->m[$key])) {
+            return null;
+        }
         $e = $this->m[$key];
         if ($e['exp'] !== 0 && $e['exp'] < $now) {
             unset($this->m[$key]);

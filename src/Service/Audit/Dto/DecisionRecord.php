@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -36,8 +37,7 @@ final class DecisionRecord
         public ?string        $tenant = null,
         public ?string        $requestor = null,
         public ?string        $correlationId = null,
-    )
-    {
+    ) {
         $this->ts = $this->ts ?: time();
         $this->tenant = $this->tenant ?? ($input->context['tenant'] ?? ($input->resource['tenant'] ?? ($input->subject['tenant'] ?? null)));
         $this->requestor = $this->requestor ?? ($input->subject['id'] ?? null);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Observability\Tracing;
@@ -41,14 +42,14 @@ final class OtelBridge
             $span = $this->tracer->spanBuilder($name)->startSpan();
             foreach ($attrs as $k => $v) {
                 try {
-                    $span->setAttribute((string)$k, (string)$v);
+                    $span->setAttribute((string) $k, (string) $v);
                 } catch (Throwable $e) {
                     error_log('OtelBridge::startSpan attribute failure: ' . $e->getMessage());
                 }
             }
-            return (object)['span' => $span];
+            return (object) ['span' => $span];
         }
-        return (object)['span' => null];
+        return (object) ['span' => null];
     }
 
     /**

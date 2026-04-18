@@ -1,0 +1,4 @@
+app_healthz:
+  path: /healthz
+  controller: App\Controller\HealthController::index
+  methods: [ GET ]

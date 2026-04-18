@@ -1,4 +1,5 @@
 parameters:
+<<<<<<< HEAD
   level: max
   paths:
     - src
@@ -6,3 +7,24 @@ parameters:
   checkGenericClassInNonGenericObjectType: true
   checkMissingIterableValueType: true
   inferPrivatePropertyTypeFromConstructor: true
+=======
+  level: 0
+  paths:
+    - src/Cache
+    - src/Command
+    - src/Consistency
+    - src/Controller
+    - src/Entity
+    - src/Integration
+    - src/Observability
+    - Policy
+    - PolicyInterface
+    - Http/Middleware
+    - Http/Role/V2
+    - Http/Security
+    - tests
+  tmpDir: var/cache/phpstan
+  excludePaths:
+    analyse:
+      - tests/SDK/PHP/psr_stubs.php
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa

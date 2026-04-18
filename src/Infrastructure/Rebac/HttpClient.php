@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -20,9 +21,7 @@ class HttpClient
      * @param string $baseUrl
      * @param string|null $token
      */
-    public function __construct(private readonly string $baseUrl, private readonly ?string $token = null)
-    {
-    }
+    public function __construct(private readonly string $baseUrl, private readonly ?string $token = null) {}
 
     /**
      * @param string $path
@@ -35,7 +34,7 @@ class HttpClient
         $opts = [
             'http' => [
                 'method' => 'POST',
-                'header' => "Content-Type: application/json\r\n" . ($this->token ? "Authorization: Bearer {$this->token}\r\n" : ""),
+                'header' => "Content-Type: application/json\r\n" . ($this->token ? "Authorization: Bearer {$this->token}\r\n" : ''),
                 'content' => json_encode($payload, JSON_UNESCAPED_SLASHES),
                 'timeout' => 10,
             ],

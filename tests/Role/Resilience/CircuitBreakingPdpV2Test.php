@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Resilience;
@@ -54,13 +55,11 @@ final class CircuitBreakingPdpV2Test extends TestCase
     {
         // fake clock
         $now = 1_700_000_000;
-        $clock = new class($now) implements Clock {
+        $clock = new class ($now) implements Clock {
             /**
              * @param int $t
              */
-            public function __construct(private int $t)
-            {
-            }
+            public function __construct(private int $t) {}
 
             /**
              * @return int
@@ -82,13 +81,11 @@ final class CircuitBreakingPdpV2Test extends TestCase
 
         // inner fails with RemoteHttpException(500) first two times, then success
         $calls = 0;
-        $inner = new class($calls) implements PdpV2Interface {
+        $inner = new class ($calls) implements PdpV2Interface {
             /**
              * @param int $calls
              */
-            public function __construct(private int &$calls)
-            {
-            }
+            public function __construct(private int &$calls) {}
 
             /**
              * @param \App\Entity\Role\SubjectId $s

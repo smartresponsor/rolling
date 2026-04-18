@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -20,10 +21,11 @@ final class StampedeGuard
      */
     public function __construct(
         private readonly string $lockDir = '/tmp/role_cache_locks',
-        private readonly int    $jitterPercent = 15
-    )
-    {
-        if (!is_dir($this->lockDir)) @mkdir($this->lockDir, 0775, true);
+        private readonly int    $jitterPercent = 15,
+    ) {
+        if (!is_dir($this->lockDir)) {
+            @mkdir($this->lockDir, 0775, true);
+        }
     }
 
     /**
@@ -41,17 +43,19 @@ final class StampedeGuard
             // fallback: compute without lock
             $value = $producer();
             $effectiveTtl = $this->applyJitter($ttlMs);
-            return ['value' => $value, 'ttlMs' => $effectiveTtl, 'expiresAt' => (int)(microtime(true) * 1000) + $effectiveTtl];
+            return ['value' => $value, 'ttlMs' => $effectiveTtl, 'expiresAt' => (int) (microtime(true) * 1000) + $effectiveTtl];
         }
         $locked = flock($fp, LOCK_EX);
         try {
             $value = $producer();
         } finally {
-            if ($locked) flock($fp, LOCK_UN);
+            if ($locked) {
+                flock($fp, LOCK_UN);
+            }
             fclose($fp);
         }
         $effectiveTtl = $this->applyJitter($ttlMs);
-        return ['value' => $value, 'ttlMs' => $effectiveTtl, 'expiresAt' => (int)(microtime(true) * 1000) + $effectiveTtl];
+        return ['value' => $value, 'ttlMs' => $effectiveTtl, 'expiresAt' => (int) (microtime(true) * 1000) + $effectiveTtl];
     }
 
     /**
@@ -61,7 +65,7 @@ final class StampedeGuard
     private function applyJitter(int $ttlMs): int
     {
         $p = max(0, min(90, $this->jitterPercent));
-        $delta = (int)floor($ttlMs * $p / 100);
+        $delta = (int) floor($ttlMs * $p / 100);
         try {
             $j = random_int(0, $delta);
         } catch (Exception $e) {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
@@ -19,9 +20,7 @@ final class HmacKeyFsStore implements KeyStoreInterface
     /**
      * @param string $baseDir
      */
-    public function __construct(private readonly string $baseDir)
-    {
-    } // var/keys/<tenant>/hmac/{current.key,archive/*.key}
+    public function __construct(private readonly string $baseDir) {} // var/keys/<tenant>/hmac/{current.key,archive/*.key}
 
     /**
      * @param string $tenant
@@ -52,8 +51,8 @@ final class HmacKeyFsStore implements KeyStoreInterface
             file_put_contents($cur, json_encode(['kid' => $kid, 'key' => $key], JSON_UNESCAPED_SLASHES));
             return ['kid' => $kid, 'key' => $key];
         }
-        $j = json_decode((string)file_get_contents($cur), true);
-        return ['kid' => (string)$j['kid'], 'key' => (string)$j['key']];
+        $j = json_decode((string) file_get_contents($cur), true);
+        return ['kid' => (string) $j['kid'], 'key' => (string) $j['key']];
     }
 
     /**
@@ -89,11 +88,15 @@ final class HmacKeyFsStore implements KeyStoreInterface
     {
         $dir = $this->tdir($tenant) . '/hmac';
         $cur = $this->currentHmac($tenant);
-        if ($kid === $cur['kid']) return $cur['key'];
+        if ($kid === $cur['kid']) {
+            return $cur['key'];
+        }
         $f = $dir . '/archive/' . $kid . '.key';
-        if (!is_file($f)) return null;
-        $j = json_decode((string)file_get_contents($f), true);
-        return is_array($j) ? (string)($j['key'] ?? null) : null;
+        if (!is_file($f)) {
+            return null;
+        }
+        $j = json_decode((string) file_get_contents($f), true);
+        return is_array($j) ? (string) ($j['key'] ?? null) : null;
     }
 
     /**
@@ -103,7 +106,7 @@ final class HmacKeyFsStore implements KeyStoreInterface
     public function jwks(string $tenant): array
     {
         $file = $this->tdir($tenant) . '/jwks.json';
-        $j = is_file($file) ? json_decode((string)file_get_contents($file), true) : ['keys' => []];
+        $j = is_file($file) ? json_decode((string) file_get_contents($file), true) : ['keys' => []];
         return is_array($j) ? $j : ['keys' => []];
     }
 

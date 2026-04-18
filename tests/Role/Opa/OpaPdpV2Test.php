@@ -1,11 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Role\Opa;
 
+<<<<<<< HEAD
 use App\Legacy\Net\Opa\OpaClientInterface;
 use App\Policy\Role\Opa\Policy\Role\Opa\OpaPdpV2;
 use App\Policy\Role\Opa\Policy\Role\Opa\InputBuilder;
+=======
+use App\Net\Role\Opa\OpaClientInterface;
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa
 use PHPUnit\Framework\TestCase;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;

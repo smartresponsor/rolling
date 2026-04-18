@@ -1,11 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Http\Api;
 
+<<<<<<< HEAD:src/Legacy/Http/Api/RotateKeysController.php
 use App\Legacy\Security\Admin\{Roles};
 use App\Legacy\Security\Admin\Voter;
 use App\Legacy\Security\Keys\KeyStore;
+=======
+use src\Security\Role\Admin\Voter;
+use src\Security\Role\Keys\KeyStore;
+>>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:Http/Role/Api/RotateKeysController.php
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

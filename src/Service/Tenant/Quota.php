@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Tenant;
@@ -12,9 +13,7 @@ final class Quota
     /**
      * @param string $baseDir
      */
-    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var/tenants')
-    {
-    }
+    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var/tenants') {}
 
     /**
      * @param string $tenant
@@ -29,10 +28,14 @@ final class Quota
     public function getLimit(string $tenant): array
     {
         $path = $this->dir($tenant) . '/quota_limits.json';
-        if (!is_dir(dirname($path))) @mkdir(dirname($path), 0775, true);
-        if (!file_exists($path)) file_put_contents($path, json_encode(['limit_per_min' => 600]));
-        $d = json_decode((string)@file_get_contents($path), true);
-        $limit = (int)($d['limit_per_min'] ?? 600);
+        if (!is_dir(dirname($path))) {
+            @mkdir(dirname($path), 0775, true);
+        }
+        if (!file_exists($path)) {
+            file_put_contents($path, json_encode(['limit_per_min' => 600]));
+        }
+        $d = json_decode((string) @file_get_contents($path), true);
+        $limit = (int) ($d['limit_per_min'] ?? 600);
         return ['limit_per_min' => $limit];
     }
 
@@ -44,7 +47,9 @@ final class Quota
     public function setLimit(string $tenant, int $perMin): void
     {
         $path = $this->dir($tenant) . '/quota_limits.json';
-        if (!is_dir(dirname($path))) @mkdir(dirname($path), 0775, true);
+        if (!is_dir(dirname($path))) {
+            @mkdir(dirname($path), 0775, true);
+        }
         file_put_contents($path, json_encode(['limit_per_min' => max(1, $perMin)], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
@@ -53,9 +58,9 @@ final class Quota
     {
         $path = $this->dir($tenant) . '/quota_usage.json';
         $now = time();
-        $d = json_decode((string)@file_get_contents($path), true);
-        $ws = (int)($d['window_start'] ?? $now);
-        $cnt = (int)($d['count'] ?? 0);
+        $d = json_decode((string) @file_get_contents($path), true);
+        $ws = (int) ($d['window_start'] ?? $now);
+        $cnt = (int) ($d['count'] ?? 0);
         // reset window if older than 60s
         if ($now - $ws >= 60) {
             $ws = $now;
@@ -72,7 +77,9 @@ final class Quota
     private function saveUsage(string $tenant, array $u): void
     {
         $path = $this->dir($tenant) . '/quota_usage.json';
-        if (!is_dir(dirname($path))) @mkdir(dirname($path), 0775, true);
+        if (!is_dir(dirname($path))) {
+            @mkdir(dirname($path), 0775, true);
+        }
         file_put_contents($path, json_encode($u));
     }
 
@@ -83,7 +90,9 @@ final class Quota
         $u = $this->getUsage($tenant);
         $now = time();
         $reset = $u['window_start'] + 60 - $now;
-        if ($reset < 0) $reset = 0;
+        if ($reset < 0) {
+            $reset = 0;
+        }
         if ($u['count'] + $cost > $limit) {
             return ['allowed' => false, 'remaining' => max(0, $limit - $u['count']), 'reset' => $reset];
         }

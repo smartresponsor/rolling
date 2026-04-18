@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Audit;
@@ -21,9 +22,10 @@ final class Logger
         private readonly string   $dir = __DIR__ . '/../../../../var/log/role',
         private readonly Redactor $redactor = new Redactor(),
         private readonly bool     $enabled = true,
-    )
-    {
-        if (!is_dir($this->dir)) @mkdir($this->dir, 0775, true);
+    ) {
+        if (!is_dir($this->dir)) {
+            @mkdir($this->dir, 0775, true);
+        }
     }
 
     /**
@@ -33,7 +35,9 @@ final class Logger
      */
     public function write(array $event, array $obligations = []): array
     {
-        if (!$this->enabled) return ['ok' => false, 'error' => 'disabled'];
+        if (!$this->enabled) {
+            return ['ok' => false, 'error' => 'disabled'];
+        }
         $ts = $event['ts'] ?? gmdate('c');
         $event['ts'] = $ts;
         // obligations -> redactor
@@ -50,7 +54,9 @@ final class Logger
     public function tail(int $limit = 100): array
     {
         $path = $this->dir . '/decision.jsonl';
-        if (!file_exists($path)) return [];
+        if (!file_exists($path)) {
+            return [];
+        }
         $lines = @file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
         $slice = array_slice($lines, -$limit);
         return array_values(array_map(static function (string $l) {

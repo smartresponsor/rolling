@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -29,7 +30,5 @@ final class DecisionResult
         public ?string $ruleId = null,
         public array   $obligations = [],
         public array   $meta = [],
-    )
-    {
-    }
+    ) {}
 }

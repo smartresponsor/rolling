@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Housekeeping;
@@ -15,9 +16,7 @@ final class PdoAuditGc
      * @param \PDO $pdo
      * @param string $table
      */
-    public function __construct(private readonly PDO $pdo, private readonly string $table = 'role_audit')
-    {
-    }
+    public function __construct(private readonly PDO $pdo, private readonly string $table = 'role_audit') {}
 
     /**
      * @return int кол-во удалённых строк
@@ -37,14 +36,18 @@ final class PdoAuditGc
             $sel->bindValue(':lim', $batchSize, PDO::PARAM_INT);
             $sel->execute();
             $ids = $sel->fetchAll(PDO::FETCH_COLUMN, 0);
-            if (!$ids) break;
+            if (!$ids) {
+                break;
+            }
 
             $in = implode(',', array_fill(0, count($ids), '?'));
             $del = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id IN ($in)");
             $del->execute(array_map('intval', $ids));
             $affected = $del->rowCount();
             $total += $affected;
-            if ($affected < $batchSize) break;
+            if ($affected < $batchSize) {
+                break;
+            }
         }
         return $total;
     }

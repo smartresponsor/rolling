@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
  * All code comments MUST be in English.
@@ -22,9 +23,7 @@ final class GrantRoleAction implements GrantRoleActionInterface
     /**
      * @param string $reportDir
      */
-    public function __construct(private readonly string $reportDir)
-    {
-    }
+    public function __construct(private readonly string $reportDir) {}
 
     /**
      * @param \Admin\Dto\ApprovalRequest $req

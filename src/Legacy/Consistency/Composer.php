@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Legacy\Consistency;
@@ -24,10 +25,8 @@ final class Composer
     public function __construct(
         private readonly Closure  $policyTokenFn, // fn(): PolicyToken
         private readonly Closure  $rebacTokenFn,  // fn(): RebacToken
-        private readonly ?Closure $subjectEpochFn = null // fn(string $subjectId): int
-    )
-    {
-    }
+        private readonly ?Closure $subjectEpochFn = null, // fn(string $subjectId): int
+    ) {}
 
     /**
      * @param string|null $subjectId
