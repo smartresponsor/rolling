@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Service\Pdp\Cache;
 
-use App\InfraInterface\Cache\CacheInterface;
+use App\InfrastructureInterface\Cache\CacheInterface;
 use App\ServiceInterface\Pdp\PolicyDecisionProviderInterface;
 
 /**

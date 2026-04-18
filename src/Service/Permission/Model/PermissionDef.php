@@ -2,12 +2,7 @@
 
 declare(strict_types=1);
 
-<<<<<<< HEAD:src/Service/Permission/Model/PermissionDef.php
 namespace App\Service\Permission\Model;
-=======
-namespace App\Permission\Role\Model;
-
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Permission/Role/Model/PermissionDef.php
 /**
  *
  */

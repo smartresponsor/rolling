@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\V2;
 
-use App\Legacy\Model\Rebac\Tuple;
-use App\Legacy\Service\Rebac\{Checker, Writer};
+use App\Infrastructure\Rebac\Tuple;
+use App\Service\Rebac\{Checker, Writer};
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,8 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
 final class RebacController
 {
     /**
-     * @param \App\Legacy\Service\Rebac\Writer $writer
-     * @param \App\Legacy\Service\Rebac\Checker $checker
+     * @param \App\Service\Rebac\Writer $writer
+     * @param \App\Service\Rebac\Checker $checker
      */
     public function __construct(private readonly Writer $writer, private readonly Checker $checker) {}
 

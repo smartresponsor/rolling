@@ -1,5 +1,0 @@
-[
-  "src/Legacy/Compatibility/legacy_role_namespace_aliases.php",
-  "src/Legacy/Compatibility/legacy_role_global_aliases.php",
-  "src/Legacy/Compatibility/role_sdk_exception_aliases.php"
-]

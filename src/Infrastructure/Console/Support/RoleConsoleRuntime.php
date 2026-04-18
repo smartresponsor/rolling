@@ -9,16 +9,16 @@ use App\Infrastructure\Housekeeping\Archive\JsonlAuditArchiver;
 use App\Infrastructure\Housekeeping\Janitor;
 use App\Infrastructure\Housekeeping\PdoAuditGc;
 use App\Infrastructure\Housekeeping\PdoReplayGc;
-use App\Legacy\Model\Rebac\Tuple;
+use App\Infrastructure\Rebac\Tuple;
 use App\Infrastructure\Rebac\InMemoryTupleStore;
 use App\Infrastructure\Rebac\PdoTupleStore;
 use App\InfrastructureInterface\Rebac\TupleStoreInterface;
 use App\Service\Rebac\Checker;
 use App\Service\Rebac\Writer;
 use PDO;
-use App\Legacy\Policy\Registry\InMemoryRegistryStore;
-use App\Legacy\Policy\Registry\PdoRegistryStore;
-use App\Legacy\Policy\Registry\RegistryService;
+use App\Infrastructure\Policy\Registry\InMemoryStore;
+use App\Infrastructure\Policy\Registry\PdoStore;
+use App\Infrastructure\Policy\Registry\RegistryService;
 
 final class RoleConsoleRuntime
 {
@@ -48,8 +48,8 @@ final class RoleConsoleRuntime
 
         $dsn = getenv('ROLE_POLICY_DSN');
         $store = is_string($dsn) && $dsn !== ''
-            ? new PdoRegistryStore(new PDO($dsn))
-            : new InMemoryRegistryStore();
+            ? new PdoStore(new PDO($dsn))
+            : new InMemoryStore();
 
         return $this->policyServiceCache = new RegistryService($store);
     }
@@ -162,7 +162,7 @@ final class RoleConsoleRuntime
 
     public function retentionConfigPath(): string
     {
-        return $this->env('ROLE_RETENTION_CONFIG', dirname(__DIR__, 4) . '/misc/ops/retention.json');
+        return $this->env('ROLE_RETENTION_CONFIG', dirname(__DIR__, 4) . '/ops/retention.json');
     }
 
     public function janitorPdo(string $dsn): PDO

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Role\Batch;
 
 use PHPUnit\Framework\TestCase;
-use App\Legacy\Policy\Batch\CheckBatchProcessor;
+use App\Policy\Batch\CheckBatchProcessor;
 use App\Policy\Obligation\Obligations;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use RuntimeException;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
@@ -92,7 +92,7 @@ final class CheckBatchProcessorTest extends TestCase
         }
         $start = memory_get_usage(true);
         $count = 0;
-        foreach ($proc->process($reqs, ['chunkSize' => 128]) as $row) {
+        foreach ($proc->process($reqs, ['chunkSize' => 128, 'maxItems' => 5000]) as $row) {
             $count++;
         }
         $peak = memory_get_peak_usage(true);
@@ -100,3 +100,4 @@ final class CheckBatchProcessorTest extends TestCase
         $this->assertLessThan(256 * 1024 * 1024, $peak, 'peak memory must be below 256MB');
     }
 }
+

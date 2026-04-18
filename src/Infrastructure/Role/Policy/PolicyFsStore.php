@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace App\Infra\Role\Policy;
 
-use App\Domain\Role\Port\PolicyStorePort;
+use App\InfrastructureInterface\Policy\PolicyStoreInterface;
 
 /**
  *
@@ -14,7 +14,7 @@ use App\Domain\Role\Port\PolicyStorePort;
 /**
  *
  */
-final class PolicyFsStore implements PolicyStorePort
+final class PolicyFsStore implements PolicyStoreInterface
 {
     /**
      * @param string $dir

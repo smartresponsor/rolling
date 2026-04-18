@@ -1,164 +1,106 @@
 # Rolling / Role
 
-Current-slice repository under canonical remediation.
+Symfony-first Rollin workspace for the Rolling component recovery track.
 
-This wave (`w01`) establishes a protocol-grade baseline for subsequent cumulative repairs:
-- freeze the current-slice audit against the declared Symfony-oriented canon;
-- record structural violations without speculative code motion;
-- define the next cumulative repair sequence so later waves can reshape code predictably.
+## Current status
 
-Primary audit artifact:
-- `docs/canon/rolling-role-w01-protocol-audit.md`
+The live repository tree has been structurally recovered from the earlier mixed workspace / legacy state:
+- `src/Legacy/**` has been removed from the working tree.
+- active `src/`, `tests/`, and `bin/` code paths no longer import `App\Legacy\...`.
+- forbidden root production trees such as `Http/`, `PolicyInterface/`, and `Service/` are no longer present.
+- the component now tracks a single Symfony-first application/workspace layout rooted in `src/`, `config/`, `bin/`, `tests/`, `docs/`, `report/`, and `tools/`.
 
-Machine-readable inventory:
-- `report/rolling-role-w01-inventory.json`
-- `report/rolling-role-w01-delivery.yaml`
+## Current operator-facing references
 
-## Canonicalization waves
+Use the stable current-state artifacts instead of older wave-specific snapshots:
+- `report/recovery/current-autoload-audit.json`
+- `report/recovery/current-canon-scan.json`
+- `report/recovery/current-namespace-audit.json`
+- `report/recovery/current-dependency-readiness.json`
+- `report/recovery/current-readiness-smoke.json`
+- `report/recovery/current-operator-preflight.json`
+- `report/recovery/current-recovery-audits.json`
+- `report/recovery/current-summary.json`
+- `report/recovery/current-summary.pretty.txt`
 
-- `w01`: factual protocol audit and inventory baseline.
-- `w02`: root bootstrap normalization (`composer.json`) and repeatable canon scan utility.
+The live operator workflow now centers on stable `current-*` artifacts and their paired `.pretty.txt` text summaries.
 
-## Canon waves
+## Expected layout
 
-- w01: protocol audit baseline and machine-readable inventory
-- w02: root composer/bootstrap baseline and local canon scan
-- w03: collapse legacy root production trees under `src/Legacy/`
+- `src/` — canonical Symfony-first production code under `App\...`
+- `config/` — Symfony configuration and bundle wiring
+- `bin/` — operational entrypoints and repository audit utilities
+- `tests/` — PHPUnit and support fixtures
+- `docs/` — current operator and component documentation
+- `report/` — recovery, delivery, and package artifacts
+- `tools/` — local QA helpers
+- `sdk/` — SDK materials only
+- `ops/` — operational reference files
 
-## Canon wave w04
+## Recovery and readiness commands
 
-- moved forbidden `src/Domain/Role/` to `src/Legacy/Domain/Role/`
-- moved forbidden `src/Acl/Role/Adapter/` to `src/Legacy/Acl/Role/Adapter/`
-- added Composer continuity mappings for legacy namespaces
+Current operator-facing commands:
+- `php tools/qa/recovery-audits.php`
+- `php tools/qa/dependency-readiness.php`
+- `php tools/qa/readiness-smoke.php`
+- `php tools/qa/operator-preflight.php`
+- `php tools/qa/current-summary.php`
 
+These regenerate stable `report/recovery/current-*.json` artifacts for the live operator workflow:
+- autoload continuity
+- canon scan
+- namespace audit
+- dependency/bootstrap readiness
+- readiness smoke
+- combined operator preflight
 
-## Canon wave w05
+## Runtime preflight
 
-- moved eleven leaf `src/*/Role/...` groups out of canonical placement into `src/Legacy/...`
-- preserved old namespaces through targeted Composer PSR-4 continuity mappings
-- upgraded `bin/canon-scan.php` to distinguish canonical-placement violations from legacy-held violations
+Before running `bin/console` or serving `public/index.php`, install dependencies with `composer install`. The repository now performs a bootstrap preflight and stops with an explicit recovery message when `vendor/autoload.php` is missing.
 
-## Wave w06
-- Relocated heavy internal role trees from canonical placement into `src/Legacy/...`:
-  - `src/Infrastructure/Role/`
-  - `src/InfrastructureInterface/Role/`
-  - `src/Service/Role/`
-  - `src/ServiceInterface/Role/`
-- Added Composer `autoload.classmap` continuity for relocated legacy trees to avoid mass namespace rewrites in this wave.
+Recommended preflight sequence:
+- `php tools/qa/dependency-readiness.php`
+- `php tools/qa/recovery-audits.php`
+- `php tools/qa/readiness-smoke.php`
+- `php tools/qa/operator-preflight.php`
+- `php tools/qa/current-summary.php`
+- `php bin/console`
 
+A local runtime needs:
+- PHP satisfying `composer.json` (`^8.4`)
+- required PHP extensions from `composer.json`
+- Composer available on `PATH`
+- `composer install` completed so `vendor/autoload.php` exists
 
-## W07
+## Remaining RC blockers
 
-- Completed final internal collapse of remaining canonical `src/*/Role/...` groups into `src/Legacy/...`.
-- Canonical placement under `src/` now contains no forbidden `Role`, `Domain`, `Port`, `Adapter`, or `Rolling` directories.
+This snapshot is past the structural-recovery phase and is now in readiness hardening.
 
+Still required before an RC-style verdict:
+- dependency install and container compilation in a Composer-enabled environment
+- PHPStan run
+- PHPUnit run
+- console/container smoke in a full Symfony runtime environment
 
-## W08
+## Recovery runbook
 
-- Added namespace baseline tooling and `bin/namespace-audit.php`.
-- Recorded machine-readable namespace continuity metrics in `report/rolling-role-w08-namespace-audit.json`.
+See `docs/recovery/current-operator-workflow.md` for the stable current-state operator workflow.
 
-## W09
-
-- Normalized canonical `src/Exception/*.php` to `App\Exception`.
-- Added explicit compatibility aliases for legacy `SmartResponsor\RoleSdk\V2\Exception\*` class names.
-- Reduced non-legacy non-`App\...` namespace files in canonical placement to zero.
-
-- w10: no-namespace governance baseline added; canonical audit scripts namespaced; test namespace normalized.
-
-
-## Canon waves
-- w11: cleaned remaining unexpected legacy no-namespace tail and added compatibility alias for global RoleResolver.
-
-## w12
-- repaired root Composer SDK PSR-4 path to an existing repository location
-- replaced selected legacy classmap fallbacks with explicit PSR-4 continuity mappings
-- added autoload continuity audit script and report
-
-- w13: reduced heavy autoload classmap tail by converting three legacy groups to explicit PSR-4 continuity mappings.
-
-- w14: replaced broad legacy Service and ServiceInterface classmap continuity with explicit PSR-4 mappings; retained one file-level classmap outlier for App\Legacy\Service\Role\Pipeline\Stage\DecisionPipeline.
-- w15: eliminated the final Composer classmap outlier by splitting App\Legacy\Service\Role\Pipeline\Stage\Stage into its own PSR-4 file; classmap is now 0.
-
-## w16
-- test + CLI foundation added: PHPUnit / PHPStan / PHP-CS-Fixer config, fixture catalog, scenario runner, and minimal bin/console fixture commands.
-
-
-## w17 scenario CLI
-
-The test foundation now includes business-oriented scenario commands for propagation and elimination:
-
-- `php bin/console app:role:propagation:preview propagation-chain`
-- `php bin/console app:role:propagation:run propagation-chain`
-- `php bin/console app:role:elimination:preview elimination-cascade`
-- `php bin/console app:role:elimination:run elimination-cascade`
-
-Composer shortcuts:
-
-- `composer scenario:propagation`
-- `composer scenario:elimination`
-
-## W18
-
-Added richer business fixtures and scenario coverage for partial propagation, multi-hop propagation, and revoke-after-propagation. Added CLI scenario listing and extra scenario shortcuts in Composer.
+Bootstrap preflight artifacts:
+- `report/recovery/current-bootstrap-preflight.json`
+- `report/recovery/current-bootstrap-preflight.pretty.txt`
+- `report/recovery/current-recovery-audits.pretty.txt`
 
 
-## w19
-- Added explain/audit CLI diagnostics.
-- Added multi-tenant isolation, relation override, and deny-by-revocation business fixtures.
+## Repository structure
 
-## w20
-- Replaced bespoke CLI dispatch with a Symfony Console Application builder.
-- Registered fixture, scenario, explain, and audit operations as native Console commands.
-- Added CommandTester-friendly console tests and a Composer shortcut for `bin/console list`.
+- `src/` — Symfony-first component core
+- `config/` — Symfony configuration
+- `tests/` — test suite
+- `docs/` — documentation
+- `tools/` — QA and operator tooling
+- `report/` — generated reports and package artifacts
+- `ops/` — operational assets
+- `examples/` — non-core usage examples
+- `sdk/` — embedded SDK materials (`php/`, `js/`, `java/`)
 
-
-## Wave log
-- w21: introduced DI-ready console registry/factory and migrated the first operational bin/role-* flows to native Symfony commands.
-
-
-## w22
-- Added native Symfony Console parity commands for policy/admin/janitor operational flows.
-
-
-## w23 benchmark commands
-
-- `php bin/console app:role:batch:perf 1000 0 128`
-- `php bin/console app:role:bench:run 20000 3000 200`
-- `php bin/console app:role:perf:stats 1000 0 128`
-- `php bin/console app:role:bench:stats 20000 3000 200`
-
-
-## W24 benchmark diagnostics
-
-Added trace/detailed benchmark diagnostics and persistent report commands:
-- `app:role:perf:report`
-- `app:role:bench:report`
-
-Default report output targets live under `var/bench_stats/`.
-
-
-## W25 perf regression gating
-
-New CI-friendly commands were added for perf and benchmark threshold checks:
-
-- `php bin/console app:role:perf:regression-check`
-- `php bin/console app:role:bench:regression-check`
-- `composer qa:perf-smoke`
-
-
-## w26
-
-- Added baseline-file comparison for perf and bench regression checks.
-- Regression commands can now fail both on absolute thresholds and on comparative drift versus known-good JSON reports.
-
-
-## w27 baseline governance
-- baseline manifest management for perf/bench reports
-- CI comparison profiles in `config/role/perf_profiles.json`
-- profile-aware perf/bench checks and baseline promotion commands
-
-
-## w28
-- Added generic profile promotion and multi-profile manifest summary commands.
-- Added Composer shortcuts for smoke/standard/strict baseline promotion and CI summary generation.

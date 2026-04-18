@@ -1,7 +1,0 @@
-/vendor/
-/node_modules/
-/dist/
-/report/bench/*.json
-/report/bench/*.csv
-/.idea/
-/.env

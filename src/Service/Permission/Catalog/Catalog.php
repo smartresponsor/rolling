@@ -19,7 +19,7 @@ final class Catalog
     private array $items = [];
 
     /**
-     * @param \App\Legacy\Permission\Model\PermissionDef $p
+     * @param \App\Service\Permission\Model\PermissionDef $p
      * @return void
      */
     public function add(PermissionDef $p): void

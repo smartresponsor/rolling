@@ -19,13 +19,9 @@ final class ObligationApplier
     /**
      * @param \App\ServiceInterface\ObligationStoreInterface $store
      */
-<<<<<<< HEAD:src/Service/Obligation/ObligationApplier.php
     public function __construct(private readonly ObligationStoreInterface $store)
     {
     }
-=======
-    public function __construct(private readonly ObligationStorePort $store) {}
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/Obligation/ObligationApplier.php
 
     /**
      * @param string $tenant

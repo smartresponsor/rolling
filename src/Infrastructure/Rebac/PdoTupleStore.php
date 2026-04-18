@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Rebac;
 
-use App\Legacy\Model\Rebac\Tuple;
+use App\Infrastructure\Rebac\Tuple;
 use App\Service\Consistency\Rebac\Token;
 use PDO;
 use Throwable;
@@ -49,7 +49,7 @@ final class PdoTupleStore implements \App\InfrastructureInterface\Rebac\TupleSto
 
     /**
      * @param string $ns
-     * @param \App\Legacy\Model\Rebac\Tuple $tuple
+     * @param \App\Infrastructure\Rebac\Tuple $tuple
      * @return \App\Service\Consistency\Rebac\Token
      * @throws \Throwable
      */

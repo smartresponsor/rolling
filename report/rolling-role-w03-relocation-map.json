@@ -1,8 +1,0 @@
-{
-  "moves": [
-    {"from": "Http", "to": "src/Legacy/Http"},
-    {"from": "Policy", "to": "src/Legacy/Policy"},
-    {"from": "PolicyInterface", "to": "src/Legacy/PolicyInterface"},
-    {"from": "Service", "to": "src/Legacy/Service"}
-  ]
-}

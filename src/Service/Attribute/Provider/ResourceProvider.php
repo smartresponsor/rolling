@@ -2,12 +2,7 @@
 
 declare(strict_types=1);
 
-<<<<<<< HEAD:src/Service/Attribute/Provider/ResourceProvider.php
 namespace App\Service\Attribute\Provider;
-=======
-namespace App\Attribute\Role\Provider;
-
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Attribute/Role/Provider/ResourceProvider.php
 /**
  *
  */

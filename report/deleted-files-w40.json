@@ -1,7 +1,0 @@
-{
-  "deleted_files": [
-    "src/Legacy/Entity/Role/PermissionKey.php",
-    "src/Legacy/Entity/Role/Scope.php",
-    "src/Legacy/Entity/Role/SubjectId.php"
-  ]
-}

@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 declare(strict_types=1);
 
 namespace App\Bin {
@@ -41,18 +42,15 @@ namespace App\Bin {
         $classPattern = '/^\s*(?:final\s+|abstract\s+)?(?:class|interface|trait|enum)\s+([A-Za-z_][A-Za-z0-9_]*)/m';
 
         $summary = [
+            'generated_at_utc' => gmdate('c'),
             'scanned_php_files' => 0,
             'files_without_namespace' => 0,
-            'files_under_src_legacy' => 0,
             'app_namespace_files' => 0,
             'non_app_namespace_files' => 0,
-            'legacy_non_app_namespace_files' => 0,
-            'non_legacy_non_app_namespace_files' => 0,
             'namespace_roots' => [],
             'top_namespaces' => [],
             'non_app_samples' => [],
             'no_namespace_samples' => [],
-            'generated_at_utc' => gmdate('c'),
         ];
 
         $rootCounts = [];
@@ -69,7 +67,6 @@ namespace App\Bin {
                 continue;
             }
 
-            $namespace = null;
             if (preg_match($namespacePattern, $contents, $matches) === 1) {
                 $namespace = trim($matches[1]);
                 $namespaceCounts[$namespace] = ($namespaceCounts[$namespace] ?? 0) + 1;
@@ -77,16 +74,10 @@ namespace App\Bin {
                 $rootName = explode('\\', $namespace)[0];
                 $rootCounts[$rootName] = ($rootCounts[$rootName] ?? 0) + 1;
 
-                if (str_starts_with($namespace, 'App\\')) {
+                if ($namespace === 'App' || str_starts_with($namespace, 'App\\')) {
                     $summary['app_namespace_files']++;
                 } else {
                     $summary['non_app_namespace_files']++;
-                    if (str_starts_with($relativePath, 'src/Legacy/')) {
-                        $summary['legacy_non_app_namespace_files']++;
-                    } else {
-                        $summary['non_legacy_non_app_namespace_files']++;
-                    }
-
                     if (count($nonAppSamples) < 50) {
                         $sample = ['path' => $relativePath, 'namespace' => $namespace];
                         if (preg_match($classPattern, $contents, $classMatches) === 1) {
@@ -105,10 +96,6 @@ namespace App\Bin {
                     $noNamespaceSamples[] = $sample;
                 }
             }
-
-            if (str_starts_with($relativePath, 'src/Legacy/')) {
-                $summary['files_under_src_legacy']++;
-            }
         }
 
         arsort($rootCounts);
@@ -119,7 +106,7 @@ namespace App\Bin {
         $summary['non_app_samples'] = $nonAppSamples;
         $summary['no_namespace_samples'] = $noNamespaceSamples;
 
-        $outputPath = $root . '/report/rolling-role-w10-namespace-audit.json';
+        $outputPath = $root . '/report/recovery/current-namespace-audit.json';
         file_put_contents(
             $outputPath,
             json_encode($summary, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL

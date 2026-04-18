@@ -1,0 +1,14 @@
+{
+  "wave": 26,
+  "scope": [
+    "services resource cleanup",
+    "decision accessor normalization",
+    "rebac tuple restoration"
+  ],
+  "verified": {
+    "php_lint": true,
+    "phpstan_zero_errors": true,
+    "bin_console_reaches_preflight": true,
+    "phpunit_blocked_by_environment": true
+  }
+}

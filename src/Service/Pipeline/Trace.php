@@ -3,12 +3,7 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-<<<<<<< HEAD:src/Service/Pipeline/Trace.php
 namespace App\Service\Pipeline;
-=======
-namespace Pipeline;
-
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/Pipeline/Trace.php
 /**
  *
  */

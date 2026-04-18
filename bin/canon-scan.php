@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 declare(strict_types=1);
 
 namespace App\Bin {
@@ -8,11 +9,9 @@ namespace App\Bin {
         $root = dirname(__DIR__);
         $src = $root . '/src';
 
-        $forbiddenAll = [];
-        $forbiddenCanonical = [];
-        $legacyOnly = [];
+        $forbiddenDirectories = [];
         $externalRoots = [];
-        $externalCandidates = ['Http', 'Policy', 'PolicyInterface', 'Service'];
+        $externalCandidates = ['Http', 'Policy', 'PolicyInterface', 'Service', 'tool', 'test', 'main'];
         foreach ($externalCandidates as $candidate) {
             if (is_dir($root . '/' . $candidate)) {
                 $externalRoots[] = $candidate;
@@ -44,35 +43,26 @@ namespace App\Bin {
                     $isForbidden = false;
                 }
 
-                if (!$isForbidden) {
-                    continue;
-                }
-
-                $forbiddenAll[] = $normalized;
-                if (str_starts_with($normalized, 'src/Legacy/')) {
-                    $legacyOnly[] = $normalized;
-                } else {
-                    $forbiddenCanonical[] = $normalized;
+                if ($isForbidden) {
+                    $forbiddenDirectories[] = $normalized;
                 }
             }
         }
 
         sort($externalRoots);
-        sort($forbiddenAll);
-        sort($forbiddenCanonical);
-        sort($legacyOnly);
+        sort($forbiddenDirectories);
 
         $result = [
+            'generated_at_utc' => gmdate('c'),
             'external_roots' => $externalRoots,
-            'forbidden_directories_all' => $forbiddenAll,
-            'forbidden_directory_count_all' => count($forbiddenAll),
-            'forbidden_directories_canonical_placement' => $forbiddenCanonical,
-            'forbidden_directory_count_canonical_placement' => count($forbiddenCanonical),
-            'legacy_only_forbidden_directories' => $legacyOnly,
-            'legacy_only_forbidden_directory_count' => count($legacyOnly),
+            'external_root_count' => count($externalRoots),
+            'forbidden_directories' => $forbiddenDirectories,
+            'forbidden_directory_count' => count($forbiddenDirectories),
         ];
 
-        echo json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL;
+        $outputPath = $root . '/report/recovery/current-canon-scan.json';
+        file_put_contents($outputPath, json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
+        echo $outputPath . PHP_EOL;
         return 0;
     }
 }

@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Policy\Role\Obligation\Rules;
 
-use Policy\Role\Obligation\Obligation;
-use src\Entity\Role\PermissionKey;
+use App\Entity\Role\PermissionKey;
+use App\Policy\Obligation\Obligation;
 
 final class RedactFieldsRule
 {
-    public function __construct(private readonly array $actions, private readonly array $fields) {}
+    /** @param list<string> $actions @param list<string> $fields */
+    public function __construct(private readonly array $actions, private readonly array $fields)
+    {
+    }
 
     public function obligationFor(PermissionKey $action): ?Obligation
     {

@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Role\Resilience;
 
 use App\Net\Http\RemoteHttpException;
-use App\Legacy\Resilience\{CircuitBreakingPdpV2, Clock};
+use App\Service\Resilience\CircuitBreakingPdpV2;
+use App\ServiceInterface\Resilience\Time\ClockInterface;
 use PHPUnit\Framework\TestCase;
 use App\Policy\Obligation\Obligations;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;
@@ -55,7 +56,7 @@ final class CircuitBreakingPdpV2Test extends TestCase
     {
         // fake clock
         $now = 1_700_000_000;
-        $clock = new class ($now) implements Clock {
+        $clock = new class ($now) implements ClockInterface {
             /**
              * @param int $t
              */
@@ -64,9 +65,9 @@ final class CircuitBreakingPdpV2Test extends TestCase
             /**
              * @return int
              */
-            public function now(): int
+            public function nowMs(): int
             {
-                return $this->t;
+                return $this->t * 1000;
             }
 
             /**

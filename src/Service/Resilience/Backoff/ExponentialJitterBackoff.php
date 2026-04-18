@@ -38,13 +38,9 @@ final class ExponentialJitterBackoff implements BackoffStrategyInterface
         $cap = min($this->maxMs, $this->baseMs * (1 << max(0, $attempt - 1)));
         try {
             $jitter = random_int(0, (int) floor($cap * 0.3));
-<<<<<<< HEAD:src/Service/Resilience/Backoff/ExponentialJitterBackoff.php
         } catch (Exception $e) {
             error_log('ExponentialJitterBackoff::nextDelayMs fallback: ' . $e->getMessage());
             $jitter = (int) floor($cap * 0.15);
-=======
-        } catch (\Exception $e) {
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/Resilience/Backoff/ExponentialJitterBackoff.php
         }
         return $cap - (int) floor($cap * 0.3) + $jitter;
     }

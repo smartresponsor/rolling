@@ -19,13 +19,9 @@ final class ResidencyGuard
     /**
      * @param \App\ServiceInterface\Residency\ResidencyPolicyInterface $pol
      */
-<<<<<<< HEAD:src/Service/Residency/ResidencyGuard.php
     public function __construct(private readonly ResidencyPolicyInterface $pol)
     {
     }
-=======
-    public function __construct(private readonly ResidencyPolicyPort $pol) {}
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/Residency/ResidencyGuard.php
 
     /**
      * @param string $tenant

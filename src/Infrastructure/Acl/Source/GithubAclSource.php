@@ -32,7 +32,7 @@ final class GithubAclSource implements AclSourceInterface
     /**
      * @param \App\Net\Http\SimpleHttpClientInterface $http
      * @param array $config
-     * @param \App\Legacy\Acl\Source\GithubSubjectResolver|null $resolver
+     * @param \App\Infrastructure\Acl\Source\GithubSubjectResolver|null $resolver
      */
     public function __construct(SimpleHttpClientInterface $http, array $config, ?GithubSubjectResolver $resolver = null)
     {

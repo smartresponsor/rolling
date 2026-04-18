@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 declare(strict_types=1);
 
 namespace App\Bin {
@@ -7,7 +8,7 @@ namespace App\Bin {
     {
         $root = dirname(__DIR__);
         $composerPath = $root . '/composer.json';
-        $reportPath = $root . '/report/rolling-role-w12-autoload-audit.json';
+        $reportPath = $root . '/report/recovery/current-autoload-audit.json';
 
         $composerJson = file_get_contents($composerPath);
         if ($composerJson === false) {
@@ -33,42 +34,39 @@ namespace App\Bin {
             'files_entries_total' => count($files),
             'broken_entries_total' => 0,
             'broken_entries' => [],
-            'legacy_psr4_entries_total' => 0,
-            'legacy_classmap_entries_total' => 0,
-            'legacy_files_entries_total' => 0,
-            'sdk_mapping' => null,
-            'app_role_psr4_legacy_groups' => [],
+            'psr4_entries' => [],
             'classmap_entries' => [],
             'file_entries' => [],
         ];
 
         foreach ($psr4 as $namespace => $path) {
-            $fullPath = $root . '/' . $path;
-            $exists = file_exists($fullPath);
-            $isLegacy = str_starts_with($path, 'src/Legacy/');
+            $paths = is_array($path) ? $path : [$path];
+            $resolved = [];
+            $exists = false;
 
-            if ($isLegacy) {
-                $summary['legacy_psr4_entries_total']++;
-            }
-
-            if ($namespace === 'SmartResponsor\\RoleSdk\\V2\\') {
-                $summary['sdk_mapping'] = [
-                    'namespace' => $namespace,
-                    'path' => $path,
-                    'exists' => $exists,
+            foreach ($paths as $singlePath) {
+                $singlePath = (string) $singlePath;
+                $fullPath = $root . '/' . $singlePath;
+                $singleExists = file_exists($fullPath);
+                $exists = $exists || $singleExists;
+                $resolved[] = [
+                    'path' => $singlePath,
+                    'exists' => $singleExists,
                 ];
             }
 
-            if (str_starts_with($namespace, 'App\\') && str_contains($namespace, '\\Role\\') && $isLegacy) {
-                $summary['app_role_psr4_legacy_groups'][$namespace] = $path;
-            }
+            $summary['psr4_entries'][] = [
+                'namespace' => (string) $namespace,
+                'paths' => $resolved,
+                'exists' => $exists,
+            ];
 
             if (!$exists) {
                 $summary['broken_entries_total']++;
                 $summary['broken_entries'][] = [
                     'type' => 'psr-4',
-                    'key' => $namespace,
-                    'path' => $path,
+                    'key' => (string) $namespace,
+                    'paths' => array_map(static fn (array $item): string => $item['path'], $resolved),
                 ];
             }
         }
@@ -76,11 +74,6 @@ namespace App\Bin {
         foreach ($classmap as $path) {
             $fullPath = $root . '/' . $path;
             $exists = file_exists($fullPath);
-            $isLegacy = str_starts_with($path, 'src/Legacy/');
-
-            if ($isLegacy) {
-                $summary['legacy_classmap_entries_total']++;
-            }
 
             $summary['classmap_entries'][] = [
                 'path' => $path,
@@ -99,11 +92,6 @@ namespace App\Bin {
         foreach ($files as $path) {
             $fullPath = $root . '/' . $path;
             $exists = file_exists($fullPath);
-            $isLegacy = str_starts_with($path, 'src/Legacy/');
-
-            if ($isLegacy) {
-                $summary['legacy_files_entries_total']++;
-            }
 
             $summary['file_entries'][] = [
                 'path' => $path,
@@ -118,8 +106,6 @@ namespace App\Bin {
                 ];
             }
         }
-
-        ksort($summary['app_role_psr4_legacy_groups']);
 
         file_put_contents(
             $reportPath,

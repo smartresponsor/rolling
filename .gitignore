@@ -1,14 +1,43 @@
+# Dependency and package directories
 /vendor/
 /node_modules/
-/.phpunit.result.cache
-/.php-cs-fixer.cache
+
+# Runtime and cache
 /var/cache/
 /var/log/
 /var/chrome/
 /var/panther/
 /var/run/
+/var/phpstan/
+/var/*.log
+
+# Tooling caches
+/.phpunit.result.cache
+/.php-cs-fixer.cache
+/.php-cs-fixer.php
+/.phpunit.cache/
+
+# Generated local config and build outputs
 /config/reference.php
 /drivers/
 /playwright-report/
 /test-results/
 /composer.phar
+
+# IDE and workstation files
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/aws.xml
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+*.iml
+.DS_Store

@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Admin;
 
-<<<<<<< HEAD:src/Controller/Api/Admin/TenantAdminController.php
-use App\Legacy\Security\Admin\Voter;
-use App\Legacy\Security\Admin\Roles;
-=======
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:Http/Role/Api/Admin/TenantAdminController.php
+use App\Security\Admin\Voter;
+use App\Security\Admin\Roles;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\Tenant\{Quota};
@@ -37,16 +34,10 @@ final class TenantAdminController
      */
     public function __construct(
         string $secretPath = __DIR__ . '/../../../../../var/admin_secret.txt',
-<<<<<<< HEAD:src/Controller/Api/Admin/TenantAdminController.php
         string $varDir = __DIR__ . '/../../../../../var'
     )
     {
         $this->voter = new Voter($secretPath);
-=======
-        string $varDir = __DIR__ . '/../../../../../var',
-    ) {
-        $this->voter = new \src\Security\Role\Admin\Voter($secretPath);
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:Http/Role/Api/Admin/TenantAdminController.php
         $this->quota = new Quota($varDir . '/tenants');
         $this->limits = new Limits($varDir . '/tenants');
         $this->backup = new Backup($varDir, $varDir . '/backup');

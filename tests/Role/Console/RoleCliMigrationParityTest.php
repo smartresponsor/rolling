@@ -29,7 +29,14 @@ final class RoleCliMigrationParityTest extends TestCase
     public function testPolicyImportActivateAndExportRoundTripReturnsStructuredJson(): void
     {
         $application = (new RoleConsoleApplication())->build();
-        $policyPath = dirname(__DIR__, 3) . '/misc/example-policy.json';
+        $policyPath = sys_get_temp_dir() . '/rolling-example-policy.json';
+        file_put_contents($policyPath, json_encode([
+            'roles' => [
+                'viewer' => [
+                    'allow' => ['message.read'],
+                ],
+            ],
+        ], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
 
         $import = new CommandTester($application->find('app:role:policy:import'));
         self::assertSame(0, $import->execute(['name' => 'default-policy', 'version' => 'v1', 'file' => $policyPath]));
@@ -44,6 +51,8 @@ final class RoleCliMigrationParityTest extends TestCase
         self::assertTrue($payload['ok']);
         self::assertSame('default-policy', $payload['name']);
         self::assertStringContainsString('viewer', (string) $payload['document']);
+
+        @unlink($policyPath);
     }
 
     public function testJanitorSpecializedCommandsReturnStructuredJson(): void

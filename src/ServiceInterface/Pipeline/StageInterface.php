@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\ServiceInterface\Pipeline;
 
-use App\Legacy\Model\RequestContext;
+use App\Service\Pipeline\RequestContext;
 use App\Service\Pipeline\Decision;
 use App\Service\Pipeline\Trace;
 

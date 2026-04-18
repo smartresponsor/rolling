@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Policy\Role\Obligation\Rules;
 
-use Policy\Role\Obligation\Obligation;
-use src\Entity\Role\PermissionKey;
+use App\Entity\Role\PermissionKey;
+use App\Policy\Obligation\Obligation;
 
 final class WatermarkRule
 {
-    public function __construct(private readonly string $header, private readonly string $value) {}
+    public function __construct(private readonly string $header, private readonly string $value)
+    {
+    }
 
     public function obligationFor(PermissionKey $action): ?Obligation
     {

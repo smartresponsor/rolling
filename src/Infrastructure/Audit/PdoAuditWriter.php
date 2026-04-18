@@ -32,7 +32,7 @@ final class PdoAuditWriter implements \App\InfrastructureInterface\Audit\AuditWr
     }
 
     /**
-     * @param \App\Legacy\Audit\AuditRecord $rec
+     * @param \App\Infrastructure\Audit\AuditRecord $rec
      * @return void
      */
     public function write(AuditRecord $rec): void

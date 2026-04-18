@@ -1,2 +1,0 @@
-== RC-A1 Smoke == (placeholder)
-Этот файл будет перезаписан скриптами tools/smoke.sh или tools/smoke.ps1.

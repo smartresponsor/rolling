@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Support;
 
-use App\Legacy\Model\Rebac\Tuple;
+use App\Infrastructure\Rebac\Tuple;
 use App\Service\Rebac\Checker;
 use App\Service\Rebac\Writer;
 use App\Infrastructure\Rebac\InMemoryTupleStore;

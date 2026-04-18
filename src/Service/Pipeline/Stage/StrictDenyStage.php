@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Pipeline\Stage;
 
-use App\Legacy\Model\RequestContext;
+use App\Service\Pipeline\RequestContext;
 use App\Service\Pipeline\Decision;
 use App\Service\Pipeline\Trace;
 use App\ServiceInterface\Pipeline\StageInterface;

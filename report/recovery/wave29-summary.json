@@ -1,0 +1,13 @@
+{
+  "wave": 29,
+  "status": "rc-polish",
+  "confirmed_targets": [
+    "php bin/console about green (user-confirmed)",
+    "php bin/console lint:container green (user-confirmed)",
+    "phpunit green after local test fixes (user-confirmed)"
+  ],
+  "changes": [
+    "PdoAuditWriterTest uses ops/db/sqlite/role_audit.sql with assertFileExists/assertNotFalse",
+    "RoleCliMigrationParityTest writes temp policy fixture instead of reading removed misc/example-policy.json"
+  ]
+}

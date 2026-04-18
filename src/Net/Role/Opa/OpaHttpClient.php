@@ -13,6 +13,8 @@ use RuntimeException;
 /**
  *
  */
+use App\InfrastructureInterface\Net\Opa\OpaClientInterface;
+
 final class OpaHttpClient implements OpaClientInterface
 {
     /**

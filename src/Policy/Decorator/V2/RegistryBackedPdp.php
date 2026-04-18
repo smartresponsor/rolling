@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Policy\Decorator\V2;
 
-use App\Legacy\Policy\Registry\PolicyRegistry;
+use App\Infrastructure\Policy\Registry\PolicyRegistry;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;
@@ -21,7 +21,7 @@ use App\Entity\Role\SubjectId;
 final class RegistryBackedPdp implements PdpV2Interface
 {
     /**
-     * @param \App\PolicyInterface\PdpV2Interface $inner
+     * @param \App\ServiceInterface\Policy\PdpV2Interface $inner
      * @param \Policy\Role\Registry\PolicyRegistry $registry
      */
     public function __construct(private readonly PdpV2Interface $inner, private readonly PolicyRegistry $registry) {}
@@ -47,11 +47,11 @@ final class RegistryBackedPdp implements PdpV2Interface
             return $d;
         }
 
-        $merged = $d->obligations;
+        $merged = $d->obligations();
         foreach ($extra->all() as $o) {
             $merged = $merged->with($o);
         }
 
-        return new DecisionWithObligations($d->isAllow(), $d->reason, $merged);
+        return new DecisionWithObligations($d->isAllow(), $d->reason(), $merged);
     }
 }

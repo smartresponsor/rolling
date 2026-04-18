@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Legacy\Service\Context\{HeaderContext};
-use App\Legacy\Service\Context\EnvContext;
+use App\Service\Context\HeaderContext;
+use App\Service\Context\EnvContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

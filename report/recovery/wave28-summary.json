@@ -1,0 +1,12 @@
+{
+  "wave": 28,
+  "status": "ok",
+  "changes": [
+    "config/services.yaml service registration widened to App\\Service and ReBAC tuple store alias",
+    "App\\Service\\Consistency\\Composer now supports DI-safe default token sources"
+  ],
+  "verification": {
+    "phpstan": "0 errors",
+    "console_about": "reaches environment preflight"
+  }
+}

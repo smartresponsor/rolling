@@ -8,24 +8,14 @@ use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Obligations implements IteratorAggregate
 {
-    /** @var array */
+    /** @var list<Obligation> */
     private array $items;
 
-    /**
-     *
-     */
-    private function __construct()
+    /** @param list<Obligation> $items */
+    private function __construct(array $items = [])
     {
-        $items = [];
         $this->items = $items;
     }
 
@@ -34,26 +24,23 @@ final class Obligations implements IteratorAggregate
         return new self();
     }
 
-    /**
-     * @param \Policy\Role\Obligation\Obligation $o
-     * @return self
-     */
-    public function with(Obligation $o): self
+    public function with(Obligation $obligation): self
     {
-        $c = clone $this;
-        $c->items[] = $o;
-        return $c;
+        $copy = clone $this;
+        $copy->items[] = $obligation;
+
+        return $copy;
     }
 
-    /** @return \Traversable<int,Obligation> */
+    /** @return Traversable<int,Obligation> */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->items);
     }
 
-    public function add(Obligation $o): void
+    public function add(Obligation $obligation): void
     {
-        $this->items[] = $o;
+        $this->items[] = $obligation;
     }
 
     public function isEmpty(): bool
@@ -65,5 +52,17 @@ final class Obligations implements IteratorAggregate
     public function all(): array
     {
         return $this->items;
+    }
+
+    /** @return list<array<string,mixed>> */
+    public function toArray(): array
+    {
+        return array_map(
+            static fn (Obligation $obligation): array => [
+                'type' => $obligation->type,
+                'params' => $obligation->params,
+            ],
+            $this->items,
+        );
     }
 }

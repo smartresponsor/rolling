@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Role\Policy;
 
 use App\Infrastructure\Cache\InMemoryCache;
-use App\Legacy\Invalidation\SubjectEpochs;
+use App\Service\Cache\SubjectEpochs;
 use PHPUnit\Framework\TestCase;
-use App\Legacy\Policy\Decorator\V2\CachedPdpV2;
+use App\Policy\Decorator\V2\CachedPdpV2;
 use App\Policy\Obligation\Obligation;
 use App\Policy\Obligation\Obligations;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Legacy\Model\Rebac\Tuple;
+use App\Infrastructure\Rebac\Tuple;
 use App\Service\Rebac\{Checker, Writer};
 use App\Infrastructure\Rebac\{InMemoryTupleStore, PdoTupleStore};
 
@@ -24,7 +24,7 @@ switch ($cmd) {
     case 'write':
         // php bin/role-rebac.php write doc 1 viewer user 42
         [$objType, $objId, $rel, $subjType, $subjId] = array_slice($argv, 2) + [null, null, null, null, null];
-        $rev = $writer->write($ns, [new Tuple($ns, (string)$objType, (string)$objId, (string)$rel, (string)$subjType, (string)$subjId, null)]);
+        $rev = $writer->write($ns, [new Tuple((string)$subjType, (string)$subjId, (string)$rel, (string)$objType, (string)$objId, $ns)]);
         echo "rev=$rev\n";
         break;
     case 'check':

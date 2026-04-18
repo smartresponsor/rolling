@@ -2,11 +2,11 @@
 <?php
 declare(strict_types=1);
 
-use App\Legacy\Policy\Batch\CheckBatchProcessor;
-use App\Legacy\Policy\Obligation\Obligations;
-use App\Legacy\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
-use App\Legacy\Entity\Role\{Scope};
+use App\Policy\Batch\CheckBatchProcessor;
+use App\Policy\Obligation\Obligations;
+use App\Policy\V2\DecisionWithObligations;
+use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;
 
@@ -30,7 +30,7 @@ $inner = new class($sleepUs) implements PdpV2Interface {
      * @param \App\Entity\Role\PermissionKey $a
      * @param \App\Entity\Role\Scope $sc
      * @param array $ctx
-     * @return \Policy\Role\V2\DecisionWithObligations
+     * @return \App\Policy\V2\DecisionWithObligations
      */
     public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
     {

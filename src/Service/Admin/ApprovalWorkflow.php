@@ -26,9 +26,9 @@ use RuntimeException;
 final class ApprovalWorkflow implements ApprovalWorkflowInterface
 {
     /**
-     * @param \App\Legacy\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface $repo
-     * @param \App\Legacy\ServiceInterface\Admin\Guard\ApprovalGuardInterface $guard
-     * @param \App\Legacy\ServiceInterface\Admin\Action\GrantRoleActionInterface $applier
+     * @param \App\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface $repo
+     * @param \App\ServiceInterface\Admin\Guard\ApprovalGuardInterface $guard
+     * @param \App\ServiceInterface\Admin\Action\GrantRoleActionInterface $applier
      */
     public function __construct(
         private readonly ApprovalRequestRepositoryInterface $repo,

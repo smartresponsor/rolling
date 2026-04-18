@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Attribute;
 
-<<<<<<< HEAD:src/Service/Attribute/AttributeService.php
 use App\ServiceInterface\Attribute\AttributeProviderInterface;
 use App\Service\Attribute\Cache\ArrayCache;
-=======
-use App\Attribute\Role\Cache\ArrayCache;
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Attribute/Role/AttributeService.php
 
 /**
  *
@@ -22,7 +18,7 @@ final class AttributeService
 {
     /**
      * @param array $providers
-     * @param \App\Legacy\Attribute\Cache\ArrayCache|null $cache
+     * @param \App\Service\Attribute\Cache\ArrayCache|null $cache
      * @param int $ttlSec
      */
     public function __construct(private readonly array $providers, private readonly ?ArrayCache $cache = null, private readonly int $ttlSec = 30) {}

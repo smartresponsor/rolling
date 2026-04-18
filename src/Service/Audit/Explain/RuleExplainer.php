@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\App\Service\Audit\Explain;
+namespace App\Service\Audit\Explain;
 
-use App\ServiceInterface\App\Service\Audit\ExplainerInterface;
+use App\ServiceInterface\Audit\ExplainerInterface;
 use App\Service\Audit\Dto\DecisionInput;
 use App\Service\Audit\Dto\DecisionResult;
 use App\Service\Audit\Dto\ExplainNode;

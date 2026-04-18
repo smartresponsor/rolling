@@ -19,13 +19,9 @@ final class JwksFsVerifier implements JwksVerifierInterface
     /**
      * @param \App\InfrastructureInterface\Security\KeyStoreInterface $store
      */
-<<<<<<< HEAD:src/Infrastructure/Security/JwksFsVerifier.php
     public function __construct(private readonly KeyStoreInterface $store)
     {
     }
-=======
-    public function __construct(private readonly KeyStorePort $store) {}
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Infrastructure/Role/Security/JwksFsVerifier.php
 
     /**
      * @param string $tenant

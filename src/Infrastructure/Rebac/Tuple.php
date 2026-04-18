@@ -1,67 +1,49 @@
 <?php
 
-/**
- * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
- * All code comments MUST be in English.
- */
 declare(strict_types=1);
 
 namespace App\Infrastructure\Rebac;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Tuple
 {
-    /**
-     * @param string $userType
-     * @param string $userId
-     * @param string $relation
-     * @param string $objectType
-     * @param string $objectId
-     * @param string|null $tenant
-     */
     public function __construct(
-        public string  $userType,
-        public string  $userId,
-        public string  $relation,
-        public string  $objectType,
-        public string  $objectId,
-        public ?string $tenant = null,
-    ) {}
+        public readonly string $ns,
+        public readonly string $objType,
+        public readonly string $objId,
+        public readonly string $relation,
+        public readonly string $subjType,
+        public readonly string $subjId,
+        public readonly ?string $subjRel = null,
+    ) {
+    }
 
     /**
-     * @param array $a
-     * @return self
+     * @param array<string,mixed> $a
      */
     public static function fromArray(array $a): self
     {
         return new self(
-            $a['userType'],
-            $a['userId'],
-            $a['relation'],
-            $a['objectType'],
-            $a['objectId'],
-            $a['tenant'] ?? null,
+            (string) ($a['ns'] ?? 'default'),
+            (string) $a['objType'],
+            (string) $a['objId'],
+            (string) $a['relation'],
+            (string) $a['subjType'],
+            (string) $a['subjId'],
+            isset($a['subjRel']) ? (string) $a['subjRel'] : null,
         );
     }
 
-    /**
-     * @return array
-     */
+    /** @return array{ns:string,objType:string,objId:string,relation:string,subjType:string,subjId:string,subjRel:?string} */
     public function toArray(): array
     {
         return [
-            'userType' => $this->userType,
-            'userId' => $this->userId,
+            'ns' => $this->ns,
+            'objType' => $this->objType,
+            'objId' => $this->objId,
             'relation' => $this->relation,
-            'objectType' => $this->objectType,
-            'objectId' => $this->objectId,
-            'tenant' => $this->tenant,
+            'subjType' => $this->subjType,
+            'subjId' => $this->subjId,
+            'subjRel' => $this->subjRel,
         ];
     }
 }

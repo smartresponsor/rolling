@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Legacy\Model\RequestContext;
+use App\Service\Pipeline\RequestContext;
 use App\Service\Pipeline\DecisionPipeline;
-use App\Legacy\Service\Pipeline\Stage\{PolicyStage};
+use App\Service\Pipeline\Stage\PolicyStage;
 use App\Service\Pipeline\Stage\ContextStage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

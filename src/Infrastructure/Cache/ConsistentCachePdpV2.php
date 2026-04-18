@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Cache;
 
-<<<<<<< HEAD:src/Infrastructure/Cache/ConsistentCachePdpV2.php
 use App\Service\Consistency\TokenSet;
-=======
-use App\Consistency\Role\TokenSet;
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Cache/Role/ConsistentCachePdpV2.php
 use Closure;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 
 /**
  *

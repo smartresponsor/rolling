@@ -12,7 +12,7 @@ namespace App\Infrastructure\Audit;
 interface AuditWriter
 {
     /**
-     * @param \App\Legacy\Audit\AuditRecord $rec
+     * @param \App\Infrastructure\Audit\AuditRecord $rec
      * @return void
      */
     public function write(AuditRecord $rec): void;

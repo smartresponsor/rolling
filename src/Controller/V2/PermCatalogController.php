@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 final class PermCatalogController
 {
     /**
-     * @param \App\Legacy\Permission\Catalog\CatalogService $svc
+     * @param \App\Service\Permission\Catalog\CatalogService $svc
      */
     public function __construct(private readonly CatalogService $svc) {}
 

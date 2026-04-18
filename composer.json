@@ -1,134 +1,6 @@
 {
-<<<<<<< HEAD
-    "name": "smartresponsor/role",
-    "description": "SmartResponsor Role component (RC1)",
-    "type": "library",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "App\\": "src/",
-            "SmartResponsor\\RoleSdk\\V2\\": "misc/sdk/php/"
-        },
-        "files": [
-            "src/Legacy/Compatibility/legacy_role_aliases_bootstrap.php"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/",
-            "App\\Tests\\": "tests/"
-        }
-    },
-    "require": {
-        "php": "^8.4",
-        "ext-pdo": "*",
-        "ext-openssl": "*",
-        "ext-curl": "*",
-        "ext-ldap": "*",
-        "ext-zip": "*",
-        "ext-mbstring": "*",
-        "ext-ctype": "*",
-        "ext-zlib": "*",
-        "symfony/console": "^7.3",
-        "symfony/http-kernel": "^8.0",
-        "symfony/event-dispatcher": "^8.0",
-        "symfony/dependency-injection": "^8.0",
-        "symfony/config": "^8.0",
-        "phpstan/phpstan": "2.1"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^11.5.50",
-        "friendsofphp/php-cs-fixer": "^3.94"
-    },
-    "scripts": {
-        "canon:scan": "@php bin/canon-scan.php",
-        "canon:namespace-audit": "@php bin/namespace-audit.php",
-        "canon:no-namespace-audit": "@php bin/no-namespace-audit.php",
-        "canon:autoload-audit": "@php bin/autoload-continuity-audit.php",
-        "fixture:list": "@php bin/console app:role:fixture:list",
-        "fixture:smoke": "@php bin/console app:role:fixture:smoke tenant-basic",
-        "scenario:propagation": "@php bin/console app:role:propagation:run propagation-chain",
-        "scenario:elimination": "@php bin/console app:role:elimination:run elimination-cascade",
-        "test": [
-            "Composer\\Config::disableProcessTimeout",
-            "vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite unit",
-            "vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite e2e"
-        ],
-        "test:unit": "vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite unit",
-        "test:e2e": "vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite e2e",
-        "stan": "vendor/bin/phpstan analyse --configuration phpstan.neon.dist",
-        "cs:check": "@php bin/php82-cs-fixer.php check",
-        "cs:fix": "@php bin/php82-cs-fixer.php fix",
-        "lint": "@php bin/php-lint-all.php",
-        "qa": [
-            "@composer lint",
-            "@composer canon:scan",
-            "@composer canon:namespace-audit",
-            "@composer canon:no-namespace-audit",
-            "@composer canon:autoload-audit",
-            "@composer stan",
-            "@composer test"
-        ],
-        "scenario:multi-hop": "@php bin/console app:role:test:scenario multi-hop-chain propagation",
-        "scenario:revoke": "@php bin/console app:role:test:scenario revoke-after-propagation elimination",
-        "scenario:list:multi-hop": "@php bin/console app:role:scenario:list multi-hop-chain",
-        "scenario:tenant-isolation": "@php bin/console app:role:test:scenario multi-tenant-isolation propagation",
-        "scenario:override": "@php bin/console app:role:test:scenario relation-override propagation",
-        "scenario:deny": "@php bin/console app:role:test:scenario deny-by-revocation elimination",
-        "role:explain:tenant-basic": "@php bin/console app:role:explain tenant-basic user:42 doc:1 viewer",
-        "role:audit:tenant-isolation": "@php bin/console app:role:audit multi-tenant-isolation",
-        "console:list": "@php bin/console list",
-        "role:rebac:check": "@php bin/console app:role:rebac:check user:42 doc:1 viewer",
-        "role:policy:list": "@php bin/console app:role:policy:list default-policy",
-        "role:admin:rebac:stats": "@php bin/console app:role:admin:rebac:stats",
-        "role:janitor:gc": "@php bin/console app:role:janitor:gc",
-        "role:policy:import": "@php bin/console app:role:policy:import default-policy v1 misc/example-policy.json",
-        "role:policy:activate": "@php bin/console app:role:policy:activate default-policy v1",
-        "role:policy:export": "@php bin/console app:role:policy:export default-policy v1",
-        "role:policy:migrate": "@php bin/console app:role:policy:migrate default-policy v1 v2",
-        "role:admin:policy:import": "@php bin/console app:role:admin:policy:import default-policy v1 misc/example-policy.json",
-        "role:admin:policy:activate": "@php bin/console app:role:admin:policy:activate default-policy v1",
-        "role:admin:policy:export": "@php bin/console app:role:admin:policy:export default-policy v1",
-        "role:janitor:gc-audit": "@php bin/console app:role:janitor:gc-audit 30 1000",
-        "role:janitor:gc-replay": "@php bin/console app:role:janitor:gc-replay 5000",
-        "role:janitor:archive-audit": "@php bin/console app:role:janitor:archive-audit 60",
-        "role:batch:perf": "@php bin/console app:role:batch:perf 1000 0 128",
-        "role:bench:run": "@php bin/console app:role:bench:run 20000 3000 200",
-        "role:perf:stats": "@php bin/console app:role:perf:stats 1000 0 128",
-        "role:bench:stats": "@php bin/console app:role:bench:stats 20000 3000 200",
-        "role:perf:report": "@php bin/console app:role:perf:report 1000 0 128 --trace --detailed",
-        "role:bench:report": "@php bin/console app:role:bench:report 20000 3000 200 --trace --detailed",
-        "role:perf:regression-check": "php bin/console app:role:perf:regression-check 1000 0 128 --max-duration-ms=1000 --max-per-item-ms=1 --min-throughput-per-sec=500 --max-peak-mb=256",
-        "role:bench:regression-check": "php bin/console app:role:bench:regression-check 20000 3000 200 --max-p95-ms=5 --max-p99-ms=10 --max-batch-per-item-ms=1",
-        "qa:perf-smoke": [
-            "@role:perf:regression-check",
-            "@role:bench:regression-check"
-        ],
-        "role:perf:compare": "@php bin/console app:role:perf:regression-check 1000 0 128 --baseline=var/bench_stats/perf_baseline.json --max-duration-ms=1000 --max-per-item-ms=1 --min-throughput-per-sec=500 --max-peak-mb=256 --max-duration-regression-pct=10 --max-per-item-regression-pct=10 --max-peak-regression-pct=10 --max-throughput-drop-pct=10",
-        "role:bench:compare": "@php bin/console app:role:bench:regression-check 20000 3000 200 --baseline=var/bench_stats/bench_baseline.json --max-p95-ms=5 --max-p99-ms=10 --max-batch-per-item-ms=1 --max-p95-regression-pct=10 --max-p99-regression-pct=10 --max-batch-per-item-regression-pct=10",
-        "qa:perf-compare": [
-            "@role:perf:compare",
-            "@role:bench:compare"
-        ],
-        "role:profile:list": "@php bin/console app:role:profile:list perf",
-        "role:perf:baseline:promote": "@php bin/console app:role:perf:baseline:promote var/bench_stats/perf_baseline.json --profile=standard",
-        "role:bench:baseline:promote": "@php bin/console app:role:bench:baseline:promote var/bench_stats/bench_baseline.json --profile=standard",
-        "role:perf:profile:smoke": "@php bin/console app:role:perf:profile-check 1000 0 128 --profile=smoke",
-        "role:bench:profile:smoke": "@php bin/console app:role:bench:profile-check 20000 3000 200 --profile=smoke",
-        "qa:perf-profile-smoke": [
-            "@role:perf:profile:smoke",
-            "@role:bench:profile:smoke"
-        ],
-        "role:profile:promote:smoke": "@php bin/console app:role:profile:promote perf var/bench_stats/perf_baseline.json --profile=smoke --require-passing",
-        "role:profile:promote:standard": "@php bin/console app:role:profile:promote perf var/bench_stats/perf_baseline.json --profile=standard --require-passing",
-        "role:profile:promote:strict": "@php bin/console app:role:profile:promote perf var/bench_stats/perf_baseline.json --profile=strict --require-passing",
-        "role:profile:report": "@php bin/console app:role:profile:report all --output=var/bench_stats/profile_summary.json",
-        "role:perf:compare:smoke": "@php bin/console app:role:perf:profile-check 1000 0 128 --profile=smoke",
-        "role:bench:compare:smoke": "@php bin/console app:role:bench:profile-check 20000 3000 200 --profile=smoke"
-    }
-=======
-  "name": "smartresponse/rolling",
-  "description": "Local development and QA harness for the Rolling Symfony workspace",
+  "name": "rolling/role",
+  "description": "Rolling process app",
   "type": "project",
   "license": "MIT",
   "require": {
@@ -140,52 +12,50 @@
     "ext-openssl": "*",
     "ext-pdo": "*",
     "psr/simple-cache": "^3.0",
-    "symfony/config": "^7.3",
-    "symfony/dependency-injection": "^7.3",
-    "symfony/dotenv": "^7.3",
-    "symfony/error-handler": "^7.3",
-    "symfony/event-dispatcher": "^7.3",
-    "symfony/framework-bundle": "^7.3",
-    "symfony/http-foundation": "^7.3",
-    "symfony/http-kernel": "^7.3",
-    "symfony/routing": "^7.3",
-    "symfony/yaml": "^7.3"
+    "symfony/config": "^8.0",
+    "symfony/dependency-injection": "^8.0",
+    "symfony/dotenv": "^8.0",
+    "symfony/error-handler": "^8.0",
+    "symfony/event-dispatcher": "^8.0",
+    "symfony/framework-bundle": "^8.0",
+    "symfony/http-foundation": "^8.0",
+    "symfony/http-kernel": "^8.0",
+    "symfony/routing": "^8.0",
+    "symfony/yaml": "^8.0"
   },
   "require-dev": {
     "dbrekelmans/bdi": "^1.4.1",
-    "friendsofphp/php-cs-fixer": "^3.88",
+    "friendsofphp/php-cs-fixer": "^3.94",
     "phpstan/phpstan": "^2.1",
     "phpunit/phpunit": "^11.5",
-    "symfony/browser-kit": "^7.3",
-    "symfony/css-selector": "^7.3",
+    "symfony/browser-kit": "^8.0",
+    "symfony/css-selector": "^8.0",
     "symfony/panther": "^2.2",
-    "symfony/var-dumper": "^7.3"
+    "symfony/var-dumper": "^8.0"
   },
   "autoload": {
     "psr-4": {
       "App\\": "src/",
-      "SmartResponsor\\RoleSdk\\V2\\": "misc/sdk/php/"
-    },
-    "classmap": [
-      "src/",
-      "Http/",
-      "Policy/",
-      "PolicyInterface/",
-      "Service/"
-    ]
+      "Rolling\\SDK\\V2\\": "SDK/php/"
+    }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "Tests\\": "tests/",
+      "App\\Tests\\": "tests/"
     },
     "files": [
       "tests/SDK/PHP/psr_stubs.php"
     ]
   },
   "scripts": {
+    "canon:scan": "@php bin/canon-scan.php",
+    "canon:namespace-audit": "@php bin/namespace-audit.php",
+    "canon:no-namespace-audit": "@php bin/no-namespace-audit.php",
+    "canon:autoload-audit": "@php bin/autoload-continuity-audit.php",
     "server:start": [
       "Composer\\Config::disableProcessTimeout",
-      "@php -S 127.0.0.1:8001 -t public public/index.php"
+      "@php -S 127.0.0.1:8001 -t public"
     ],
     "test": "vendor/bin/phpunit --testsuite=default --testdox",
     "test:panther": "vendor/bin/bdi detect drivers >/dev/null && PANTHER_NO_SANDBOX=1 PANTHER_CHROME_BINARY=${PANTHER_CHROME_BINARY:-/usr/bin/google-chrome} PANTHER_CHROME_DRIVER_BINARY=${PANTHER_CHROME_DRIVER_BINARY:-drivers/chromedriver} php tools/qa/panther-smoke.php",
@@ -212,5 +82,4 @@
   },
   "minimum-stability": "stable",
   "prefer-stable": true
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa
 }

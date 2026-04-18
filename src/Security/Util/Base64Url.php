@@ -2,12 +2,7 @@
 
 declare(strict_types=1);
 
-<<<<<<< HEAD:src/Security/Util/Base64Url.php
 namespace App\Security\Util;
-=======
-namespace src\Security\Role\Util;
-
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Security/Role/Util/Base64Url.php
 /**
  *
  */

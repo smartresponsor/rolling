@@ -92,7 +92,7 @@ final class MaskingEngine implements ObligationApplierInterface
         if ($len <= 2) {
             return str_repeat('*', $len);
         }
-        $keep = max(1, int($len * 0.25));
+        $keep = max(1, (int) ($len * 0.25));
         return mb_substr($s, 0, $keep) . str_repeat('*', $len - $keep);
     }
 }

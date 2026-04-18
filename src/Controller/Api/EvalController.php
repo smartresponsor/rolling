@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Legacy\Model\RequestContext;
+use App\Service\Pipeline\RequestContext;
 use App\Service\Pipeline\DecisionPipeline;
 use App\Service\Pipeline\Stage\{StrictDenyStage};
 use App\Service\Pipeline\Stage\ContextStage;

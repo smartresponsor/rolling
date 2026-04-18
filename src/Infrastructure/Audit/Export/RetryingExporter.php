@@ -15,7 +15,7 @@ use Throwable;
 final class RetryingExporter implements \App\InfrastructureInterface\Audit\Export\ExporterInterface
 {
     /**
-     * @param \App\Legacy\Audit\Export\\App\InfrastructureInterface\Audit\Export\ExporterInterface $inner
+     * @param \App\InfrastructureInterface\Audit\Export\ExporterInterface $inner
      * @param int $retries
      * @param int $baseMs
      */

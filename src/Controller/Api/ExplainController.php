@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Legacy\Model\RequestContext;
-use App\Legacy\Service\Explain\DecisionGraph;
+use App\Service\Pipeline\RequestContext;
+use App\Service\Explain\DecisionGraph;
 use App\Service\Pipeline\DecisionPipeline;
 use App\Service\Pipeline\Stage\{StrictDenyStage};
 use App\Service\Pipeline\Stage\ContextStage;
-use App\Legacy\Service\Pipeline\Trace;
+use App\Service\Pipeline\Trace;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

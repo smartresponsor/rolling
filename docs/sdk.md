@@ -13,6 +13,6 @@ Examples:
 
 - TS: `ROLE_ENDPOINT=http://localhost:8088/v2 npx ts-node examples/ts/check_sample/main.ts`
 - Go: `cd examples/go/check_sample && go run .`
-- Java: `javac -cp sdk/java/role/src/main/java $(git ls-files '*.java') && java com.smartresponsor.role.example.Main`
+- Java: `javac $(find sdk/java/role/src/main/java -name "*.java") && java -cp sdk/java/role/src/main/java com.smartresponsor.role.example.Main`
 
 Server-side validation: verify signature using the shared HMAC key and reject if missing/invalid.

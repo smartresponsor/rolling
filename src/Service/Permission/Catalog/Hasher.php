@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Permission\Catalog;
 
-<<<<<<< HEAD:src/Service/Permission/Catalog/Hasher.php
 use App\Service\Permission\Model\PermissionDef;
 
-=======
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Permission/Role/Catalog/Hasher.php
 /**
  *
  */

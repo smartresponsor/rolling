@@ -1,4 +1,0 @@
-[
-  "src/Legacy/Compatibility/symfony_console_input_polyfill.php",
-  "src/Legacy/Compatibility/symfony_console_output_polyfill.php"
-]

@@ -22,8 +22,8 @@ final class Composer
      * @param \Closure|null $subjectEpochFn
      */
     public function __construct(
-        private readonly Closure  $policyTokenFn, // fn(): PolicyToken
-        private readonly Closure  $rebacTokenFn,  // fn(): RebacToken
+        private readonly ?Closure $policyTokenFn = null, // fn(): PolicyToken
+        private readonly ?Closure $rebacTokenFn = null,  // fn(): RebacToken
         private readonly ?Closure $subjectEpochFn = null // fn(string $subjectId): int
     )
     {
@@ -31,14 +31,14 @@ final class Composer
 
     /**
      * @param string|null $subjectId
-     * @return \App\Legacy\Consistency\TokenSet
+     * @return \App\Service\Consistency\TokenSet
      */
     public function token(?string $subjectId = null): TokenSet
     {
         /** @var PolicyToken $pt */
-        $pt = ($this->policyTokenFn)();
+        $pt = $this->policyTokenFn instanceof Closure ? ($this->policyTokenFn)() : new PolicyToken(0);
         /** @var RebacToken $rt */
-        $rt = ($this->rebacTokenFn)();
+        $rt = $this->rebacTokenFn instanceof Closure ? ($this->rebacTokenFn)() : new RebacToken(0);
         $se = null;
         if ($subjectId !== null && $this->subjectEpochFn) {
             /** @var int $se */

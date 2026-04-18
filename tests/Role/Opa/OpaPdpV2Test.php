@@ -4,49 +4,31 @@ declare(strict_types=1);
 
 namespace Tests\Role\Opa;
 
-<<<<<<< HEAD
-use App\Legacy\Net\Opa\OpaClientInterface;
-use App\Policy\Role\Opa\Policy\Role\Opa\OpaPdpV2;
-use App\Policy\Role\Opa\Policy\Role\Opa\InputBuilder;
-=======
-use App\Net\Role\Opa\OpaClientInterface;
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa
-use PHPUnit\Framework\TestCase;
-use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
+use App\Entity\Role\Scope;
 use App\Entity\Role\SubjectId;
+use App\InfrastructureInterface\Net\Opa\OpaClientInterface;
+use App\Policy\Opa\InputBuilder;
+use App\Policy\Opa\OpaPdpV2;
+use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-
-/**
- *
- */
 final class OpaPdpV2Test extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testAllowAndObligations(): void
     {
         $client = new class implements OpaClientInterface {
-            /**
-             * @param string $path
-             * @param array $input
-             * @return array[]
-             */
             public function evaluate(string $path, array $input): array
             {
                 return ['result' => ['allow' => $input['subject']['id'] === 'u1', 'reason' => 'ok', 'obligations' => []]];
             }
         };
-        $pdp = new \Policy\Role\Opa\OpaPdpV2($client, new \Policy\Role\Opa\InputBuilder(), 'role/v2/decision');
+
+        $pdp = new OpaPdpV2($client, new InputBuilder(), 'role/v2/decision');
 
         $allow = $pdp->check(new SubjectId('u1'), new PermissionKey('message.read'), Scope::global());
         $deny = $pdp->check(new SubjectId('u2'), new PermissionKey('message.read'), Scope::global());
 
-        $this->assertTrue($allow->isAllow());
-        $this->assertFalse($deny->isAllow());
+        self::assertTrue($allow->isAllow());
+        self::assertFalse($deny->isAllow());
     }
 }

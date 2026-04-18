@@ -18,24 +18,17 @@ use RuntimeException;
 final class AdminWorkflowService
 {
     /**
-     * @param \App\Legacy\ServiceInterface\ApprovalStoreInterface $store
-     * @param \App\Legacy\ServiceInterface\ApproverDirectoryInterface $dir
-     * @param \App\Legacy\ServiceInterface\OverridePolicyInterface $ovr
+     * @param \App\ServiceInterface\Admin\ApprovalStoreInterface $store
+     * @param \App\ServiceInterface\Admin\ApproverDirectoryInterface $dir
+     * @param \App\ServiceInterface\Admin\OverridePolicyInterface $ovr
      */
     public function __construct(
-<<<<<<< HEAD:src/Service/Admin/AdminWorkflowService.php
         private readonly ApprovalStoreInterface     $store,
         private readonly ApproverDirectoryInterface $dir,
         private readonly OverridePolicyInterface    $ovr
     )
     {
     }
-=======
-        private readonly ApprovalStorePort     $store,
-        private readonly ApproverDirectoryPort $dir,
-        private readonly OverridePolicyPort    $ovr,
-    ) {}
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/Admin/AdminWorkflowService.php
 
     /**
      * @param string $tenant

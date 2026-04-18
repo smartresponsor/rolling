@@ -3,14 +3,14 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Legacy\Policy\Registry\{InMemoryRegistryStore};
-use App\Legacy\Policy\Registry\PdoRegistryStore;
-use App\Legacy\Policy\Registry\RegistryService;
+use App\Infrastructure\Policy\Registry\InMemoryStore;
+use App\Infrastructure\Policy\Registry\PdoStore;
+use App\Infrastructure\Policy\Registry\RegistryService;
 
 $ns = getenv('ROLE_POLICY_NS') ?: 'default';
 $dsn = getenv('ROLE_POLICY_DSN') ?: null;
 
-$store = $dsn ? new PdoRegistryStore(new PDO($dsn)) : new InMemoryRegistryStore();
+$store = $dsn ? new PdoStore(new PDO($dsn)) : new InMemoryStore();
 $svc = new RegistryService($store);
 
 $argv = $_SERVER['argv'];

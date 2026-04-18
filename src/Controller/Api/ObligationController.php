@@ -4,75 +4,116 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Legacy\Infrastructure\Audit\AuditFsPort;
-use App\Legacy\Infrastructure\Context\RequestContextProvider;
+use App\Infrastructure\Audit\FileAuditTrail;
 use App\Infrastructure\Obligation\ObligationFsStore;
 use App\Infrastructure\Policy\PolicyFsStore;
-use App\Legacy\Service\Engine\{DecisionPipeline, PolicyEngine};
 use App\Service\Obligation\ObligationApplier;
+use App\Service\Pipeline\DecisionPipeline;
+use App\Service\Pipeline\RequestContext;
+use App\Service\Pipeline\Stage\ContextStage;
+use App\Service\Pipeline\Stage\PolicyStage;
+use App\Service\Pipeline\Stage\StrictDenyStage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-// optional engine for /v2/check/oblige if available
-
-/**
- *
- */
-
-/**
- *
- */
 final class ObligationController
 {
-    /**
-     * @param string $baseDir
-     */
-    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var') {}
+    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var')
+    {
+    }
 
-    // Apply only (no decision); expects {tenant, relation, decision:{allowed}, attrs, resource?, version?}
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $req
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
     public function apply(Request $req): JsonResponse
     {
-        $p = json_decode((string) $req->getContent(), true) ?? [];
-        $tenant = (string) ($p['tenant'] ?? 't1');
-        $relation = (string) ($p['relation'] ?? 'viewer');
-        $decision = (array) ($p['decision'] ?? ['allowed' => false]);
-        $attrs = (array) ($p['attrs'] ?? []);
-        $resource = isset($p['resource']) ? (array) $p['resource'] : null;
-        $version = (string) ($p['version'] ?? 'active');
+        $payload = json_decode((string) $req->getContent(), true) ?? [];
+        $tenant = (string) ($payload['tenant'] ?? 't1');
+        $relation = (string) ($payload['relation'] ?? 'viewer');
+        $decision = (array) ($payload['decision'] ?? ['allowed' => false]);
+        $attrs = (array) ($payload['attrs'] ?? []);
+        $resource = isset($payload['resource']) ? (array) $payload['resource'] : null;
+        $version = (string) ($payload['version'] ?? 'active');
+
         $applier = new ObligationApplier(new ObligationFsStore($this->baseDir . '/policy'));
         $out = $applier->apply($tenant, $relation, $decision, $attrs, $resource, $version);
+
         return new JsonResponse($out, 200);
     }
 
-    // Full: decision + apply (if engine available); {tenant, relation, attrs, resource?, version?}
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $req
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
     public function checkAndApply(Request $req): JsonResponse
     {
-        $p = json_decode((string) $req->getContent(), true) ?? [];
-        $tenant = (string) ($p['tenant'] ?? 't1');
-        $relation = (string) ($p['relation'] ?? 'viewer');
-        $attrs = (array) ($p['attrs'] ?? []);
-        $resource = isset($p['resource']) ? (array) $p['resource'] : null;
-        $version = (string) ($p['version'] ?? 'active');
+        $payload = json_decode((string) $req->getContent(), true) ?? [];
+        $tenant = (string) ($payload['tenant'] ?? 't1');
+        $relation = (string) ($payload['relation'] ?? 'viewer');
+        $attrs = (array) ($payload['attrs'] ?? []);
+        $resource = isset($payload['resource']) ? (array) $payload['resource'] : [];
+        $version = (string) ($payload['version'] ?? 'active');
+        $subject = (string) ($payload['subject'] ?? ($attrs['subject'] ?? 'anonymous'));
 
-        if (!class_exists(PolicyEngine::class)) {
-            return new JsonResponse(['error' => 'PolicyEngine not available in this package; use /v2/obligations/apply or merge with E2/E3'], 501);
-        }
-        $engine = new PolicyEngine(new PolicyFsStore($this->baseDir . '/policy'));
-        $pipe = new DecisionPipeline($engine, new RequestContextProvider(['now' => gmdate('c')]), new AuditFsPort($this->baseDir . '/audit/decisions.ndjson'));
-        $decision = $pipe->run($tenant, $relation, $attrs, $version);
+        $decision = $this->evaluateDecision($tenant, $relation, $subject, $resource, $attrs, $version);
+
         $applier = new ObligationApplier(new ObligationFsStore($this->baseDir . '/policy'));
-        $out = $applier->apply($tenant, $relation, is_array($decision) ? $decision : ['allowed' => false], $attrs, $resource, $version);
+        $out = $applier->apply(
+            $tenant,
+            $relation,
+            ['allowed' => $decision['allowed'], 'reason' => $decision['reason']],
+            $attrs,
+            $resource === [] ? null : $resource,
+            $version,
+        );
         $out['decision'] = $decision;
+
+        $this->audit($tenant, $relation, $subject, $decision, $attrs, $resource, $version);
+
         return new JsonResponse($out, 200);
+    }
+
+    /**
+     * @param array<string,mixed> $resource
+     * @param array<string,mixed> $attrs
+     * @return array{allowed:bool,reason:string,headers:array<int|string,mixed>,trace:array<int,array<string,mixed>>}
+     */
+    private function evaluateDecision(string $tenant, string $relation, string $subject, array $resource, array $attrs, string $version): array
+    {
+        $policyStore = new PolicyFsStore($this->baseDir . '/policy');
+        $effective = $version === 'active' ? $policyStore->getEffective($tenant) : $policyStore->getDraft($tenant);
+        $pipeline = new DecisionPipeline([
+            new ContextStage(),
+            new PolicyStage([$tenant => $effective]),
+            new StrictDenyStage(),
+        ]);
+
+        $decision = $pipeline->evaluate(new RequestContext(
+            tenant: $tenant,
+            subject: $subject,
+            action: $relation,
+            resource: $resource,
+            attrs: $attrs,
+        ));
+
+        return [
+            'allowed' => $decision->allow,
+            'reason' => $decision->reason,
+            'headers' => $decision->headers,
+            'trace' => $decision->explain,
+        ];
+    }
+
+    /**
+     * @param array<string,mixed> $decision
+     * @param array<string,mixed> $attrs
+     * @param array<string,mixed> $resource
+     */
+    private function audit(string $tenant, string $relation, string $subject, array $decision, array $attrs, array $resource, string $version): void
+    {
+        $trail = new FileAuditTrail($this->baseDir . '/audit');
+        $trail->write([
+            'type' => 'obligation.check_and_apply',
+            'tenant' => $tenant,
+            'relation' => $relation,
+            'subject' => $subject,
+            'version' => $version,
+            'decision' => $decision,
+            'attrs' => $attrs,
+            'resource' => $resource,
+        ]);
     }
 }

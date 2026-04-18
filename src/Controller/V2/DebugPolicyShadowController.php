@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\V2;
 
-use App\Legacy\Shadow\Diff\DecisionDiff;
-use App\PolicyInterface\PdpV2Interface;
+use App\Service\Shadow\Diff\DecisionDiff;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;

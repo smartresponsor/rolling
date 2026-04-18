@@ -11,7 +11,7 @@ use App\Service\Consistency\Rebac\Token as RebacToken;
 use PHPUnit\Framework\TestCase;
 use App\Policy\Obligation\Obligations;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;
@@ -33,29 +33,15 @@ final class TokenAndCacheTest extends TestCase
         $policyRev = 1;
         $rebacRev = 5;
         $composer = new Composer(
-<<<<<<< HEAD
             policyTokenFn: function () use (&$policyRev) { return new PolicyToken($policyRev); },
             rebacTokenFn: function () use (&$rebacRev) { return new RebacToken($rebacRev); },
             subjectEpochFn: fn(string $sid) => 0
-=======
-            policyTokenFn: function () use (&$policyRev): PolicyToken {
-                return new PolicyToken($policyRev);
-            },
-            rebacTokenFn: function () use (&$rebacRev): RebacToken {
-                return new RebacToken($rebacRev);
-            },
-            subjectEpochFn: fn(string $sid) => 0,
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa
         );
         $calls = 0;
         $inner = new class ($calls) implements PdpV2Interface {
             public int $calls = 0;
-<<<<<<< HEAD
             /** @var int */
             private $ref;
-=======
-            private int $ref = 0;
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa
 
             /**
              * @param int $callsRef

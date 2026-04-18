@@ -1,31 +1,10 @@
-# OPA adapter — usage
+# OPA adapter
 
-## Run OPA locally
+The current OPA integration is Symfony-first and lives in canonical namespaces.
 
-```bash
-# Requires opa binary installed
-opa run --server -a :8181 examples/rego/role_v2.rego
-```
+Primary classes:
+- `App\Policy\Opa\OpaPdpV2`
+- `App\Policy\Opa\InputBuilder`
+- `App\Infrastructure\Net\Opa\OpaHttpClient`
 
-## Evaluate via curl
-
-```bash
-curl -s http://127.0.0.1:8181/v1/data/role/v2/decision \
-  -H 'content-type: application/json' \
-  -d '{"input":{"subject":{"id":"u1"},"action":"message.read","scope":{"type":"global","key":"global"},"context":{}}}'
-```
-
-## Wire in PHP
-
-```php
-use App\Legacy\Net\Opa\OpaHttpClient;use App\Legacy\Policy\Opa\{InputBuilder};use App\Legacy\Policy\Opa\OpaPdpV2;
-
-$client = new OpaHttpClient('http://127.0.0.1:8181');
-$pdp = new OpaPdpV2($client, new InputBuilder(), 'role/v2/decision');
-```
-
-**Decision contract** expected from OPA:
-
-```json
-{"result": {"allow": true, "reason": "ok", "obligations": []}}
-```
+Use these canonical classes for all new runtime and documentation examples.

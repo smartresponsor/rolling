@@ -1,4 +1,0 @@
-wave: w35
-base: rolling-28-acl-attribute-permission-canonical-extraction-cumulative.zip
-deleted_bridge_files: 79
-centralized_alias_file: src/Legacy/Compatibility/legacy_role_w35_aliases.php

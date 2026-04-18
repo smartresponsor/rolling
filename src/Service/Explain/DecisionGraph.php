@@ -5,11 +5,7 @@ declare(strict_types=1);
 
 namespace App\Service\Explain;
 
-<<<<<<< HEAD:src/Service/Explain/DecisionGraph.php
 use App\Service\Pipeline\Trace;
-=======
-use Pipeline\Trace;
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Service/Role/Explain/DecisionGraph.php
 
 /**
  *

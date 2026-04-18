@@ -3,10 +3,6 @@ services:
     autowire: true
     autoconfigure: true
 
-  App\Integration\Symfony\Controller\:
-    resource: '../src/Integration/Symfony/Controller/'
-    tags: [ 'controller.service_arguments' ]
-
   App\Controller\:
     resource: '../src/Controller/'
     tags: [ 'controller.service_arguments' ]
@@ -14,9 +10,16 @@ services:
   App\Command\:
     resource: '../src/Command/'
 
-  App\Observability\Role\Metrics\:
-    resource: '../src/Observability/Role/Metrics/'
+  App\Infrastructure\Observability\Metrics\:
+    resource: '../src/Infrastructure/Observability/Metrics/'
+
+
+  App\Service\:
+    resource: '../src/Service/'
+
+  App\Infrastructure\Rebac\InMemoryTupleStore: ~
+  App\InfrastructureInterface\Rebac\TupleStoreInterface: '@App\Infrastructure\Rebac\InMemoryTupleStore'
 
   App\Integration\Symfony\DemoPdpV2: ~
 
-  PolicyInterface\Role\PdpV2Interface: '@App\Integration\Symfony\DemoPdpV2'
+  App\ServiceInterface\Policy\PdpV2Interface: '@App\Integration\Symfony\DemoPdpV2'

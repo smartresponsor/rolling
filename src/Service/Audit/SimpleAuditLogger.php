@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace App\Service\Audit;
 
-use App\InfrastructureInterface\App\Service\Audit\AuditRepositoryInterface;
-use App\ServiceInterface\App\Service\Audit\AuditLoggerInterface;
+use App\InfrastructureInterface\Audit\AuditRepositoryInterface;
+use App\ServiceInterface\Audit\AuditLoggerInterface;
 use App\Service\Audit\Dto\DecisionRecord;
 
 /**

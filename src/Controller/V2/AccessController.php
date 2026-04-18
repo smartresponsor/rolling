@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller\V2;
 
-use App\Legacy\Http\V2\ApiV2;
-use App\Legacy\Http\V2\ApiV2Batch;
-use App\PolicyInterface\PdpV2Interface;
+use App\Integration\Http\V2\ApiV2;
+use App\Integration\Http\V2\ApiV2Batch;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

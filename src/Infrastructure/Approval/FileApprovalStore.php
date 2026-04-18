@@ -38,10 +38,7 @@ final class FileApprovalStore implements ApprovalStoreInterface
             error_log('FileApprovalStore::makeId random_int fallback: ' . $e->getMessage());
             $rand = (int) (($t - floor($t)) * 1_000_000);
         }
-<<<<<<< HEAD:src/Infrastructure/Approval/FileApprovalStore.php
 
-=======
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Infrastructure/Role/Approval/FileApprovalStore.php
         return dechex((int) ($t * 1000)) . dechex($rand);
     }
 
@@ -66,14 +63,10 @@ final class FileApprovalStore implements ApprovalStoreInterface
         if (!is_file($p)) {
             return null;
         }
-<<<<<<< HEAD:src/Infrastructure/Approval/FileApprovalStore.php
 
         $decoded = json_decode((string) file_get_contents($p), true);
 
         return is_array($decoded) ? $decoded : null;
-=======
-        return json_decode((string) file_get_contents($p), true);
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Infrastructure/Role/Approval/FileApprovalStore.php
     }
 
     public function approve(string $id, array $by): void
@@ -82,10 +75,7 @@ final class FileApprovalStore implements ApprovalStoreInterface
         if (!$rec) {
             return;
         }
-<<<<<<< HEAD:src/Infrastructure/Approval/FileApprovalStore.php
 
-=======
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Infrastructure/Role/Approval/FileApprovalStore.php
         $rec['state'] = 'approved';
         $rec['by'] = ['id' => $by['id'] ?? null, 'reason' => $by['reason'] ?? null, 'ts' => date('c')];
         file_put_contents($this->path($id), json_encode($rec, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
@@ -97,10 +87,7 @@ final class FileApprovalStore implements ApprovalStoreInterface
         if (!$rec) {
             return;
         }
-<<<<<<< HEAD:src/Infrastructure/Approval/FileApprovalStore.php
 
-=======
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Infrastructure/Role/Approval/FileApprovalStore.php
         $rec['state'] = 'rejected';
         $rec['by'] = ['id' => $by['id'] ?? null, 'reason' => $by['reason'] ?? null, 'ts' => date('c')];
         file_put_contents($this->path($id), json_encode($rec, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Policy\Decorator\V2;
 
 use App\Infrastructure\Cache\KeyValueCache;
-use App\Legacy\Invalidation\SubjectEpochs;
+use App\Service\Cache\SubjectEpochs;
 use App\Policy\Obligation\Obligation;
 use App\Policy\Obligation\Obligations;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;
@@ -20,9 +20,9 @@ use App\Entity\Role\SubjectId;
 final class CachedPdpV2 implements PdpV2Interface
 {
     /**
-     * @param \App\PolicyInterface\PdpV2Interface $inner
+     * @param \App\ServiceInterface\Policy\PdpV2Interface $inner
      * @param \App\Infrastructure\Cache\KeyValueCache $cache
-     * @param \App\Legacy\Invalidation\SubjectEpochs $epochs
+     * @param \App\Service\Cache\SubjectEpochs $epochs
      * @param int $ttlSeconds
      */
     public function __construct(
@@ -59,7 +59,7 @@ final class CachedPdpV2 implements PdpV2Interface
         $dec = $this->inner->check($s, $a, $sc, $context);
 
         // bypass при obligations != []
-        if (!empty($dec->obligations->all())) {
+        if (!empty($dec->obligations()->all())) {
             return $dec;
         }
 
@@ -112,10 +112,10 @@ final class CachedPdpV2 implements PdpV2Interface
     private static function toArray(DecisionWithObligations $d): array
     {
         $obs = [];
-        foreach ($d->obligations->all() as $o) {
+        foreach ($d->obligations()->all() as $o) {
             $obs[] = ['type' => $o->type, 'params' => $o->params];
         }
-        return ['allow' => $d->isAllow(), 'reason' => $d->reason, 'obligations' => $obs];
+        return ['allow' => $d->isAllow(), 'reason' => $d->reason(), 'obligations' => $obs];
     }
 
     /** @param array{allow:bool,reason:string,obligations:list<array{type:string,params:array<string,mixed>}>} $a */

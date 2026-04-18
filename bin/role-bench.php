@@ -6,10 +6,10 @@ declare(strict_types=1);
  * Автономный бенчмаркер. Вызывает набор сценариев и пишет результаты в report/bench.
  */
 
-use App\Legacy\Policy\Batch\CheckBatchProcessor;
-use App\Legacy\Policy\Obligation\Obligations;
-use App\Legacy\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\Policy\Batch\CheckBatchProcessor;
+use App\Policy\Obligation\Obligations;
+use App\Policy\V2\DecisionWithObligations;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\Scope;
 use App\Entity\Role\SubjectId;
@@ -147,7 +147,7 @@ function bench_rpc_sim(int $n = 2000, int $us = 200): array
 /** batch_proc: если доступен CheckBatchProcessor из RC-B3 */
 function bench_batch_proc(int $n = DEFAULT_BATCH_N, int $chunk = 128): ?array
 {
-    if (!class_exists('\Policy\Role\Batch\CheckBatchProcessor')) {
+    if (!class_exists(CheckBatchProcessor::class)) {
         return null;
     }
     // Дамми PDP
@@ -157,7 +157,7 @@ function bench_batch_proc(int $n = DEFAULT_BATCH_N, int $chunk = 128): ?array
          * @param \App\Entity\Role\PermissionKey $a
          * @param \App\Entity\Role\Scope $sc
          * @param array $ctx
-         * @return \Policy\Role\V2\DecisionWithObligations
+         * @return \App\Policy\V2\DecisionWithObligations
          */
         public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
         {

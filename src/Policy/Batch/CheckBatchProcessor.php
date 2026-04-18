@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Policy\Batch;
 
 use Generator;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;
@@ -13,19 +13,14 @@ use Throwable;
 
 final class CheckBatchProcessor
 {
-<<<<<<< HEAD:src/Policy/Batch/CheckBatchProcessor.php
+    private const DEFAULT_CHUNK_SIZE = 100;
+    private const DEFAULT_MAX_ITEMS = 1000;
     /**
-     * @param \App\PolicyInterface\PdpV2Interface $pdp
+     * @param \App\ServiceInterface\Policy\PdpV2Interface $pdp
      */
     public function __construct(private readonly PdpV2Interface $pdp)
     {
     }
-=======
-    private const DEFAULT_CHUNK_SIZE = 128;
-    private const DEFAULT_MAX_ITEMS = 10000;
-
-    public function __construct(private readonly PdpV2Interface $pdp) {}
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:Policy/Role/Batch/CheckBatchProcessor.php
 
     /**
      * @param iterable<array<string,mixed>> $requests
@@ -113,7 +108,7 @@ final class CheckBatchProcessor
             'idx' => $index,
             'ok' => true,
             'decision' => $decision->isAllow() ? 'ALLOW' : 'DENY',
-            'reason' => $decision->reason,
+            'reason' => $decision->reason(),
             'scope' => $scope->key(),
         ];
     }

@@ -17,7 +17,7 @@ use App\ServiceInterface\Approval\ApprovalStoreInterface;
 final class ApprovalGate implements ApprovalGateInterface
 {
     /**
-     * @param \App\Legacy\ServiceInterface\Approval\ApprovalStoreInterface $store
+     * @param \App\ServiceInterface\Approval\ApprovalStoreInterface $store
      * @param array $rule
      */
     public function __construct(

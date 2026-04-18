@@ -10,7 +10,6 @@ $finder = PhpCsFixer\Finder::create()
     ])
     ->name('*.php')
     ->notPath('tests/SDK/PHP/psr_stubs.php')
-    ->notPath('src/Legacy/Http/Role/Role/SymfonyBundle/Resources/config/services.php');
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)

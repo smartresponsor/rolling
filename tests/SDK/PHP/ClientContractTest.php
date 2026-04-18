@@ -7,9 +7,9 @@ namespace Tests\SDK\PHP;
 require_once __DIR__ . '/psr_stubs.php';
 
 use PHPUnit\Framework\TestCase;
-use SmartResponsor\RoleSdk\V2\Client;
-use SmartResponsor\RoleSdk\V2\Types;
-use SmartResponsor\RoleSdk\V2\Exceptions;
+use Rolling\SDK\V2\Client;
+use Rolling\SDK\V2\Types;
+use Rolling\SDK\V2\Exceptions;
 use Tests\Support\{DummyHttpClient, MemoryRequestFactory, MemoryStreamFactory, MemoryResponse};
 
 /**

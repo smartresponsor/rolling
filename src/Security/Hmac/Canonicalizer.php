@@ -2,12 +2,7 @@
 
 declare(strict_types=1);
 
-<<<<<<< HEAD:src/Security/Hmac/Canonicalizer.php
 namespace App\Security\Hmac;
-=======
-namespace src\Security\Role\Hmac;
-
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Security/Role/Hmac/Canonicalizer.php
 /**
  *
  */

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$paths = ['src', 'Http', 'Policy', 'PolicyInterface', 'Service', 'tests', 'bin', 'public'];
+$paths = ['src', 'tests', 'bin', 'config', 'public'];
 $files = [];
 
 foreach ($paths as $path) {
@@ -15,7 +15,7 @@ foreach ($paths as $path) {
         continue;
     }
 
-    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS));
     foreach ($iterator as $file) {
         if ($file->isDir() || $file->getExtension() !== 'php') {
             continue;

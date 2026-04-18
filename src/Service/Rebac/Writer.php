@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Rebac;
 
 use App\Service\Consistency\Rebac\Token;
-use App\Legacy\Model\Rebac\Tuple;
+use App\Infrastructure\Rebac\Tuple;
 use App\InfrastructureInterface\Rebac\TupleStoreInterface;
 
 /**
@@ -34,7 +34,7 @@ final class Writer
 
     /**
      * @param string $ns
-     * @param \App\Legacy\Model\Rebac\Tuple $tuple
+     * @param \App\Infrastructure\Rebac\Tuple $tuple
      * @return \App\Service\Consistency\Rebac\Token
      */
     public function delete(string $ns, Tuple $tuple): Token

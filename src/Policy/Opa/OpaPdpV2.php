@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Policy\Opa;
 
-use App\Legacy\Net\Opa\OpaClientInterface;
+use App\InfrastructureInterface\Net\Opa\OpaClientInterface;
 use App\Policy\Obligation\Obligation;
 use App\Policy\Obligation\Obligations;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;
@@ -23,7 +23,7 @@ use App\Entity\Role\SubjectId;
 final class OpaPdpV2 implements PdpV2Interface
 {
     /**
-     * @param \App\Legacy\Net\Opa\OpaClientInterface $client
+     * @param \App\InfrastructureInterface\Net\Opa\OpaClientInterface $client
      * @param \App\Policy\Opa\InputBuilder $input
      * @param string $decisionPath
      */

@@ -1,5 +1,0 @@
-{
-  "bootstrap": "bench/Bootstrap.php",
-  "runner.bootstrap": "bench/Bootstrap.php",
-  "extensions": []
-}

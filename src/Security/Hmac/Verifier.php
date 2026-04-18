@@ -29,7 +29,7 @@ interface SecretProviderInterface
 /**
  *
  */
-final class InMemorySecretProvider implements \App\Security\Role\Hmac\SecretProviderInterface
+final class InMemorySecretProvider implements SecretProviderInterface
 {
     /**
      * @param array $map

@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Policy\Role\Obligation\Rules;
 
-use Policy\Role\Obligation\Obligations;
-use src\Entity\Role\PermissionKey;
-use src\Entity\Role\Scope;
-use src\Entity\Role\SubjectId;
+use App\Entity\Role\PermissionKey;
+use App\Entity\Role\Scope;
+use App\Entity\Role\SubjectId;
+use App\Policy\Obligation\Obligations;
 
 final class RuleSet
 {
-    public function __construct(private readonly array $rules) {}
+    /** @param list<object> $rules */
+    public function __construct(private readonly array $rules)
+    {
+    }
 
+    /** @param array<string,mixed> $context */
     public function eval(SubjectId $subject, PermissionKey $action, Scope $scope, array $context = []): Obligations
     {
         $obligations = Obligations::empty();

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Rebac;
 
-use App\Legacy\Model\Rebac\Tuple;
+use App\Infrastructure\Rebac\Tuple;
 use App\Service\Consistency\Rebac\Token;
 
 /**
@@ -35,7 +35,7 @@ final class InMemoryTupleStore implements \App\InfrastructureInterface\Rebac\Tup
 
     /**
      * @param string $ns
-     * @param \App\Legacy\Model\Rebac\Tuple $tuple
+     * @param \App\Infrastructure\Rebac\Tuple $tuple
      * @return \App\Service\Consistency\Rebac\Token
      */
     public function delete(string $ns, Tuple $tuple): Token

@@ -1,0 +1,15 @@
+{
+  "wave": 27,
+  "scope": [
+    "observability metrics DI wiring"
+  ],
+  "changed_files": [
+    "config/services.yaml",
+    "docs/recovery/rollin-wave27-recovery.md",
+    "report/recovery/wave27-summary.json"
+  ],
+  "results": {
+    "bin_console_about": "reaches environment preflight after metrics DI registration",
+    "phpunit_local_container": "not executable here due missing extensions dom/mbstring/xml/xmlwriter"
+  }
+}

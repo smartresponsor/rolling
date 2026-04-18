@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\V2;
 
 use App\Service\Consistency\Composer;
-use App\Legacy\Http\V2\Bulk\{NdjsonReader};
-use App\Legacy\Http\V2\Bulk\CsvReader;
-use App\Legacy\Http\V2\Bulk\NdjsonWriter;
-use App\PolicyInterface\PdpV2Interface;
+use App\Integration\Http\V2\Bulk\NdjsonReader;
+use App\Integration\Http\V2\Bulk\CsvReader;
+use App\Integration\Http\V2\Bulk\NdjsonWriter;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;

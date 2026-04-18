@@ -2,12 +2,7 @@
 
 declare(strict_types=1);
 
-<<<<<<< HEAD:src/Service/Permission/Catalog/CatalogService.php
 namespace App\Service\Permission\Catalog;
-=======
-namespace App\Permission\Role\Catalog;
-
->>>>>>> 386b7f1226aea2a36c67528b73ac2cb63b6bedfa:src/Permission/Role/Catalog/CatalogService.php
 /**
  *
  */
@@ -18,8 +13,8 @@ namespace App\Permission\Role\Catalog;
 final class CatalogService
 {
     /**
-     * @param \App\Legacy\Permission\Catalog\Catalog $cat
-     * @param \App\Legacy\Permission\Catalog\Hasher $hasher
+     * @param \App\Service\Permission\Catalog\Catalog $cat
+     * @param \App\Service\Permission\Catalog\Hasher $hasher
      */
     public function __construct(private readonly Catalog $cat, private readonly Hasher $hasher) {}
 

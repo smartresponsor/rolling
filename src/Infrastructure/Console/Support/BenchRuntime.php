@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Console\Support;
 
-use App\Legacy\Policy\Batch\CheckBatchProcessor;
+use App\Policy\Batch\CheckBatchProcessor;
 use App\Policy\Obligation\Obligations;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\Scope;
 use App\Entity\Role\SubjectId;

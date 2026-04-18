@@ -9,7 +9,7 @@ use App\Infrastructure\Observability\Metrics\Decorators\MetricsPdpV2;
 use PHPUnit\Framework\TestCase;
 use App\Policy\Obligation\Obligations;
 use App\Policy\V2\DecisionWithObligations;
-use App\PolicyInterface\PdpV2Interface;
+use App\ServiceInterface\Policy\PdpV2Interface;
 use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\SubjectId;

@@ -5,16 +5,16 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\Service\Admin\RebacStatsService;
 use App\Infrastructure\Rebac\{InMemoryTupleStore, PdoTupleStore};
-use App\Legacy\Policy\Registry\{InMemoryRegistryStore};
-use App\Legacy\Policy\Registry\PdoRegistryStore;
-use App\Legacy\Policy\Registry\RegistryService;
+use App\Infrastructure\Policy\Registry\InMemoryStore;
+use App\Infrastructure\Policy\Registry\PdoStore;
+use App\Infrastructure\Policy\Registry\RegistryService;
 
 $ns = getenv('ROLE_ADMIN_NS') ?: 'default';
 $tok = getenv('ROLE_ADMIN_TOKEN') ?: null;
 $policyDsn = getenv('ROLE_POLICY_DSN') ?: null;
 $rebacDsn = getenv('ROLE_REBAC_DSN') ?: null;
 
-$policyStore = $policyDsn ? new PdoRegistryStore(new PDO($policyDsn)) : new InMemoryRegistryStore();
+$policyStore = $policyDsn ? new PdoStore(new PDO($policyDsn)) : new InMemoryStore();
 $rebacStore = $rebacDsn ? new PdoTupleStore(new PDO($rebacDsn)) : new InMemoryTupleStore();
 
 $policySvc = new RegistryService($policyStore);
