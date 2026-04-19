@@ -47,10 +47,6 @@ namespace App\Bin {
             'files_without_namespace' => 0,
             'app_namespace_files' => 0,
             'non_app_namespace_files' => 0,
-            'namespace_roots' => [],
-            'top_namespaces' => [],
-            'non_app_samples' => [],
-            'no_namespace_samples' => [],
         ];
 
         $rootCounts = [];

@@ -31,8 +31,8 @@ export interface ClientOptions {
 
 export class Client {
     private baseUrl: string;
-    private apiKey?: string;
-    private hmacSecret?: string;
+    private readonly apiKey?: string;
+    private readonly hmacSecret?: string;
     private fetchImpl: typeof fetch;
     private clock: () => Date;
 
