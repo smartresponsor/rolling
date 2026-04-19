@@ -9,27 +9,15 @@ declare(strict_types=1);
 namespace App\Service\Audit;
 
 use App\InfrastructureInterface\Audit\AuditRepositoryInterface;
-use App\ServiceInterface\Audit\AuditLoggerInterface;
 use App\Service\Audit\Dto\DecisionRecord;
+use App\ServiceInterface\Audit\AuditLoggerInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class SimpleAuditLogger implements AuditLoggerInterface
 {
-    /**
-     * @param \App\InfrastructureInterface\App\Service\Audit\AuditRepositoryInterface $repo
-     */
-    public function __construct(private readonly AuditRepositoryInterface $repo) {}
+    public function __construct(private readonly AuditRepositoryInterface $repo)
+    {
+    }
 
-    /**
-     * @param \App\Service\Audit\Dto\DecisionRecord $rec
-     * @return void
-     */
     public function log(DecisionRecord $rec): void
     {
         $this->repo->save($rec->toArray());

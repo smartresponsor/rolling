@@ -6,6 +6,8 @@ namespace App\Infrastructure\Rebac;
 
 final class Tuple
 {
+    public $subjRel;
+
     public function __construct(
         public readonly string $ns,
         public readonly string $objType,
@@ -13,12 +15,12 @@ final class Tuple
         public readonly string $relation,
         public readonly string $subjType,
         public readonly string $subjId,
-        public readonly ?string $subjRel = null,
+        public readonly ?string $subjectRelation = null,
     ) {
     }
 
     /**
-     * @param array<string,mixed> $a
+     * @param array<string, mixed> $a
      */
     public static function fromArray(array $a): self
     {
@@ -33,7 +35,7 @@ final class Tuple
         );
     }
 
-    /** @return array{ns:string,objType:string,objId:string,relation:string,subjType:string,subjId:string,subjRel:?string} */
+    /** @return array{ns: string, objType: string, objId: string, relation: string, subjType: string, subjId: string, subjectRelation: ?string} */
     public function toArray(): array
     {
         return [
@@ -43,7 +45,7 @@ final class Tuple
             'relation' => $this->relation,
             'subjType' => $this->subjType,
             'subjId' => $this->subjId,
-            'subjRel' => $this->subjRel,
+            'subjectRelation' => $this->subjectRelation,
         ];
     }
 }

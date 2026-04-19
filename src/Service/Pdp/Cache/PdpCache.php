@@ -11,76 +11,65 @@ namespace App\Service\Pdp\Cache;
 use App\InfrastructureInterface\Cache\CacheInterface;
 use App\ServiceInterface\Pdp\PolicyDecisionProviderInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class PdpCache implements PolicyDecisionProviderInterface
 {
-    /**
-     * @param \App\ServiceInterface\Pdp\PolicyDecisionProviderInterface $inner
-     * @param \App\InfraInterface\Cache\CacheInterface $cache
-     * @param int $ttlSeconds
-     */
     public function __construct(
         private readonly PolicyDecisionProviderInterface $inner,
-        private readonly CacheInterface                  $cache,
-        private readonly int                             $ttlSeconds = 60,
-    ) {}
+        private readonly CacheInterface $cache,
+        private readonly int $ttlSeconds = 60,
+    ) {
+    }
 
     /**
-     * @param array $subject
-     * @param string $action
-     * @param array $resource
-     * @param array $context
-     * @return bool
+     * @param array<string, mixed> $subject
+     * @param array<string, mixed> $resource
+     * @param array<string, mixed> $context
      */
     public function isAllowed(array $subject, string $action, array $resource, array $context = []): bool
     {
         $key = $this->makeKey($subject, $action, $resource, $context);
         $cached = $this->cache->get($key);
-        if ($cached !== null) {
+        if (null !== $cached) {
             return (bool) $cached;
         }
 
-        $res = $this->inner->isAllowed($subject, $action, $resource, $context);
-        $this->cache->set($key, $res, $this->ttlSeconds);
-        return $res;
+        $result = $this->inner->isAllowed($subject, $action, $resource, $context);
+        $this->cache->set($key, $result, $this->ttlSeconds);
+
+        return $result;
     }
 
     /**
-     * @param array $subject
-     * @param string $action
-     * @param array $resource
-     * @param array $context
-     * @return string
+     * @param array<string, mixed> $subject
+     * @param array<string, mixed> $resource
+     * @param array<string, mixed> $context
      */
     private function makeKey(array $subject, string $action, array $resource, array $context): string
     {
-        $norm = [
+        $normalized = [
             's' => $this->ksortDeep($subject),
             'a' => $action,
             'r' => $this->ksortDeep($resource),
             'c' => $this->ksortDeep($context),
         ];
-        return 'pdp:' . hash('sha256', json_encode($norm, JSON_UNESCAPED_SLASHES));
+
+        return 'pdp:'.hash('sha256', json_encode($normalized, JSON_UNESCAPED_SLASHES) ?: '{}');
     }
 
     /**
-     * @param array $a
-     * @return array
+     * @param array<string, mixed> $values
+     *
+     * @return array<string, mixed>
      */
-    private function ksortDeep(array $a): array
+    private function ksortDeep(array $values): array
     {
-        foreach ($a as $k => $v) {
-            if (is_array($v)) {
-                $a[$k] = $this->ksortDeep($v);
+        foreach ($values as $key => $value) {
+            if (is_array($value)) {
+                $values[$key] = $this->ksortDeep($value);
             }
         }
-        ksort($a);
-        return $a;
+        ksort($values);
+
+        return $values;
     }
 }

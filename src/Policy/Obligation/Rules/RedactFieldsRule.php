@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Policy\Obligation\Rules;
 
-use App\Policy\Obligation\Obligation;
 use App\Entity\Role\PermissionKey;
 use App\Entity\Role\Scope;
 use App\Entity\Role\SubjectId;
+use App\Policy\Obligation\Obligation;
 
 final class RedactFieldsRule implements RuleInterface
 {
-    public function __construct(private array $actions = ['*'], private array $fields = [])
+    public function __construct(private readonly array $actions = ['*'], private readonly array $fields = [])
     {
     }
 

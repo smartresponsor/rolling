@@ -11,29 +11,14 @@ namespace App\Service\Admin\Guard;
 use App\Service\Admin\Dto\ApprovalRequest;
 use App\ServiceInterface\Admin\Guard\ApprovalGuardInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class FourEyesApprovalGuard implements ApprovalGuardInterface
 {
-    /**
-     * @param \Admin\Dto\ApprovalRequest $req
-     * @return bool
-     */
     public function isSatisfied(ApprovalRequest $req): bool
     {
-        return $req->status === ApprovalRequest::STATUS_PENDING
+        return ApprovalRequest::STATUS_PENDING === $req->status
             && count($req->approvers) >= $req->requiredApprovals;
     }
 
-    /**
-     * @param \Admin\Dto\ApprovalRequest $req
-     * @return int
-     */
     public function remaining(ApprovalRequest $req): int
     {
         return max(0, $req->requiredApprovals - count($req->approvers));

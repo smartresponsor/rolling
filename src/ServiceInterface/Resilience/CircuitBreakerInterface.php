@@ -8,20 +8,11 @@ declare(strict_types=1);
 
 namespace App\ServiceInterface\Resilience;
 
-use Throwable;
-
-/**
- *
- */
-
-/**
- *
- */
 interface CircuitBreakerInterface
 {
-    public const CLOSED = 'closed';
-    public const OPEN = 'open';
-    public const HALF_OPEN = 'half_open';
+    public const string CLOSED = 'closed';
+    public const string OPEN = 'open';
+    public const string HALF_OPEN = 'half_open';
 
     /**
      * @return bool
@@ -35,9 +26,10 @@ interface CircuitBreakerInterface
 
     /**
      * @param \Throwable $e
+     *
      * @return void
      */
-    public function onFailure(Throwable $e): void;
+    public function onFailure(\Throwable $e): void;
 
     /**
      * @return string

@@ -23,6 +23,6 @@ interface StoreInterface
 
     public function recordMigration(string $ns, string $name, string $from, string $to, ?string $note = null, ?string $stepsJson = null): void;
 
-    /** @return list<array{from:string,to:string,note:?string,applied_at:int}> */
+    /** @return list<array{from: string, to: string, migrationNote: ?string, appliedAt: int}> */
     public function listMigrations(string $ns, string $name): array;
 }

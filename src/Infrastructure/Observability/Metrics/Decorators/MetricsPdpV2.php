@@ -4,31 +4,23 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Observability\Metrics\Decorators;
 
+use App\Entity\Role\PermissionKey;
+use App\Entity\Role\Scope;
+use App\Entity\Role\SubjectId;
 use App\Infrastructure\Observability\Metrics\Counter;
 use App\Infrastructure\Observability\Metrics\Histogram;
 use App\Infrastructure\Observability\Metrics\Registry;
 use App\Policy\V2\DecisionWithObligations;
 use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\SubjectId;
 
-/**
- *
- */
-
-/**
- *
- */
 final class MetricsPdpV2 implements PdpV2Interface
 {
     private Counter $req;
     private Histogram $lat;
 
     /**
-     * @param \PolicyInterface\Role\PdpV2Interface $inner
-     * @param \App\Infrastructure\Observability\Metrics\Registry $reg
-     * @param string $component
+     * @param Registry $reg
+     * @param string   $component
      */
     public function __construct(private readonly PdpV2Interface $inner, Registry $reg, private readonly string $component = 'pdp')
     {
@@ -37,11 +29,7 @@ final class MetricsPdpV2 implements PdpV2Interface
     }
 
     /**
-     * @param \App\Entity\Role\SubjectId $subject
-     * @param \App\Entity\Role\PermissionKey $action
-     * @param \App\Entity\Role\Scope $objectScope
-     * @param array $context
-     * @return \Policy\Role\V2\DecisionWithObligations
+     * @param array<string,mixed> $context
      */
     public function check(SubjectId $subject, PermissionKey $action, Scope $objectScope, array $context = []): DecisionWithObligations
     {
@@ -49,6 +37,7 @@ final class MetricsPdpV2 implements PdpV2Interface
         $d = $this->inner->check($subject, $action, $objectScope, $context);
         $this->lat->observe(max(0.0, microtime(true) - $t0), ['component' => $this->component]);
         $this->req->inc(1.0, ['component' => $this->component, 'decision' => $d->isAllow() ? 'allow' : 'deny']);
+
         return $d;
     }
 }

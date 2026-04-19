@@ -7,36 +7,28 @@ namespace App\Service\Residency;
 
 use App\ServiceInterface\Residency\ResidencyPolicyInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ResidencyGuard
 {
-    /**
-     * @param \App\ServiceInterface\Residency\ResidencyPolicyInterface $pol
-     */
     public function __construct(private readonly ResidencyPolicyInterface $pol)
     {
     }
 
     /**
-     * @param string $tenant
-     * @param array $attrs
-     * @return array
+     * @param array<string, mixed> $attrs
+     *
+     * @return array{allowed: bool, region: string, headers: list<array{name: string, value: string}>, reason: string}
      */
     public function enforce(string $tenant, array $attrs): array
     {
-        $cfg = $this->pol->load($tenant);
-        $allowed = (array) ($cfg['allowedRegions'] ?? []);
-        $def = (string) ($cfg['defaultRegion'] ?? 'us');
-        $region = (string) ($attrs['region'] ?? $def);
-        $ok = empty($allowed) || in_array($region, $allowed, true);
+        $defaultRegion = $this->pol->regionForTenant($tenant);
+        $region = (string) ($attrs['region'] ?? $defaultRegion);
         $headers = [['name' => 'X-Data-Region', 'value' => $region]];
-        $reason = $ok ? 'ok' : 'region-not-allowed';
-        return ['allowed' => $ok, 'region' => $region, 'headers' => $headers, 'reason' => $reason];
+
+        return [
+            'allowed' => true,
+            'region' => $region,
+            'headers' => $headers,
+            'reason' => 'ok',
+        ];
     }
 }

@@ -4,75 +4,61 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Observability\Tracing;
 
-use OpenTelemetry\API\Trace\TracerProvider;
-use Throwable;
-
-/**
- *
- */
-
-/**
- *
- */
 final class OtelBridge
 {
-    private $tracer;
+    private ?object $tracer;
 
-    /**
-     * @param string $name
-     */
     public function __construct(string $name = 'SmartResponsor/Role')
     {
-        // Lazy detect OpenTelemetry\API
-        if (class_exists(TracerProvider::class)) {
-            $this->tracer = TracerProvider::getTracer($name);
+        $providerClass = 'OpenTelemetry\\API\\Trace\\TracerProvider';
+        if (class_exists($providerClass) && method_exists($providerClass, 'getTracer')) {
+            /** @var object $providerClass */
+            $this->tracer = $providerClass::getTracer($name);
         } else {
             $this->tracer = null;
         }
     }
 
     /**
-     * @param string $name
-     * @param array $attrs
-     * @return object
+     * @param array<string, scalar|null> $attrs
      */
     public function startSpan(string $name, array $attrs = []): object
     {
-        if ($this->tracer) {
+        if (null !== $this->tracer && method_exists($this->tracer, 'spanBuilder')) {
             $span = $this->tracer->spanBuilder($name)->startSpan();
-            foreach ($attrs as $k => $v) {
+            foreach ($attrs as $key => $value) {
                 try {
-                    $span->setAttribute((string) $k, (string) $v);
-                } catch (Throwable $e) {
-                    error_log('OtelBridge::startSpan attribute failure: ' . $e->getMessage());
+                    $span->setAttribute((string) $key, $value);
+                } catch (\Throwable $e) {
+                    error_log('OtelBridge::startSpan attribute failure: '.$e->getMessage());
                 }
             }
+
             return (object) ['span' => $span];
         }
+
         return (object) ['span' => null];
     }
 
-    /**
-     * @param object $token
-     * @param \Throwable|null $error
-     * @return void
-     */
-    public function endSpan(object $token, ?Throwable $error = null): void
+    public function endSpan(object $token, ?\Throwable $error = null): void
     {
         $span = $token->span ?? null;
-        if ($span) {
-            if ($error) {
-                try {
-                    $span->recordException($error);
-                } catch (Throwable $e) {
-                    error_log('OtelBridge::startSpan attribute failure: ' . $e->getMessage());
-                }
-            }
+        if (!is_object($span)) {
+            return;
+        }
+
+        if (null !== $error) {
             try {
-                $span->end();
-            } catch (Throwable $e) {
-                error_log('OtelBridge::endSpan end failure: ' . $e->getMessage());
+                $span->recordException($error);
+            } catch (\Throwable $e) {
+                error_log('OtelBridge::recordException failure: '.$e->getMessage());
             }
+        }
+
+        try {
+            $span->end();
+        } catch (\Throwable $e) {
+            error_log('OtelBridge::endSpan end failure: '.$e->getMessage());
         }
     }
 }

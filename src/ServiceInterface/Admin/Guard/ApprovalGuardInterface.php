@@ -10,24 +10,9 @@ namespace App\ServiceInterface\Admin\Guard;
 
 use App\Service\Admin\Dto\ApprovalRequest;
 
-/**
- *
- */
-
-/**
- *
- */
 interface ApprovalGuardInterface
 {
-    /**
-     * @param \Admin\Dto\ApprovalRequest $req
-     * @return bool
-     */
     public function isSatisfied(ApprovalRequest $req): bool;
 
-    /**
-     * @param \Admin\Dto\ApprovalRequest $req
-     * @return int
-     */
     public function remaining(ApprovalRequest $req): int;
 }

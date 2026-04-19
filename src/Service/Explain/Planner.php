@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Service\Explain;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Planner
 {
-    /**
-     * @param \App\Service\Explain\TupleReader $reader
-     */
-    public function __construct(private readonly TupleReader $reader) {}
+    public function __construct(private readonly TupleReader $reader)
+    {
+    }
 
-    /** @return array{allowed:bool, token:string, nodes:list<array{id:string,label:string,type:string}>, edges:list<array{from:string,to:string,label:string}>, evidence:?array} */
+    /**
+     * @return array{
+     *     allowed: bool,
+     *     token: string,
+     *     nodes: list<array{id: string, label: string, type: string}>,
+     *     edges: list<array{from: string, to: string, label: string}>,
+     *     evidence: array<string, mixed>|null
+     * }
+     */
     public function plan(string $tenant, string $subject, string $relation, string $resource): array
     {
-        $token = (string) @filesize(__DIR__ . '/../../../../var/tuples.ndjson') ?: '0';
+        $token = (string) (@filesize(__DIR__.'/../../../../var/tuples.ndjson') ?: 0);
         $evidence = $this->reader->exists($tenant, $subject, $relation, $resource);
-        $allowed = $evidence !== null;
+        $allowed = null !== $evidence;
         $nodes = [
             ['id' => "tenant:$tenant", 'label' => "tenant:$tenant", 'type' => 'tenant'],
             ['id' => "subject:$subject", 'label' => "subject:$subject", 'type' => 'subject'],
@@ -35,6 +35,7 @@ final class Planner
             ['from' => "subject:$subject", 'to' => "relation:$relation", 'label' => 'wants'],
             ['from' => "relation:$relation", 'to' => "resource:$resource", 'label' => $allowed ? 'proven' : 'missing'],
         ];
+
         return compact('allowed', 'token', 'nodes', 'edges', 'evidence');
     }
 }

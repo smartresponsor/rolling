@@ -5,28 +5,20 @@ declare(strict_types=1);
 
 namespace App\Service\Pipeline;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Decision
 {
     /**
-     * @param bool $allow
+     * @param bool   $allow
      * @param string $reason
-     * @param array $headers
-     * @param array $explain
+     * @param array  $headers
+     * @param array  $explain
      */
-    public function __construct(public bool $allow, public string $reason, public array $headers = [], public array $explain = []) {}
+    public function __construct(public bool $allow, public string $reason, public array $headers = [], public array $explain = [])
+    {
+    }
 
     /**
-     * @param \Pipeline\Trace $t
-     * @param string $reason
-     * @param array $headers
-     * @return self
+     * @param array<string,mixed> $headers
      */
     public static function allowed(Trace $t, string $reason = 'ok', array $headers = []): self
     {
@@ -34,10 +26,7 @@ final class Decision
     }
 
     /**
-     * @param \Pipeline\Trace $t
-     * @param string $reason
-     * @param array $headers
-     * @return self
+     * @param array<string,mixed> $headers
      */
     public static function denied(Trace $t, string $reason = 'deny', array $headers = []): self
     {

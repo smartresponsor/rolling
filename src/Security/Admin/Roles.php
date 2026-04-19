@@ -6,9 +6,9 @@ namespace App\Security\Admin;
 
 final class Roles
 {
-    public const OWNER = 'owner';
-    public const OPERATOR = 'operator';
-    public const AUDITOR = 'auditor';
+    public const string OWNER = 'owner';
+    public const string OPERATOR = 'operator';
+    public const string AUDITOR = 'auditor';
 
     /** @return list<string> */
     public static function allowed(): array

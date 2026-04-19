@@ -17,12 +17,12 @@ final class Scope
 
     public static function tenant(string $tenantId): self
     {
-        return new self('tenant:' . $tenantId);
+        return new self('tenant:'.$tenantId);
     }
 
     public static function resource(string $tenantId, string $resId): self
     {
-        return new self('resource:' . $tenantId . ':' . $resId);
+        return new self('resource:'.$tenantId.':'.$resId);
     }
 
     public function key(): string
@@ -40,8 +40,7 @@ final class Scope
         $parts = explode(':', $this->k);
 
         return match ($parts[0] ?? $this->k) {
-            'tenant' => $parts[1] ?? null,
-            'resource' => $parts[1] ?? null,
+            'tenant', 'resource' => $parts[1] ?? null,
             default => null,
         };
     }

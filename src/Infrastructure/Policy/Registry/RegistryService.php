@@ -8,7 +8,9 @@ use App\Service\Consistency\Policy\Token;
 
 final class RegistryService
 {
-    public function __construct(private readonly StoreInterface $store) {}
+    public function __construct(private readonly StoreInterface $store)
+    {
+    }
 
     public function importPolicy(string $ns, string $name, string $version, string $docJson): Token
     {
@@ -41,7 +43,7 @@ final class RegistryService
         $this->store->recordMigration($ns, $name, $from, $to, $note, $stepsJson);
     }
 
-    /** @return list<array{from:string,to:string,note:?string,applied_at:int}> */
+    /** @return list<array{from: string, to: string, migrationNote: ?string, appliedAt: int}> */
     public function listMigrations(string $ns, string $name): array
     {
         return $this->store->listMigrations($ns, $name);

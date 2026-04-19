@@ -7,13 +7,6 @@ namespace App\Controller\Api;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-/**
- *
- */
-
-/**
- *
- */
 final class WatchController
 {
     private string $path;
@@ -21,7 +14,7 @@ final class WatchController
     /**
      * @param string $streamPath
      */
-    public function __construct(string $streamPath = __DIR__ . '/../../../../var/tuples.ndjson')
+    public function __construct(string $streamPath = __DIR__.'/../../../../var/tuples.ndjson')
     {
         $this->path = $streamPath;
         if (!is_dir(dirname($this->path))) {
@@ -38,29 +31,30 @@ final class WatchController
         $since = (int) ($req->query->get('offset') ?? 0);
         $resp = new StreamedResponse(function () use ($since) {
             @ob_end_flush();
-            @ob_implicit_flush(1);
+            @ob_implicit_flush(true);
             $f = fopen($this->path, 'r');
-            if ($f === false) {
+            if (false === $f) {
                 echo ": cannot open stream\n\n";
+
                 return;
             }
             $pos = $since;
             fseek($f, $pos);
             while (!connection_aborted()) {
                 $line = fgets($f);
-                if ($line === false) {
+                if (false === $line) {
                     clearstatcache();
                     usleep(200 * 1000); // 200ms backoff
                     continue;
                 }
                 $pos = ftell($f);
                 $payload = trim($line);
-                if ($payload === '') {
+                if ('' === $payload) {
                     continue;
                 }
                 echo "event: tuple\n";
-                echo 'data: ' . $payload . "\n";
-                echo 'id: ' . $pos . "\n\n";
+                echo 'data: '.$payload."\n";
+                echo 'id: '.$pos."\n\n";
                 flush();
             }
             fclose($f);
@@ -68,6 +62,7 @@ final class WatchController
         $resp->headers->set('Content-Type', 'text/event-stream');
         $resp->headers->set('Cache-Control', 'no-cache');
         $resp->headers->set('X-Accel-Buffering', 'no'); // for nginx
+
         return $resp;
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\Policy\Registry;
 
 use App\Service\Consistency\Policy\Token;
-use RuntimeException;
 
 final class InMemoryStore implements StoreInterface
 {
@@ -15,7 +14,7 @@ final class InMemoryStore implements StoreInterface
     /** @var array<string, array<string, string>> */
     private array $active = [];
 
-    /** @var array<string, list<array{from:string,to:string,note:?string,applied_at:int}>> */
+    /** @var array<string, list<array{from: string, to: string, migrationNote: ?string, appliedAt: int}>> */
     private array $migrations = [];
 
     private int $rev = 0;
@@ -23,7 +22,7 @@ final class InMemoryStore implements StoreInterface
     public function put(string $ns, string $name, string $version, string $docJson): Token
     {
         $this->db[$ns][$name][$version] = new PolicyRecord($ns, $name, $version, $docJson, time(), false);
-        $this->rev++;
+        ++$this->rev;
 
         return new Token($this->rev);
     }
@@ -31,7 +30,7 @@ final class InMemoryStore implements StoreInterface
     public function activate(string $ns, string $name, string $version): Token
     {
         if (!isset($this->db[$ns][$name][$version])) {
-            throw new RuntimeException('version not found');
+            throw new \RuntimeException('version not found');
         }
 
         foreach ($this->db[$ns][$name] ?? [] as $candidateVersion => $record) {
@@ -40,7 +39,7 @@ final class InMemoryStore implements StoreInterface
 
         $this->db[$ns][$name][$version]->isActive = true;
         $this->active[$ns][$name] = $version;
-        $this->rev++;
+        ++$this->rev;
 
         return new Token($this->rev);
     }
@@ -49,7 +48,7 @@ final class InMemoryStore implements StoreInterface
     {
         $version = $this->active[$ns][$name] ?? null;
 
-        return $version !== null ? ($this->db[$ns][$name][$version] ?? null) : null;
+        return null !== $version ? ($this->db[$ns][$name][$version] ?? null) : null;
     }
 
     public function listVersions(string $ns, string $name): array
@@ -69,13 +68,18 @@ final class InMemoryStore implements StoreInterface
 
     public function recordMigration(string $ns, string $name, string $from, string $to, ?string $note = null, ?string $stepsJson = null): void
     {
-        $key = $ns . ':' . $name;
+        $key = $ns.':'.$name;
         $this->migrations[$key] ??= [];
-        $this->migrations[$key][] = ['from' => $from, 'to' => $to, 'note' => $note, 'applied_at' => time()];
+        $this->migrations[$key][] = [
+            'from' => $from,
+            'to' => $to,
+            'migrationNote' => $note,
+            'appliedAt' => time(),
+        ];
     }
 
     public function listMigrations(string $ns, string $name): array
     {
-        return $this->migrations[$ns . ':' . $name] ?? [];
+        return $this->migrations[$ns.':'.$name] ?? [];
     }
 }

@@ -57,12 +57,20 @@ function write_json(string $path, array $data): void
  * @param array|null $header
  * @return void
  */
-function write_csv(string $path, array $rows, array $header = null): void
+function write_csv(string $path, array $rows, ?array $header = null): void
 {
     $fh = fopen($path, 'w');
-    if (!$fh) return;
-    if ($header) fputcsv($fh, $header);
-    foreach ($rows as $r) fputcsv($fh, $r);
+    if ($fh === false) {
+        return;
+    }
+
+    if ($header !== null) {
+        fputcsv($fh, $header);
+    }
+
+    foreach ($rows as $row) {
+        fputcsv($fh, $row);
+    }
     fclose($fh);
 }
 

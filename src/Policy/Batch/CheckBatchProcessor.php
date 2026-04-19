@@ -4,30 +4,30 @@ declare(strict_types=1);
 
 namespace App\Policy\Batch;
 
-use Generator;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\Scope;
 use App\Entity\Role\PermissionKey;
+use App\Entity\Role\Scope;
 use App\Entity\Role\SubjectId;
-use Throwable;
+use App\ServiceInterface\Policy\PdpV2Interface;
 
 final class CheckBatchProcessor
 {
-    private const DEFAULT_CHUNK_SIZE = 100;
-    private const DEFAULT_MAX_ITEMS = 1000;
+    private const int DEFAULT_CHUNK_SIZE = 100;
+    private const int DEFAULT_MAX_ITEMS = 1000;
+
     /**
-     * @param \App\ServiceInterface\Policy\PdpV2Interface $pdp
+     * @param PdpV2Interface $pdp
      */
     public function __construct(private readonly PdpV2Interface $pdp)
     {
     }
 
     /**
-     * @param iterable<array<string,mixed>> $requests
+     * @param iterable<array<string,mixed>>                                          $requests
      * @param array{chunkSize?:int,maxItems?:int,onProgress?:callable(int,int):void} $opts
+     *
      * @return \Generator<int,array<string,mixed>>
      */
-    public function process(iterable $requests, array $opts = []): Generator
+    public function process(iterable $requests, array $opts = []): \Generator
     {
         $chunkSize = $this->normalizePositiveInt($opts['chunkSize'] ?? null, self::DEFAULT_CHUNK_SIZE);
         $maxItems = $this->normalizePositiveInt($opts['maxItems'] ?? null, self::DEFAULT_MAX_ITEMS);
@@ -47,20 +47,21 @@ final class CheckBatchProcessor
                 $buffer = [];
             }
 
-            $index++;
+            ++$index;
         }
 
-        if ($buffer !== []) {
+        if ([] !== $buffer) {
             yield from $this->handleChunk($buffer, $progress);
         }
     }
 
     /**
      * @param list<array{0:int,1:array<string,mixed>}> $buffer
-     * @param callable(int,int):void|null $progress
+     * @param callable(int,int):void|null              $progress
+     *
      * @return \Generator<int,array<string,mixed>>
      */
-    private function handleChunk(array $buffer, ?callable $progress): Generator
+    private function handleChunk(array $buffer, ?callable $progress): \Generator
     {
         $done = 0;
         $total = count($buffer);
@@ -68,10 +69,10 @@ final class CheckBatchProcessor
         foreach ($buffer as [$index, $request]) {
             try {
                 yield $this->processOne($index, $request);
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 yield $this->failureResult($index, $e);
             } finally {
-                $done++;
+                ++$done;
                 if ($progress) {
                     $progress($done, $total);
                 }
@@ -81,6 +82,7 @@ final class CheckBatchProcessor
 
     /**
      * @param array<string,mixed> $request
+     *
      * @return array<string,mixed>
      */
     private function normalize(array $request): array
@@ -93,6 +95,7 @@ final class CheckBatchProcessor
 
     /**
      * @param array<string,mixed> $request
+     *
      * @return array<string,mixed>
      */
     private function processOne(int $index, array $request): array
@@ -128,7 +131,7 @@ final class CheckBatchProcessor
     /**
      * @return array<string,mixed>
      */
-    private function failureResult(int $index, Throwable $exception): array
+    private function failureResult(int $index, \Throwable $exception): array
     {
         return [
             'idx' => $index,
