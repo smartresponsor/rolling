@@ -1,6 +1,7 @@
 # Dependency and package directories
 /vendor/
 /node_modules/
+/report/
 
 # Runtime and cache
 /var/
