@@ -42,4 +42,5 @@
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 *.iml
+*.zip
 .DS_Store
