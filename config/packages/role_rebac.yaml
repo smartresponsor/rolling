@@ -1,9 +1,0 @@
-role_rebac:
-  backend: "%env(default:spicedb:ROLE_REBAC_BACKEND)%"
-  spicedb:
-    base_url: "%env(resolve:ROLE_REBAC_SPICEDB_URL)%"
-    token: "%env(resolve:ROLE_REBAC_SPICEDB_TOKEN)%"
-  openfga:
-    base_url: "%env(resolve:ROLE_REBAC_OPENFGA_URL)%"
-    token: "%env(resolve:ROLE_REBAC_OPENFGA_TOKEN)%"
-    store_id: "%env(resolve:ROLE_REBAC_OPENFGA_STORE)%"

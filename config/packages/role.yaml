@@ -1,33 +1,6 @@
 role:
-  pdp:
-    mode: remote
-    remote:
-      base_url: '%env(string:ROLE_PDP_BASE_URL)%'
-      api_key: '%env(default::ROLE_PDP_API_KEY)%'
-      hmac_secret: '%env(default::ROLE_PDP_HMAC)%'
-      timeout_ms: 300
-      retries: 2
-    cache:
-      enabled: true
-      ttl_seconds: 600
-    registry:
-      enabled: true
-      path: '%kernel.project_dir%/ops/policy/registry.json'
-    audit:
-      enabled: true
-      pdo_dsn: '%env(default::ROLE_AUDIT_DSN)%'   # например sqlite:/var/lib/role.sqlite
-      pdo_user: null
-      pdo_pass: null
-    metrics:
-      enabled: true
-      component: 'remote'
-  security:
-    hmac_enabled: true
-    hmac_secret: '%env(default::ROLE_PDP_HMAC)%'
-    allowed_skew_sec: 300
-    anti_replay:
-      enabled: true
-      ttl_sec: 600
-      pdo_dsn: '%env(default::ROLE_AUDIT_DSN)%'
-      pdo_user: null
-      pdo_pass: null
+  policy_namespace: 'role'
+  admin_namespace: 'role-admin'
+  audit_namespace: 'role-audit'
+  ops_dir: '%kernel.project_dir%/ops'
+  sdk_namespace: 'Role\SDK\V2'

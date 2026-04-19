@@ -4,21 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\SDK\PHP;
 
-require_once __DIR__ . '/psr_stubs.php';
+require_once __DIR__.'/psr_stubs.php';
 
 use PHPUnit\Framework\TestCase;
-use Rolling\SDK\V2\Client;
-use Rolling\SDK\V2\Types;
-use Rolling\SDK\V2\Exceptions;
-use Tests\Support\{DummyHttpClient, MemoryRequestFactory, MemoryStreamFactory, MemoryResponse};
+use Role\SDK\V2\Client;
+use Role\SDK\V2\Exceptions;
+use Role\SDK\V2\Types;
+use Tests\Support\DummyHttpClient;
+use Tests\Support\MemoryRequestFactory;
+use Tests\Support\MemoryResponse;
+use Tests\Support\MemoryStreamFactory;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ClientContractTest extends TestCase
 {
     /**
@@ -27,10 +23,11 @@ final class ClientContractTest extends TestCase
     public function testCheckSuccessAndHmac(): void
     {
         $fixedTs = 1_700_000_000;
-        $clock = fn(): int => $fixedTs;
+        $clock = fn (): int => $fixedTs;
 
         $responder = function () {
             $body = json_encode(['decision' => 'ALLOW', 'reason' => 'ok', 'obligations' => [], 'scope' => 'tenant:t1']);
+
             return new MemoryResponse(200, ['Content-Type' => ['application/json']], $body);
         };
         $http = new DummyHttpClient($responder);
@@ -55,7 +52,7 @@ final class ClientContractTest extends TestCase
      */
     public function testErrorBecomesException(): void
     {
-        $http = new DummyHttpClient(fn($req) => new MemoryResponse(401, ['Content-Type' => ['application/json']], '{"error":"unauthorized"}'));
+        $http = new DummyHttpClient(fn ($req) => new MemoryResponse(401, ['Content-Type' => ['application/json']], '{"error":"unauthorized"}'));
         $cli = new Client('https://pdp.example', $http, new MemoryRequestFactory(), new MemoryStreamFactory());
         $this->expectException(Exceptions::class);
         $cli->check(Types::accessCheck('u', 'a', 'global'));

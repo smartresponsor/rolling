@@ -1,2 +1,0 @@
-role_audit:
-  path: "%env(default:%kernel.project_dir%/report/audit.ndjson:ROLE_AUDIT_PATH)%"

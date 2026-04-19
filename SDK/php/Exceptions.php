@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Rolling\SDK\V2;
+namespace Role\SDK\V2;
 
 use RuntimeException;
 

@@ -3,3 +3,16 @@ framework:
   http_method_override: false
   handle_all_throwables: true
   test: '%kernel.debug%'
+
+  router:
+    utf8: true
+
+  session: true
+  csrf_protection: true
+  form: false
+  validation: true
+
+  php_errors:
+    log: true
+
+  http_client: ~

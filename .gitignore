@@ -3,6 +3,7 @@
 /node_modules/
 
 # Runtime and cache
+/var/
 /var/cache/
 /var/log/
 /var/chrome/

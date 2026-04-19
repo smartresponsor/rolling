@@ -1,4 +1,0 @@
-role_policy:
-  strategy: "%env(default:affirmative:ROLE_POLICY_STRATEGY)%"
-  active: policy/policy_v1.pel.json
-  shadow: policy/policy_v2_shadow.pel.json
