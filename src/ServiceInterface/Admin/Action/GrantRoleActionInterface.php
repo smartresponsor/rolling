@@ -6,17 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Admin\Action;
+namespace App\Rolling\ServiceInterface\Admin\Action;
 
-use App\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\Service\Admin\Dto\ApprovalRequest;
 
-/**
- *
- */
-
-/**
- *
- */
 interface GrantRoleActionInterface
 {
     /**

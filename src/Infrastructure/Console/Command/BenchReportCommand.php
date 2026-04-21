@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\BenchRuntime;
-use App\Infrastructure\Console\Support\BenchStatsReport;
-use App\Infrastructure\Console\Support\BenchStatsService;
+use App\Rolling\Infrastructure\Console\Support\BenchRuntime;
+use App\Rolling\Infrastructure\Console\Support\BenchStatsReport;
+use App\Rolling\Infrastructure\Console\Support\BenchStatsService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

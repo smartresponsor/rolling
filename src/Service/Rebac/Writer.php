@@ -2,30 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Rebac;
+namespace App\Rolling\Service\Rebac;
 
-use App\Service\Consistency\Rebac\Token;
-use App\Infrastructure\Rebac\Tuple;
-use App\InfrastructureInterface\Rebac\TupleStoreInterface;
+use App\Rolling\Infrastructure\Rebac\Tuple;
+use App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface;
+use App\Rolling\Service\Consistency\Rebac\Token;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Writer
 {
     /**
-     * @param \App\InfrastructureInterface\Rebac\TupleStoreInterface $store
+     * @param TupleStoreInterface $store
      */
-    public function __construct(private readonly TupleStoreInterface $store) {}
+    public function __construct(private readonly TupleStoreInterface $store)
+    {
+    }
 
     /**
      * @param string $ns
-     * @param array $tuples
-     * @return \App\Service\Consistency\Rebac\Token
+     * @param array  $tuples
+     *
+     * @return Token
      */
     public function write(string $ns, array $tuples): Token
     {
@@ -34,8 +30,9 @@ final class Writer
 
     /**
      * @param string $ns
-     * @param \App\Infrastructure\Rebac\Tuple $tuple
-     * @return \App\Service\Consistency\Rebac\Token
+     * @param Tuple  $tuple
+     *
+     * @return Token
      */
     public function delete(string $ns, Tuple $tuple): Token
     {

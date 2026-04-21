@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
-use App\Infrastructure\Console\Contract\PerfStatsInterface;
+use App\Rolling\Infrastructure\Console\Contract\PerfStatsInterface;
 
 final class BenchStatsService implements PerfStatsInterface
 {
@@ -47,7 +47,7 @@ final class BenchStatsService implements PerfStatsInterface
      */
     private function percentile(array $samples, float $p): float
     {
-        if ($samples === []) {
+        if ([] === $samples) {
             return 0.0;
         }
 

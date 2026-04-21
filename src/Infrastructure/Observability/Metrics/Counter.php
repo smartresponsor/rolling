@@ -2,15 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Observability\Metrics;
+namespace App\Rolling\Infrastructure\Observability\Metrics;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Counter
 {
     /** @var array */
@@ -21,7 +14,7 @@ final class Counter
     /**
      * @param string $name
      * @param string $help
-     * @param array $labelNames
+     * @param array  $labelNames
      */
     public function __construct(private readonly string $name, private readonly string $help = '', array $labelNames = [])
     {
@@ -62,6 +55,7 @@ final class Counter
 
     /**
      * @param array $labels
+     *
      * @return string
      */
     private function keyFor(array $labels): string
@@ -70,6 +64,7 @@ final class Counter
         foreach ($this->labelNames as $n) {
             $vals[] = (string) ($labels[$n] ?? '');
         }
+
         return implode("\x1f", $vals);
     }
 }

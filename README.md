@@ -6,9 +6,9 @@ Symfony-first Rollin workspace for the Rolling component recovery track.
 
 The live repository tree has been structurally recovered from the earlier mixed workspace / legacy state:
 - `src/Legacy/**` has been removed from the working tree.
-- active `src/`, `tests/`, and `bin/` code paths no longer import `App\Legacy\...`.
+- active `src/`, `tests/`, and `bin/` code paths no longer import `App\Rolling\Legacy\...`.
 - forbidden root production trees such as `Http/`, `PolicyInterface/`, and `Service/` are no longer present.
-- the component now tracks a single Symfony-first application/workspace layout rooted in `src/`, `config/`, `bin/`, `tests/`, `docs/`, `report/`, and `tools/`.
+- the component now tracks a single Symfony-first package/workspace layout rooted in `src/`, `config/`, `bin/`, `tests/`, `docs/`, `report/`, and `tools/`.
 
 ## Current operator-facing references
 
@@ -27,8 +27,8 @@ The live operator workflow now centers on stable `current-*` artifacts and their
 
 ## Expected layout
 
-- `src/` — canonical Symfony-first production code under `App\...`
-- `config/` — Symfony configuration and bundle wiring
+- `src/` — canonical Symfony bundle code under `App\Rolling\...`
+- `config/` — package-owned Symfony configuration and route resources
 - `bin/` — operational entrypoints and repository audit utilities
 - `tests/` — PHPUnit and support fixtures
 - `docs/` — current operator and component documentation
@@ -56,7 +56,7 @@ These regenerate stable `report/recovery/current-*.json` artifacts for the live 
 
 ## Runtime preflight
 
-Before running `bin/console` or serving `public/index.php`, install dependencies with `composer install`. The repository now performs a bootstrap preflight and stops with an explicit recovery message when `vendor/autoload.php` is missing.
+Before running QA scripts or package-level console helpers, install dependencies with `composer install`. This repository is now a Symfony bundle package rather than a standalone Symfony application.
 
 Recommended preflight sequence:
 - `php tools/qa/dependency-readiness.php`
@@ -64,7 +64,6 @@ Recommended preflight sequence:
 - `php tools/qa/readiness-smoke.php`
 - `php tools/qa/operator-preflight.php`
 - `php tools/qa/current-summary.php`
-- `php bin/console`
 
 A local runtime needs:
 - PHP satisfying `composer.json` (`^8.4`)
@@ -80,7 +79,7 @@ Still required before an RC-style verdict:
 - dependency install and container compilation in a Composer-enabled environment
 - PHPStan run
 - PHPUnit run
-- console/container smoke in a full Symfony runtime environment
+- host-app container smoke in a consuming Symfony runtime environment
 
 ## Recovery runbook
 
@@ -104,3 +103,11 @@ Bootstrap preflight artifacts:
 - `examples/` — non-core usage examples
 - `sdk/` — embedded SDK materials (`php/`, `js/`, `java/`)
 
+
+
+## Host application wiring
+
+This package is consumed from a Symfony application:
+- register `App\Rolling\Infrastructure\Symfony\RoleBundle::class` in the host `config/bundles.php`
+- import package routes from `@RoleBundle/config/routes/` in the host routing config
+- use the host `bin/console` when exercising command discovery through the host container

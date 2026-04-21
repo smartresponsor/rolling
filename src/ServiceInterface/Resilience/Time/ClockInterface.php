@@ -6,15 +6,8 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Resilience\Time;
+namespace App\Rolling\ServiceInterface\Resilience\Time;
 
-/**
- *
- */
-
-/**
- *
- */
 interface ClockInterface
 {
     /**

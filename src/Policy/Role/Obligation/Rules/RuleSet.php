@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Role\Obligation\Rules;
+namespace App\Rolling\Policy\Role\Obligation\Rules;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\Policy\Obligation\Obligations;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Policy\Obligation\Obligations;
 
 final class RuleSet
 {
@@ -27,7 +27,7 @@ final class RuleSet
             }
 
             $obligation = $rule->obligationFor($action, $subject, $scope, $context);
-            if ($obligation !== null) {
+            if (null !== $obligation) {
                 $obligations = $obligations->with($obligation);
             }
         }

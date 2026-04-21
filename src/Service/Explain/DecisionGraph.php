@@ -3,17 +3,10 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\Service\Explain;
+namespace App\Rolling\Service\Explain;
 
-use App\Service\Pipeline\Trace;
+use App\Rolling\Service\Pipeline\Trace;
 
-/**
- *
- */
-
-/**
- *
- */
 final class DecisionGraph
 {
     /** @return array{nodes:array<int,array<string,mixed>>,edges:array<int,array{from:int,to:int,label:string}>} */
@@ -30,6 +23,7 @@ final class DecisionGraph
             }
             $prev = $i;
         }
+
         return ['nodes' => $nodes, 'edges' => $edges];
     }
 }

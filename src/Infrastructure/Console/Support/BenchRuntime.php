@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
-use App\Policy\Batch\CheckBatchProcessor;
-use App\Policy\Obligation\Obligations;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Policy\Batch\CheckBatchProcessor;
+use App\Rolling\Policy\Obligation\Obligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class BenchRuntime
 {
@@ -26,7 +26,7 @@ final class BenchRuntime
         ];
 
         $batch = $this->benchBatchProc($batchN, 128);
-        if ($batch !== null) {
+        if (null !== $batch) {
             $scenarios[] = $batch;
         }
 
@@ -85,7 +85,7 @@ final class BenchRuntime
             $t0 = $this->hr();
             $value = $cache[$key] ?? null;
             $t1 = $this->hr();
-            if ($value === null) {
+            if (null === $value) {
                 throw new \RuntimeException('cache miss in cache_hit bench');
             }
             $samples[] = ($t1 - $t0) * 1000.0;

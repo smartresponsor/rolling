@@ -4,16 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Role\Http\Security;
 
-use App\Security\Http\HmacRequestVerifier;
+use App\Rolling\Security\Http\HmacRequestVerifier;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-
-/**
- *
- */
 final class HmacVerifierTest extends TestCase
 {
     /**
@@ -26,8 +19,8 @@ final class HmacVerifierTest extends TestCase
         $method = 'POST';
         $path = '/v2/access/check';
         $body = '{"a":1}';
-        $base = $method . ' ' . $path . "\n" . $date . "\n" . $body;
-        $sig = 'v1=' . base64_encode(hash_hmac('sha256', $base, 'secret', true));
+        $base = $method.' '.$path."\n".$date."\n".$body;
+        $sig = 'v1='.base64_encode(hash_hmac('sha256', $base, 'secret', true));
 
         $res = $v->verify($method, $path, $date, $body, $sig);
         $this->assertTrue($res['ok']);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Contract;
+namespace App\Rolling\Infrastructure\Console\Contract;
 
 use Symfony\Component\Console\Command\Command;
 

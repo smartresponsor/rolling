@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Cache;
+namespace App\Rolling\Service\Cache;
 
-use App\ServiceInterface\Cache\TagInvalidatorInterface;
+use App\Rolling\ServiceInterface\Cache\TagInvalidatorInterface;
 
 /**
  * File-based tag version store under /tmp (portable).
@@ -30,6 +30,7 @@ final class TagInvalidator implements TagInvalidatorInterface
 
     /**
      * @param string $tag
+     *
      * @return void
      */
     public function bumpTag(string $tag): void
@@ -48,6 +49,7 @@ final class TagInvalidator implements TagInvalidatorInterface
 
     /**
      * @param string $tag
+     *
      * @return int
      */
     public function getTagVersion(string $tag): int

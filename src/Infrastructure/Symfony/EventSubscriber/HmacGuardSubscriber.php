@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Symfony\EventSubscriber;
+namespace App\Rolling\Infrastructure\Symfony\EventSubscriber;
 
-use App\InfrastructureInterface\Security\ReplayNonceStoreInterface;
-use App\Security\Http\HmacRequestVerifier;
+use App\Rolling\InfrastructureInterface\Security\ReplayNonceStoreInterface;
+use App\Rolling\Security\Http\HmacRequestVerifier;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -29,7 +29,7 @@ final class HmacGuardSubscriber implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-        if ($request->getPathInfo() !== $this->path || $request->getMethod() !== 'POST') {
+        if ($request->getPathInfo() !== $this->path || 'POST' !== $request->getMethod()) {
             return;
         }
 

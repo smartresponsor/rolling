@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Pdp\Cache;
+namespace App\Rolling\Service\Pdp\Cache;
 
-use App\InfrastructureInterface\Cache\CacheInterface;
-use App\ServiceInterface\Pdp\PolicyDecisionProviderInterface;
+use App\Rolling\InfrastructureInterface\Cache\CacheInterface;
+use App\Rolling\ServiceInterface\Pdp\PolicyDecisionProviderInterface;
 
 final class PdpCache implements PolicyDecisionProviderInterface
 {

@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Symfony;
 
-use App\Controller\V2\AccessController;
-use App\Infrastructure\Symfony\DependencyInjection\RoleExtension;
-use App\Infrastructure\Symfony\EventSubscriber\HmacGuardSubscriber;
-use App\Infrastructure\Symfony\RoleBundle;
+use App\Rolling\Controller\V2\AccessController;
+use App\Rolling\Infrastructure\Symfony\DependencyInjection\RoleExtension;
+use App\Rolling\Infrastructure\Symfony\EventSubscriber\HmacGuardSubscriber;
+use App\Rolling\Infrastructure\Symfony\RoleBundle;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-
-/**
- *
- */
 final class KernelAccessTest extends TestCase
 {
     /**

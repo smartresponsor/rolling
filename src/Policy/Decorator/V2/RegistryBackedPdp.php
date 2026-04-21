@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Decorator\V2;
+namespace App\Rolling\Policy\Decorator\V2;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\Infrastructure\Policy\Registry\PolicyRegistry;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Policy\Registry\PolicyRegistry;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class RegistryBackedPdp implements PdpV2Interface
 {

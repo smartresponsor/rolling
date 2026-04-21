@@ -4,17 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Role\Housekeeping;
 
-use App\Infrastructure\Housekeeping\Archive\JsonlAuditArchiver;
-use PDO;
+use App\Rolling\Infrastructure\Housekeeping\Archive\JsonlAuditArchiver;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ArchiveTest extends TestCase
 {
     /**
@@ -26,13 +18,13 @@ final class ArchiveTest extends TestCase
             $this->markTestSkipped('pdo_sqlite is not available in the local PHP CLI.');
         }
 
-        $pdo = new PDO('sqlite::memory:');
+        $pdo = new \PDO('sqlite::memory:');
         $pdo->exec('CREATE TABLE role_audit(id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, subject_id TEXT, action TEXT, scope_key TEXT, decision TEXT, reason TEXT, obligations TEXT, ctx TEXT)');
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; ++$i) {
             $pdo->exec("INSERT INTO role_audit(ts,subject_id,action,scope_key,decision,obligations,ctx) VALUES (1,'u','a','g','ALLOW','{}','{}')");
         }
         $arch = new JsonlAuditArchiver($pdo);
-        $path = sys_get_temp_dir() . '/audit_arch_test.jsonl';
+        $path = sys_get_temp_dir().'/audit_arch_test.jsonl';
         self::removeFile($path);
         $res = $arch->archiveOlderThanEpoch(10, $path, 2);
         $this->assertSame(5, $res['exported']);

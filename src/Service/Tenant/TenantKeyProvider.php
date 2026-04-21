@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Tenant;
+namespace App\Rolling\Service\Tenant;
 
-use App\InfrastructureInterface\Tenant\TenantKeyRepositoryInterface;
-use App\ServiceInterface\Tenant\TenantKeyProviderInterface;
-use Exception;
+use App\Rolling\InfrastructureInterface\Tenant\TenantKeyRepositoryInterface;
+use App\Rolling\ServiceInterface\Tenant\TenantKeyProviderInterface;
 
 final class TenantKeyProvider implements TenantKeyProviderInterface
 {
@@ -31,9 +30,9 @@ final class TenantKeyProvider implements TenantKeyProviderInterface
     {
         try {
             $raw = random_bytes($bytes);
-        } catch (Exception $e) {
-            error_log('TenantKeyProvider::generateKey fallback: ' . $e->getMessage());
-            $raw = hash('sha256', 'tenant-key|' . $bytes . '|' . microtime(true), true);
+        } catch (\Exception $e) {
+            error_log('TenantKeyProvider::generateKey fallback: '.$e->getMessage());
+            $raw = hash('sha256', 'tenant-key|'.$bytes.'|'.microtime(true), true);
         }
 
         return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');

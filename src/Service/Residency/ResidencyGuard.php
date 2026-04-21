@@ -3,9 +3,9 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\Service\Residency;
+namespace App\Rolling\Service\Residency;
 
-use App\ServiceInterface\Residency\ResidencyPolicyInterface;
+use App\Rolling\ServiceInterface\Residency\ResidencyPolicyInterface;
 
 final class ResidencyGuard
 {

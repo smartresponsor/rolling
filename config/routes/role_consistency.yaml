@@ -1,5 +1,5 @@
 # config/routes/role_consistency.yaml
 role_watch_stream:
   path: /v2/tuples/watch
-  controller: App\Controller\Api\WatchController::watch
+  controller: App\Rolling\Controller\Api\WatchController::watch
   methods: [ GET ]

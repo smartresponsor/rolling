@@ -3,11 +3,11 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Service\Admin\RebacStatsService;
-use App\Infrastructure\Rebac\{InMemoryTupleStore, PdoTupleStore};
-use App\Infrastructure\Policy\Registry\InMemoryStore;
-use App\Infrastructure\Policy\Registry\PdoStore;
-use App\Infrastructure\Policy\Registry\RegistryService;
+use App\Rolling\Service\Admin\RebacStatsService;
+use App\Rolling\Infrastructure\Rebac\{InMemoryTupleStore, PdoTupleStore};
+use App\Rolling\Infrastructure\Policy\Registry\InMemoryStore;
+use App\Rolling\Infrastructure\Policy\Registry\PdoStore;
+use App\Rolling\Infrastructure\Policy\Registry\RegistryService;
 
 $ns = getenv('ROLE_ADMIN_NS') ?: 'default';
 $tok = getenv('ROLE_ADMIN_TOKEN') ?: null;

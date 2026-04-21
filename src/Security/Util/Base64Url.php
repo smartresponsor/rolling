@@ -2,18 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Util;
-/**
- *
- */
+namespace App\Rolling\Security\Util;
 
-/**
- *
- */
 final class Base64Url
 {
     /**
      * @param string $bin
+     *
      * @return string
      */
     public static function enc(string $bin): string
@@ -23,6 +18,7 @@ final class Base64Url
 
     /**
      * @param string $txt
+     *
      * @return string
      */
     public static function dec(string $txt): string
@@ -32,6 +28,7 @@ final class Base64Url
         if ($pad) {
             $re .= str_repeat('=', 4 - $pad);
         }
+
         return base64_decode($re, true) ?: '';
     }
 }

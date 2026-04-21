@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Integration\Http\V2;
+namespace App\Rolling\Integration\Http\V2;
 
-use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class ApiV2Batch
 {
-    public function __construct(private readonly PdpV2Interface $pdp) {}
+    public function __construct(private readonly PdpV2Interface $pdp)
+    {
+    }
 
     /**
      * @param array<string,mixed> $in

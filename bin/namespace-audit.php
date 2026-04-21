@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace App\Bin {
+namespace App\Rolling\Bin {
     function namespaceAuditRun(): int
     {
         $root = dirname(__DIR__);
@@ -70,7 +70,7 @@ namespace App\Bin {
                 $rootName = explode('\\', $namespace)[0];
                 $rootCounts[$rootName] = ($rootCounts[$rootName] ?? 0) + 1;
 
-                if ($namespace === 'App' || str_starts_with($namespace, 'App\\')) {
+                if ($namespace === 'App' || str_starts_with($namespace, 'App\Rolling\\')) {
                     $summary['app_namespace_files']++;
                 } else {
                     $summary['non_app_namespace_files']++;
@@ -114,5 +114,5 @@ namespace App\Bin {
 }
 
 namespace {
-    exit(\App\Bin\namespaceAuditRun());
+    exit(\App\Rolling\Bin\namespaceAuditRun());
 }

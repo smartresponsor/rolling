@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\V2;
+namespace App\Rolling\Controller\V2;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\Integration\Http\V2\Bulk\CsvReader;
-use App\Integration\Http\V2\Bulk\NdjsonReader;
-use App\Integration\Http\V2\Bulk\NdjsonWriter;
-use App\Service\Consistency\Composer;
-use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Integration\Http\V2\Bulk\CsvReader;
+use App\Rolling\Integration\Http\V2\Bulk\NdjsonReader;
+use App\Rolling\Integration\Http\V2\Bulk\NdjsonWriter;
+use App\Rolling\Service\Consistency\Composer;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

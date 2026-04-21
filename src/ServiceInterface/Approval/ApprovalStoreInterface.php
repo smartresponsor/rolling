@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Approval;
+namespace App\Rolling\ServiceInterface\Approval;
 
 /**
  * Four-eyes approval store.
@@ -21,14 +21,16 @@ interface ApprovalStoreInterface
 
     /**
      * @param string $id
-     * @param array $by
+     * @param array  $by
+     *
      * @return void
      */
     public function approve(string $id, array $by): void;
 
     /**
      * @param string $id
-     * @param array $by
+     * @param array  $by
+     *
      * @return void
      */
     public function reject(string $id, array $by): void;

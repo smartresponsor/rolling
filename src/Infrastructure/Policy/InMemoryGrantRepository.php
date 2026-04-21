@@ -6,17 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Infrastructure\Policy;
+namespace App\Rolling\Infrastructure\Policy;
 
-use App\InfrastructureInterface\Policy\GrantRepositoryInterface;
+use App\Rolling\InfrastructureInterface\Policy\GrantRepositoryInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class InMemoryGrantRepository implements GrantRepositoryInterface
 {
     /** @var array */
@@ -32,6 +25,7 @@ final class InMemoryGrantRepository implements GrantRepositoryInterface
 
     /**
      * @param string $path
+     *
      * @return void
      */
     public function loadFromNdjson(string $path): void
@@ -50,9 +44,10 @@ final class InMemoryGrantRepository implements GrantRepositoryInterface
     }
 
     /**
-     * @param string $resourceType
-     * @param string $action
+     * @param string      $resourceType
+     * @param string      $action
      * @param string|null $tenant
+     *
      * @return array
      */
     public function findGrants(string $resourceType, string $action, ?string $tenant): array
@@ -65,11 +60,12 @@ final class InMemoryGrantRepository implements GrantRepositoryInterface
             if (($g['action'] ?? null) !== $action) {
                 continue;
             }
-            if (isset($g['tenant']) && $tenant !== null && $g['tenant'] !== $tenant) {
+            if (isset($g['tenant']) && null !== $tenant && $g['tenant'] !== $tenant) {
                 continue;
             }
             $out[] = $g;
         }
+
         return $out;
     }
 }

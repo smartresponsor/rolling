@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Pipeline;
+namespace App\Rolling\Service\Pipeline;
 
 /**
  * Canonical pipeline request context for in-process decision evaluation.
@@ -19,5 +19,6 @@ final class RequestContext
         public string $action,
         public array $resource = [],
         public array $attrs = [],
-    ) {}
+    ) {
+    }
 }

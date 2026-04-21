@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Obligation\Rules;
+namespace App\Rolling\Policy\Obligation\Rules;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\Policy\Obligation\Obligation;
-use App\Policy\Obligation\Obligations;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Policy\Obligation\Obligation;
+use App\Rolling\Policy\Obligation\Obligations;
 
 final class RuleSet
 {

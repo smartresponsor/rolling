@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace App\Bin {
+namespace App\Rolling\Bin {
     function autoloadContinuityAuditRun(): int
     {
         $root = dirname(__DIR__);
@@ -118,5 +118,5 @@ namespace App\Bin {
 }
 
 namespace {
-    exit(\App\Bin\autoloadContinuityAuditRun());
+    exit(\App\Rolling\Bin\autoloadContinuityAuditRun());
 }

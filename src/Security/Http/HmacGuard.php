@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Http;
+namespace App\Rolling\Security\Http;
 
-use App\InfrastructureInterface\Security\ReplayNonceStoreInterface;
+use App\Rolling\InfrastructureInterface\Security\ReplayNonceStoreInterface;
 
 final class HmacGuard
 {

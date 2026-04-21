@@ -6,51 +6,47 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Resilience;
+namespace App\Rolling\Service\Resilience;
 
-use App\ServiceInterface\Resilience\BackoffStrategyInterface;
-use App\ServiceInterface\Resilience\CircuitBreakerInterface;
-use App\ServiceInterface\Resilience\ResilientInvokerInterface;
-use App\ServiceInterface\Resilience\Time\ClockInterface;
-use App\ServiceInterface\Resilience\Time\SleeperInterface;
-use RuntimeException;
-use Throwable;
+use App\Rolling\ServiceInterface\Resilience\BackoffStrategyInterface;
+use App\Rolling\ServiceInterface\Resilience\CircuitBreakerInterface;
+use App\Rolling\ServiceInterface\Resilience\ResilientInvokerInterface;
+use App\Rolling\ServiceInterface\Resilience\Time\ClockInterface;
+use App\Rolling\ServiceInterface\Resilience\Time\SleeperInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ResilientInvoker implements ResilientInvokerInterface
 {
     /**
-     * @param \App\ServiceInterface\Resilience\CircuitBreakerInterface $breaker
-     * @param \App\ServiceInterface\Resilience\BackoffStrategyInterface $backoff
-     * @param \App\ServiceInterface\Resilience\Time\ClockInterface $clock
-     * @param \App\ServiceInterface\Resilience\Time\SleeperInterface $sleeper
+     * @param CircuitBreakerInterface  $breaker
+     * @param BackoffStrategyInterface $backoff
+     * @param ClockInterface           $clock
+     * @param SleeperInterface         $sleeper
      */
     public function __construct(
-        private readonly CircuitBreakerInterface  $breaker,
+        private readonly CircuitBreakerInterface $breaker,
         private readonly BackoffStrategyInterface $backoff,
-        private readonly ClockInterface           $clock,
-        private readonly SleeperInterface         $sleeper,
-    ) {}
+        private readonly ClockInterface $clock,
+        private readonly SleeperInterface $sleeper,
+    ) {
+    }
 
     /**
      * @throws \Throwable
      */
     /**
      * @param callable $fn
-     * @param array $options
+     * @param array    $options
+     *
      * @return mixed
+     *
      * @throws \Throwable
      */
     /**
      * @param callable $fn
-     * @param array $options
+     * @param array    $options
+     *
      * @return mixed
+     *
      * @throws \Throwable
      */
     public function invoke(callable $fn, array $options = [])
@@ -58,15 +54,16 @@ final class ResilientInvoker implements ResilientInvokerInterface
         $maxAttempts = (int) ($options['maxAttempts'] ?? 5);
         $classifyPermanent = $options['classifyPermanent'] ?? [ErrorClassifier::class, 'isPermanent'];
 
-        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+        for ($attempt = 1; $attempt <= $maxAttempts; ++$attempt) {
             if (!$this->breaker->allow()) {
-                throw new RuntimeException('Circuit open, request not allowed');
+                throw new \RuntimeException('Circuit open, request not allowed');
             }
             try {
                 $res = $fn();
                 $this->breaker->onSuccess();
+
                 return $res;
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 $this->breaker->onFailure($e);
                 if (is_callable($classifyPermanent) && $classifyPermanent($e)) {
                     throw $e;
@@ -78,6 +75,6 @@ final class ResilientInvoker implements ResilientInvokerInterface
                 $this->sleeper->sleepMs($delay);
             }
         }
-        throw new RuntimeException('Unreachable');
+        throw new \RuntimeException('Unreachable');
     }
 }

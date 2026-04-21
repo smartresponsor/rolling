@@ -6,24 +6,19 @@
  */
 declare(strict_types=1);
 
-namespace App\Infrastructure\Rebac;
+namespace App\Rolling\Infrastructure\Rebac;
 
-use App\InfrastructureInterface\Rebac\RebacClientInterface;
+use App\Rolling\InfrastructureInterface\Rebac\RebacClientInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 class OpenFgaClient implements RebacClientInterface
 {
     /**
-     * @param \App\Infrastructure\Rebac\HttpClient $http
-     * @param string $storeId
+     * @param HttpClient $http
+     * @param string     $storeId
      */
-    public function __construct(private readonly HttpClient $http, private readonly string $storeId) {}
+    public function __construct(private readonly HttpClient $http, private readonly string $storeId)
+    {
+    }
 
     /**
      * @return array
@@ -35,6 +30,7 @@ class OpenFgaClient implements RebacClientInterface
 
     /**
      * @param string $schemaYaml
+     *
      * @return bool
      */
     public function upsertSchema(string $schemaYaml): bool
@@ -46,6 +42,7 @@ class OpenFgaClient implements RebacClientInterface
 
     /**
      * @param array $tuples
+     *
      * @return bool
      */
     public function writeTuples(array $tuples): bool
@@ -59,11 +56,13 @@ class OpenFgaClient implements RebacClientInterface
             ];
         }
         $res = $this->http->postJson("/stores/{$this->storeId}/write", ['writes' => ['tuple_keys' => $writes]]);
+
         return $res['ok'] ?? false;
     }
 
     /**
      * @param array $tuples
+     *
      * @return bool
      */
     public function deleteTuples(array $tuples): bool
@@ -77,29 +76,32 @@ class OpenFgaClient implements RebacClientInterface
             ];
         }
         $res = $this->http->postJson("/stores/{$this->storeId}/write", ['deletes' => ['tuple_keys' => $deletes]]);
+
         return $res['ok'] ?? false;
     }
 
     /**
-     * @param array $subject
+     * @param array  $subject
      * @param string $relation
-     * @param array $object
-     * @param array $context
+     * @param array  $object
+     * @param array  $context
+     *
      * @return bool
      */
     public function check(array $subject, string $relation, array $object, array $context = []): bool
     {
         $payload = [
             'tuple_key' => [
-                'user' => ($subject['type'] ?? 'user') . ':' . $subject['id'],
+                'user' => ($subject['type'] ?? 'user').':'.$subject['id'],
                 'relation' => $relation,
-                'object' => ($object['type'] ?? 'object') . ':' . $object['id'],
+                'object' => ($object['type'] ?? 'object').':'.$object['id'],
             ],
         ];
         $res = $this->http->postJson("/stores/{$this->storeId}/check", $payload);
         if (!($res['ok'] ?? false)) {
             return false;
         }
+
         return (bool) ($res['data']['allowed'] ?? false);
     }
 }

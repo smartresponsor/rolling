@@ -4,29 +4,21 @@ declare(strict_types=1);
 
 namespace Tests\Role\Resilience;
 
-use App\Net\Http\RemoteHttpException;
-use App\Service\Resilience\CircuitBreakingPdpV2;
-use App\ServiceInterface\Resilience\Time\ClockInterface;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Net\Http\RemoteHttpException;
+use App\Rolling\Policy\Obligation\Obligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\Service\Resilience\CircuitBreakingPdpV2;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\ServiceInterface\Resilience\Time\ClockInterface;
 use PHPUnit\Framework\TestCase;
-use App\Policy\Obligation\Obligations;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\SubjectId;
-use Throwable;
 
-/**
- *
- */
-
-/**
- *
- */
 final class CircuitBreakingPdpV2Test extends TestCase
 {
     /**
-     * @return \App\Entity\Role\SubjectId
+     * @return SubjectId
      */
     private function sid(): SubjectId
     {
@@ -34,7 +26,7 @@ final class CircuitBreakingPdpV2Test extends TestCase
     }
 
     /**
-     * @return \App\Entity\Role\PermissionKey
+     * @return PermissionKey
      */
     private function act(): PermissionKey
     {
@@ -42,7 +34,7 @@ final class CircuitBreakingPdpV2Test extends TestCase
     }
 
     /**
-     * @return \App\Entity\Role\Scope
+     * @return Scope
      */
     private function sc(): Scope
     {
@@ -56,11 +48,13 @@ final class CircuitBreakingPdpV2Test extends TestCase
     {
         // fake clock
         $now = 1_700_000_000;
-        $clock = new class ($now) implements ClockInterface {
+        $clock = new class($now) implements ClockInterface {
             /**
              * @param int $t
              */
-            public function __construct(private int $t) {}
+            public function __construct(private int $t)
+            {
+            }
 
             /**
              * @return int
@@ -72,6 +66,7 @@ final class CircuitBreakingPdpV2Test extends TestCase
 
             /**
              * @param int $sec
+             *
              * @return void
              */
             public function tick(int $sec): void
@@ -82,25 +77,29 @@ final class CircuitBreakingPdpV2Test extends TestCase
 
         // inner fails with RemoteHttpException(500) first two times, then success
         $calls = 0;
-        $inner = new class ($calls) implements PdpV2Interface {
+        $inner = new class($calls) implements PdpV2Interface {
             /**
              * @param int $calls
              */
-            public function __construct(private int &$calls) {}
+            public function __construct(private int &$calls)
+            {
+            }
 
             /**
-             * @param \App\Entity\Role\SubjectId $s
-             * @param \App\Entity\Role\PermissionKey $a
-             * @param \App\Entity\Role\Scope $sc
-             * @param array $ctx
+             * @param SubjectId     $s
+             * @param PermissionKey $a
+             * @param Scope         $sc
+             * @param array         $ctx
+             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
             {
-                $this->calls++;
+                ++$this->calls;
                 if ($this->calls <= 2) {
                     throw new RemoteHttpException(500, 'boom');
                 }
+
                 return DecisionWithObligations::allow('ok', Obligations::empty());
             }
         };
@@ -111,13 +110,13 @@ final class CircuitBreakingPdpV2Test extends TestCase
         try {
             $breaker->check($this->sid(), $this->act(), $this->sc());
             $this->fail('Expected exception');
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
         }
 
         // 2nd call -> reaches threshold -> opens and returns fallback
         try {
             $res2 = $breaker->check($this->sid(), $this->act(), $this->sc());
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
         }
         $this->assertFalse($res2->isAllow(), 'fallback deny');
         $this->assertStringContainsString('circuit_breaker', $res2->reason);
@@ -125,7 +124,7 @@ final class CircuitBreakingPdpV2Test extends TestCase
         // still open before window passes
         try {
             $res3 = $breaker->check($this->sid(), $this->act(), $this->sc());
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
         }
         $this->assertFalse($res3->isAllow(), 'still open');
 
@@ -133,14 +132,14 @@ final class CircuitBreakingPdpV2Test extends TestCase
         $clock->tick(10);
         try {
             $res4 = $breaker->check($this->sid(), $this->act(), $this->sc());
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
         }
         $this->assertTrue($res4->isAllow(), 'half-open probe success closes breaker');
 
         // now closed -> normal success
         try {
             $res5 = $breaker->check($this->sid(), $this->act(), $this->sc());
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
         }
         $this->assertTrue($res5->isAllow());
     }

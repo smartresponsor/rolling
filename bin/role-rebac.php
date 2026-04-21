@@ -3,9 +3,9 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Infrastructure\Rebac\Tuple;
-use App\Service\Rebac\{Checker, Writer};
-use App\Infrastructure\Rebac\{InMemoryTupleStore, PdoTupleStore};
+use App\Rolling\Infrastructure\Rebac\Tuple;
+use App\Rolling\Service\Rebac\{Checker, Writer};
+use App\Rolling\Infrastructure\Rebac\{InMemoryTupleStore, PdoTupleStore};
 
 $dsn = getenv('ROLE_REBAC_DSN') ?: null;
 $ns = getenv('ROLE_REBAC_NS') ?: 'default';

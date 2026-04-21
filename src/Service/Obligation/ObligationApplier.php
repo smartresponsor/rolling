@@ -3,33 +3,27 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\Service\Obligation;
+namespace App\Rolling\Service\Obligation;
 
-use App\ServiceInterface\ObligationStoreInterface;
+use App\Rolling\ServiceInterface\ObligationStoreInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ObligationApplier
 {
     /**
-     * @param \App\ServiceInterface\ObligationStoreInterface $store
+     * @param ObligationStoreInterface $store
      */
     public function __construct(private readonly ObligationStoreInterface $store)
     {
     }
 
     /**
-     * @param string $tenant
-     * @param string $relation
-     * @param array $decision expects ['allowed'=>bool]
-     * @param array $attrs subject/resource attributes
+     * @param string     $tenant
+     * @param string     $relation
+     * @param array      $decision expects ['allowed'=>bool]
+     * @param array      $attrs    subject/resource attributes
      * @param array|null $resource viewable resource (optional)
-     * @param string $version
+     * @param string     $version
+     *
      * @return array{view:array<string,mixed>|null, headers:array<int,array<string,string>>, actions:array<int,array<string,mixed>>}
      */
     public function apply(string $tenant, string $relation, array $decision, array $attrs, ?array $resource = null, string $version = 'active'): array
@@ -44,10 +38,10 @@ final class ObligationApplier
         foreach ($rules as $rule) {
             $matchRel = (string) ($rule['match']['relation'] ?? '');
             $matchEff = (string) ($rule['match']['effect'] ?? 'ANY');
-            if ($matchRel !== '' && $matchRel !== $relation) {
+            if ('' !== $matchRel && $matchRel !== $relation) {
                 continue;
             }
-            if ($matchEff !== 'ANY' && $matchEff !== $effect) {
+            if ('ANY' !== $matchEff && $matchEff !== $effect) {
                 continue;
             }
             if (!$this->whenOk((array) ($rule['when'] ?? []), $attrs)) {
@@ -55,30 +49,32 @@ final class ObligationApplier
             }
             foreach ((array) ($rule['actions'] ?? []) as $act) {
                 $t = (string) ($act['type'] ?? '');
-                if ($t === 'mask' && $view !== null) {
+                if ('mask' === $t && null !== $view) {
                     $path = (string) ($act['path'] ?? '');
                     $with = (string) ($act['with'] ?? '***');
                     $this->maskPath($view, $path, $with);
                     $applied[] = ['type' => 'mask', 'path' => $path];
-                } elseif ($t === 'redact' && $view !== null) {
+                } elseif ('redact' === $t && null !== $view) {
                     $path = (string) ($act['path'] ?? '');
                     $this->redactPath($view, $path);
                     $applied[] = ['type' => 'redact', 'path' => $path];
-                } elseif ($t === 'header') {
+                } elseif ('header' === $t) {
                     $headers[] = ['name' => (string) $act['name'], 'value' => (string) $act['value']];
                     $applied[] = ['type' => 'header', 'name' => $act['name'] ?? ''];
-                } elseif ($t === 'purpose') {
+                } elseif ('purpose' === $t) {
                     $headers[] = ['name' => 'X-Data-Purpose', 'value' => (string) ($act['tag'] ?? 'unspecified')];
                     $applied[] = ['type' => 'purpose', 'tag' => $act['tag'] ?? ''];
                 }
             }
         }
+
         return ['view' => $view, 'headers' => $headers, 'actions' => $applied];
     }
 
     /**
      * @param array $conds
      * @param array $attrs
+     *
      * @return bool
      */
     private function whenOk(array $conds, array $attrs): bool
@@ -95,26 +91,27 @@ final class ObligationApplier
             if (isset($c['exists'])) {
                 $path = (string) ($c['exists']['path'] ?? '');
                 $got = $this->getByPath($attrs, $path);
-                if ($got === null) {
+                if (null === $got) {
                     return false;
                 }
             }
         }
+
         return true;
     }
 
     /**
      * @param array|null $obj
-     * @param string $path
-     * @param string $with
+     * @param string     $path
+     * @param string     $with
      */
     private function maskPath(?array &$obj, string $path, string $with): void
     {
-        if ($obj === null || $path === '') {
+        if (null === $obj || '' === $path) {
             return;
         }
         $ref = &$this->refByPath($obj, $path);
-        if ($ref === null) {
+        if (null === $ref) {
             return;
         }
         if (is_string($ref)) {
@@ -132,11 +129,11 @@ final class ObligationApplier
 
     /**
      * @param array|null $obj
-     * @param string $path
+     * @param string     $path
      */
     private function redactPath(?array &$obj, string $path): void
     {
-        if ($obj === null || $path === '') {
+        if (null === $obj || '' === $path) {
             return;
         }
         $parts = explode('.', $path);
@@ -154,13 +151,14 @@ final class ObligationApplier
     }
 
     /**
-     * @param array $obj
+     * @param array  $obj
      * @param string $path
+     *
      * @return mixed
      */
     private function getByPath(array $obj, string $path): mixed
     {
-        if ($path === '') {
+        if ('' === $path) {
             return null;
         }
         $cur = $obj;
@@ -170,6 +168,7 @@ final class ObligationApplier
             }
             $cur = $cur[$p];
         }
+
         return $cur;
     }
 
@@ -177,7 +176,7 @@ final class ObligationApplier
     private function &refByPath(array &$obj, string $path)
     {
         $null = null;
-        if ($path === '') {
+        if ('' === $path) {
             return $null;
         }
         $cur = &$obj;
@@ -187,6 +186,7 @@ final class ObligationApplier
             }
             $cur = &$cur[$p];
         }
+
         return $cur;
     }
 }

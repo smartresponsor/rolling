@@ -2,29 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Rolling\Controller\Api;
 
-use App\Infrastructure\Residency\ResidencyFsPolicy;
-use App\Service\Residency\ResidencyGuard;
+use App\Rolling\Infrastructure\Residency\ResidencyFsPolicy;
+use App\Rolling\Service\Residency\ResidencyGuard;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ResidencyController
 {
     /**
      * @param string $conf
      */
-    public function __construct(private readonly string $conf = __DIR__ . '/../../../../config/role/residency.json') {}
+    public function __construct(private readonly string $conf = __DIR__.'/../../../../config/role/residency.json')
+    {
+    }
 
     /**
-     * @return \App\Service\Residency\ResidencyGuard
+     * @return ResidencyGuard
      */
     private function guard(): ResidencyGuard
     {
@@ -32,8 +27,9 @@ final class ResidencyController
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $req
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @param Request $req
+     *
+     * @return JsonResponse
      */
     public function enforce(Request $req): JsonResponse
     {
@@ -42,6 +38,7 @@ final class ResidencyController
         $attrs = (array) ($p['attrs'] ?? []);
         $action = (string) ($p['action'] ?? 'read');
         $res = $this->guard()->enforce($tenant, $attrs);
+
         return new JsonResponse($res, 200);
     }
 }

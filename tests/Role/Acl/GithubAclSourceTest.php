@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Role\Acl;
 
-use App\Infrastructure\Acl\Source\GithubAclSource;
-use App\Infrastructure\Acl\Source\GithubSubjectResolver;
-use App\Net\Http\SimpleHttpClientInterface;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Acl\Source\GithubAclSource;
+use App\Rolling\Infrastructure\Acl\Source\GithubSubjectResolver;
+use App\Rolling\Net\Http\SimpleHttpClientInterface;
 use PHPUnit\Framework\TestCase;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
 
 final class GithubAclSourceTest extends TestCase
 {
     public function testMapsTeamToRole(): void
     {
-        $http = new class ([
-            'https://api.github.com/orgs/acme/teams/admins/memberships/u1' => 200,
-        ]) implements SimpleHttpClientInterface {
+        $http = new class(['https://api.github.com/orgs/acme/teams/admins/memberships/u1' => 200]) implements SimpleHttpClientInterface {
             public function __construct(private readonly array $urls)
             {
             }
@@ -29,7 +27,7 @@ final class GithubAclSourceTest extends TestCase
                 return [
                     'status' => $status,
                     'headers' => [],
-                    'body' => $status === 200 ? json_encode(['state' => 'active']) : '{}',
+                    'body' => 200 === $status ? json_encode(['state' => 'active']) : '{}',
                 ];
             }
         };

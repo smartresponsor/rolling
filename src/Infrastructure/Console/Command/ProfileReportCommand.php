@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\BaselineManifestManager;
-use App\Infrastructure\Console\Support\ComparisonProfileCatalog;
-use App\Infrastructure\Console\Support\JsonReportLoader;
+use App\Rolling\Infrastructure\Console\Support\BaselineManifestManager;
+use App\Rolling\Infrastructure\Console\Support\ComparisonProfileCatalog;
+use App\Rolling\Infrastructure\Console\Support\JsonReportLoader;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,7 +42,7 @@ final class ProfileReportCommand extends AbstractRoleCommand
 
             $manifestPath = (string) $input->getOption('manifest');
             $manifest = $this->manifest->loadManifest($manifestPath);
-            $kinds = $kind === 'all' ? ['perf', 'bench'] : [$kind];
+            $kinds = 'all' === $kind ? ['perf', 'bench'] : [$kind];
             $summary = [
                 'generated_at' => gmdate(DATE_ATOM),
                 'manifest' => $manifestPath,
@@ -54,7 +54,7 @@ final class ProfileReportCommand extends AbstractRoleCommand
                 foreach ($this->catalog->profiles($selectedKind) as $profileName => $profileThresholds) {
                     $baselinePath = $this->manifest->resolveBaselinePath($manifestPath, $selectedKind, (string) $profileName);
                     $stats = null;
-                    if (is_string($baselinePath) && $baselinePath !== '' && is_file($baselinePath)) {
+                    if (is_string($baselinePath) && '' !== $baselinePath && is_file($baselinePath)) {
                         $loaded = $this->loader->load($baselinePath);
                         $stats = is_array($loaded['stats'] ?? null) ? $this->normalizeStats($loaded['stats']) : null;
                     }
@@ -76,7 +76,7 @@ final class ProfileReportCommand extends AbstractRoleCommand
             }
 
             $outputPath = (string) ($input->getOption('output') ?? '');
-            if ($outputPath !== '') {
+            if ('' !== $outputPath) {
                 $directory = \dirname($outputPath);
                 if (!is_dir($directory)) {
                     mkdir($directory, 0777, true);
@@ -90,8 +90,10 @@ final class ProfileReportCommand extends AbstractRoleCommand
             return $this->writeThrowable($output, $throwable);
         }
     }
+
     /**
      * @param array<string, mixed> $stats
+     *
      * @return array<string, mixed>
      */
     private function normalizeStats(array $stats): array
@@ -109,5 +111,4 @@ final class ProfileReportCommand extends AbstractRoleCommand
 
         return $stats;
     }
-
 }

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Batch;
+namespace App\Rolling\Policy\Batch;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class CheckBatchProcessor
 {

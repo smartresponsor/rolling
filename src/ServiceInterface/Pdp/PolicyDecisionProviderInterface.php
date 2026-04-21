@@ -6,22 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Pdp;
+namespace App\Rolling\ServiceInterface\Pdp;
 
-/**
- *
- */
-
-/**
- *
- */
 interface PolicyDecisionProviderInterface
 {
     /**
-     * @param array $subject {id, roles[], tenant?, ...}
-     * @param string $action e.g., "can_read"
-     * @param array $resource {type, id, tenant?, ownerId?, ...}
-     * @param array $context {tenant?, requestId?, ...}
+     * @param array  $subject  {id, roles[], tenant?, ...}
+     * @param string $action   e.g., "can_read"
+     * @param array  $resource {type, id, tenant?, ownerId?, ...}
+     * @param array  $context  {tenant?, requestId?, ...}
      */
     public function isAllowed(array $subject, string $action, array $resource, array $context = []): bool;
 }

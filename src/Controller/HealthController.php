@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Rolling\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 

@@ -3,15 +3,8 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\InfrastructureInterface\Security;
+namespace App\Rolling\InfrastructureInterface\Security;
 
-/**
- *
- */
-
-/**
- *
- */
 interface KeyStoreInterface
 {
     /** Return current HMAC key bytes and kid for tenant. @return array{kid:string,key:string} */

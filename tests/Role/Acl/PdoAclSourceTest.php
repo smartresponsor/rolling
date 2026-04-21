@@ -4,19 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Role\Acl;
 
-use App\Infrastructure\Acl\Source\PdoAclSource;
-use PDO;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Acl\Source\PdoAclSource;
 use PHPUnit\Framework\TestCase;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
 
-/**
- *
- */
-
-/**
- *
- */
 final class PdoAclSourceTest extends TestCase
 {
     /**
@@ -28,7 +20,7 @@ final class PdoAclSourceTest extends TestCase
             $this->markTestSkipped('pdo_sqlite is not available in the local PHP CLI.');
         }
 
-        $pdo = new PDO('sqlite::memory:');
+        $pdo = new \PDO('sqlite::memory:');
         $pdo->exec('CREATE TABLE role_bindings(subject_id TEXT, role TEXT, scope_type TEXT, tenant_id TEXT, resource_id TEXT)');
         $pdo->exec('CREATE TABLE role_permissions(role TEXT, permission TEXT)');
         $pdo->exec("INSERT INTO role_bindings VALUES ('u1','admin','global',NULL,NULL)");

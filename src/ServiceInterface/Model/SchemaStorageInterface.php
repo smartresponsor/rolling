@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Model;
+namespace App\Rolling\ServiceInterface\Model;
 
 interface SchemaStorageInterface
 {

@@ -6,19 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Resilience;
+namespace App\Rolling\ServiceInterface\Resilience;
 
-/**
- *
- */
-
-/**
- *
- */
 interface BackoffStrategyInterface
 {
     /**
      * @param int $attempt
+     *
      * @return int
      */
     public function nextDelayMs(int $attempt): int;

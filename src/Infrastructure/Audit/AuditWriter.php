@@ -1,18 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Infrastructure\Audit;
-/**
- *
- */
+namespace App\Rolling\Infrastructure\Audit;
 
-/**
- *
- */
 interface AuditWriter
 {
     /**
-     * @param \App\Infrastructure\Audit\AuditRecord $rec
+     * @param AuditRecord $rec
+     *
      * @return void
      */
     public function write(AuditRecord $rec): void;

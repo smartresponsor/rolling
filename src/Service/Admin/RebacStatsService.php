@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Admin;
+namespace App\Rolling\Service\Admin;
 
-use App\Infrastructure\Rebac\PdoTupleStore;
+use App\Rolling\Infrastructure\Rebac\PdoTupleStore;
 
 final class RebacStatsService
 {

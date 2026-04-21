@@ -2,12 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
-/**
- *
- */
+namespace App\Rolling\Exception;
 
-/**
- *
- */
-final class UnauthorizedException extends ApiException {}
+final class UnauthorizedException extends ApiException
+{
+}

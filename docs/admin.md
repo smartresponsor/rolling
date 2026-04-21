@@ -14,7 +14,7 @@
 
 ## Bundle verification
 
-- `App\Security\Role\Keys\BundleVerifier::verify($payload, $sigB64, $kid, $notAfter)`
+- `App\Rolling\Security\Role\Keys\BundleVerifier::verify($payload, $sigB64, $kid, $notAfter)`
     - Подпись — RSA-SHA256 (PKCS#1 v1.5), `sigB64` — Base64.
     - Если указан `$notAfter`, истёкшая подпись отклоняется.
 

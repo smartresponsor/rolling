@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Role\Model;
+namespace App\Rolling\Tests\Role\Model;
 
-use App\Service\Model\Diff;
+use App\Rolling\Service\Model\Diff;
 use PHPUnit\Framework\TestCase;
 
 final class DiffTest extends TestCase

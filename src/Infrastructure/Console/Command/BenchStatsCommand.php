@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\BenchRuntime;
-use App\Infrastructure\Console\Support\BenchStatsReport;
-use App\Infrastructure\Console\Support\BenchStatsService;
+use App\Rolling\Infrastructure\Console\Support\BenchRuntime;
+use App\Rolling\Infrastructure\Console\Support\BenchStatsReport;
+use App\Rolling\Infrastructure\Console\Support\BenchStatsService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:role:bench:stats', description: 'Return summarized stats for synthetic benchmark scenarios.')] 
+#[AsCommand(name: 'app:role:bench:stats', description: 'Return summarized stats for synthetic benchmark scenarios.')]
 final class BenchStatsCommand extends AbstractRoleCommand
 {
     public function __construct(
@@ -47,7 +47,7 @@ final class BenchStatsCommand extends AbstractRoleCommand
             $stats = $this->stats->summarize($payload);
             $report = $this->report->build($payload, $stats, (bool) $input->getOption('detailed'), (bool) $input->getOption('trace'));
             $outputPath = (string) ($input->getOption('output') ?? '');
-            if ($outputPath !== '') {
+            if ('' !== $outputPath) {
                 $report['output'] = $this->report->persist($report, $outputPath);
             }
 

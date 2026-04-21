@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Key;
+namespace App\Rolling\ServiceInterface\Key;
 
 interface KeyProviderInterface
 {

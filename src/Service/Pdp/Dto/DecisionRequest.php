@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Pdp\Dto;
+namespace App\Rolling\Service\Pdp\Dto;
 
 /**
  * Immutable DTO describing a permission decision input.
@@ -14,15 +14,16 @@ namespace App\Service\Pdp\Dto;
 final class DecisionRequest
 {
     /**
-     * @param array $subject @param array<string,mixed> $resource @param array<string,mixed> $context
+     * @param array  $subject  @param array<string,mixed> $resource @param array<string,mixed> $context
      * @param string $action
-     * @param array $resource
-     * @param array $context
+     * @param array  $resource
+     * @param array  $context
      */
     public function __construct(
-        public readonly array  $subject,
+        public readonly array $subject,
         public readonly string $action,
-        public readonly array  $resource,
-        public readonly array  $context = [],
-    ) {}
+        public readonly array $resource,
+        public readonly array $context = [],
+    ) {
+    }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Observability\Tracing;
+namespace App\Rolling\Infrastructure\Observability\Tracing;
 
 final class OtelBridge
 {

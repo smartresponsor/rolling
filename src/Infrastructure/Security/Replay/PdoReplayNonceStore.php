@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Security\Replay;
+namespace App\Rolling\Infrastructure\Security\Replay;
 
-use App\InfrastructureInterface\Security\ReplayNonceStoreInterface;
-use PDO;
-use Throwable;
+use App\Rolling\InfrastructureInterface\Security\ReplayNonceStoreInterface;
 
 final class PdoReplayNonceStore implements ReplayNonceStoreInterface
 {
     public function __construct(
-        private readonly PDO $pdo,
+        private readonly \PDO $pdo,
         private readonly string $table = 'replay_nonce',
     ) {
     }
@@ -28,7 +26,7 @@ final class PdoReplayNonceStore implements ReplayNonceStoreInterface
             $stmt->execute([':n' => $nonce, ':e' => $expires]);
 
             return true;
-        } catch (Throwable) {
+        } catch (\Throwable) {
             return false;
         }
     }

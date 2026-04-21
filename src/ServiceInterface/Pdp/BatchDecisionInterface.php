@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Pdp;
+namespace App\Rolling\ServiceInterface\Pdp;
 
-use App\Service\Pdp\Dto\DecisionRequest;
-use App\Service\Pdp\Dto\DecisionResponse;
+use App\Rolling\Service\Pdp\Dto\DecisionRequest;
+use App\Rolling\Service\Pdp\Dto\DecisionResponse;
 
 /**
  * Batch decision interface for PDP v3.
@@ -18,6 +18,7 @@ interface BatchDecisionInterface
 {
     /**
      * @param DecisionRequest[] $requests
+     *
      * @return DecisionResponse[]
      */
     public function decideMany(array $requests): array;

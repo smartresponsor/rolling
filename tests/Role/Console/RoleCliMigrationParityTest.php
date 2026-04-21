@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Role\Console;
+namespace App\Rolling\Tests\Role\Console;
 
-use App\Infrastructure\Console\RoleConsoleApplication;
+use App\Rolling\Infrastructure\Console\RoleConsoleApplication;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -29,7 +29,7 @@ final class RoleCliMigrationParityTest extends TestCase
     public function testPolicyImportActivateAndExportRoundTripReturnsStructuredJson(): void
     {
         $application = (new RoleConsoleApplication())->build();
-        $policyPath = sys_get_temp_dir() . '/rolling-example-policy.json';
+        $policyPath = sys_get_temp_dir().'/rolling-example-policy.json';
         file_put_contents($policyPath, json_encode([
             'roles' => [
                 'viewer' => [

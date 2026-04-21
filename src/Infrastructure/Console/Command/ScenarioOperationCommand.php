@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,7 +29,7 @@ final class ScenarioOperationCommand extends AbstractRoleCommand
     {
         try {
             $fixture = $this->fixture((string) $input->getArgument('fixture'));
-            $result = $this->mode === 'preview'
+            $result = 'preview' === $this->mode
                 ? $this->preview($fixture, $this->scenarioName)
                 : $this->runScenario($fixture, $this->scenarioName);
 

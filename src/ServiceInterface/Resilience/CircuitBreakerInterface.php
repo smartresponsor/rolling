@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Resilience;
+namespace App\Rolling\ServiceInterface\Resilience;
 
 interface CircuitBreakerInterface
 {

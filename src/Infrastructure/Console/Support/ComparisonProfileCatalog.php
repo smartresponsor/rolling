@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
 final class ComparisonProfileCatalog
 {
     public function __construct(
-        private readonly string $configPath = __DIR__ . '/../../../../config/role/perf_profiles.json',
+        private readonly string $configPath = __DIR__.'/../../../../config/role/perf_profiles.json',
         private readonly JsonReportLoader $loader = new JsonReportLoader(),
     ) {
     }
@@ -38,7 +38,6 @@ final class ComparisonProfileCatalog
 
         return $selected;
     }
-
 
     /**
      * @return array<string, array<string, float|int>>

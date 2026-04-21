@@ -5,7 +5,7 @@ Base snapshot: `rolling-09-small-role-groups-collapse-cumulative.zip`
 ## What changed
 - collapsed `src/Legacy/Acl/Role/*` into `src/Legacy/Acl/*`
 - moved `RequestContext` from forbidden `src/Legacy/Domain/Role/Model` into `src/Legacy/Model/RequestContext.php`
-- updated imports and references to `App\Legacy\Acl\...` and `App\Legacy\Model\RequestContext`
+- updated imports and references to `App\Rolling\Legacy\Acl\...` and `App\Rolling\Legacy\Model\RequestContext`
 - added `legacy_role_alias_support.php` and `legacy_role_aliases_bootstrap.php`
 - collapsed Composer `autoload.files` to a single bootstrap entry
 - added `legacy_role_w10_aliases.php` for backward compatibility

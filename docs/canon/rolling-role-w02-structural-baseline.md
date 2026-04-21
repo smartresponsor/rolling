@@ -19,5 +19,5 @@ The current slice contains severe namespace/path drift and multiple competing tr
 ## Deferred to later waves
 - collapsing root code trees outside `src/`
 - removing `src/Domain`, `Port`, `Adapter`, and `.../Role/...` trees
-- rewriting namespaces to a single `App\\...` map
+- rewriting namespaces to a single `App\Rolling\\...` map
 - service wiring consolidation

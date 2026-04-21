@@ -2,14 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Attribute;
-/**
- *
- */
+namespace App\Rolling\ServiceInterface\Attribute;
 
-/**
- *
- */
 interface AttributeProviderInterface
 {
     /** @return array<string,mixed> */

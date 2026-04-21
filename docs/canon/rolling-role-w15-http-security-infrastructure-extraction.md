@@ -7,22 +7,22 @@
 - Keep legacy and integration classes as bridge-zone wrappers
 
 ## Canonical additions
-- `App\Security\Http\HmacRequestVerifier`
-- `App\InfrastructureInterface\Security\ReplayNonceStoreInterface`
-- `App\Infrastructure\Security\Replay\PdoReplayNonceStore`
-- `App\Infrastructure\Symfony\EventSubscriber\HmacGuardSubscriber`
-- `App\Infrastructure\Symfony\DependencyInjection\Configuration`
-- `App\Infrastructure\Symfony\DependencyInjection\RoleExtension`
-- `App\Infrastructure\Symfony\RoleBundle`
+- `App\Rolling\Security\Http\HmacRequestVerifier`
+- `App\Rolling\InfrastructureInterface\Security\ReplayNonceStoreInterface`
+- `App\Rolling\Infrastructure\Security\Replay\PdoReplayNonceStore`
+- `App\Rolling\Infrastructure\Symfony\EventSubscriber\HmacGuardSubscriber`
+- `App\Rolling\Infrastructure\Symfony\DependencyInjection\Configuration`
+- `App\Rolling\Infrastructure\Symfony\DependencyInjection\RoleExtension`
+- `App\Rolling\Infrastructure\Symfony\RoleBundle`
 
 ## Bridge-zone changes
-- `App\Legacy\Http\Security\HmacVerifier` now extends canonical verifier
-- `App\Legacy\Http\Security\Replay\StoreInterface` now extends canonical replay contract
-- `App\Legacy\Http\Security\Replay\PdoStore` now extends canonical PDO replay store
-- `App\Integration\Symfony\DependencyInjection\Configuration` bridges to canonical infrastructure configuration
-- `App\Integration\Symfony\DependencyInjection\RoleExtension` bridges to canonical infrastructure extension
-- `App\Integration\Symfony\EventSubscriber\HmacGuardSubscriber` bridges to canonical infrastructure subscriber
-- `App\Integration\Symfony\RoleBundle\RoleBundle` bridges to canonical infrastructure bundle
+- `App\Rolling\Legacy\Http\Security\HmacVerifier` now extends canonical verifier
+- `App\Rolling\Legacy\Http\Security\Replay\StoreInterface` now extends canonical replay contract
+- `App\Rolling\Legacy\Http\Security\Replay\PdoStore` now extends canonical PDO replay store
+- `App\Rolling\Integration\Symfony\DependencyInjection\Configuration` bridges to canonical infrastructure configuration
+- `App\Rolling\Integration\Symfony\DependencyInjection\RoleExtension` bridges to canonical infrastructure extension
+- `App\Rolling\Integration\Symfony\EventSubscriber\HmacGuardSubscriber` bridges to canonical infrastructure subscriber
+- `App\Rolling\Integration\Symfony\RoleBundle\RoleBundle` bridges to canonical infrastructure bundle
 
 ## Runtime effect
-Primary home for Symfony HTTP security wiring is now canonical `App\Security\...`, `App\Infrastructure\...`, and `App\InfrastructureInterface\...`.
+Primary home for Symfony HTTP security wiring is now canonical `App\Rolling\Security\...`, `App\Rolling\Infrastructure\...`, and `App\Rolling\InfrastructureInterface\...`.

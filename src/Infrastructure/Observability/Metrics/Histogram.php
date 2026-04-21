@@ -2,15 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Observability\Metrics;
+namespace App\Rolling\Infrastructure\Observability\Metrics;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Histogram
 {
     /** @var array<float,int> */
@@ -23,14 +16,14 @@ final class Histogram
     /**
      * @param string $name
      * @param string $help
-     * @param array $buckets
-     * @param array $labelNames
+     * @param array  $buckets
+     * @param array  $labelNames
      */
     public function __construct(private readonly string $name, private readonly string $help = '', array $buckets = [], array $labelNames = [])
     {
         $this->buckets = array_values($buckets);
         sort($this->buckets, SORT_NUMERIC);
-        if (!$this->buckets || end($this->buckets) !== INF) {
+        if (!$this->buckets || INF !== end($this->buckets)) {
             $this->buckets[] = INF;
         }
         $this->labelNames = array_values($labelNames);
@@ -48,11 +41,11 @@ final class Histogram
         }
         foreach (array_keys($this->values[$k]['buckets']) as $b) {
             if ($value <= (float) $b) {
-                $this->values[$k]['buckets'][$b]++;
+                ++$this->values[$k]['buckets'][$b];
             }
         }
         $this->values[$k]['sum'] += $value;
-        $this->values[$k]['count']++;
+        ++$this->values[$k]['count'];
     }
 
     /** @return array{names:array<int,string>, data:array<string,array{buckets:array<float,int>,sum:float,count:int}>} */
@@ -87,6 +80,7 @@ final class Histogram
 
     /**
      * @param array $labels
+     *
      * @return string
      */
     private function keyFor(array $labels): string
@@ -95,6 +89,7 @@ final class Histogram
         foreach ($this->labelNames as $n) {
             $vals[] = (string) ($labels[$n] ?? '');
         }
+
         return implode("\x1f", $vals);
     }
 }

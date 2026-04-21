@@ -6,22 +6,16 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Audit;
+namespace App\Rolling\ServiceInterface\Audit;
 
-use App\Service\Audit\Dto\DecisionInput;
-use App\Service\Audit\Dto\DecisionResult;
+use App\Rolling\Service\Audit\Dto\DecisionInput;
+use App\Rolling\Service\Audit\Dto\DecisionResult;
 
-/**
- *
- */
-
-/**
- *
- */
 interface ExplainerInterface
 {
     /**
      * Build structured explanation (tree) from input+result.
+     *
      * @return array<string,mixed> JSON-serializable structure
      */
     public function explain(DecisionInput $in, DecisionResult $res): array;

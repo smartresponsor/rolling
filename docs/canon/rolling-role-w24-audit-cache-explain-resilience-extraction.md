@@ -1,6 +1,6 @@
 # Rolling Role w24 — audit/cache/explain/resilience extraction
 
-This wave adds canonical `App\Service` and `App\ServiceInterface` slices for Audit, Cache, Explain, and Resilience, and switches selected controller/tool entrypoints to those canonical classes.
+This wave adds canonical `App\Rolling\Service` and `App\Rolling\ServiceInterface` slices for Audit, Cache, Explain, and Resilience, and switches selected controller/tool entrypoints to those canonical classes.
 
 ## Added canonical layers
 - `src/Service/Audit/*`

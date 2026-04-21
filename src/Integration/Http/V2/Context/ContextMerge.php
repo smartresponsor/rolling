@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Integration\Http\V2\Context;
+namespace App\Rolling\Integration\Http\V2\Context;
 
 final class ContextMerge
 {

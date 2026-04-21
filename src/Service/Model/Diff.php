@@ -2,20 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Model;
+namespace App\Rolling\Service\Model;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Diff
 {
     /**
      * @param array $from
      * @param array $to
+     *
      * @return array{breaking:bool, added:list<string>, removed:list<string>, changed:list<string>}
      */
     public static function compute(array $from, array $to): array
@@ -33,6 +27,7 @@ final class Diff
             }
         }
         $breaking = count($removed) > 0;
+
         return compact('breaking', 'added', 'removed', 'changed');
     }
 }

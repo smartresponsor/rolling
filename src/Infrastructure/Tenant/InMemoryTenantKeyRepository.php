@@ -6,17 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Infrastructure\Tenant;
+namespace App\Rolling\Infrastructure\Tenant;
 
-use App\InfrastructureInterface\Tenant\TenantKeyRepositoryInterface;
+use App\Rolling\InfrastructureInterface\Tenant\TenantKeyRepositoryInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class InMemoryTenantKeyRepository implements TenantKeyRepositoryInterface
 {
     /** @var array */
@@ -34,6 +27,7 @@ final class InMemoryTenantKeyRepository implements TenantKeyRepositoryInterface
 
     /**
      * @param string $tenant
+     *
      * @return string|null
      */
     public function get(string $tenant): ?string
@@ -44,11 +38,13 @@ final class InMemoryTenantKeyRepository implements TenantKeyRepositoryInterface
     /**
      * @param string $tenant
      * @param string $key
+     *
      * @return bool
      */
     public function put(string $tenant, string $key): bool
     {
         $this->map[$tenant] = $key;
+
         return true;
     }
 

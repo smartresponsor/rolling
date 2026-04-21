@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Policy\Registry;
+namespace App\Rolling\Infrastructure\Policy\Registry;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
 
 final class FlagEvaluator
 {
@@ -16,7 +16,7 @@ final class FlagEvaluator
      */
     public function isEnabled(array $flag, SubjectId $subject, PermissionKey $action, Scope $scope, array $ctx): bool
     {
-        if (!isset($flag['when']) || !is_array($flag['when']) || $flag['when'] === []) {
+        if (!isset($flag['when']) || !is_array($flag['when']) || [] === $flag['when']) {
             return true;
         }
         foreach ($flag['when'] as $cond) {
@@ -24,6 +24,7 @@ final class FlagEvaluator
                 return true;
             }
         }
+
         return false;
     }
 
@@ -44,8 +45,8 @@ final class FlagEvaluator
         }
         if (isset($c['percent'])) {
             $by = (string) ($c['by'] ?? 'subjectId');
-            $id = $by === 'tenantId' ? (string) ($ctx['tenantId'] ?? '') : $subject->value();
-            if ($id === '') {
+            $id = 'tenantId' === $by ? (string) ($ctx['tenantId'] ?? '') : $subject->value();
+            if ('' === $id) {
                 return false;
             }
             $pct = (int) $c['percent'];
@@ -53,6 +54,7 @@ final class FlagEvaluator
                 return false;
             }
         }
+
         return true;
     }
 

@@ -1,0 +1,15 @@
+Delete these files from the previous application-style surface when applying the touched-files patch:
+.env
+.env.test
+bin/console
+config/bundles.php
+config/packages/framework.yaml
+config/packages/role.yaml
+config/packages/twig.yaml
+config/routes.yaml
+public/index.php
+public/role/debug/check.html
+public/role/debug/index.html
+tests/Panther/HealthPantherTest.php
+tests/e2e/health.spec.js
+src/Kernel.php

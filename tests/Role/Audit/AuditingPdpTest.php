@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Role\Audit;
 
-use App\Infrastructure\Audit\AuditRecord;
-use App\InfrastructureInterface\Audit\AuditWriterInterface as AuditWriter;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Audit\AuditRecord;
+use App\Rolling\InfrastructureInterface\Audit\AuditWriterInterface as AuditWriter;
+use App\Rolling\Policy\Decorator\V2\AuditingPdp;
+use App\Rolling\Policy\Obligation\Obligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use PHPUnit\Framework\TestCase;
-use App\Policy\Decorator\V2\AuditingPdp;
-use App\Policy\Obligation\Obligations;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
 
 final class AuditingPdpTest extends TestCase
 {

@@ -2,25 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Integration\Http\V2\Bulk;
-
-use Generator;
+namespace App\Rolling\Integration\Http\V2\Bulk;
 
 final class NdjsonReader implements BulkReaderInterface
 {
     /**
      * @param resource $stream
-     * @return Generator<int,array<string,mixed>>
+     *
+     * @return \Generator<int,array<string,mixed>>
      */
-    public function items($stream): Generator
+    public function items($stream): \Generator
     {
         while (!feof($stream)) {
             $line = fgets($stream);
-            if ($line === false) {
+            if (false === $line) {
                 break;
             }
             $line = trim($line);
-            if ($line === '') {
+            if ('' === $line) {
                 continue;
             }
             $row = json_decode($line, true);

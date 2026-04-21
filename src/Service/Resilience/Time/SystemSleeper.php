@@ -6,21 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Resilience\Time;
+namespace App\Rolling\Service\Resilience\Time;
 
-use App\ServiceInterface\Resilience\Time\SleeperInterface;
+use App\Rolling\ServiceInterface\Resilience\Time\SleeperInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class SystemSleeper implements SleeperInterface
 {
     /**
      * @param int $ms
+     *
      * @return void
      */
     public function sleepMs(int $ms): void

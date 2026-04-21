@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Admin\Guard;
+namespace App\Rolling\Service\Admin\Guard;
 
-use App\Service\Admin\Dto\ApprovalRequest;
-use App\ServiceInterface\Admin\Guard\ApprovalGuardInterface;
+use App\Rolling\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\ServiceInterface\Admin\Guard\ApprovalGuardInterface;
 
 final class FourEyesApprovalGuard implements ApprovalGuardInterface
 {

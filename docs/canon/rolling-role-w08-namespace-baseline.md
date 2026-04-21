@@ -18,11 +18,11 @@ This wave does not reopen forbidden canonical placements and does not attempt a 
 
 - canonical forbidden placement remains **0**
 - the codebase still contains a large legacy namespace surface under `src/Legacy/...`
-- non-`App\` namespaces are now explicitly inventoried for stepwise cleanup
+- non-`App\Rolling\` namespaces are now explicitly inventoried for stepwise cleanup
 - files without namespace declarations are separately tracked
 
 ## Intent for next waves
 
-- first normalize non-legacy production namespaces that are still outside `App\`
+- first normalize non-legacy production namespaces that are still outside `App\Rolling\`
 - then reduce legacy namespace drift in bounded groups
 - only after that consider deeper relocation or semantic refactors

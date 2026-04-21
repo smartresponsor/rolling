@@ -1,14 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Service\Consistency\Policy;
-/**
- *
- */
+namespace App\Rolling\Service\Consistency\Policy;
 
-/**
- *
- */
 final class Token
 {
     /**
@@ -23,6 +18,6 @@ final class Token
      */
     public function __toString(): string
     {
-        return (string)$this->rev;
+        return (string) $this->rev;
     }
 }

@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\RoleConsoleRuntime;
-use RuntimeException;
+use App\Rolling\Infrastructure\Console\Support\RoleConsoleRuntime;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,8 +31,8 @@ final class PolicyImportCommand extends AbstractRoleCommand
         try {
             $file = (string) $input->getArgument('file');
             $doc = @file_get_contents($file);
-            if ($doc === false) {
-                throw new RuntimeException(sprintf('cannot read %s', $file));
+            if (false === $doc) {
+                throw new \RuntimeException(sprintf('cannot read %s', $file));
             }
 
             return $this->writeJson($output, [

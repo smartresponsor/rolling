@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Role\Console;
+namespace App\Rolling\Tests\Role\Console;
 
-use App\Infrastructure\Console\RoleConsoleApplication;
+use App\Rolling\Infrastructure\Console\RoleConsoleApplication;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 

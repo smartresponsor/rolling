@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Role\Obligation\Applier;
+namespace App\Rolling\Policy\Role\Obligation\Applier;
 
-use App\Policy\Obligation\Obligations;
+use App\Rolling\Policy\Obligation\Obligations;
 
 final class ArrayApplier
 {
@@ -14,7 +14,7 @@ final class ArrayApplier
         $headers = [];
 
         foreach ($obligations->all() as $obligation) {
-            if ($obligation->type === 'redact_fields') {
+            if ('redact_fields' === $obligation->type) {
                 foreach ((array) ($obligation->params['fields'] ?? []) as $field) {
                     if (is_string($field) && array_key_exists($field, $data)) {
                         $data[$field] = '***';
@@ -22,7 +22,7 @@ final class ArrayApplier
                 }
             }
 
-            if ($obligation->type === 'watermark') {
+            if ('watermark' === $obligation->type) {
                 $headers[(string) ($obligation->params['header'] ?? 'X-Policy')] = (string) ($obligation->params['value'] ?? '');
             }
         }

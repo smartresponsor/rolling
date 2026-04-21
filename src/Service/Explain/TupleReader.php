@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Explain;
+namespace App\Rolling\Service\Explain;
 
 /**
  * Reads tuple change log from var/tuples.ndjson (as produced by D3 tools)
@@ -13,7 +13,9 @@ final class TupleReader
     /**
      * @param string $path
      */
-    public function __construct(private readonly string $path = __DIR__ . '/../../../../var/tuples.ndjson') {}
+    public function __construct(private readonly string $path = __DIR__.'/../../../../var/tuples.ndjson')
+    {
+    }
 
     /** @return array<int,array{tenant:string,subject:string,relation:string,resource:string,op:string,ts:string}> */
     public function readAll(): array
@@ -23,12 +25,12 @@ final class TupleReader
         }
         $out = [];
         $fh = fopen($this->path, 'r');
-        if ($fh === false) {
+        if (false === $fh) {
             return [];
         }
         while (($line = fgets($fh)) !== false) {
             $line = trim($line);
-            if ($line === '') {
+            if ('' === $line) {
                 continue;
             }
             $d = json_decode($line, true);
@@ -44,6 +46,7 @@ final class TupleReader
             $out[] = $d;
         }
         fclose($fh);
+
         return $out;
     }
 
@@ -56,6 +59,7 @@ final class TupleReader
                 $last = $ev; // last matching event serves as evidence
             }
         }
+
         return $last;
     }
 }

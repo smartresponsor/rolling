@@ -2,20 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Attribute\Provider;
-/**
- *
- */
+namespace App\Rolling\Service\Attribute\Provider;
 
-/**
- *
- */
-use App\ServiceInterface\Attribute\AttributeProviderInterface;
+use App\Rolling\ServiceInterface\Attribute\AttributeProviderInterface;
 
 final class OrgProvider implements AttributeProviderInterface
 {
     /**
      * @param string $userId
+     *
      * @return array
      */
     public function forUser(string $userId): array
@@ -25,6 +20,7 @@ final class OrgProvider implements AttributeProviderInterface
 
     /**
      * @param string $orgId
+     *
      * @return string[]
      */
     public function forOrg(string $orgId): array
@@ -34,6 +30,7 @@ final class OrgProvider implements AttributeProviderInterface
 
     /**
      * @param string $resourceId
+     *
      * @return array
      */
     public function forResource(string $resourceId): array

@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Resilience;
+namespace App\Rolling\Service\Resilience;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\Net\Http\RemoteHttpException;
-use App\Policy\Obligation\Obligation;
-use App\Policy\Obligation\Obligations;
-use App\Policy\V2\DecisionWithObligations;
-use App\Service\Resilience\Time\SystemClock;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\ServiceInterface\Resilience\Time\ClockInterface;
-use Throwable;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Net\Http\RemoteHttpException;
+use App\Rolling\Policy\Obligation\Obligation;
+use App\Rolling\Policy\Obligation\Obligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\Service\Resilience\Time\SystemClock;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\ServiceInterface\Resilience\Time\ClockInterface;
 
 final class CircuitBreakingPdpV2 implements PdpV2Interface
 {
@@ -31,13 +30,14 @@ final class CircuitBreakingPdpV2 implements PdpV2Interface
         private readonly int $openBaseSeconds = 5,
         private readonly int $openMaxSeconds = 120,
         private readonly ClockInterface $clock = new SystemClock(),
-    ) {}
+    ) {
+    }
 
     public function check(SubjectId $subject, PermissionKey $action, Scope $objectScope, array $context = []): DecisionWithObligations
     {
         $nowMs = $this->clock->nowMs();
 
-        if ($this->state === 1) {
+        if (1 === $this->state) {
             $openForMs = $this->currentOpenMilliseconds();
             if (($this->openedAtMs + $openForMs) > $nowMs) {
                 return $this->fallback('circuit_open');
@@ -47,7 +47,7 @@ final class CircuitBreakingPdpV2 implements PdpV2Interface
             $this->probeTaken = false;
         }
 
-        if ($this->state === 2) {
+        if (2 === $this->state) {
             if ($this->probeTaken) {
                 return $this->fallback('half_open_backoff');
             }
@@ -59,7 +59,7 @@ final class CircuitBreakingPdpV2 implements PdpV2Interface
                 $this->reset();
 
                 return $decision;
-            } catch (Throwable $throwable) {
+            } catch (\Throwable $throwable) {
                 $this->reopen();
 
                 return $this->fallback('probe_failed');
@@ -71,7 +71,7 @@ final class CircuitBreakingPdpV2 implements PdpV2Interface
             $this->reset();
 
             return $decision;
-        } catch (Throwable $throwable) {
+        } catch (\Throwable $throwable) {
             if ($throwable instanceof RemoteHttpException) {
                 if ($throwable->status() >= 500) {
                     ++$this->failures;

@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Policy\Voter;
+namespace App\Rolling\Service\Policy\Voter;
 
-use App\ServiceInterface\Policy\VoterInterface;
+use App\Rolling\ServiceInterface\Policy\VoterInterface;
 
 /**
  * Enforce tenant isolation: subject.tenant must equal context.tenant/resource.tenant if given.
@@ -25,19 +25,21 @@ final class TenantBoundaryVoter implements VoterInterface
     }
 
     /**
-     * @param array $subject
+     * @param array  $subject
      * @param string $action
-     * @param array $resource
-     * @param array $context
+     * @param array  $resource
+     * @param array  $context
+     *
      * @return int
      */
     public function vote(array $subject, string $action, array $resource, array $context = []): int
     {
         $subTenant = $subject['tenant'] ?? null;
         $ctxTenant = $context['tenant'] ?? ($resource['tenant'] ?? null);
-        if ($subTenant !== null && $ctxTenant !== null && $subTenant !== $ctxTenant) {
+        if (null !== $subTenant && null !== $ctxTenant && $subTenant !== $ctxTenant) {
             return self::DENY;
         }
+
         return self::ABSTAIN;
     }
 }

@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Pdp\Dto;
+namespace App\Rolling\Service\Pdp\Dto;
 
 /**
  * Result of a single decision, with explain metadata.
@@ -14,17 +14,18 @@ namespace App\Service\Pdp\Dto;
 final class DecisionResponse
 {
     /**
-     * @param bool $allowed
+     * @param bool   $allowed
      * @param string $ruleId
      * @param string $reason
-     * @param float $latencyMs
+     * @param float  $latencyMs
      */
     public function __construct(
-        public readonly bool   $allowed,
+        public readonly bool $allowed,
         public readonly string $ruleId,
         public readonly string $reason,
-        public readonly float  $latencyMs,
-    ) {}
+        public readonly float $latencyMs,
+    ) {
+    }
 
     /** @return array<string,mixed> */
     public function toArray(): array

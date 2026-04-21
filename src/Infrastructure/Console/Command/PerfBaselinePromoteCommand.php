@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\BaselineManifestManager;
-use App\Infrastructure\Console\Support\JsonReportLoader;
+use App\Rolling\Infrastructure\Console\Support\BaselineManifestManager;
+use App\Rolling\Infrastructure\Console\Support\JsonReportLoader;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:role:perf:baseline:promote', description: 'Promote a known-good perf report into the baseline manifest.')] 
+#[AsCommand(name: 'app:role:perf:baseline:promote', description: 'Promote a known-good perf report into the baseline manifest.')]
 final class PerfBaselinePromoteCommand extends AbstractRoleCommand
 {
     public function __construct(
@@ -48,6 +48,7 @@ final class PerfBaselinePromoteCommand extends AbstractRoleCommand
                 ['label' => (string) $input->getOption('label')],
             );
             $output->writeln(json_encode(['ok' => true, 'baseline' => $entry], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
             return self::SUCCESS;
         } catch (\Throwable $throwable) {
             return $this->writeThrowable($output, $throwable);

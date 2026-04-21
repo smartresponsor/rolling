@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\V2;
+namespace App\Rolling\Controller\V2;
 
-use App\Integration\Http\V2\ApiV2;
-use App\Integration\Http\V2\ApiV2Batch;
-use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\Integration\Http\V2\ApiV2;
+use App\Rolling\Integration\Http\V2\ApiV2Batch;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

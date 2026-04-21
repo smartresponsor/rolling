@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Role\Console;
+namespace App\Rolling\Tests\Role\Console;
 
-use App\Infrastructure\Console\RoleConsoleApplication;
+use App\Rolling\Infrastructure\Console\RoleConsoleApplication;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -22,7 +22,7 @@ final class RoleBenchmarkReportCommandTest extends TestCase
     {
         $application = (new RoleConsoleApplication())->build();
         $tester = new CommandTester($application->find('app:role:perf:report'));
-        $output = sys_get_temp_dir() . '/rolling_w24_perf_report.json';
+        $output = sys_get_temp_dir().'/rolling_w24_perf_report.json';
         self::removeFile($output);
 
         self::assertSame(0, $tester->execute([

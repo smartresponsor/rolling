@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\BaselineManifestManager;
-use App\Infrastructure\Console\Support\JsonReportLoader;
+use App\Rolling\Infrastructure\Console\Support\BaselineManifestManager;
+use App\Rolling\Infrastructure\Console\Support\JsonReportLoader;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,7 +48,7 @@ final class ProfileAutoPromoteCommand extends AbstractRoleCommand
             }
 
             $profile = trim((string) $input->getOption('profile'));
-            if ($profile === '') {
+            if ('' === $profile) {
                 $profile = (string) ($report['profile'] ?? 'standard');
             }
 

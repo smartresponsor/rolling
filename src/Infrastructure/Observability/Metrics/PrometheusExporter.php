@@ -2,21 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Observability\Metrics;
+namespace App\Rolling\Infrastructure\Observability\Metrics;
 
-/**
- *
- */
-
-/**
- *
- */
 final class PrometheusExporter
 {
     /**
-     * @param \App\Infrastructure\Observability\Metrics\Registry $registry
+     * @param Registry $registry
      */
-    public function __construct(private readonly Registry $registry) {}
+    public function __construct(private readonly Registry $registry)
+    {
+    }
 
     /**
      * @return string
@@ -34,7 +29,7 @@ final class PrometheusExporter
             if ($m instanceof Counter) {
                 foreach ($d['series'] as $key => $val) {
                     $labels = $this->labels($d['names'], $key);
-                    $lines[] = "{$name}{$labels} " . $this->fmt($val);
+                    $lines[] = "{$name}{$labels} ".$this->fmt($val);
                 }
             } else { // Histogram
                 foreach ($d['data'] as $key => $row) {
@@ -43,21 +38,23 @@ final class PrometheusExporter
                     foreach ($m->buckets() as $b) {
                         $acc = $row['buckets'][(string) $b] ?? $acc;
                         $bstr = is_infinite($b) ? '+Inf' : (string) $b;
-                        $bucketLabels = $labels === ''
-                            ? '{le="' . $this->labelEscape($bstr) . '"}'
-                            : substr($labels, 0, -1) . ',le="' . $this->labelEscape($bstr) . '"}';
-                        $lines[] = "{$name}_bucket{$bucketLabels} " . $this->fmt($acc);
+                        $bucketLabels = '' === $labels
+                            ? '{le="'.$this->labelEscape($bstr).'"}'
+                            : substr($labels, 0, -1).',le="'.$this->labelEscape($bstr).'"}';
+                        $lines[] = "{$name}_bucket{$bucketLabels} ".$this->fmt($acc);
                     }
-                    $lines[] = "{$name}_sum{$labels} " . $this->fmt($row['sum']);
-                    $lines[] = "{$name}_count{$labels} " . (int) $row['count'];
+                    $lines[] = "{$name}_sum{$labels} ".$this->fmt($row['sum']);
+                    $lines[] = "{$name}_count{$labels} ".(int) $row['count'];
                 }
             }
         }
-        return implode("\n", $lines) . "\n";
+
+        return implode("\n", $lines)."\n";
     }
 
     /**
      * @param string $s
+     *
      * @return string
      */
     private function sanitize(string $s): string
@@ -67,6 +64,7 @@ final class PrometheusExporter
 
     /**
      * @param string $s
+     *
      * @return string
      */
     private function escape(string $s): string
@@ -76,6 +74,7 @@ final class PrometheusExporter
 
     /**
      * @param float $v
+     *
      * @return string
      */
     private function fmt(float $v): string
@@ -84,8 +83,9 @@ final class PrometheusExporter
     }
 
     /**
-     * @param array $names
+     * @param array  $names
      * @param string $key
+     *
      * @return string
      */
     private function labels(array $names, string $key): string
@@ -97,13 +97,15 @@ final class PrometheusExporter
         $pairs = [];
         foreach ($names as $i => $n) {
             $v = $vals[$i] ?? '';
-            $pairs[] = $this->sanitize((string) $n) . '="' . $this->labelEscape($v) . '"';
+            $pairs[] = $this->sanitize((string) $n).'="'.$this->labelEscape($v).'"';
         }
-        return '{' . implode(',', $pairs) . '}';
+
+        return '{'.implode(',', $pairs).'}';
     }
 
     /**
      * @param string $v
+     *
      * @return string
      */
     private function labelEscape(string $v): string

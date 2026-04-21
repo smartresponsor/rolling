@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Pdp\Policy;
+namespace App\Rolling\Service\Pdp\Policy;
 
-use App\Infrastructure\Rebac\Tuple;
+use App\Rolling\Infrastructure\Rebac\Tuple;
 
 /**
  * Map internal grant rules to ReBAC tuples.
@@ -18,6 +18,7 @@ final class TupleMapper
 {
     /**
      * @param array $grants list of grant records
+     *
      * @return Tuple[]
      */
     public static function toTuples(array $grants): array
@@ -32,6 +33,7 @@ final class TupleMapper
             $tenant = $g['tenant'] ?? null;
             $out[] = new Tuple($userType, (string) $userId, (string) $relation, (string) $objectType, (string) $objectId, $tenant ? (string) $tenant : null);
         }
+
         return $out;
     }
 }

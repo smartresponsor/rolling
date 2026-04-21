@@ -2,29 +2,33 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Tenant;
+namespace App\Rolling\Service\Tenant;
 
 /**
- * Static per-tenant limits (e.g., max tuples, residency region). Stored in var/tenants/<tenant>/limits.json
+ * Static per-tenant limits (e.g., max tuples, residency region). Stored in var/tenants/<tenant>/limits.json.
  */
 final class Limits
 {
     /**
      * @param string $baseDir
      */
-    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var/tenants') {}
+    public function __construct(private readonly string $baseDir = __DIR__.'/../../../../var/tenants')
+    {
+    }
 
     /**
      * @param string $tenant
+     *
      * @return string
      */
     private function path(string $tenant): string
     {
-        $dir = rtrim($this->baseDir, '/') . '/' . preg_replace('~[^a-zA-Z0-9_.-]~', '_', $tenant);
+        $dir = rtrim($this->baseDir, '/').'/'.preg_replace('~[^a-zA-Z0-9_.-]~', '_', $tenant);
         if (!is_dir($dir)) {
             @mkdir($dir, 0775, true);
         }
-        return $dir . '/limits.json';
+
+        return $dir.'/limits.json';
     }
 
     /** @return array{max_tuples:int|null,residency:string|null} */
@@ -32,6 +36,7 @@ final class Limits
     {
         $p = $this->path($tenant);
         $d = json_decode((string) @file_get_contents($p), true);
+
         return [
             'max_tuples' => isset($d['max_tuples']) ? (int) $d['max_tuples'] : null,
             'residency' => isset($d['residency']) ? (string) $d['residency'] : null,
@@ -39,9 +44,10 @@ final class Limits
     }
 
     /**
-     * @param string $tenant
-     * @param int|null $maxTuples
+     * @param string      $tenant
+     * @param int|null    $maxTuples
      * @param string|null $residency
+     *
      * @return void
      */
     public function set(string $tenant, ?int $maxTuples, ?string $residency): void

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Rolling\Controller\Api;
 
-use App\Infrastructure\Admin\ApprovalFsStore;
-use App\Infrastructure\Admin\ApproverFsDirectory;
-use App\Infrastructure\Admin\OverrideFsPolicy;
-use App\Service\Admin\AdminWorkflowService;
+use App\Rolling\Infrastructure\Admin\ApprovalFsStore;
+use App\Rolling\Infrastructure\Admin\ApproverFsDirectory;
+use App\Rolling\Infrastructure\Admin\OverrideFsPolicy;
+use App\Rolling\Service\Admin\AdminWorkflowService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

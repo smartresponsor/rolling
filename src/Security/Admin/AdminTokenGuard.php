@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Admin;
+namespace App\Rolling\Security\Admin;
 
-use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 
 final class AdminTokenGuard
@@ -19,7 +18,7 @@ final class AdminTokenGuard
         $received = $request->headers->get('X-Admin-Token');
 
         if (!$expected || $received !== $expected) {
-            throw new RuntimeException('admin_unauthorized');
+            throw new \RuntimeException('admin_unauthorized');
         }
     }
 }

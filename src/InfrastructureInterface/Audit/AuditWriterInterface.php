@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\InfrastructureInterface\Audit;
+namespace App\Rolling\InfrastructureInterface\Audit;
 
-use App\Infrastructure\Audit\AuditRecord;
+use App\Rolling\Infrastructure\Audit\AuditRecord;
 
 interface AuditWriterInterface
 {

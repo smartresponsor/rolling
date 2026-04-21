@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Role\Console;
+namespace App\Rolling\Tests\Role\Console;
 
-use App\Infrastructure\Console\RoleConsoleApplication;
+use App\Rolling\Infrastructure\Console\RoleConsoleApplication;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -58,7 +58,7 @@ final class RoleOperationalCommandTest extends TestCase
 
         $exitCode = $tester->execute([
             '--dsn' => 'sqlite::memory:',
-            '--config' => __DIR__ . '/../../../misc/ops/retention.json',
+            '--config' => __DIR__.'/../../../misc/ops/retention.json',
         ]);
 
         self::assertSame(0, $exitCode);

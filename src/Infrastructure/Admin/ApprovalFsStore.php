@@ -3,10 +3,9 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\Infrastructure\Admin;
+namespace App\Rolling\Infrastructure\Admin;
 
-use App\ServiceInterface\Admin\ApprovalStoreInterface;
-use Exception;
+use App\Rolling\ServiceInterface\Admin\ApprovalStoreInterface;
 
 final class ApprovalFsStore implements ApprovalStoreInterface
 {
@@ -16,13 +15,13 @@ final class ApprovalFsStore implements ApprovalStoreInterface
 
     public function create(array $row): string
     {
-        @mkdir($this->baseDir . '/approvals', 0775, true);
+        @mkdir($this->baseDir.'/approvals', 0775, true);
 
         try {
             $id = bin2hex(random_bytes(8));
-        } catch (Exception $e) {
-            error_log('ApprovalFsStore::create random_bytes fallback: ' . $e->getMessage());
-            $id = 'apr_' . str_replace('.', '', (string) microtime(true));
+        } catch (\Exception $e) {
+            error_log('ApprovalFsStore::create random_bytes fallback: '.$e->getMessage());
+            $id = 'apr_'.str_replace('.', '', (string) microtime(true));
         }
 
         $row['id'] = $id;
@@ -30,7 +29,7 @@ final class ApprovalFsStore implements ApprovalStoreInterface
         $row['status'] = 'pending';
         $row['approvals'] = [];
         $row['rejections'] = [];
-        file_put_contents($this->baseDir . "/approvals/$id.json", json_encode($row, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        file_put_contents($this->baseDir."/approvals/$id.json", json_encode($row, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
         $this->audit(['type' => 'create', 'id' => $id, 'row' => $row]);
 
         return $id;
@@ -38,7 +37,7 @@ final class ApprovalFsStore implements ApprovalStoreInterface
 
     public function load(string $id): ?array
     {
-        $f = $this->baseDir . "/approvals/$id.json";
+        $f = $this->baseDir."/approvals/$id.json";
         if (!is_file($f)) {
             return null;
         }
@@ -50,14 +49,14 @@ final class ApprovalFsStore implements ApprovalStoreInterface
 
     public function save(string $id, array $row): void
     {
-        @mkdir($this->baseDir . '/approvals', 0775, true);
-        file_put_contents($this->baseDir . "/approvals/$id.json", json_encode($row, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        @mkdir($this->baseDir.'/approvals', 0775, true);
+        file_put_contents($this->baseDir."/approvals/$id.json", json_encode($row, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
         $this->audit(['type' => 'save', 'id' => $id, 'row' => $row]);
     }
 
     private function audit(array $row): void
     {
-        @mkdir($this->baseDir . '/audit', 0775, true);
-        file_put_contents($this->baseDir . '/audit/admin.ndjson', json_encode(['ts' => gmdate('c')] + $row) . PHP_EOL, FILE_APPEND);
+        @mkdir($this->baseDir.'/audit', 0775, true);
+        file_put_contents($this->baseDir.'/audit/admin.ndjson', json_encode(['ts' => gmdate('c')] + $row).PHP_EOL, FILE_APPEND);
     }
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Mask;
+namespace App\Rolling\Service\Mask;
 
-use App\ServiceInterface\Mask\DataMaskerInterface;
+use App\Rolling\ServiceInterface\Mask\DataMaskerInterface;
 
 final class DataMasker implements DataMaskerInterface
 {
@@ -27,7 +27,7 @@ final class DataMasker implements DataMaskerInterface
                 case 'last4':
                     $string = (string) $value;
                     $data[$field] = strlen($string) > 4
-                        ? str_repeat('*', max(0, strlen($string) - 4)) . substr($string, -4)
+                        ? str_repeat('*', max(0, strlen($string) - 4)).substr($string, -4)
                         : $string;
                     break;
                 case 'remove':

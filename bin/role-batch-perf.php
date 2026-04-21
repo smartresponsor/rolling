@@ -2,13 +2,13 @@
 <?php
 declare(strict_types=1);
 
-use App\Policy\Batch\CheckBatchProcessor;
-use App\Policy\Obligation\Obligations;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\SubjectId;
+use App\Rolling\Policy\Batch\CheckBatchProcessor;
+use App\Rolling\Policy\Obligation\Obligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\SubjectId;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -26,11 +26,11 @@ $inner = new class($sleepUs) implements PdpV2Interface {
     }
 
     /**
-     * @param \App\Entity\Role\SubjectId $s
-     * @param \App\Entity\Role\PermissionKey $a
-     * @param \App\Entity\Role\Scope $sc
+     * @param \App\Rolling\Entity\Role\SubjectId $s
+     * @param \App\Rolling\Entity\Role\PermissionKey $a
+     * @param \App\Rolling\Entity\Role\Scope $sc
      * @param array $ctx
-     * @return \App\Policy\V2\DecisionWithObligations
+     * @return \App\Rolling\Policy\V2\DecisionWithObligations
      */
     public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
     {

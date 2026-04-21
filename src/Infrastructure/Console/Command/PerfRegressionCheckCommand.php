@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\BatchPerfRuntime;
-use App\Infrastructure\Console\Support\JsonReportLoader;
-use App\Infrastructure\Console\Support\PerfRegressionComparator;
-use App\Infrastructure\Console\Support\PerfStatsReport;
-use App\Infrastructure\Console\Support\PerfStatsService;
-use App\Infrastructure\Console\Support\PerfThresholdEvaluator;
+use App\Rolling\Infrastructure\Console\Support\BatchPerfRuntime;
+use App\Rolling\Infrastructure\Console\Support\JsonReportLoader;
+use App\Rolling\Infrastructure\Console\Support\PerfRegressionComparator;
+use App\Rolling\Infrastructure\Console\Support\PerfStatsReport;
+use App\Rolling\Infrastructure\Console\Support\PerfStatsService;
+use App\Rolling\Infrastructure\Console\Support\PerfThresholdEvaluator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'app:role:perf:regression-check', description: 'Run perf benchmark and fail when thresholds are violated.')]
@@ -68,7 +68,7 @@ final class PerfRegressionCheckCommand extends AbstractRoleCommand
                 (float) $input->getOption('max-peak-mb'),
             );
             $baselinePath = (string) ($input->getOption('baseline') ?? '');
-            if ($baselinePath !== '') {
+            if ('' !== $baselinePath) {
                 $baseline = $this->loader->load($baselinePath);
                 $report['comparison'] = $this->comparator->compare(
                     $report,
@@ -80,11 +80,12 @@ final class PerfRegressionCheckCommand extends AbstractRoleCommand
                 );
             }
             $outputPath = (string) ($input->getOption('output') ?? '');
-            if ($outputPath !== '') {
+            if ('' !== $outputPath) {
                 $report['output'] = $this->report->persist($report, $outputPath);
             }
             $exitCode = (($report['gating']['ok'] ?? false) && (($report['comparison']['ok'] ?? true) === true)) ? self::SUCCESS : self::FAILURE;
             $output->writeln(json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
             return $exitCode;
         } catch (\Throwable $throwable) {
             return $this->writeThrowable($output, $throwable);

@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Admin\Dto;
+namespace App\Rolling\Service\Admin\Dto;
 
 final class ApprovalRequest
 {

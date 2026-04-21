@@ -4,8 +4,8 @@ This wave normalizes the low-risk no-namespace perimeter without forcing a dange
 
 ## Changes
 
-- Added `autoload-dev` mapping for `App\Tests\` -> `tests/`.
-- Normalized `tests/Role/Model/DiffTest.php` into `App\Tests\Role\Model`.
+- Added `autoload-dev` mapping for `App\Rolling\Tests\` -> `tests/`.
+- Normalized `tests/Role/Model/DiffTest.php` into `App\Rolling\Tests\Role\Model`.
 - Namespaced the internal audit executables:
   - `bin/canon-scan.php`
   - `bin/namespace-audit.php`

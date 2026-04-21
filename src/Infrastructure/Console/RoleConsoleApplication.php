@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console;
+namespace App\Rolling\Infrastructure\Console;
 
-use App\Infrastructure\Console\Contract\RoleCommandRegistryInterface;
-use App\Infrastructure\Console\Support\DefaultRoleCommandFactory;
-use App\Infrastructure\Console\Support\DefaultRoleCommandRegistry;
-use App\Infrastructure\Console\Support\RoleConsoleRuntime;
+use App\Rolling\Infrastructure\Console\Contract\RoleCommandRegistryInterface;
+use App\Rolling\Infrastructure\Console\Support\DefaultRoleCommandFactory;
+use App\Rolling\Infrastructure\Console\Support\DefaultRoleCommandRegistry;
+use App\Rolling\Infrastructure\Console\Support\RoleConsoleRuntime;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;

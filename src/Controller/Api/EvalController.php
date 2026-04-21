@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Rolling\Controller\Api;
 
-use App\Service\Pipeline\DecisionPipeline;
-use App\Service\Pipeline\RequestContext;
-use App\Service\Pipeline\Stage\ContextStage;
-use App\Service\Pipeline\Stage\StrictDenyStage;
+use App\Rolling\Service\Pipeline\DecisionPipeline;
+use App\Rolling\Service\Pipeline\RequestContext;
+use App\Rolling\Service\Pipeline\Stage\ContextStage;
+use App\Rolling\Service\Pipeline\Stage\StrictDenyStage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

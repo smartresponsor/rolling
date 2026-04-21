@@ -3,19 +3,13 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\Infrastructure\Security;
+namespace App\Rolling\Infrastructure\Security;
 
-/**
- *
- */
-
-/**
- *
- */
 final class JoseUtil
 {
     /**
      * @param string $s
+     *
      * @return string
      */
     public static function b64url(string $s): string
@@ -25,6 +19,7 @@ final class JoseUtil
 
     /**
      * @param string $s
+     *
      * @return string
      */
     public static function b64urld(string $s): string
@@ -34,12 +29,14 @@ final class JoseUtil
         if ($pad) {
             $s .= str_repeat('=', 4 - $pad);
         }
+
         return (string) base64_decode($s);
     }
 
     /**
      * @param string $data
      * @param string $hexKey
+     *
      * @return string
      */
     public static function hmac256(string $data, string $hexKey): string
@@ -51,12 +48,14 @@ final class JoseUtil
      * @param string $data
      * @param string $sigB64
      * @param string $pem
+     *
      * @return bool
      */
     public static function rs256_verify(string $data, string $sigB64, string $pem): bool
     {
         $sig = self::b64urld($sigB64);
         $ok = openssl_verify($data, $sig, $pem, OPENSSL_ALGO_SHA256);
-        return $ok === 1;
+
+        return 1 === $ok;
     }
 }

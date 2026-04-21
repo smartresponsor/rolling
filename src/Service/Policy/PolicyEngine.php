@@ -6,18 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Policy;
+namespace App\Rolling\Service\Policy;
 
-use App\ServiceInterface\Policy\PolicyEngineInterface;
-use App\ServiceInterface\Policy\VoterInterface;
+use App\Rolling\ServiceInterface\Policy\PolicyEngineInterface;
+use App\Rolling\ServiceInterface\Policy\VoterInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class PolicyEngine implements PolicyEngineInterface
 {
     /** @var VoterInterface[] */
@@ -26,7 +19,9 @@ final class PolicyEngine implements PolicyEngineInterface
     /**
      * @param string $strategy
      */
-    public function __construct(private readonly string $strategy = 'affirmative') {}
+    public function __construct(private readonly string $strategy = 'affirmative')
+    {
+    }
 
     /**
      * @return string
@@ -37,7 +32,8 @@ final class PolicyEngine implements PolicyEngineInterface
     }
 
     /**
-     * @param \App\ServiceInterface\Policy\VoterInterface $voter
+     * @param VoterInterface $voter
+     *
      * @return void
      */
     public function addVoter(VoterInterface $voter): void
@@ -46,7 +42,7 @@ final class PolicyEngine implements PolicyEngineInterface
     }
 
     /**
-     * @return array|\App\ServiceInterface\Policy\VoterInterface[]
+     * @return array|VoterInterface[]
      */
     public function getVoters(): array
     {
@@ -54,11 +50,12 @@ final class PolicyEngine implements PolicyEngineInterface
     }
 
     /**
-     * @param array $subject
+     * @param array  $subject
      * @param string $action
-     * @param array $resource
-     * @param array $context
-     * @return \App\Service\Policy\Decision
+     * @param array  $resource
+     * @param array  $context
+     *
+     * @return Decision
      */
     public function decide(array $subject, string $action, array $resource, array $context = []): Decision
     {
@@ -70,12 +67,12 @@ final class PolicyEngine implements PolicyEngineInterface
         foreach ($this->voters as $id => $voter) {
             $res = $voter->vote($subject, $action, $resource, $context);
             $trace[] = ['voter' => $id, 'result' => $res];
-            if ($res === VoterInterface::GRANT) {
-                $grants++;
-            } elseif ($res === VoterInterface::DENY) {
-                $denies++;
+            if (VoterInterface::GRANT === $res) {
+                ++$grants;
+            } elseif (VoterInterface::DENY === $res) {
+                ++$denies;
             } else {
-                $abstains++;
+                ++$abstains;
             }
         }
 
@@ -88,12 +85,13 @@ final class PolicyEngine implements PolicyEngineInterface
                 if ($denies > 0) {
                     return Decision::deny($meta);
                 }
-                if ($grants > 0 && $denies === 0) {
+                if ($grants > 0 && 0 === $denies) {
                     $nonAbstain = $grants + $denies;
                     if ($nonAbstain === $grants) {
                         return Decision::allow($meta);
                     }
                 }
+
                 return Decision::deny($meta);
 
             case 'consensus':
@@ -101,18 +99,20 @@ final class PolicyEngine implements PolicyEngineInterface
                 if ($grants > $denies) {
                     return Decision::allow($meta);
                 }
+
                 return Decision::deny($meta);
 
             case 'affirmative':
             default:
                 // Any GRANT wins unless there is an explicit DENY-voter policy preference.
                 // Here: if any GRANT and no DENY -> allow. If both present, prefer DENY.
-                if ($grants > 0 && $denies === 0) {
+                if ($grants > 0 && 0 === $denies) {
                     return Decision::allow($meta);
                 }
                 if ($denies > 0) {
                     return Decision::deny($meta);
                 }
+
                 return Decision::deny($meta);
         }
     }

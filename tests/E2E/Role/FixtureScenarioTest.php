@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\E2E\Role;
 
-use App\Tests\Support\RoleFixtureCatalog;
-use App\Tests\Support\RoleScenarioRunner;
+use App\Rolling\Tests\Support\RoleFixtureCatalog;
+use App\Rolling\Tests\Support\RoleScenarioRunner;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -55,7 +55,7 @@ final class FixtureScenarioTest extends TestCase
 
     public static function fixtureProvider(): array
     {
-        return array_map(static fn(string $name): array => [$name], RoleFixtureCatalog::names());
+        return array_map(static fn (string $name): array => [$name], RoleFixtureCatalog::names());
     }
 
     public static function scenarioProvider(): array

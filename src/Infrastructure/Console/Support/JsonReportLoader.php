@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
 final class JsonReportLoader
 {
@@ -11,7 +11,7 @@ final class JsonReportLoader
      */
     public function load(string $path): array
     {
-        if ($path === '') {
+        if ('' === $path) {
             throw new \InvalidArgumentException('Baseline report path must not be empty.');
         }
 

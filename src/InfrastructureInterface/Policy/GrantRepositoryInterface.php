@@ -6,15 +6,8 @@
  */
 declare(strict_types=1);
 
-namespace App\InfrastructureInterface\Policy;
+namespace App\Rolling\InfrastructureInterface\Policy;
 
-/**
- *
- */
-
-/**
- *
- */
 interface GrantRepositoryInterface
 {
     /**
@@ -23,9 +16,10 @@ interface GrantRepositoryInterface
      * or subject-bound: ['user'=>'u1','action'=>'can_write','resource'=>'order']
      * Owner-aware rules may use 'owner' => true to indicate subject.id == resource.ownerId.
      *
-     * @param string $resourceType
-     * @param string $action
+     * @param string      $resourceType
+     * @param string      $action
      * @param string|null $tenant
+     *
      * @return array<int, array<string, mixed>>
      */
     public function findGrants(string $resourceType, string $action, ?string $tenant): array;

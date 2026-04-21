@@ -5,7 +5,7 @@ This wave eliminates the remaining unexpected no-namespace PHP files identified 
 ## Changes
 - added namespace to `src/Legacy/Http/Role/Role/Api/_note_consistency_dep.php`
 - added namespace to `src/Legacy/Http/Role/Role/SymfonyBundle/Resources/config/services.php`
-- normalized `src/Legacy/Service/RoleResolver.php` to `App\Legacy\Service\RoleResolver`
+- normalized `src/Legacy/Service/RoleResolver.php` to `App\Rolling\Legacy\Service\RoleResolver`
 - added compatibility alias file for legacy global `RoleResolver`
 
 ## Outcome

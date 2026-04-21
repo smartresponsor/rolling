@@ -6,18 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Resilience\Backoff;
+namespace App\Rolling\Service\Resilience\Backoff;
 
-use App\ServiceInterface\Resilience\BackoffStrategyInterface;
-use Exception;
+use App\Rolling\ServiceInterface\Resilience\BackoffStrategyInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ExponentialJitterBackoff implements BackoffStrategyInterface
 {
     /**
@@ -27,10 +19,12 @@ final class ExponentialJitterBackoff implements BackoffStrategyInterface
     public function __construct(
         private readonly int $baseMs = 50,
         private readonly int $maxMs = 2000,
-    ) {}
+    ) {
+    }
 
     /**
      * @param int $attempt
+     *
      * @return int
      */
     public function nextDelayMs(int $attempt): int
@@ -38,15 +32,18 @@ final class ExponentialJitterBackoff implements BackoffStrategyInterface
         $cap = min($this->maxMs, $this->baseMs * (1 << max(0, $attempt - 1)));
         try {
             $jitter = random_int(0, (int) floor($cap * 0.3));
-        } catch (Exception $e) {
-            error_log('ExponentialJitterBackoff::nextDelayMs fallback: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            error_log('ExponentialJitterBackoff::nextDelayMs fallback: '.$e->getMessage());
             $jitter = (int) floor($cap * 0.15);
         }
+
         return $cap - (int) floor($cap * 0.3) + $jitter;
     }
 
     /**
      * @return void
      */
-    public function reset(): void {}
+    public function reset(): void
+    {
+    }
 }

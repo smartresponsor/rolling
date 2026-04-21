@@ -26,7 +26,7 @@ Updated `composer.json` PSR-4 map accordingly:
 
 ## Intentionally not done
 
-- No mass namespace rewrite to `App\\...`
+- No mass namespace rewrite to `App\Rolling\\...`
 - No collapse of `.../Role/...` directories yet
 - No `Domain` / `Port` elimination yet
 - No business-logic rewiring

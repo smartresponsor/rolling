@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Cache;
+namespace App\Rolling\Infrastructure\Cache;
 
-use App\Policy\V2\DecisionWithObligations;
-use App\Service\Consistency\TokenSet;
-use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\Service\Consistency\TokenSet;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class ConsistentCachePdpV2 implements PdpV2Interface
 {
@@ -25,7 +25,7 @@ final class ConsistentCachePdpV2 implements PdpV2Interface
     /**
      * @param array<string,mixed> $context
      */
-    public function check(\App\Entity\Role\SubjectId $s, \App\Entity\Role\PermissionKey $a, \App\Entity\Role\Scope $sc, array $context = []): DecisionWithObligations
+    public function check(\App\Rolling\Entity\Role\SubjectId $s, \App\Rolling\Entity\Role\PermissionKey $a, \App\Rolling\Entity\Role\Scope $sc, array $context = []): DecisionWithObligations
     {
         /** @var TokenSet $tok */
         $sid = $s->value();

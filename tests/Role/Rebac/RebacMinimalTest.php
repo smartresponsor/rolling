@@ -4,18 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Role\Rebac;
 
-use App\Infrastructure\Rebac\Tuple;
-use App\Service\Rebac\{Checker, Writer};
-use App\Infrastructure\Rebac\InMemoryTupleStore;
+use App\Rolling\Infrastructure\Rebac\InMemoryTupleStore;
+use App\Rolling\Infrastructure\Rebac\Tuple;
+use App\Rolling\Service\Rebac\Checker;
+use App\Rolling\Service\Rebac\Writer;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-
-/**
- *
- */
 final class RebacMinimalTest extends TestCase
 {
     /**

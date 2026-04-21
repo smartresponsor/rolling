@@ -6,29 +6,24 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Policy;
+namespace App\Rolling\Service\Policy;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Decision
 {
     /**
-     * @param bool $allowed
+     * @param bool  $allowed
      * @param array $meta
      */
     public function __construct(
-        public bool  $allowed,
+        public bool $allowed,
         /** @var array<string, mixed> */
         public array $meta = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @param array $meta
+     *
      * @return self
      */
     public static function allow(array $meta = []): self
@@ -38,6 +33,7 @@ final class Decision
 
     /**
      * @param array $meta
+     *
      * @return self
      */
     public static function deny(array $meta = []): self

@@ -2,15 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Model;
+namespace App\Rolling\Service\Model;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Validation
 {
     /** @return list<string> */
@@ -32,6 +25,7 @@ final class Validation
                 $errors[] = "Relation '$name' missing 'of'";
             }
         }
+
         return $errors;
     }
 }

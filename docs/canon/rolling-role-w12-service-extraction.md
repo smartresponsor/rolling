@@ -1,6 +1,6 @@
 # Rolling / Role — w12 service extraction
 
-This wave extracts the winning application-service slice from `src/Legacy/Service*` into canonical Symfony-oriented `src/Service*` and `src/ServiceInterface*` under the single `App\` namespace root.
+This wave extracts the winning application-service slice from `src/Legacy/Service*` into canonical Symfony-oriented `src/Service*` and `src/ServiceInterface*` under the single `App\Rolling\` namespace root.
 
 Extracted slices:
 - PDP batch and DTO/contracts

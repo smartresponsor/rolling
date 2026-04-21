@@ -8,9 +8,9 @@ The changed legacy files no longer carry primary runtime logic. Each now acts as
 
 ## Bridged slices
 
-- Legacy HTTP controllers → canonical `App\Controller\...`
-- Legacy Policy classes → canonical `App\Policy\...`
-- Legacy Security primitives → canonical `App\Security\...`
+- Legacy HTTP controllers → canonical `App\Rolling\Controller\...`
+- Legacy Policy classes → canonical `App\Rolling\Policy\...`
+- Legacy Security primitives → canonical `App\Rolling\Security\...`
 
 ## Counts
 

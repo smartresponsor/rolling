@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Role\Consistency;
 
-use App\Service\Consistency\TokenSet;
+use App\Rolling\Service\Consistency\TokenSet;
 use PHPUnit\Framework\TestCase;
 
 final class TokenSetTest extends TestCase

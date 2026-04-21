@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Role\Context;
 
-use App\Integration\Http\V2\Context\ContextMerge;
+use App\Rolling\Integration\Http\V2\Context\ContextMerge;
 use PHPUnit\Framework\TestCase;
 
 final class ContextMergeTest extends TestCase

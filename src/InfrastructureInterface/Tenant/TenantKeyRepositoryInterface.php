@@ -6,15 +6,8 @@
  */
 declare(strict_types=1);
 
-namespace App\InfrastructureInterface\Tenant;
+namespace App\Rolling\InfrastructureInterface\Tenant;
 
-/**
- *
- */
-
-/**
- *
- */
 interface TenantKeyRepositoryInterface
 {
     /**
@@ -25,6 +18,7 @@ interface TenantKeyRepositoryInterface
     /**
      * @param string $tenant
      * @param string $key
+     *
      * @return bool
      */
     public function put(string $tenant, string $key): bool;

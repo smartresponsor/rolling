@@ -6,37 +6,30 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Audit\Dto;
+namespace App\Rolling\Service\Audit\Dto;
 
-/**
- *
- */
-
-/**
- *
- */
 final class DecisionRecord
 {
     /**
-     * @param string $id
-     * @param \App\Service\Audit\Dto\DecisionInput $input
-     * @param \App\Service\Audit\Dto\DecisionResult $result
-     * @param array $explain
-     * @param int $ts
-     * @param string|null $tenant
-     * @param string|null $requestor
-     * @param string|null $correlationId
+     * @param string         $id
+     * @param DecisionInput  $input
+     * @param DecisionResult $result
+     * @param array          $explain
+     * @param int            $ts
+     * @param string|null    $tenant
+     * @param string|null    $requestor
+     * @param string|null    $correlationId
      */
     public function __construct(
-        public string         $id,
-        public DecisionInput  $input,
+        public string $id,
+        public DecisionInput $input,
         public DecisionResult $result,
         /** @var array<string,mixed> */
-        public array          $explain = [],
-        public int            $ts = 0,
-        public ?string        $tenant = null,
-        public ?string        $requestor = null,
-        public ?string        $correlationId = null,
+        public array $explain = [],
+        public int $ts = 0,
+        public ?string $tenant = null,
+        public ?string $requestor = null,
+        public ?string $correlationId = null,
     ) {
         $this->ts = $this->ts ?: time();
         $this->tenant = $this->tenant ?? ($input->context['tenant'] ?? ($input->resource['tenant'] ?? ($input->subject['tenant'] ?? null)));

@@ -1,20 +1,20 @@
 # config/routes/role_tenants.yaml
 role_admin_tenant_quota_get:
   path: /v2/admin/tenants/quota
-  controller: App\Controller\Api\Admin\TenantAdminController::quotaGet
+  controller: App\Rolling\Controller\Api\Admin\TenantAdminController::quotaGet
   methods: [ GET ]
 
 role_admin_tenant_quota_set:
   path: /v2/admin/tenants/quota
-  controller: App\Controller\Api\Admin\TenantAdminController::quotaSet
+  controller: App\Rolling\Controller\Api\Admin\TenantAdminController::quotaSet
   methods: [ POST ]
 
 role_admin_tenant_backup:
   path: /v2/admin/tenants/backup
-  controller: App\Controller\Api\Admin\TenantAdminController::backup
+  controller: App\Rolling\Controller\Api\Admin\TenantAdminController::backup
   methods: [ POST ]
 
 role_admin_tenant_restore:
   path: /v2/admin/tenants/restore
-  controller: App\Controller\Api\Admin\TenantAdminController::restore
+  controller: App\Rolling\Controller\Api\Admin\TenantAdminController::restore
   methods: [ POST ]

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
-use App\Infrastructure\Console\Contract\RoleCommandFactoryInterface;
-use App\Infrastructure\Console\Contract\RoleCommandRegistryInterface;
+use App\Rolling\Infrastructure\Console\Contract\RoleCommandFactoryInterface;
+use App\Rolling\Infrastructure\Console\Contract\RoleCommandRegistryInterface;
 
 final class DefaultRoleCommandRegistry implements RoleCommandRegistryInterface
 {

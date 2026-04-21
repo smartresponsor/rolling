@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Pipeline;
+namespace App\Rolling\ServiceInterface\Pipeline;
 
-use App\Service\Pipeline\RequestContext;
-use App\Service\Pipeline\Decision;
-use App\Service\Pipeline\Trace;
+use App\Rolling\Service\Pipeline\Decision;
+use App\Rolling\Service\Pipeline\RequestContext;
+use App\Rolling\Service\Pipeline\Trace;
 
 interface StageInterface
 {

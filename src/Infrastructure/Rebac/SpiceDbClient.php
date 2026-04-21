@@ -6,23 +6,18 @@
  */
 declare(strict_types=1);
 
-namespace App\Infrastructure\Rebac;
+namespace App\Rolling\Infrastructure\Rebac;
 
-use App\InfrastructureInterface\Rebac\RebacClientInterface;
+use App\Rolling\InfrastructureInterface\Rebac\RebacClientInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 class SpiceDbClient implements RebacClientInterface
 {
     /**
-     * @param \App\Infrastructure\Rebac\HttpClient $http
+     * @param HttpClient $http
      */
-    public function __construct(private readonly HttpClient $http) {}
+    public function __construct(private readonly HttpClient $http)
+    {
+    }
 
     /**
      * @return array
@@ -34,6 +29,7 @@ class SpiceDbClient implements RebacClientInterface
 
     /**
      * @param string $schemaYaml
+     *
      * @return bool
      */
     public function upsertSchema(string $schemaYaml): bool
@@ -44,6 +40,7 @@ class SpiceDbClient implements RebacClientInterface
 
     /**
      * @param array $tuples
+     *
      * @return bool
      */
     public function writeTuples(array $tuples): bool
@@ -54,6 +51,7 @@ class SpiceDbClient implements RebacClientInterface
 
     /**
      * @param array $tuples
+     *
      * @return bool
      */
     public function deleteTuples(array $tuples): bool
@@ -62,10 +60,11 @@ class SpiceDbClient implements RebacClientInterface
     }
 
     /**
-     * @param array $subject
+     * @param array  $subject
      * @param string $relation
-     * @param array $object
-     * @param array $context
+     * @param array  $object
+     * @param array  $context
+     *
      * @return bool
      */
     public function check(array $subject, string $relation, array $object, array $context = []): bool

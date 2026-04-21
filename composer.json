@@ -1,7 +1,7 @@
 {
   "name": "rolling/role",
-  "description": "Rolling process app",
-  "type": "project",
+  "description": "Rolling role Symfony bundle package",
+  "type": "symfony-bundle",
   "license": "MIT",
   "require": {
     "php": "^8.4",
@@ -14,7 +14,6 @@
     "psr/simple-cache": "^3.0",
     "symfony/config": "^8.0",
     "symfony/dependency-injection": "^8.0",
-    "symfony/dotenv": "^8.0",
     "symfony/error-handler": "^8.0",
     "symfony/event-dispatcher": "^8.0",
     "symfony/framework-bundle": "^8.0",
@@ -39,14 +38,14 @@
   },
   "autoload": {
     "psr-4": {
-      "App\\": "src/",
+      "App\\Rolling\\": "src/",
       "Role\\SDK\\V2\\": "SDK/php/"
     }
   },
   "autoload-dev": {
     "psr-4": {
       "Tests\\": "tests/",
-      "App\\Tests\\": "tests/"
+      "App\\Rolling\\Tests\\": "tests/"
     },
     "files": [
       "tests/SDK/PHP/psr_stubs.php"
@@ -57,21 +56,13 @@
     "canon:namespace-audit": "@php bin/namespace-audit.php",
     "canon:no-namespace-audit": "@php bin/no-namespace-audit.php",
     "canon:autoload-audit": "@php bin/autoload-continuity-audit.php",
-    "server:start": [
-      "Composer\\Config::disableProcessTimeout",
-      "@php -S 127.0.0.1:8001 -t public"
-    ],
     "test": "vendor/bin/phpunit --testsuite=default --testdox",
-    "test:panther": "vendor/bin/bdi detect drivers >/dev/null && PANTHER_NO_SANDBOX=1 PANTHER_CHROME_BINARY=${PANTHER_CHROME_BINARY:-/usr/bin/google-chrome} PANTHER_CHROME_DRIVER_BINARY=${PANTHER_CHROME_DRIVER_BINARY:-drivers/chromedriver} php tools/qa/panther-smoke.php",
     "lint": [
-      "@php tools/qa/php-lint.php",
-      "@php bin/console lint:yaml config",
-      "@php bin/console lint:container --no-debug"
+      "@php tools/qa/php-lint.php"
     ],
     "phpstan": "vendor/bin/phpstan analyse --memory-limit=1G",
     "cs:check": "vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff --verbose",
     "cs:fix": "vendor/bin/php-cs-fixer fix --allow-risky=yes --verbose",
-    "fixtures:dry-run": "@php bin/console app:fixtures:dry-run --env=dev",
     "qa": [
       "@lint",
       "@phpstan",

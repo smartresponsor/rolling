@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
-use App\Infrastructure\Console\Contract\PerfStatsInterface;
+use App\Rolling\Infrastructure\Console\Contract\PerfStatsInterface;
 
 final class PerfStatsService implements PerfStatsInterface
 {

@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Admin;
+namespace App\Rolling\Service\Admin;
 
-use App\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface;
-use App\Service\Admin\Dto\ApprovalRequest;
-use App\ServiceInterface\Admin\Action\GrantRoleActionInterface;
-use App\ServiceInterface\Admin\ApprovalWorkflowInterface;
-use App\ServiceInterface\Admin\Guard\ApprovalGuardInterface;
+use App\Rolling\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface;
+use App\Rolling\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\ServiceInterface\Admin\Action\GrantRoleActionInterface;
+use App\Rolling\ServiceInterface\Admin\ApprovalWorkflowInterface;
+use App\Rolling\ServiceInterface\Admin\Guard\ApprovalGuardInterface;
 
 final class ApprovalWorkflow implements ApprovalWorkflowInterface
 {

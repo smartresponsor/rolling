@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Net\Http;
+namespace App\Rolling\Net\Http;
 
 interface SimpleHttpClientInterface
 {

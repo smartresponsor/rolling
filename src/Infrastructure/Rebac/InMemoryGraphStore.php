@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Infrastructure\Rebac;
+namespace App\Rolling\Infrastructure\Rebac;
 
-use App\InfrastructureInterface\Rebac\GraphStoreInterface;
-use App\ServiceInterface\Rebac\NamespaceConstraintInterface;
+use App\Rolling\InfrastructureInterface\Rebac\GraphStoreInterface;
+use App\Rolling\ServiceInterface\Rebac\NamespaceConstraintInterface;
 
 /**
  * In-memory graph with tenant and namespace isolation.
@@ -25,6 +25,7 @@ final class InMemoryGraphStore implements GraphStoreInterface
      * @param string $subject
      * @param string $relation
      * @param string $object
+     *
      * @return void
      */
     public function addEdge(string $tenant, string $namespace, string $subject, string $relation, string $object): void
@@ -40,6 +41,7 @@ final class InMemoryGraphStore implements GraphStoreInterface
      * @param string $subject
      * @param string $relation
      * @param string $object
+     *
      * @return void
      */
     public function removeEdge(string $tenant, string $namespace, string $subject, string $relation, string $object): void
@@ -57,6 +59,7 @@ final class InMemoryGraphStore implements GraphStoreInterface
      * @param string $tenant
      * @param string $namespace
      * @param string $subject
+     *
      * @return array
      */
     public function edgesFrom(string $tenant, string $namespace, string $subject): array
@@ -67,16 +70,18 @@ final class InMemoryGraphStore implements GraphStoreInterface
                 $out[] = $e;
             }
         }
+
         return $out;
     }
 
     /**
-     * @param string $tenant
-     * @param string $startNamespace
-     * @param string $subject
-     * @param string $relation
-     * @param string $object
-     * @param \App\ServiceInterface\Rebac\NamespaceConstraintInterface $constraints
+     * @param string                       $tenant
+     * @param string                       $startNamespace
+     * @param string                       $subject
+     * @param string                       $relation
+     * @param string                       $object
+     * @param NamespaceConstraintInterface $constraints
+     *
      * @return bool
      */
     public function checkAccess(string $tenant, string $startNamespace, string $subject, string $relation, string $object, NamespaceConstraintInterface $constraints): bool
@@ -87,7 +92,7 @@ final class InMemoryGraphStore implements GraphStoreInterface
 
         while ($q) {
             [$ns, $node] = array_shift($q);
-            $key = $ns . '|' . $node;
+            $key = $ns.'|'.$node;
             if (isset($visited[$key])) {
                 continue;
             }
@@ -127,6 +132,7 @@ final class InMemoryGraphStore implements GraphStoreInterface
                 }
             }
         }
+
         return false;
     }
 }

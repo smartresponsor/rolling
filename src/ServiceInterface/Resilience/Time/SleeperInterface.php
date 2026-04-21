@@ -6,19 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Resilience\Time;
+namespace App\Rolling\ServiceInterface\Resilience\Time;
 
-/**
- *
- */
-
-/**
- *
- */
 interface SleeperInterface
 {
     /**
      * @param int $ms
+     *
      * @return void
      */
     public function sleepMs(int $ms): void;

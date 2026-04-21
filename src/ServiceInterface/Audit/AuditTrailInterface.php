@@ -6,15 +6,8 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Audit;
+namespace App\Rolling\ServiceInterface\Audit;
 
-/**
- *
- */
-
-/**
- *
- */
 interface AuditTrailInterface
 {
     /**

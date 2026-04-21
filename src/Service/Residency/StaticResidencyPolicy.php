@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Residency;
+namespace App\Rolling\Service\Residency;
 
-use App\ServiceInterface\Residency\ResidencyPolicyInterface;
+use App\Rolling\ServiceInterface\Residency\ResidencyPolicyInterface;
 
 /**
  * Simple map-based residency policy.
@@ -16,13 +16,16 @@ use App\ServiceInterface\Residency\ResidencyPolicyInterface;
 final class StaticResidencyPolicy implements ResidencyPolicyInterface
 {
     /**
-     * @param array $map
+     * @param array  $map
      * @param string $fallback
      */
-    public function __construct(private readonly array $map = ['t1' => 'us', 't2' => 'eu'], private readonly string $fallback = 'us') {}
+    public function __construct(private readonly array $map = ['t1' => 'us', 't2' => 'eu'], private readonly string $fallback = 'us')
+    {
+    }
 
     /**
      * @param string $tenant
+     *
      * @return string
      */
     public function regionForTenant(string $tenant): string

@@ -3,15 +3,8 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\ServiceInterface\Admin;
+namespace App\Rolling\ServiceInterface\Admin;
 
-/**
- *
- */
-
-/**
- *
- */
 interface ApproverDirectoryInterface
 {
     /** Can this subject approve given relation/resource? */

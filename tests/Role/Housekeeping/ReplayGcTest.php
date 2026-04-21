@@ -4,17 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Role\Housekeeping;
 
-use App\Infrastructure\Housekeeping\PdoReplayGc;
-use PDO;
+use App\Rolling\Infrastructure\Housekeeping\PdoReplayGc;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ReplayGcTest extends TestCase
 {
     /**
@@ -26,7 +18,7 @@ final class ReplayGcTest extends TestCase
             $this->markTestSkipped('pdo_sqlite is not available in the local PHP CLI.');
         }
 
-        $pdo = new PDO('sqlite::memory:');
+        $pdo = new \PDO('sqlite::memory:');
         $pdo->exec('CREATE TABLE replay_nonce(nonce TEXT PRIMARY KEY, expires_ts INTEGER NOT NULL)');
         $pdo->exec("INSERT INTO replay_nonce VALUES ('a', 100),('b',200),('c',300)");
         $gc = new PdoReplayGc($pdo);

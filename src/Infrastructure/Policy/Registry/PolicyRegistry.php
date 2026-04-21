@@ -2,18 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Policy\Registry;
+namespace App\Rolling\Infrastructure\Policy\Registry;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\Policy\Obligation\Rules\RedactFieldsRule;
-use App\Policy\Obligation\Rules\RuleSet;
-use App\Policy\Obligation\Rules\WatermarkRule;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Policy\Obligation\Rules\RedactFieldsRule;
+use App\Rolling\Policy\Obligation\Rules\RuleSet;
+use App\Rolling\Policy\Obligation\Rules\WatermarkRule;
 
 final class PolicyRegistry
 {
-    public function __construct(private readonly SourceInterface $source, private readonly FlagEvaluator $flags = new FlagEvaluator()) {}
+    public function __construct(private readonly SourceInterface $source, private readonly FlagEvaluator $flags = new FlagEvaluator())
+    {
+    }
 
     /** @return array<string,mixed> */
     public function raw(): array
@@ -37,17 +39,19 @@ final class PolicyRegistry
             foreach ((array) ($flag['rules'] ?? []) as $r) {
                 if (is_array($r)) {
                     $rule = $this->mkRule($r);
-                    if ($rule !== null) {
+                    if (null !== $rule) {
                         $rules[] = $rule;
                     }
                 }
             }
         }
+
         return new RuleSet($rules);
     }
 
     /**
      * @param array<string,mixed> $cfg
+     *
      * @return list<string>
      */
     private function flagsForAction(string $action, array $cfg): array
@@ -65,18 +69,21 @@ final class PolicyRegistry
                 }
             }
         }
+
         return array_values(array_unique($out));
     }
 
     private function matchAction(string $action, string $pattern): bool
     {
-        if ($pattern === '*') {
+        if ('*' === $pattern) {
             return true;
         }
         if (str_ends_with($pattern, '.*')) {
             $prefix = substr($pattern, 0, -2);
-            return str_starts_with($action, $prefix . '.') || $action === $prefix;
+
+            return str_starts_with($action, $prefix.'.') || $action === $prefix;
         }
+
         return $action === $pattern;
     }
 
@@ -87,6 +94,7 @@ final class PolicyRegistry
     {
         $type = (string) ($r['type'] ?? '');
         $params = (array) ($r['params'] ?? []);
+
         return match ($type) {
             'redact_fields' => new RedactFieldsRule((array) ($params['actions'] ?? ['*']), (array) ($params['fields'] ?? [])),
             'watermark' => new WatermarkRule((string) ($params['header'] ?? 'X-Policy'), (string) ($params['value'] ?? '')),

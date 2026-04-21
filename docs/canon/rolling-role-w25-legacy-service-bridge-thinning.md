@@ -7,7 +7,7 @@ This wave thins remaining legacy service duplicates where canonical `src/Service
 ## Result
 
 - converted **52** `src/Legacy/Service/*` classes into thin `class_alias(...)` bridges
-- canonical execution home remains `App\Service\...`
+- canonical execution home remains `App\Rolling\Service\...`
 - legacy service layer now behaves more consistently as a compatibility zone
 
 ## Residual structural tail

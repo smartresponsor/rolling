@@ -6,20 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Mask;
+namespace App\Rolling\ServiceInterface\Mask;
 
-/**
- *
- */
-
-/**
- *
- */
 interface DataMaskerInterface
 {
     /**
-     * @param array $data @return array<string,mixed>
+     * @param array $data  @return array<string,mixed>
      * @param array $rules
+     *
      * @return array
      */
     public function mask(array $data, array $rules): array;

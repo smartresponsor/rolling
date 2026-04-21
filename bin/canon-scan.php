@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace App\Bin {
+namespace App\Rolling\Bin {
     function canonScanRun(): int
     {
         $root = dirname(__DIR__);
@@ -68,5 +68,5 @@ namespace App\Bin {
 }
 
 namespace {
-    exit(\App\Bin\canonScanRun());
+    exit(\App\Rolling\Bin\canonScanRun());
 }

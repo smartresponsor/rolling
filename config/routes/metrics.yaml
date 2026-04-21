@@ -1,4 +1,4 @@
 role_metrics:
   path: /metrics
-  controller: App\Controller\Observability\MetricsController::metrics
+  controller: App\Rolling\Controller\Observability\MetricsController::metrics
   methods: [ GET ]

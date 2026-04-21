@@ -2,14 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
-/**
- *
- */
+namespace App\Rolling\Exception;
 
-/**
- *
- */
 final class RateLimitException extends ApiException
 {
     /**
@@ -18,12 +12,13 @@ final class RateLimitException extends ApiException
     public function retryAfterSeconds(): ?int
     {
         $v = $this->headers['retry-after'] ?? $this->headers['Retry-After'] ?? null;
-        if ($v === null) {
+        if (null === $v) {
             return null;
         }
         if (ctype_digit((string) $v)) {
             return (int) $v;
         }
+
         return null;
     }
 }

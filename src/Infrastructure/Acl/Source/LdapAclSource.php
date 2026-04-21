@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Acl\Source;
+namespace App\Rolling\Infrastructure\Acl\Source;
 
-use App\InfrastructureInterface\Acl\AclSourceInterface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
 
 /**
  * Скелет LDAP‑адаптера. Работает, только если установлен ext-ldap.
@@ -19,7 +19,7 @@ use App\Entity\Role\SubjectId;
  *   "userFilter":"(uid={uid})",
  *   "groupAttr":"memberOf",
  *   "groupRoleMap": { "cn=admins,ou=groups,dc=example,dc=com": {"role":"admin","tenantId":"t1"} }
- * ]
+ * ].
  */
 final class LdapAclSource implements AclSourceInterface
 {
@@ -35,9 +35,10 @@ final class LdapAclSource implements AclSourceInterface
     }
 
     /**
-     * @param \App\Entity\Role\SubjectId $subject
-     * @param \App\Entity\Role\Scope $scope
-     * @param array $ctx
+     * @param SubjectId $subject
+     * @param Scope     $scope
+     * @param array     $ctx
+     *
      * @return array
      */
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
@@ -57,6 +58,7 @@ final class LdapAclSource implements AclSourceInterface
         $sr = @ldap_search($conn, (string) $this->cfg['baseDn'], $filter, [(string) ($this->cfg['groupAttr'] ?? 'memberOf')]);
         if (!$sr) {
             @ldap_unbind($conn);
+
             return [];
         }
         $entries = @ldap_get_entries($conn, $sr);
@@ -68,7 +70,7 @@ final class LdapAclSource implements AclSourceInterface
         $attr = (string) ($this->cfg['groupAttr'] ?? 'memberOf');
         $e = $entries[0] ?? [];
         $n = (int) ($e[$attr]['count'] ?? 0);
-        for ($i = 0; $i < $n; $i++) {
+        for ($i = 0; $i < $n; ++$i) {
             $groups[] = (string) $e[$attr][$i];
         }
 
@@ -84,23 +86,25 @@ final class LdapAclSource implements AclSourceInterface
             $tenantId = isset($m['tenantId']) ? (string) $m['tenantId'] : null;
 
             if ($tenantId) {
-                if (!str_starts_with($scopeKey, 'tenant:') || !str_contains($scopeKey, ':' . $tenantId)) {
+                if (!str_starts_with($scopeKey, 'tenant:') || !str_contains($scopeKey, ':'.$tenantId)) {
                     continue;
                 }
             } else {
-                if ($scopeKey !== 'global') {
+                if ('global' !== $scopeKey) {
                     continue;
                 }
             }
-            if ($role !== '') {
+            if ('' !== $role) {
                 $roles[] = $role;
             }
         }
+
         return array_values(array_unique($roles));
     }
 
     /**
      * @param string $role
+     *
      * @return array
      */
     public function permissionsForRole(string $role): array

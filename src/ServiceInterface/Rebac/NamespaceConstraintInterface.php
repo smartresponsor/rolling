@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Rebac;
+namespace App\Rolling\ServiceInterface\Rebac;
 
 /**
  * Constraints for namespace hops and tenant boundaries.
@@ -16,6 +16,7 @@ interface NamespaceConstraintInterface
     /**
      * @param string $fromNamespace
      * @param string $toNamespace
+     *
      * @return bool
      */
     public function canTraverse(string $fromNamespace, string $toNamespace): bool;

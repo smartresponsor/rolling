@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Rebac;
+namespace App\Rolling\Service\Rebac;
 
-use App\ServiceInterface\Rebac\NamespaceConstraintInterface;
+use App\Rolling\ServiceInterface\Rebac\NamespaceConstraintInterface;
 
 /**
  * Config-driven constraints. Allowed transitions modeled as set of pairs.
@@ -21,14 +21,14 @@ final class NamespaceConstraint implements NamespaceConstraintInterface
 
     /**
      * @param array $allowedPairs
-     * @param bool $enforceTenantBoundary
+     * @param bool  $enforceTenantBoundary
      */
     public function __construct(array $allowedPairs = [['subject', 'group'], ['group', 'permission'], ['permission', 'resource']], bool $enforceTenantBoundary = true)
     {
         foreach ($allowedPairs as $p) {
             $a = $p[0] ?? '';
             $b = $p[1] ?? '';
-            if ($a !== '' && $b !== '') {
+            if ('' !== $a && '' !== $b) {
                 $this->allow[$a][$b] = true;
             }
         }
@@ -38,6 +38,7 @@ final class NamespaceConstraint implements NamespaceConstraintInterface
     /**
      * @param string $fromNamespace
      * @param string $toNamespace
+     *
      * @return bool
      */
     public function canTraverse(string $fromNamespace, string $toNamespace): bool
@@ -48,6 +49,7 @@ final class NamespaceConstraint implements NamespaceConstraintInterface
     /**
      * @param string $fromTenant
      * @param string $toTenant
+     *
      * @return bool
      */
     public function isTenantAllowed(string $fromTenant, string $toTenant): bool

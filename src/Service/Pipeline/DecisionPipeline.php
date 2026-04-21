@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\Service\Pipeline;
+namespace App\Rolling\Service\Pipeline;
 
-use App\Service\Pipeline\RequestContext;
-use App\ServiceInterface\Pipeline\StageInterface;
+use App\Rolling\ServiceInterface\Pipeline\StageInterface;
 
 final class DecisionPipeline
 {

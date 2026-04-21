@@ -6,16 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace App\Infrastructure\Approval;
+namespace App\Rolling\Infrastructure\Approval;
 
-use Exception;
-use App\ServiceInterface\Approval\ApprovalStoreInterface;
+use App\Rolling\ServiceInterface\Approval\ApprovalStoreInterface;
 
 final class FileApprovalStore implements ApprovalStoreInterface
 {
     private string $dir;
 
-    public function __construct(string $dir = __DIR__ . '/../../../../var/approval')
+    public function __construct(string $dir = __DIR__.'/../../../../var/approval')
     {
         $this->dir = $dir;
         if (!is_dir($this->dir)) {
@@ -25,7 +24,7 @@ final class FileApprovalStore implements ApprovalStoreInterface
 
     private function path(string $id): string
     {
-        return $this->dir . '/case_' . $id . '.json';
+        return $this->dir.'/case_'.$id.'.json';
     }
 
     private function makeId(): string
@@ -34,12 +33,12 @@ final class FileApprovalStore implements ApprovalStoreInterface
 
         try {
             $rand = random_int(0, 1_000_000);
-        } catch (Exception $e) {
-            error_log('FileApprovalStore::makeId random_int fallback: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            error_log('FileApprovalStore::makeId random_int fallback: '.$e->getMessage());
             $rand = (int) (($t - floor($t)) * 1_000_000);
         }
 
-        return dechex((int) ($t * 1000)) . dechex($rand);
+        return dechex((int) ($t * 1000)).dechex($rand);
     }
 
     public function create(array $case): string

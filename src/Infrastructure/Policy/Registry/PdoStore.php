@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Policy\Registry;
+namespace App\Rolling\Infrastructure\Policy\Registry;
 
-use App\Service\Consistency\Policy\Token;
-use PDO;
-use RuntimeException;
-use Throwable;
+use App\Rolling\Service\Consistency\Policy\Token;
 
 final class PdoStore implements StoreInterface
 {
-    public function __construct(private readonly PDO $pdo) {}
+    public function __construct(private readonly \PDO $pdo)
+    {
+    }
 
     public function put(string $ns, string $name, string $version, string $docJson): Token
     {
@@ -31,12 +30,12 @@ final class PdoStore implements StoreInterface
             $deactivate->execute([$ns, $name]);
             $activate = $this->pdo->prepare('UPDATE role_policy SET is_active=1 WHERE ns=? AND name=? AND version=?');
             $activate->execute([$ns, $name, $version]);
-            if ($activate->rowCount() === 0) {
-                throw new RuntimeException('version not found');
+            if (0 === $activate->rowCount()) {
+                throw new \RuntimeException('version not found');
             }
             $this->bumpRev();
             $this->pdo->commit();
-        } catch (Throwable $throwable) {
+        } catch (\Throwable $throwable) {
             $this->pdo->rollBack();
             throw $throwable;
         }
@@ -48,9 +47,9 @@ final class PdoStore implements StoreInterface
     {
         $statement = $this->pdo->prepare('SELECT ns,name,version,doc,created_at,is_active FROM role_policy WHERE ns=? AND name=? AND is_active=1 LIMIT 1');
         $statement->execute([$ns, $name]);
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        $row = $statement->fetch(\PDO::FETCH_ASSOC);
 
-        if ($row === false) {
+        if (false === $row) {
             return null;
         }
 
@@ -62,7 +61,7 @@ final class PdoStore implements StoreInterface
         $statement = $this->pdo->prepare('SELECT ns,name,version,doc,created_at,is_active FROM role_policy WHERE ns=? AND name=? ORDER BY created_at ASC');
         $statement->execute([$ns, $name]);
         $records = [];
-        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
             $records[] = new PolicyRecord((string) $row['ns'], (string) $row['name'], (string) $row['version'], (string) $row['doc'], (int) $row['created_at'], (bool) $row['is_active']);
         }
 
@@ -75,7 +74,7 @@ final class PdoStore implements StoreInterface
         $statement->execute([$ns, $name, $version]);
         $doc = $statement->fetchColumn();
 
-        return $doc !== false ? (string) $doc : null;
+        return false !== $doc ? (string) $doc : null;
     }
 
     public function currentToken(): Token
@@ -96,8 +95,8 @@ final class PdoStore implements StoreInterface
         $statement = $this->pdo->prepare('SELECT from_version, to_version, note, applied_at FROM role_policy_migration WHERE ns=? AND name=? ORDER BY applied_at ASC');
         $statement->execute([$ns, $name]);
         $migrations = [];
-        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $migrations[] = ['from' => (string) $row['from_version'], 'to' => (string) $row['to_version'], 'note' => $row['note'] !== null ? (string) $row['note'] : null, 'applied_at' => (int) $row['applied_at']];
+        while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+            $migrations[] = ['from' => (string) $row['from_version'], 'to' => (string) $row['to_version'], 'note' => null !== $row['note'] ? (string) $row['note'] : null, 'applied_at' => (int) $row['applied_at']];
         }
 
         return $migrations;

@@ -6,21 +6,16 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Resilience;
+namespace App\Rolling\ServiceInterface\Resilience;
 
-/**
- *
- */
-
-/**
- *
- */
 interface ResilientInvokerInterface
 {
     /**
      * Invoke a callable with retries, backoff and circuit-breaker.
-     * @param callable $fn A function to call (may throw exceptions)
-     * @param array $options Options like maxAttempts, classifyPermanent
+     *
+     * @param callable $fn      A function to call (may throw exceptions)
+     * @param array    $options Options like maxAttempts, classifyPermanent
+     *
      * @return mixed
      */
     public function invoke(callable $fn, array $options = []);

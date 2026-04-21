@@ -6,25 +6,19 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Audit\Explain;
+namespace App\Rolling\Service\Audit\Explain;
 
-use App\ServiceInterface\Audit\ExplainerInterface;
-use App\Service\Audit\Dto\DecisionInput;
-use App\Service\Audit\Dto\DecisionResult;
-use App\Service\Audit\Dto\ExplainNode;
+use App\Rolling\Service\Audit\Dto\DecisionInput;
+use App\Rolling\Service\Audit\Dto\DecisionResult;
+use App\Rolling\Service\Audit\Dto\ExplainNode;
+use App\Rolling\ServiceInterface\Audit\ExplainerInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class RuleExplainer implements ExplainerInterface
 {
     /**
-     * @param \App\Service\Audit\Dto\DecisionInput $in
-     * @param \App\Service\Audit\Dto\DecisionResult $res
+     * @param DecisionInput  $in
+     * @param DecisionResult $res
+     *
      * @return array
      */
     public function explain(DecisionInput $in, DecisionResult $res): array
@@ -40,7 +34,7 @@ final class RuleExplainer implements ExplainerInterface
         $allPass = true;
         foreach ($in->voterTrace as $i => $v) {
             $pass = (bool) ($v['allow'] ?? false);
-            $node = new ExplainNode('voter', (string) ($v['name'] ?? ('v' . $i)), $pass, [
+            $node = new ExplainNode('voter', (string) ($v['name'] ?? ('v'.$i)), $pass, [
                 'reason' => $v['reason'] ?? null,
                 'ruleId' => $v['ruleId'] ?? null,
                 'weight' => $v['weight'] ?? 1,

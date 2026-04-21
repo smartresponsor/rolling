@@ -1,14 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Infrastructure\Housekeeping;
-/**
- *
- */
+namespace App\Rolling\Infrastructure\Housekeeping;
 
-/**
- *
- */
 final class Clock
 {
     /**

@@ -3,14 +3,8 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\Service\Pipeline;
-/**
- *
- */
+namespace App\Rolling\Service\Pipeline;
 
-/**
- *
- */
 final class Trace
 {
     /** @var array */
@@ -19,7 +13,8 @@ final class Trace
     /**
      * @param string $stage
      * @param string $msg
-     * @param array $data
+     * @param array  $data
+     *
      * @return void
      */
     public function add(string $stage, string $msg, array $data = []): void

@@ -7,7 +7,7 @@ Components:
 - `StaticResidencyPolicy` implements `ResidencyPolicyInterface` → map tenant→region.
 - `ResidencyStorage` writes blobs to `var/residency/<region>/<tenant>/<kind>/<name>`.
 - `FileKeyProvider` implements `KeyProviderInterface` with `rotate/getActive/getById`.
-- `App\Security\Hmac\Signer` (HMAC-SHA256) produces `{kid,sig}`; verification is handled by the canonical HMAC verifier/guard line.
+- `App\Rolling\Security\Hmac\Signer` (HMAC-SHA256) produces `{kid,sig}`; verification is handled by the canonical HMAC verifier/guard line.
 - `SimpleEncryptor` wraps AES-256-GCM (openssl), returns `{kid,iv,ct,tag}`.
 
 Demo:

@@ -4,23 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Role\Batch;
 
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Policy\Batch\CheckBatchProcessor;
+use App\Rolling\Policy\Obligation\Obligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use PHPUnit\Framework\TestCase;
-use App\Policy\Batch\CheckBatchProcessor;
-use App\Policy\Obligation\Obligations;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use RuntimeException;
-use App\Entity\Role\Scope;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\SubjectId;
 
-/**
- *
- */
-
-/**
- *
- */
 final class CheckBatchProcessorTest extends TestCase
 {
     /**
@@ -30,23 +22,25 @@ final class CheckBatchProcessorTest extends TestCase
     {
         $inner = new class implements PdpV2Interface {
             /**
-             * @param \App\Entity\Role\SubjectId $s
-             * @param \App\Entity\Role\PermissionKey $a
-             * @param \App\Entity\Role\Scope $sc
-             * @param array $ctx
+             * @param SubjectId     $s
+             * @param PermissionKey $a
+             * @param Scope         $sc
+             * @param array         $ctx
+             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
             {
                 if (((int) ($ctx['i'] ?? -1)) % 10 === 0) {
-                    throw new RuntimeException('boom');
+                    throw new \RuntimeException('boom');
                 }
+
                 return DecisionWithObligations::allow('ok', Obligations::empty());
             }
         };
         $proc = new CheckBatchProcessor($inner);
         $reqs = [];
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; ++$i) {
             $reqs[] = ['subjectId' => "u$i", 'action' => 'a', 'scopeType' => 'global', 'context' => ['i' => $i]];
         }
 
@@ -56,9 +50,9 @@ final class CheckBatchProcessorTest extends TestCase
         foreach ($proc->process($reqs, ['chunkSize' => 16]) as $row) {
             $seen[] = $row['idx'];
             if ($row['ok']) {
-                $ok++;
+                ++$ok;
             } else {
-                $fail++;
+                ++$fail;
             }
         }
         sort($seen);
@@ -74,10 +68,11 @@ final class CheckBatchProcessorTest extends TestCase
     {
         $inner = new class implements PdpV2Interface {
             /**
-             * @param \App\Entity\Role\SubjectId $s
-             * @param \App\Entity\Role\PermissionKey $a
-             * @param \App\Entity\Role\Scope $sc
-             * @param array $ctx
+             * @param SubjectId     $s
+             * @param PermissionKey $a
+             * @param Scope         $sc
+             * @param array         $ctx
+             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
@@ -87,17 +82,16 @@ final class CheckBatchProcessorTest extends TestCase
         };
         $proc = new CheckBatchProcessor($inner);
         $reqs = [];
-        for ($i = 0; $i < 5000; $i++) {
+        for ($i = 0; $i < 5000; ++$i) {
             $reqs[] = ['subjectId' => "u$i", 'action' => 'a', 'scopeType' => 'global'];
         }
         $start = memory_get_usage(true);
         $count = 0;
         foreach ($proc->process($reqs, ['chunkSize' => 128, 'maxItems' => 5000]) as $row) {
-            $count++;
+            ++$count;
         }
         $peak = memory_get_peak_usage(true);
         $this->assertSame(5000, $count);
         $this->assertLessThan(256 * 1024 * 1024, $peak, 'peak memory must be below 256MB');
     }
 }
-

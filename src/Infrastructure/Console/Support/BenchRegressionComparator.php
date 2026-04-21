@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
 final class BenchRegressionComparator
 {
     /**
      * @param array<string, mixed> $current
      * @param array<string, mixed> $baseline
+     *
      * @return array<string, mixed>
      */
     public function compare(array $current, array $baseline, float $maxP95RegressionPct, float $maxP99RegressionPct, float $maxBatchPerItemRegressionPct): array
@@ -24,11 +25,11 @@ final class BenchRegressionComparator
             $base = $baselineSummary[$name] ?? [];
             $checks = [];
 
-            if ($curr === [] || $base === []) {
+            if ([] === $curr || [] === $base) {
                 $checks[] = [
                     'name' => 'scenario_presence',
-                    'baseline' => $base !== [],
-                    'current' => $curr !== [],
+                    'baseline' => [] !== $base,
+                    'current' => [] !== $curr,
                     'delta_pct' => null,
                     'operator' => 'match',
                     'budget_pct' => 0.0,
@@ -57,7 +58,7 @@ final class BenchRegressionComparator
         }
 
         return [
-            'ok' => $failureCount === 0,
+            'ok' => 0 === $failureCount,
             'baseline_kind' => (string) ($baseline['kind'] ?? 'unknown'),
             'current_kind' => (string) ($current['kind'] ?? 'unknown'),
             'scenario_count' => count($scenarios),
@@ -68,6 +69,7 @@ final class BenchRegressionComparator
 
     /**
      * @param array<string, mixed> $report
+     *
      * @return array<string, array<string, mixed>>
      */
     private function indexSummary(array $report): array
@@ -87,6 +89,7 @@ final class BenchRegressionComparator
     /**
      * @param array<string, mixed> $current
      * @param array<string, mixed> $baseline
+     *
      * @return array<string, mixed>
      */
     private function regressionCheck(string $metric, array $current, array $baseline, float $budgetPct): array

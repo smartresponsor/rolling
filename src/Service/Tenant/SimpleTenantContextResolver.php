@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Tenant;
+namespace App\Rolling\Service\Tenant;
 
-use App\ServiceInterface\Tenant\TenantContextResolverInterface;
+use App\Rolling\ServiceInterface\Tenant\TenantContextResolverInterface;
 
 final class SimpleTenantContextResolver implements TenantContextResolverInterface
 {

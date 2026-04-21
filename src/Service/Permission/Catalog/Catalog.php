@@ -2,24 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Permission\Catalog;
+namespace App\Rolling\Service\Permission\Catalog;
 
-use App\Service\Permission\Model\PermissionDef;
+use App\Rolling\Service\Permission\Model\PermissionDef;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Catalog
 {
     /** @var array */
     private array $items = [];
 
     /**
-     * @param \App\Service\Permission\Model\PermissionDef $p
+     * @param PermissionDef $p
+     *
      * @return void
      */
     public function add(PermissionDef $p): void
@@ -36,9 +30,10 @@ final class Catalog
     /** @return list<PermissionDef> */
     public function byComponent(?string $c): array
     {
-        if ($c === null) {
+        if (null === $c) {
             return $this->all();
         }
-        return array_values(array_filter($this->items, fn($p) => $p->component === $c));
+
+        return array_values(array_filter($this->items, fn ($p) => $p->component === $c));
     }
 }

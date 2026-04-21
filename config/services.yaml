@@ -3,23 +3,23 @@ services:
     autowire: true
     autoconfigure: true
 
-  App\Controller\:
+  App\Rolling\Controller\:
     resource: '../src/Controller/'
     tags: [ 'controller.service_arguments' ]
 
-  App\Command\:
+  App\Rolling\Command\:
     resource: '../src/Command/'
 
-  App\Infrastructure\Observability\Metrics\:
+  App\Rolling\Infrastructure\Observability\Metrics\:
     resource: '../src/Infrastructure/Observability/Metrics/'
 
 
-  App\Service\:
+  App\Rolling\Service\:
     resource: '../src/Service/'
 
-  App\Infrastructure\Rebac\InMemoryTupleStore: ~
-  App\InfrastructureInterface\Rebac\TupleStoreInterface: '@App\Infrastructure\Rebac\InMemoryTupleStore'
+  App\Rolling\Infrastructure\Rebac\InMemoryTupleStore: ~
+  App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface: '@App\Rolling\Infrastructure\Rebac\InMemoryTupleStore'
 
-  App\Integration\Symfony\DemoPdpV2: ~
+  App\Rolling\Integration\Symfony\DemoPdpV2: ~
 
-  App\ServiceInterface\Policy\PdpV2Interface: '@App\Integration\Symfony\DemoPdpV2'
+  App\Rolling\ServiceInterface\Policy\PdpV2Interface: '@App\Rolling\Integration\Symfony\DemoPdpV2'

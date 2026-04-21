@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Pdp;
+namespace App\Rolling\Service\Pdp;
 
-use App\Service\Pdp\Dto\DecisionResponse;
-use App\ServiceInterface\Pdp\BatchDecisionInterface;
+use App\Rolling\Service\Pdp\Dto\DecisionResponse;
+use App\Rolling\ServiceInterface\Pdp\BatchDecisionInterface;
 
 /**
  * Simple batch PDP implementation (deterministic, no external deps).
@@ -17,11 +17,11 @@ use App\ServiceInterface\Pdp\BatchDecisionInterface;
  *  - admin role → allow all
  *  - reader can read any resource
  *  - writer can write docs/projects; delete only own
- *  - default deny
+ *  - default deny.
  */
 final class BatchDecision implements BatchDecisionInterface
 {
-    /** @inheritDoc */
+    /** {@inheritDoc} */
     public function decideMany(array $requests): array
     {
         $out = [];
@@ -42,15 +42,15 @@ final class BatchDecision implements BatchDecisionInterface
                 $allowed = true;
                 $rule = 'allow.admin';
                 $reason = 'admin role';
-            } elseif ($action === 'read') {
+            } elseif ('read' === $action) {
                 $allowed = true;
                 $rule = 'allow.reader';
                 $reason = 'read-any';
-            } elseif ($action === 'write' && in_array($rtype, ['doc', 'project'], true) && in_array('writer', $roles, true)) {
+            } elseif ('write' === $action && in_array($rtype, ['doc', 'project'], true) && in_array('writer', $roles, true)) {
                 $allowed = true;
                 $rule = 'allow.writer';
                 $reason = 'writer on doc/project';
-            } elseif ($action === 'delete' && $uid !== '' && $uid === $owner) {
+            } elseif ('delete' === $action && '' !== $uid && $uid === $owner) {
                 $allowed = true;
                 $rule = 'allow.owner';
                 $reason = 'owner can delete own';
@@ -59,6 +59,7 @@ final class BatchDecision implements BatchDecisionInterface
             $latency = (microtime(true) - $start) * 1000.0;
             $out[] = new DecisionResponse($allowed, $rule, $reason, $latency);
         }
+
         return $out;
     }
 }

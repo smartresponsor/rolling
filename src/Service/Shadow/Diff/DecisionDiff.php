@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Shadow\Diff;
+namespace App\Rolling\Service\Shadow\Diff;
 
-use App\Policy\V2\DecisionWithObligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
 
 final class DecisionDiff
 {
@@ -20,8 +20,8 @@ final class DecisionDiff
         return [
             'equal' => $live->isAllow() === $shadow->isAllow()
                 && $live->reason() === $shadow->reason()
-                && $onlyLive === []
-                && $onlyShadow === [],
+                && [] === $onlyLive
+                && [] === $onlyShadow,
             'allow_live' => $live->isAllow(),
             'allow_shadow' => $shadow->isAllow(),
             'reason_live' => $live->reason(),

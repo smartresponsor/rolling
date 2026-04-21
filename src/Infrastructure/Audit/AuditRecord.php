@@ -1,38 +1,31 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Infrastructure\Audit;
+namespace App\Rolling\Infrastructure\Audit;
 
-/**
- *
- */
-
-/**
- *
- */
 final class AuditRecord
 {
     /**
-     * @param int $ts
+     * @param int    $ts
      * @param string $subjectId
      * @param string $action
      * @param string $scopeKey
      * @param string $decision
      * @param string $reason
-     * @param array $obligations @param array<string,mixed> $context
-     * @param array $context
+     * @param array  $obligations @param array<string,mixed> $context
+     * @param array  $context
      */
     public function __construct(
-        public int    $ts,
+        public int $ts,
         public string $subjectId,
         public string $action,
         public string $scopeKey,
         public string $decision,
         public string $reason = '',
-        public array  $obligations = [],
-        public array  $context = []
-    )
-    {
+        public array $obligations = [],
+        public array $context = [],
+    ) {
     }
 
     /** @return array<string,mixed> */

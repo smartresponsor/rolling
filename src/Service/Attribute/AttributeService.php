@@ -2,26 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Attribute;
+namespace App\Rolling\Service\Attribute;
 
-use App\ServiceInterface\Attribute\AttributeProviderInterface;
-use App\Service\Attribute\Cache\ArrayCache;
+use App\Rolling\Service\Attribute\Cache\ArrayCache;
 
-/**
- *
- */
-
-/**
- *
- */
 final class AttributeService
 {
     /**
-     * @param array $providers
-     * @param \App\Service\Attribute\Cache\ArrayCache|null $cache
-     * @param int $ttlSec
+     * @param array           $providers
+     * @param ArrayCache|null $cache
+     * @param int             $ttlSec
      */
-    public function __construct(private readonly array $providers, private readonly ?ArrayCache $cache = null, private readonly int $ttlSec = 30) {}
+    public function __construct(private readonly array $providers, private readonly ?ArrayCache $cache = null, private readonly int $ttlSec = 30)
+    {
+    }
 
     /** @return array<string,mixed> */
     public function user(string $id): array
@@ -35,6 +29,7 @@ final class AttributeService
             $ctx += $p->forUser($id);
         }
         $this->cache?->set($key, $ctx, $this->ttlSec);
+
         return $ctx;
     }
 
@@ -50,6 +45,7 @@ final class AttributeService
             $ctx += $p->forOrg($id);
         }
         $this->cache?->set($key, $ctx, $this->ttlSec);
+
         return $ctx;
     }
 
@@ -65,6 +61,7 @@ final class AttributeService
             $ctx += $p->forResource($id);
         }
         $this->cache?->set($key, $ctx, $this->ttlSec);
+
         return $ctx;
     }
 }

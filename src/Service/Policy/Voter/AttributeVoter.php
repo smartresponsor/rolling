@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Policy\Voter;
+namespace App\Rolling\Service\Policy\Voter;
 
-use App\ServiceInterface\Policy\VoterInterface;
+use App\Rolling\ServiceInterface\Policy\VoterInterface;
 
 /**
  * Attribute-based decisions: owner writes own resource, etc.
@@ -25,10 +25,11 @@ final class AttributeVoter implements VoterInterface
     }
 
     /**
-     * @param array $subject
+     * @param array  $subject
      * @param string $action
-     * @param array $resource
-     * @param array $context
+     * @param array  $resource
+     * @param array  $context
+     *
      * @return int
      */
     public function vote(array $subject, string $action, array $resource, array $context = []): int
@@ -36,11 +37,12 @@ final class AttributeVoter implements VoterInterface
         if (($resource['ownerId'] ?? null) && ($subject['id'] ?? null)) {
             if ($resource['ownerId'] === $subject['id']) {
                 // owner can_read/can_write by default; tighten per product later.
-                if ($action === 'can_read' || $action === 'can_write') {
+                if ('can_read' === $action || 'can_write' === $action) {
                     return self::GRANT;
                 }
             }
         }
+
         return self::ABSTAIN;
     }
 }

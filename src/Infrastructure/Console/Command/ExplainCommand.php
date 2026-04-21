@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,12 +26,13 @@ final class ExplainCommand extends AbstractRoleCommand
     {
         try {
             $fixture = $this->fixture((string) $input->getArgument('fixture'));
+
             return $this->writeJson($output, $this->explain(
                 $fixture,
                 (string) $input->getArgument('subject'),
                 (string) $input->getArgument('object'),
                 (string) $input->getArgument('relation'),
-                ($input->getArgument('scenario') !== null) ? (string) $input->getArgument('scenario') : null,
+                (null !== $input->getArgument('scenario')) ? (string) $input->getArgument('scenario') : null,
             ));
         } catch (\Throwable $throwable) {
             return $this->writeThrowable($output, $throwable);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Role;
+namespace App\Rolling\Entity\Role;
 
 final class PermissionKey
 {

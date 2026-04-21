@@ -2,13 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Obligation;
+namespace App\Rolling\Policy\Obligation;
 
-use ArrayIterator;
-use IteratorAggregate;
-use Traversable;
-
-final class Obligations implements IteratorAggregate
+final class Obligations implements \IteratorAggregate
 {
     /** @var list<Obligation> */
     private array $items;
@@ -32,10 +28,10 @@ final class Obligations implements IteratorAggregate
         return $copy;
     }
 
-    /** @return Traversable<int,Obligation> */
-    public function getIterator(): Traversable
+    /** @return \Traversable<int,Obligation> */
+    public function getIterator(): \Traversable
     {
-        return new ArrayIterator($this->items);
+        return new \ArrayIterator($this->items);
     }
 
     public function add(Obligation $obligation): void
@@ -45,7 +41,7 @@ final class Obligations implements IteratorAggregate
 
     public function isEmpty(): bool
     {
-        return $this->items === [];
+        return [] === $this->items;
     }
 
     /** @return list<Obligation> */

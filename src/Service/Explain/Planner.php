@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Explain;
+namespace App\Rolling\Service\Explain;
 
 final class Planner
 {

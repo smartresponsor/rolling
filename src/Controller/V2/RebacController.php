@@ -2,31 +2,28 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\V2;
+namespace App\Rolling\Controller\V2;
 
-use App\Infrastructure\Rebac\Tuple;
-use App\Service\Rebac\{Checker, Writer};
+use App\Rolling\Infrastructure\Rebac\Tuple;
+use App\Rolling\Service\Rebac\Checker;
+use App\Rolling\Service\Rebac\Writer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- *
- */
-
-/**
- *
- */
 final class RebacController
 {
     /**
-     * @param \App\Service\Rebac\Writer $writer
-     * @param \App\Service\Rebac\Checker $checker
+     * @param Writer  $writer
+     * @param Checker $checker
      */
-    public function __construct(private readonly Writer $writer, private readonly Checker $checker) {}
+    public function __construct(private readonly Writer $writer, private readonly Checker $checker)
+    {
+    }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $req
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @param Request $req
+     *
+     * @return JsonResponse
      */
     public function write(Request $req): JsonResponse
     {
@@ -46,12 +43,14 @@ final class RebacController
             ]);
         }
         $rev = $this->writer->write($ns, $ts);
+
         return new JsonResponse(['ok' => true, 'rev' => (string) $rev]);
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $req
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @param Request $req
+     *
+     * @return JsonResponse
      */
     public function check(Request $req): JsonResponse
     {
@@ -62,6 +61,7 @@ final class RebacController
         $object = (string) $in['object'];
         $relation = (string) $in['relation'];
         $res = $this->checker->check($ns, $subject, $object, $relation);
+
         return new JsonResponse($res);
     }
 }

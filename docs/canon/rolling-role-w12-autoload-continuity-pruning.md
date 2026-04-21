@@ -12,11 +12,11 @@ This wave tightens Composer autoload continuity without returning any forbidden 
 
 The following legacy groups are now resolved via explicit PSR-4 continuity instead of broad classmap fallback:
 
-- `App\Acl\Role\` → `src/Legacy/Acl/Role/`
-- `App\Legacy\Attribute\` → `src/Legacy/Attribute/`
-- `App\Legacy\Audit\` → `src/Legacy/Audit/`
-- `App\Legacy\Cache\` → `src/Legacy/Cache/`
-- `App\Legacy\Consistency\` → `src/Legacy/Consistency/`
+- `App\Rolling\Acl\Role\` → `src/Legacy/Acl/Role/`
+- `App\Rolling\Legacy\Attribute\` → `src/Legacy/Attribute/`
+- `App\Rolling\Legacy\Audit\` → `src/Legacy/Audit/`
+- `App\Rolling\Legacy\Cache\` → `src/Legacy/Cache/`
+- `App\Rolling\Legacy\Consistency\` → `src/Legacy/Consistency/`
 
 ## Result
 

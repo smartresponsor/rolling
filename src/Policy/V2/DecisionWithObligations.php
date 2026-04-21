@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\V2;
+namespace App\Rolling\Policy\V2;
 
-use App\Policy\Obligation\Obligations;
+use App\Rolling\Policy\Obligation\Obligations;
 
 final class DecisionWithObligations
 {
@@ -12,7 +12,8 @@ final class DecisionWithObligations
         private readonly bool $allow,
         private readonly string $reason,
         public Obligations $obligations,
-    ) {}
+    ) {
+    }
 
     public static function allow(string $reason, ?Obligations $obligations = null): self
     {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Role\Obligation\Rules;
+namespace App\Rolling\Policy\Role\Obligation\Rules;
 
-use App\Entity\Role\PermissionKey;
-use App\Policy\Obligation\Obligation;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Policy\Obligation\Obligation;
 
 final class RedactFieldsRule
 {
@@ -17,7 +17,7 @@ final class RedactFieldsRule
     public function obligationFor(PermissionKey $action): ?Obligation
     {
         foreach ($this->actions as $pattern) {
-            if ($pattern === '*' || $pattern === $action->value()) {
+            if ('*' === $pattern || $pattern === $action->value()) {
                 return new Obligation('redact_fields', ['fields' => $this->fields]);
             }
         }

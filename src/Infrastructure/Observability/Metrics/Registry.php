@@ -2,15 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Observability\Metrics;
+namespace App\Rolling\Infrastructure\Observability\Metrics;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Registry
 {
     /** @var array */
@@ -21,29 +14,33 @@ final class Registry
     /**
      * @param string $name
      * @param string $help
-     * @param array $labelNames
-     * @return \App\Infrastructure\Observability\Metrics\Counter
+     * @param array  $labelNames
+     *
+     * @return Counter
      */
     public function counter(string $name, string $help = '', array $labelNames = []): Counter
     {
         if (!isset($this->counters[$name])) {
             $this->counters[$name] = new Counter($name, $help, $labelNames);
         }
+
         return $this->counters[$name];
     }
 
     /**
      * @param string $name
      * @param string $help
-     * @param array $buckets
-     * @param array $labelNames
-     * @return \App\Infrastructure\Observability\Metrics\Histogram
+     * @param array  $buckets
+     * @param array  $labelNames
+     *
+     * @return Histogram
      */
     public function histogram(string $name, string $help = '', array $buckets = [], array $labelNames = []): Histogram
     {
         if (!isset($this->histograms[$name])) {
             $this->histograms[$name] = new Histogram($name, $help, $buckets ?: [0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2, 5], $labelNames);
         }
+
         return $this->histograms[$name];
     }
 

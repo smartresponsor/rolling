@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\InfrastructureInterface\Security;
+namespace App\Rolling\InfrastructureInterface\Security;
 
 interface ReplayNonceStoreInterface
 {

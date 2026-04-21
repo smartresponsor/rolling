@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Role\Opa;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\InfrastructureInterface\Net\Opa\OpaClientInterface;
-use App\Policy\Opa\InputBuilder;
-use App\Policy\Opa\OpaPdpV2;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\InfrastructureInterface\Net\Opa\OpaClientInterface;
+use App\Rolling\Policy\Opa\InputBuilder;
+use App\Rolling\Policy\Opa\OpaPdpV2;
 use PHPUnit\Framework\TestCase;
 
 final class OpaPdpV2Test extends TestCase
@@ -19,7 +19,7 @@ final class OpaPdpV2Test extends TestCase
         $client = new class implements OpaClientInterface {
             public function evaluate(string $path, array $input): array
             {
-                return ['result' => ['allow' => $input['subject']['id'] === 'u1', 'reason' => 'ok', 'obligations' => []]];
+                return ['result' => ['allow' => 'u1' === $input['subject']['id'], 'reason' => 'ok', 'obligations' => []]];
             }
         };
 

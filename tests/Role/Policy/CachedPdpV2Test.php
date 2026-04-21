@@ -4,25 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Role\Policy;
 
-use App\Infrastructure\Cache\InMemoryCache;
-use App\Service\Cache\SubjectEpochs;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Cache\InMemoryCache;
+use App\Rolling\Policy\Decorator\V2\CachedPdpV2;
+use App\Rolling\Policy\Obligation\Obligation;
+use App\Rolling\Policy\Obligation\Obligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\Service\Cache\SubjectEpochs;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use PHPUnit\Framework\TestCase;
-use App\Policy\Decorator\V2\CachedPdpV2;
-use App\Policy\Obligation\Obligation;
-use App\Policy\Obligation\Obligations;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\SubjectId;
 
-/**
- *
- */
-
-/**
- *
- */
 final class CachedPdpV2Test extends TestCase
 {
     /**
@@ -31,22 +24,26 @@ final class CachedPdpV2Test extends TestCase
     public function testHitMissAndBypass(): void
     {
         $calls = 0;
-        $inner = new class ($calls) implements PdpV2Interface {
+        $inner = new class($calls) implements PdpV2Interface {
             /**
              * @param int $calls
              */
-            public function __construct(private int &$calls) {}
+            public function __construct(private int &$calls)
+            {
+            }
 
             /**
-             * @param \App\Entity\Role\SubjectId $s
-             * @param \App\Entity\Role\PermissionKey $a
-             * @param \App\Entity\Role\Scope $sc
-             * @param array $ctx
+             * @param SubjectId     $s
+             * @param PermissionKey $a
+             * @param Scope         $sc
+             * @param array         $ctx
+             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
             {
-                $this->calls++;
+                ++$this->calls;
+
                 return DecisionWithObligations::allow('ok', Obligations::empty());
             }
         };
@@ -67,15 +64,16 @@ final class CachedPdpV2Test extends TestCase
         // bypass when obligations not empty
         $inner2 = new class implements PdpV2Interface {
             /**
-             * @param \App\Entity\Role\SubjectId $s
-             * @param \App\Entity\Role\PermissionKey $a
-             * @param \App\Entity\Role\Scope $sc
-             * @param array $ctx
+             * @param SubjectId     $s
+             * @param PermissionKey $a
+             * @param Scope         $sc
+             * @param array         $ctx
+             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
             {
-                return DecisionWithObligations::allow('with-obl', (Obligations::empty())->with(new Obligation('mask', ['f' => 'g'])));
+                return DecisionWithObligations::allow('with-obl', Obligations::empty()->with(new Obligation('mask', ['f' => 'g'])));
             }
         };
         $pdp2 = new CachedPdpV2($inner2, $cache, $epochs, 60);
@@ -92,22 +90,26 @@ final class CachedPdpV2Test extends TestCase
     public function testInvalidationBump(): void
     {
         $calls = 0;
-        $inner = new class ($calls) implements PdpV2Interface {
+        $inner = new class($calls) implements PdpV2Interface {
             /**
              * @param int $calls
              */
-            public function __construct(private int &$calls) {}
+            public function __construct(private int &$calls)
+            {
+            }
 
             /**
-             * @param \App\Entity\Role\SubjectId $s
-             * @param \App\Entity\Role\PermissionKey $a
-             * @param \App\Entity\Role\Scope $sc
-             * @param array $ctx
+             * @param SubjectId     $s
+             * @param PermissionKey $a
+             * @param Scope         $sc
+             * @param array         $ctx
+             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
             {
-                $this->calls++;
+                ++$this->calls;
+
                 return DecisionWithObligations::deny('fresh', Obligations::empty());
             }
         };

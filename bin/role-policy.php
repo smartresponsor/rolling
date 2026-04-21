@@ -3,9 +3,9 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Infrastructure\Policy\Registry\InMemoryStore;
-use App\Infrastructure\Policy\Registry\PdoStore;
-use App\Infrastructure\Policy\Registry\RegistryService;
+use App\Rolling\Infrastructure\Policy\Registry\InMemoryStore;
+use App\Rolling\Infrastructure\Policy\Registry\PdoStore;
+use App\Rolling\Infrastructure\Policy\Registry\RegistryService;
 
 $ns = getenv('ROLE_POLICY_NS') ?: 'default';
 $dsn = getenv('ROLE_POLICY_DSN') ?: null;

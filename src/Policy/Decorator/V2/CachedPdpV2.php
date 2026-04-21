@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Decorator\V2;
+namespace App\Rolling\Policy\Decorator\V2;
 
-use App\Infrastructure\Cache\KeyValueCache;
-use App\Service\Cache\SubjectEpochs;
-use App\Policy\Obligation\Obligation;
-use App\Policy\Obligation\Obligations;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\SubjectId;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Cache\KeyValueCache;
+use App\Rolling\Policy\Obligation\Obligation;
+use App\Rolling\Policy\Obligation\Obligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\Service\Cache\SubjectEpochs;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 /**
  * Реальный кеширующий декоратор PDP v2.
@@ -20,24 +20,26 @@ use App\Entity\Role\SubjectId;
 final class CachedPdpV2 implements PdpV2Interface
 {
     /**
-     * @param \App\ServiceInterface\Policy\PdpV2Interface $inner
-     * @param \App\Infrastructure\Cache\KeyValueCache $cache
-     * @param \App\Service\Cache\SubjectEpochs $epochs
-     * @param int $ttlSeconds
+     * @param PdpV2Interface $inner
+     * @param KeyValueCache  $cache
+     * @param SubjectEpochs  $epochs
+     * @param int            $ttlSeconds
      */
     public function __construct(
         private readonly PdpV2Interface $inner,
-        private readonly KeyValueCache  $cache,
-        private readonly SubjectEpochs  $epochs,
-        private readonly int            $ttlSeconds = 600,
-    ) {}
+        private readonly KeyValueCache $cache,
+        private readonly SubjectEpochs $epochs,
+        private readonly int $ttlSeconds = 600,
+    ) {
+    }
 
     /**
-     * @param \App\Entity\Role\SubjectId $s
-     * @param \App\Entity\Role\PermissionKey $a
-     * @param \App\Entity\Role\Scope $sc
-     * @param array $context
-     * @return \App\Policy\V2\DecisionWithObligations
+     * @param SubjectId     $s
+     * @param PermissionKey $a
+     * @param Scope         $sc
+     * @param array         $context
+     *
+     * @return DecisionWithObligations
      */
     public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $context = []): DecisionWithObligations
     {
@@ -65,21 +67,25 @@ final class CachedPdpV2 implements PdpV2Interface
 
         // Сохраним сериализованно (меньше рисков на кросс-проц. сторе)
         $this->cache->set($key, self::toArray($dec), $this->ttlSeconds);
+
         return $dec;
     }
 
     /**
      * @param array $ctx
+     *
      * @return string
      */
     private static function ctxHash(array $ctx): string
     {
         $norm = self::normalize($ctx);
+
         return hash('sha256', json_encode($norm, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     }
 
     /**
      * @param array $a
+     *
      * @return array
      */
     private static function normalize(array $a): array
@@ -91,6 +97,7 @@ final class CachedPdpV2 implements PdpV2Interface
                 $a[$k] = self::normalize($v);
             }
         }
+
         return $a;
     }
 
@@ -99,7 +106,8 @@ final class CachedPdpV2 implements PdpV2Interface
      * @param string $act
      * @param string $scope
      * @param string $ctxHash
-     * @param int $epoch
+     * @param int    $epoch
+     *
      * @return string
      */
     private static function key(string $sid, string $act, string $scope, string $ctxHash, int $epoch): string
@@ -115,6 +123,7 @@ final class CachedPdpV2 implements PdpV2Interface
         foreach ($d->obligations()->all() as $o) {
             $obs[] = ['type' => $o->type, 'params' => $o->params];
         }
+
         return ['allow' => $d->isAllow(), 'reason' => $d->reason(), 'obligations' => $obs];
     }
 
@@ -125,6 +134,7 @@ final class CachedPdpV2 implements PdpV2Interface
         foreach ($a['obligations'] as $o) {
             $obs = $obs->with(new Obligation((string) $o['type'], (array) ($o['params'] ?? [])));
         }
+
         return $a['allow'] ? DecisionWithObligations::allow((string) $a['reason'], $obs)
             : DecisionWithObligations::deny((string) $a['reason'], $obs);
     }

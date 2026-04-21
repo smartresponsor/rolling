@@ -2,19 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Acl\Source;
+namespace App\Rolling\Infrastructure\Acl\Source;
 
-use App\InfrastructureInterface\Acl\AclSourceInterface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class JsonAclSource implements AclSourceInterface
 {
     /** @var array */
@@ -34,9 +27,10 @@ final class JsonAclSource implements AclSourceInterface
     }
 
     /**
-     * @param \App\Entity\Role\SubjectId $subject
-     * @param \App\Entity\Role\Scope $scope
-     * @param array $ctx
+     * @param SubjectId $subject
+     * @param Scope     $scope
+     * @param array     $ctx
+     *
      * @return array
      */
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
@@ -52,16 +46,19 @@ final class JsonAclSource implements AclSourceInterface
             }
             $roles[] = (string) $b['role'];
         }
+
         return array_values(array_unique($roles));
     }
 
     /**
      * @param string $role
+     *
      * @return array
      */
     public function permissionsForRole(string $role): array
     {
         $perms = (array) (($this->cfg['roles'] ?? [])[$role] ?? []);
+
         return array_values(array_unique(array_map('strval', $perms)));
     }
 }

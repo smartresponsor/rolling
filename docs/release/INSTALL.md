@@ -18,3 +18,11 @@ bash tools/rc_d10_smoke.sh
 # run your Symfony app with added routes/config (see docs/*)
 # /v2/check available; debug UI: public/role/debug/check.html
 ```
+
+
+## Bundle package integration
+
+In the consuming Symfony application:
+- register `App\Rolling\Infrastructure\Symfony\RoleBundle::class` in host `config/bundles.php`
+- import routes from `@RoleBundle/config/routes/` in host routing config
+- run commands through the host `bin/console` after the bundle is installed

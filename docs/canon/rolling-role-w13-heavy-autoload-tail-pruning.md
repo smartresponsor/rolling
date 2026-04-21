@@ -5,12 +5,12 @@ This wave narrows the remaining Composer continuity tail for legacy-heavy trees 
 ## Changes
 
 - Replaced classmap continuity with PSR-4 continuity for:
-  - `App\Infra\Role\` → `src/Legacy/Infrastructure/`
-  - `App\InfraInterface\Role\` → `src/Legacy/InfrastructureInterface/`
+  - `App\Rolling\Infra\Role\` → `src/Legacy/Infrastructure/`
+  - `App\Rolling\InfraInterface\Role\` → `src/Legacy/InfrastructureInterface/`
   - `src\Security\Role\` → `src/Legacy/Security/Role/`
 - Normalized one outlier namespace:
-  - `App\Legacy\InfrastructureInterface\Rebac\GraphStoreInterface`
-  - to `App\InfraInterface\Role\Rebac\GraphStoreInterface`
+  - `App\Rolling\Legacy\InfrastructureInterface\Rebac\GraphStoreInterface`
+  - to `App\Rolling\InfraInterface\Role\Rebac\GraphStoreInterface`
 - Updated dependent import in `InMemoryGraphStore`.
 
 ## Result

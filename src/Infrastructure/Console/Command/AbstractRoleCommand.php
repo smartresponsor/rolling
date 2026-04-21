@@ -2,21 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Tests\Support\RoleFixtureCatalog;
-use App\Tests\Support\RoleScenarioRunner;
-use InvalidArgumentException;
+use App\Rolling\Tests\Support\RoleFixtureCatalog;
+use App\Rolling\Tests\Support\RoleScenarioRunner;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractRoleCommand extends Command
 {
     protected function fixture(string $name): array
     {
-        if ($name === '') {
-            throw new InvalidArgumentException('Fixture name is required.');
+        if ('' === $name) {
+            throw new \InvalidArgumentException('Fixture name is required.');
         }
 
         return RoleFixtureCatalog::get($name);
@@ -24,8 +22,8 @@ abstract class AbstractRoleCommand extends Command
 
     protected function scenario(string $name): string
     {
-        if ($name === '') {
-            throw new InvalidArgumentException('Scenario name is required.');
+        if ('' === $name) {
+            throw new \InvalidArgumentException('Scenario name is required.');
         }
 
         return $name;

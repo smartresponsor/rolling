@@ -1,17 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Infrastructure\Audit;
+namespace App\Rolling\Infrastructure\Audit;
 
-use App\Policy\Obligation\Obligations;
+use App\Rolling\Policy\Obligation\Obligations;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ObligationSummary
 {
     /** @return array<string,mixed> */
@@ -21,6 +15,7 @@ final class ObligationSummary
         foreach ($obl->all() as $o) {
             $types[] = $o->type;
         }
+
         return ['types' => array_values(array_unique($types)), 'count' => count($types)];
     }
 }

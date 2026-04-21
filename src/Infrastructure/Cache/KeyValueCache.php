@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Infrastructure\Cache;
+namespace App\Rolling\Infrastructure\Cache;
 
 /** Минимальный K/V кеш с TTL. */
 interface KeyValueCache
@@ -11,14 +12,16 @@ interface KeyValueCache
 
     /**
      * @param string $key
-     * @param mixed $value
-     * @param int $ttlSeconds
+     * @param mixed  $value
+     * @param int    $ttlSeconds
+     *
      * @return void
      */
     public function set(string $key, mixed $value, int $ttlSeconds): void;
 
     /**
      * @param string $key
+     *
      * @return void
      */
     public function delete(string $key): void;

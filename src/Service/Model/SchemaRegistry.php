@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Model;
+namespace App\Rolling\Service\Model;
 
-use App\ServiceInterface\Model\SchemaStorageInterface;
+use App\Rolling\ServiceInterface\Model\SchemaStorageInterface;
 
 final class SchemaRegistry
 {
@@ -37,7 +37,7 @@ final class SchemaRegistry
     public function create(string $version, array $schema): array
     {
         $errors = Validation::validate($schema);
-        if ($errors !== []) {
+        if ([] !== $errors) {
             return ['ok' => false, 'errors' => $errors];
         }
 

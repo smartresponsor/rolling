@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Cache;
+namespace App\Rolling\Service\Cache;
 
 /**
  * In-memory subject epoch map for cache invalidation.

@@ -1,25 +1,28 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\InfrastructureInterface\Rebac;
+namespace App\Rolling\InfrastructureInterface\Rebac;
 
-use App\Infrastructure\Rebac\Tuple;
-use App\Service\Consistency\Rebac\Token;
+use App\Rolling\Infrastructure\Rebac\Tuple;
+use App\Rolling\Service\Consistency\Rebac\Token;
 
 /** Tuple persistence + revision token. */
 interface TupleStoreInterface
 {
     /**
      * @param string $ns
-     * @param array $tuples
-     * @return \App\Service\Consistency\Rebac\Token
+     * @param array  $tuples
+     *
+     * @return Token
      */
     public function write(string $ns, array $tuples): Token;
 
     /**
      * @param string $ns
-     * @param \App\Infrastructure\Rebac\Tuple $tuple
-     * @return \App\Service\Consistency\Rebac\Token
+     * @param Tuple  $tuple
+     *
+     * @return Token
      */
     public function delete(string $ns, Tuple $tuple): Token;
 
@@ -28,21 +31,23 @@ interface TupleStoreInterface
      * @param string $objType
      * @param string $objId
      * @param string $relation
+     *
      * @return iterable<Tuple>
      */
     public function readByObject(string $ns, string $objType, string $objId, string $relation): iterable;
 
     /**
-     * @param string $ns
-     * @param string $subjType
-     * @param string $subjId
+     * @param string      $ns
+     * @param string      $subjType
+     * @param string      $subjId
      * @param string|null $subjRel
+     *
      * @return iterable<Tuple>
      */
     public function readBySubject(string $ns, string $subjType, string $subjId, ?string $subjRel = null): iterable;
 
     /**
-     * @return \App\Service\Consistency\Rebac\Token
+     * @return Token
      */
     public function currentToken(): Token;
 }

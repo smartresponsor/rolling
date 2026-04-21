@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Role\Console;
+namespace App\Rolling\Tests\Role\Console;
 
-use App\Tests\Support\RoleFixtureCatalog;
-use App\Tests\Support\RoleScenarioRunner;
+use App\Rolling\Tests\Support\RoleFixtureCatalog;
+use App\Rolling\Tests\Support\RoleScenarioRunner;
 use PHPUnit\Framework\TestCase;
 
 final class RoleScenarioCatalogTest extends TestCase

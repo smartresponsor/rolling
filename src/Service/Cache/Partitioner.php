@@ -2,20 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Cache;
+namespace App\Rolling\Service\Cache;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Partitioner
 {
     /**
      * @param string $tenant
-     * @param int $shards
+     * @param int    $shards
+     *
      * @return int
      */
     public static function shard(string $tenant, int $shards = 64): int

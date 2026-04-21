@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\InfrastructureInterface\Rebac;
+namespace App\Rolling\InfrastructureInterface\Rebac;
 
-use App\ServiceInterface\Rebac\NamespaceConstraintInterface;
+use App\Rolling\ServiceInterface\Rebac\NamespaceConstraintInterface;
 
 /**
  * Minimal graph store API for ReBAC checks with namespaces and tenants.
@@ -21,6 +21,7 @@ interface GraphStoreInterface
      * @param string $subject
      * @param string $relation
      * @param string $object
+     *
      * @return void
      */
     public function addEdge(string $tenant, string $namespace, string $subject, string $relation, string $object): void;
@@ -31,6 +32,7 @@ interface GraphStoreInterface
      * @param string $subject
      * @param string $relation
      * @param string $object
+     *
      * @return void
      */
     public function removeEdge(string $tenant, string $namespace, string $subject, string $relation, string $object): void;
@@ -44,11 +46,11 @@ interface GraphStoreInterface
      * namespaces is governed by NamespaceConstraintInterface.
      */
     public function checkAccess(
-        string                       $tenant,
-        string                       $startNamespace,
-        string                       $subject,
-        string                       $relation,
-        string                       $object,
+        string $tenant,
+        string $startNamespace,
+        string $subject,
+        string $relation,
+        string $object,
         NamespaceConstraintInterface $constraints,
     ): bool;
 }

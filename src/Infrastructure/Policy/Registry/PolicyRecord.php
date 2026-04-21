@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Policy\Registry;
+namespace App\Rolling\Infrastructure\Policy\Registry;
 
 final class PolicyRecord
 {
@@ -13,5 +13,6 @@ final class PolicyRecord
         public string $docJson,
         public int $createdAt,
         public bool $isActive,
-    ) {}
+    ) {
+    }
 }

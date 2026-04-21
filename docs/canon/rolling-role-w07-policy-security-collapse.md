@@ -6,7 +6,7 @@ Base slice: `rolling-06-infrastructure-tree-collapse-cumulative.zip`
 - Collapsed `src/Legacy/Policy/Role/*` into `src/Legacy/Policy/*`
 - Collapsed `src/Legacy/PolicyInterface/Role/*` into `src/Legacy/PolicyInterface/*`
 - Collapsed `src/Legacy/Security/Role/*` into `src/Legacy/Security/*`
-- Rewrote namespaces from `App\Legacy\...\Role\...` to `App\Legacy\...\...`
+- Rewrote namespaces from `App\Rolling\Legacy\...\Role\...` to `App\Rolling\Legacy\...\...`
 - Added continuity aliases in `src/Legacy/Compatibility/legacy_role_w07_aliases.php`
 
 ## Verification

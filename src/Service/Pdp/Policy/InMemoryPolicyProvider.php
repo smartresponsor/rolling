@@ -6,17 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Pdp\Policy;
+namespace App\Rolling\Service\Pdp\Policy;
 
-use App\ServiceInterface\Pdp\PolicyDecisionProviderInterface;
+use App\Rolling\ServiceInterface\Pdp\PolicyDecisionProviderInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 class InMemoryPolicyProvider implements PolicyDecisionProviderInterface
 {
     /** @var array */
@@ -24,7 +17,8 @@ class InMemoryPolicyProvider implements PolicyDecisionProviderInterface
 
     /**
      * @param string $id
-     * @param array $rule
+     * @param array  $rule
+     *
      * @return void
      */
     public function addRule(string $id, array $rule): void
@@ -33,10 +27,11 @@ class InMemoryPolicyProvider implements PolicyDecisionProviderInterface
     }
 
     /**
-     * @param array $subject
+     * @param array  $subject
      * @param string $action
-     * @param array $resource
-     * @param array $context
+     * @param array  $resource
+     * @param array  $context
+     *
      * @return bool
      */
     public function isAllowed(array $subject, string $action, array $resource, array $context = []): bool
@@ -56,8 +51,10 @@ class InMemoryPolicyProvider implements PolicyDecisionProviderInterface
             if (isset($rule['role']) && !in_array($rule['role'], $roles, true)) {
                 continue;
             }
+
             return true;
         }
+
         return false;
     }
 }

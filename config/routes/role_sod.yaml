@@ -1,4 +1,4 @@
 role_sod_check:
   path: /v2/role/sod-check
-  controller: App\Controller\Api\SodController::check
+  controller: App\Rolling\Controller\Api\SodController::check
   methods: [ POST ]

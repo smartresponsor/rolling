@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Role\Policy\Registry;
 
-use App\Infrastructure\Policy\Registry\InMemoryStore;
-use App\Infrastructure\Policy\Registry\RegistryService;
+use App\Rolling\Infrastructure\Policy\Registry\InMemoryStore;
+use App\Rolling\Infrastructure\Policy\Registry\RegistryService;
 use PHPUnit\Framework\TestCase;
 
 final class PolicyRegistryTest extends TestCase

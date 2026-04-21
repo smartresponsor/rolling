@@ -4,18 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Role\Acl;
 
-use App\Infrastructure\Acl\Source\JsonAclSource;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Acl\Source\JsonAclSource;
 use PHPUnit\Framework\TestCase;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
 
-/**
- *
- */
-
-/**
- *
- */
 final class JsonAclSourceTest extends TestCase
 {
     /**

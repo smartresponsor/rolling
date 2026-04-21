@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Policy;
+namespace App\Rolling\ServiceInterface\Policy;
 
 interface VoterInterface
 {

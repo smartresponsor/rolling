@@ -7,7 +7,7 @@ This document is based **only** on the current uploaded slice and is intended to
 ## Canon checked
 
 - singular Symfony-oriented application/component;
-- one production code root under `src/` with `App\ -> src/`;
+- one production code root under `src/` with `App\Rolling\ -> src/`;
 - canonical layer roots may exist as `src/[Layer]/...` and `src/[Layer]Interface/...`;
 - root dot-folders are allowed;
 - forbidden patterns include `src/Role/...`, `src/RoleInterface/...`, `src/.../Role/...`, `src/.../Rolling/...`, `src/Domain/...`, `src/Port...`, `src/Adaptor...`, `src/Infra...`, `src/opr...` and port/adaptor/hexagonal skeletons.
@@ -78,26 +78,26 @@ The full inventory is stored in `report/rolling-role-w01-inventory.json`.
 
 Representative mismatches between file path and declared namespace:
 
-- `src/Entity/Role/PermissionKey.php` → declared `src\Entity\Role`, expected `App\Entity\Role`
-- `src/Entity/Role/Scope.php` → declared `src\Entity\Role`, expected `App\Entity\Role`
-- `src/Entity/Role/SubjectId.php` → declared `src\Entity\Role`, expected `App\Entity\Role`
-- `src/Exception/ApiException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Exception`
-- `src/Exception/BadRequestException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Exception`
-- `src/Exception/ForbiddenException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Exception`
-- `src/Exception/RateLimitException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Exception`
-- `src/Exception/RemoteErrorException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Exception`
-- `src/Exception/UnauthorizedException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Exception`
-- `src/Infrastructure/Cache/InMemoryCache.php` → declared `App\Infra\Cache`, expected `App\Infrastructure\Cache`
-- `src/Infrastructure/Role/Admin/ApprovalFsStore.php` → declared `App\Infra\Role\Admin`, expected `App\Legacy\Infrastructure\Admin`
-- `src/Infrastructure/Role/Admin/ApproverFsDirectory.php` → declared `App\Infra\Role\Admin`, expected `App\Legacy\Infrastructure\Admin`
-- `src/Infrastructure/Role/Admin/InMemoryApprovalRequestRepository.php` → declared `App\Infra\Role\Admin`, expected `App\Legacy\Infrastructure\Admin`
-- `src/Infrastructure/Role/Admin/OverrideFsPolicy.php` → declared `App\Infra\Role\Admin`, expected `App\Legacy\Infrastructure\Admin`
-- `src/Infrastructure/Role/Approval/FileApprovalStore.php` → declared `App\Infra\Role\Approval`, expected `App\Legacy\Infrastructure\Approval`
-- `src/Infrastructure/Role/Audit/FileAuditRepository.php` → declared `App\Infra\Role\Audit`, expected `App\Legacy\Infrastructure\Audit`
-- `src/Infrastructure/Role/Audit/FileAuditTrail.php` → declared `App\Infra\Role\Audit`, expected `App\Legacy\Infrastructure\Audit`
-- `src/Infrastructure/Role/Key/FileKeyProvider.php` → declared `App\Infra\Role\Key`, expected `App\Legacy\Infrastructure\Key`
-- `src/Infrastructure/Role/Obligation/ObligationFsStore.php` → declared `App\Infra\Role\Obligation`, expected `App\Legacy\Infrastructure\Obligation`
-- `src/Infrastructure/Role/Policy/InMemoryGrantRepository.php` → declared `App\Infra\Role\Policy`, expected `App\Legacy\Infrastructure\Policy`
+- `src/Entity/Role/PermissionKey.php` → declared `src\Entity\Role`, expected `App\Rolling\Entity\Role`
+- `src/Entity/Role/Scope.php` → declared `src\Entity\Role`, expected `App\Rolling\Entity\Role`
+- `src/Entity/Role/SubjectId.php` → declared `src\Entity\Role`, expected `App\Rolling\Entity\Role`
+- `src/Exception/ApiException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/BadRequestException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/ForbiddenException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/RateLimitException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/RemoteErrorException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/UnauthorizedException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Infrastructure/Cache/InMemoryCache.php` → declared `App\Rolling\Infra\Cache`, expected `App\Rolling\Infrastructure\Cache`
+- `src/Infrastructure/Role/Admin/ApprovalFsStore.php` → declared `App\Rolling\Infra\Role\Admin`, expected `App\Rolling\Legacy\Infrastructure\Admin`
+- `src/Infrastructure/Role/Admin/ApproverFsDirectory.php` → declared `App\Rolling\Infra\Role\Admin`, expected `App\Rolling\Legacy\Infrastructure\Admin`
+- `src/Infrastructure/Role/Admin/InMemoryApprovalRequestRepository.php` → declared `App\Rolling\Infra\Role\Admin`, expected `App\Rolling\Legacy\Infrastructure\Admin`
+- `src/Infrastructure/Role/Admin/OverrideFsPolicy.php` → declared `App\Rolling\Infra\Role\Admin`, expected `App\Rolling\Legacy\Infrastructure\Admin`
+- `src/Infrastructure/Role/Approval/FileApprovalStore.php` → declared `App\Rolling\Infra\Role\Approval`, expected `App\Rolling\Legacy\Infrastructure\Approval`
+- `src/Infrastructure/Role/Audit/FileAuditRepository.php` → declared `App\Rolling\Infra\Role\Audit`, expected `App\Rolling\Legacy\Infrastructure\Audit`
+- `src/Infrastructure/Role/Audit/FileAuditTrail.php` → declared `App\Rolling\Infra\Role\Audit`, expected `App\Rolling\Legacy\Infrastructure\Audit`
+- `src/Infrastructure/Role/Key/FileKeyProvider.php` → declared `App\Rolling\Infra\Role\Key`, expected `App\Rolling\Legacy\Infrastructure\Key`
+- `src/Infrastructure/Role/Obligation/ObligationFsStore.php` → declared `App\Rolling\Infra\Role\Obligation`, expected `App\Rolling\Legacy\Infrastructure\Obligation`
+- `src/Infrastructure/Role/Policy/InMemoryGrantRepository.php` → declared `App\Rolling\Infra\Role\Policy`, expected `App\Rolling\Legacy\Infrastructure\Policy`
 
 
 ### Files without namespace declaration
@@ -139,7 +139,7 @@ Representative entries:
 
 ### `w03`
 - begin de-featureizing `.../Role/...` directory insertions inside layers;
-- align namespaces toward `App\...` only where path ownership becomes canonical.
+- align namespaces toward `App\Rolling\...` only where path ownership becomes canonical.
 
 ### `w04`
 - finish namespace convergence;

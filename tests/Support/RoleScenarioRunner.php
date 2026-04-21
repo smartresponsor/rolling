@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Support;
+namespace App\Rolling\Tests\Support;
 
-use App\Infrastructure\Rebac\Tuple;
-use App\Service\Rebac\Checker;
-use App\Service\Rebac\Writer;
-use App\Infrastructure\Rebac\InMemoryTupleStore;
-use InvalidArgumentException;
+use App\Rolling\Infrastructure\Rebac\InMemoryTupleStore;
+use App\Rolling\Infrastructure\Rebac\Tuple;
+use App\Rolling\Service\Rebac\Checker;
+use App\Rolling\Service\Rebac\Writer;
 
 final class RoleScenarioRunner
 {
@@ -29,11 +28,11 @@ final class RoleScenarioRunner
 
     public static function explain(array $fixture, string $subject, string $object, string $relation, ?string $scenario = null): array
     {
-        $mode = $scenario === null ? 'explain' : 'explain-scenario';
+        $mode = null === $scenario ? 'explain' : 'explain-scenario';
         [$store, $writer, $checker] = self::bootEngine($fixture);
         $operations = ['writes' => [], 'deletes' => []];
 
-        if ($scenario !== null) {
+        if (null !== $scenario) {
             $spec = self::scenarioSpec($fixture, $scenario);
             $operations = self::applyOperations($writer, (string) ($fixture['ns'] ?? 'default'), $spec, false);
         }
@@ -74,7 +73,7 @@ final class RoleScenarioRunner
         return [
             'fixture' => $fixture['name'] ?? 'unknown',
             'mode' => 'audit',
-            'ok' => $baseline['ok'] && array_reduce($scenarios, static fn(bool $carry, array $row): bool => $carry && (bool) ($row['ok'] ?? false), true),
+            'ok' => $baseline['ok'] && array_reduce($scenarios, static fn (bool $carry, array $row): bool => $carry && (bool) ($row['ok'] ?? false), true),
             'summary' => [
                 'scenario_count' => count($scenarios),
                 'baseline_before_checks' => (int) ($baseline['summary']['before_checks'] ?? 0),
@@ -98,7 +97,7 @@ final class RoleScenarioRunner
     private static function execute(array $fixture, ?string $scenario, string $mode): array
     {
         if (($fixture['engine'] ?? null) !== 'rebac-minimal') {
-            throw new InvalidArgumentException('Unsupported fixture engine.');
+            throw new \InvalidArgumentException('Unsupported fixture engine.');
         }
 
         [$store, $writer, $checker] = self::bootEngine($fixture);
@@ -107,7 +106,7 @@ final class RoleScenarioRunner
         $operations = ['writes' => [], 'deletes' => []];
         $after = null;
 
-        if ($scenario !== null) {
+        if (null !== $scenario) {
             $spec = self::scenarioSpec($fixture, $scenario);
             $operations = self::applyOperations($writer, (string) ($fixture['ns'] ?? 'default'), $spec, false);
             $after = self::evaluateChecks($checker, (string) ($fixture['ns'] ?? 'default'), $spec['checks'] ?? []);
@@ -140,7 +139,7 @@ final class RoleScenarioRunner
             $seed[] = self::tupleFromRow((string) ($row['ns'] ?? $fixture['ns'] ?? 'default'), $row);
         }
 
-        if ($seed !== []) {
+        if ([] !== $seed) {
             $writer->write((string) ($fixture['ns'] ?? 'default'), $seed);
         }
 
@@ -151,7 +150,7 @@ final class RoleScenarioRunner
     {
         $spec = $fixture['scenarios'][$scenario] ?? null;
         if (!is_array($spec)) {
-            throw new InvalidArgumentException(sprintf('Unknown scenario "%s".', $scenario));
+            throw new \InvalidArgumentException(sprintf('Unknown scenario "%s".', $scenario));
         }
 
         return $spec;
@@ -166,7 +165,7 @@ final class RoleScenarioRunner
         foreach (($spec['writes'] ?? []) as $row) {
             $writes[] = $row;
         }
-        if ($writes !== [] && !$preview) {
+        if ([] !== $writes && !$preview) {
             foreach ($writes as $row) {
                 $writer->write((string) ($row['ns'] ?? $ns), [self::tupleFromRow((string) ($row['ns'] ?? $ns), $row)]);
             }
@@ -190,6 +189,7 @@ final class RoleScenarioRunner
 
     /**
      * @param list<array<string,mixed>> $rows
+     *
      * @return array{ok:bool,checks:list<array<string,mixed>>}
      */
     private static function evaluateChecks(Checker $checker, string $defaultNs, array $rows): array
@@ -213,6 +213,7 @@ final class RoleScenarioRunner
 
     /**
      * @param array<string,mixed> $row
+     *
      * @return array<string,mixed>
      */
     private static function checkRow(string $defaultNs, array $row): array
@@ -229,6 +230,7 @@ final class RoleScenarioRunner
 
     /**
      * @param array<string,mixed> $row
+     *
      * @return array<string,mixed>
      */
     private static function evaluateSingleCheck(Checker $checker, array $row): array
@@ -249,9 +251,10 @@ final class RoleScenarioRunner
     }
 
     /**
-     * @param array{ok:bool,checks:list<array<string,mixed>>} $before
-     * @param array{ok:bool,checks:list<array<string,mixed>>}|null $after
+     * @param array{ok:bool,checks:list<array<string,mixed>>}                           $before
+     * @param array{ok:bool,checks:list<array<string,mixed>>}|null                      $after
      * @param array{writes:list<array<string,mixed>>,deletes:list<array<string,mixed>>} $operations
+     *
      * @return array<string,int|bool>
      */
     private static function buildSummary(array $before, ?array $after, array $operations): array

@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
 final class PerfThresholdEvaluator
 {
     /**
      * @param array<string, mixed> $report
+     *
      * @return array<string, mixed>
      */
     public function evaluate(array $report, float $maxDurationMs, float $maxPerItemMs, float $minThroughputPerSec, float $maxPeakMb): array
@@ -48,10 +49,10 @@ final class PerfThresholdEvaluator
             };
         }
 
-        $failures = array_values(array_filter($checks, static fn (array $check): bool => $check['ok'] !== true));
+        $failures = array_values(array_filter($checks, static fn (array $check): bool => true !== $check['ok']));
 
         return [
-            'ok' => $failures === [],
+            'ok' => [] === $failures,
             'checks' => $checks,
             'failure_count' => count($failures),
         ];

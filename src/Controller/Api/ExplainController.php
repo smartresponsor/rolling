@@ -2,29 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Rolling\Controller\Api;
 
-use App\Service\Pipeline\RequestContext;
-use App\Service\Explain\DecisionGraph;
-use App\Service\Pipeline\DecisionPipeline;
-use App\Service\Pipeline\Stage\{StrictDenyStage};
-use App\Service\Pipeline\Stage\ContextStage;
-use App\Service\Pipeline\Trace;
+use App\Rolling\Service\Explain\DecisionGraph;
+use App\Rolling\Service\Pipeline\DecisionPipeline;
+use App\Rolling\Service\Pipeline\RequestContext;
+use App\Rolling\Service\Pipeline\Stage\ContextStage;
+use App\Rolling\Service\Pipeline\Stage\StrictDenyStage;
+use App\Rolling\Service\Pipeline\Trace;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ExplainController
 {
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $req
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @param Request $req
+     *
+     * @return JsonResponse
      */
     public function explain(Request $req): JsonResponse
     {
@@ -36,6 +30,7 @@ final class ExplainController
         $trace->add('context', 'normalized');
         $trace->add('policy', 'no');
         $graph = DecisionGraph::build($trace);
+
         return new JsonResponse($graph, 200);
     }
 }

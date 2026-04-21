@@ -1,6 +1,0 @@
-role:
-  policy_namespace: 'role'
-  admin_namespace: 'role-admin'
-  audit_namespace: 'role-audit'
-  ops_dir: '%kernel.project_dir%/ops'
-  sdk_namespace: 'Role\SDK\V2'

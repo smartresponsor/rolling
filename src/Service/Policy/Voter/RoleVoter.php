@@ -6,24 +6,19 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Policy\Voter;
+namespace App\Rolling\Service\Policy\Voter;
 
-use App\InfrastructureInterface\Policy\GrantRepositoryInterface;
-use App\ServiceInterface\Policy\VoterInterface;
+use App\Rolling\InfrastructureInterface\Policy\GrantRepositoryInterface;
+use App\Rolling\ServiceInterface\Policy\VoterInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class RoleVoter implements VoterInterface
 {
     /**
-     * @param \App\InfrastructureInterface\Policy\GrantRepositoryInterface $repo
+     * @param GrantRepositoryInterface $repo
      */
-    public function __construct(private readonly GrantRepositoryInterface $repo) {}
+    public function __construct(private readonly GrantRepositoryInterface $repo)
+    {
+    }
 
     /**
      * @return string
@@ -34,10 +29,11 @@ final class RoleVoter implements VoterInterface
     }
 
     /**
-     * @param array $subject
+     * @param array  $subject
      * @param string $action
-     * @param array $resource
-     * @param array $context
+     * @param array  $resource
+     * @param array  $context
+     *
      * @return int
      */
     public function vote(array $subject, string $action, array $resource, array $context = []): int
@@ -58,6 +54,7 @@ final class RoleVoter implements VoterInterface
                 return self::GRANT;
             }
         }
+
         return self::ABSTAIN;
     }
 }

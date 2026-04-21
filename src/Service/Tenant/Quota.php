@@ -2,32 +2,35 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Tenant;
+namespace App\Rolling\Service\Tenant;
 
 /**
  * Per-tenant request quota (fixed 60s window). Stores usage in var/tenants/<tenant>/quota_usage.json
- * and limits in var/tenants/<tenant>/quota_limits.json
+ * and limits in var/tenants/<tenant>/quota_limits.json.
  */
 final class Quota
 {
     /**
      * @param string $baseDir
      */
-    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var/tenants') {}
+    public function __construct(private readonly string $baseDir = __DIR__.'/../../../../var/tenants')
+    {
+    }
 
     /**
      * @param string $tenant
+     *
      * @return string
      */
     private function dir(string $tenant): string
     {
-        return rtrim($this->baseDir, '/') . '/' . preg_replace('~[^a-zA-Z0-9_.-]~', '_', $tenant);
+        return rtrim($this->baseDir, '/').'/'.preg_replace('~[^a-zA-Z0-9_.-]~', '_', $tenant);
     }
 
     /** @return array{limit_per_min:int} */
     public function getLimit(string $tenant): array
     {
-        $path = $this->dir($tenant) . '/quota_limits.json';
+        $path = $this->dir($tenant).'/quota_limits.json';
         if (!is_dir(dirname($path))) {
             @mkdir(dirname($path), 0775, true);
         }
@@ -36,17 +39,19 @@ final class Quota
         }
         $d = json_decode((string) @file_get_contents($path), true);
         $limit = (int) ($d['limit_per_min'] ?? 600);
+
         return ['limit_per_min' => $limit];
     }
 
     /**
      * @param string $tenant
-     * @param int $perMin
+     * @param int    $perMin
+     *
      * @return void
      */
     public function setLimit(string $tenant, int $perMin): void
     {
-        $path = $this->dir($tenant) . '/quota_limits.json';
+        $path = $this->dir($tenant).'/quota_limits.json';
         if (!is_dir(dirname($path))) {
             @mkdir(dirname($path), 0775, true);
         }
@@ -56,7 +61,7 @@ final class Quota
     /** @return array{window_start:int,count:int} */
     private function getUsage(string $tenant): array
     {
-        $path = $this->dir($tenant) . '/quota_usage.json';
+        $path = $this->dir($tenant).'/quota_usage.json';
         $now = time();
         $d = json_decode((string) @file_get_contents($path), true);
         $ws = (int) ($d['window_start'] ?? $now);
@@ -66,17 +71,19 @@ final class Quota
             $ws = $now;
             $cnt = 0;
         }
+
         return ['window_start' => $ws, 'count' => $cnt];
     }
 
     /**
      * @param string $tenant
-     * @param array $u
+     * @param array  $u
+     *
      * @return void
      */
     private function saveUsage(string $tenant, array $u): void
     {
-        $path = $this->dir($tenant) . '/quota_usage.json';
+        $path = $this->dir($tenant).'/quota_usage.json';
         if (!is_dir(dirname($path))) {
             @mkdir(dirname($path), 0775, true);
         }
@@ -98,6 +105,7 @@ final class Quota
         }
         $u['count'] += $cost;
         $this->saveUsage($tenant, $u);
+
         return ['allowed' => true, 'remaining' => $limit - $u['count'], 'reset' => $reset];
     }
 }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Acl;
+namespace App\Rolling\Infrastructure\Acl;
 
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\InfrastructureInterface\Acl\AclSourceInterface;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
 
 final class CachedAclSource implements AclSourceInterface
 {
@@ -24,7 +24,7 @@ final class CachedAclSource implements AclSourceInterface
 
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
     {
-        $key = $subject->value() . '|' . $scope->key();
+        $key = $subject->value().'|'.$scope->key();
         $cached = $this->rolesCache[$key] ?? null;
         if ($this->isFresh($cached)) {
             return $cached['roles'];
@@ -58,6 +58,6 @@ final class CachedAclSource implements AclSourceInterface
     /** @param array{exp:int}|null $cached */
     private function isFresh(?array $cached): bool
     {
-        return $cached !== null && $cached['exp'] > time();
+        return null !== $cached && $cached['exp'] > time();
     }
 }

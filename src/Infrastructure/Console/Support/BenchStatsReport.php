@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
 final class BenchStatsReport
 {
     /**
      * @param array<string, mixed> $payload
      * @param array<string, mixed> $stats
+     *
      * @return array<string, mixed>
      */
     public function build(array $payload, array $stats, bool $detailed = false, bool $trace = false): array

@@ -1,10 +1,9 @@
 <?php
+
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\Service\Pel;
-
-use Throwable;
+namespace App\Rolling\Service\Pel;
 
 final class PelEval
 {
@@ -22,19 +21,19 @@ final class PelEval
             $k = $m[0];
             $v = null;
 
-            if ($k === 'action') {
+            if ('action' === $k) {
                 $v = $ctx['action'] ?? null;
-            } elseif ($k === 'subject.role') {
+            } elseif ('subject.role' === $k) {
                 $v = $ctx['subject.role'] ?? null;
-            } elseif ($k === 'resource.type') {
+            } elseif ('resource.type' === $k) {
                 $v = $ctx['resource.type'] ?? null;
             } elseif (str_starts_with($k, 'attrs.')) {
                 $key = substr($k, 6);
-                $v = $ctx['attrs.' . $key] ?? null;
+                $v = $ctx['attrs.'.$key] ?? null;
             }
 
             if (is_string($v)) {
-                return "'" . str_replace("'", "\\'", $v) . "'";
+                return "'".str_replace("'", "\\'", $v)."'";
             }
             if (is_numeric($v)) {
                 return (string) $v;
@@ -48,13 +47,13 @@ final class PelEval
 
         $e = preg_replace('/\b([^\s]+)\s+in\s+\[(.*?)\]/', 'in_array($1, [$2], true)', $e) ?? '';
 
-        if (preg_match('/[^A-Za-z0-9_\-\(\)\[\]\,\'\"\s\&\|\!\.]/', $e) === 1) {
+        if (1 === preg_match('/[^A-Za-z0-9_\-\(\)\[\]\,\'\"\s\&\|\!\.]/', $e)) {
             return false;
         }
 
         try {
-            return (bool) (include __DIR__ . '/pel_runtime.php');
-        } catch (Throwable) {
+            return (bool) (include __DIR__.'/pel_runtime.php');
+        } catch (\Throwable) {
             return false;
         }
     }

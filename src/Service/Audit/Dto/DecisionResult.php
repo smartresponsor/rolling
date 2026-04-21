@@ -6,29 +6,23 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Audit\Dto;
+namespace App\Rolling\Service\Audit\Dto;
 
-/**
- *
- */
-
-/**
- *
- */
 final class DecisionResult
 {
     /**
-     * @param bool $allow
-     * @param string $policyVersion
+     * @param bool        $allow
+     * @param string      $policyVersion
      * @param string|null $ruleId
-     * @param array $obligations
-     * @param array $meta
+     * @param array       $obligations
+     * @param array       $meta
      */
     public function __construct(
-        public bool    $allow,
-        public string  $policyVersion,
+        public bool $allow,
+        public string $policyVersion,
         public ?string $ruleId = null,
-        public array   $obligations = [],
-        public array   $meta = [],
-    ) {}
+        public array $obligations = [],
+        public array $meta = [],
+    ) {
+    }
 }

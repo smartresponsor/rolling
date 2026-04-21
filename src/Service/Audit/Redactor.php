@@ -2,15 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Audit;
+namespace App\Rolling\Service\Audit;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Redactor
 {
     /** @var array */
@@ -19,7 +12,7 @@ final class Redactor
     private array $redactRules;
 
     /**
-     * @param array $maskFields dot-path fields to fully mask (e.g. "context.ssn", "resource")
+     * @param array $maskFields  dot-path fields to fully mask (e.g. "context.ssn", "resource")
      * @param array $redactRules regex-based replacements inside string fields
      */
     public function __construct(array $maskFields = [], array $redactRules = [])
@@ -30,6 +23,7 @@ final class Redactor
 
     /**
      * @param array $event
+     *
      * @return array
      */
     public function apply(array $event): array
@@ -40,64 +34,70 @@ final class Redactor
         foreach ($this->redactRules as $rule) {
             $event = $this->redactPath($event, $rule['path'] ?? '', $rule['pattern'] ?? '');
         }
+
         return $event;
     }
 
     /**
-     * @param array $event
+     * @param array  $event
      * @param string $path
+     *
      * @return array
      */
     private function maskPath(array $event, string $path): array
     {
-        $parts = $path === '' ? [] : explode('.', $path);
+        $parts = '' === $path ? [] : explode('.', $path);
         if (!$parts) {
             return $event;
         }
-        $ref = & $event;
-        for ($i = 0; $i < count($parts) - 1; $i++) {
+        $ref = &$event;
+        for ($i = 0; $i < count($parts) - 1; ++$i) {
             $k = $parts[$i];
             if (!is_array($ref) || !array_key_exists($k, $ref)) {
                 return $event;
             }
-            $ref = & $ref[$k];
+            $ref = &$ref[$k];
         }
         $last = $parts[count($parts) - 1];
         if (is_array($ref) && array_key_exists($last, $ref)) {
             $ref[$last] = $this->maskValue($ref[$last]);
         }
+
         return $event;
     }
 
     /**
-     * @param array $event
+     * @param array  $event
      * @param string $path
      * @param string $pattern
+     *
      * @return array
      */
     private function redactPath(array $event, string $path, string $pattern): array
     {
-        if ($path === '' || $pattern === '') {
+        if ('' === $path || '' === $pattern) {
             return $event;
         }
         $parts = explode('.', $path);
-        $ref = & $event;
-        for ($i = 0; $i < count($parts) - 1; $i++) {
+        $ref = &$event;
+        for ($i = 0; $i < count($parts) - 1; ++$i) {
             $k = $parts[$i];
             if (!is_array($ref) || !array_key_exists($k, $ref)) {
                 return $event;
             }
-            $ref = & $ref[$k];
+            $ref = &$ref[$k];
         }
         $last = $parts[count($parts) - 1];
         if (is_array($ref) && array_key_exists($last, $ref) && is_string($ref[$last])) {
-            $ref[$last] = (string) preg_replace('~' . $pattern . '~', '[REDACTED]', $ref[$last]);
+            $ref[$last] = (string) preg_replace('~'.$pattern.'~', '[REDACTED]', $ref[$last]);
         }
+
         return $event;
     }
 
     /**
      * @param mixed $v
+     *
      * @return string
      */
     private function maskValue(mixed $v): string
@@ -111,6 +111,7 @@ final class Redactor
         if (is_object($v)) {
             return '[MASKED_OBJECT]';
         }
+
         return '[MASKED]';
     }
 }

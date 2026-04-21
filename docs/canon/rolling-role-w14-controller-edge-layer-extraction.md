@@ -9,7 +9,7 @@ This wave extracts real HTTP and Symfony controller entrypoints from legacy and 
 - `src/Controller/Observability/MetricsController.php`
 
 ## Routing changes
-Route YAML entries were switched from `App\Http\Role\...` and `App\Integration\Symfony\Controller\...` to `App\Controller\...`.
+Route YAML entries were switched from `App\Rolling\Http\Role\...` and `App\Rolling\Integration\Symfony\Controller\...` to `App\Rolling\Controller\...`.
 
 ## Continuity
 A new compatibility alias file keeps old controller FQCNs resolving to the new canonical classes.

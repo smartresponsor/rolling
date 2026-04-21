@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Cache;
+namespace App\Rolling\Service\Cache;
 
-use App\ServiceInterface\Cache\TagInvalidatorInterface;
+use App\Rolling\ServiceInterface\Cache\TagInvalidatorInterface;
 
 /**
  * File-cache with tag versioning for PDP-like results.
@@ -20,9 +20,9 @@ final class PdpCache
     private TagInvalidatorInterface $tags;
 
     /**
-     * @param \App\ServiceInterface\Cache\TagInvalidatorInterface $tags
-     * @param \App\Service\Cache\StampedeGuard|null $guard
-     * @param string $cacheDir
+     * @param TagInvalidatorInterface $tags
+     * @param StampedeGuard|null      $guard
+     * @param string                  $cacheDir
      */
     public function __construct(TagInvalidatorInterface $tags, ?StampedeGuard $guard = null, string $cacheDir = '/tmp/role_cache')
     {
@@ -35,10 +35,11 @@ final class PdpCache
     }
 
     /**
-     * @param array $keyParts
-     * @param int $ttlMs
+     * @param array    $keyParts
+     * @param int      $ttlMs
      * @param string[] $tags
      * @param callable $producer
+     *
      * @return mixed
      */
     public function get(array $keyParts, int $ttlMs, array $tags, callable $producer)
@@ -49,7 +50,7 @@ final class PdpCache
         }
         $rawKey = json_encode([$keyParts, $tagVer], JSON_UNESCAPED_SLASHES);
         $hash = sha1($rawKey);
-        $path = $this->cacheDir . '/' . $hash . '.json';
+        $path = $this->cacheDir.'/'.$hash.'.json';
 
         // Read
         if (is_file($path)) {
@@ -62,6 +63,7 @@ final class PdpCache
         // Compute with stampede guard
         $res = $this->guard->computeWithLock($hash, $ttlMs, $producer);
         @file_put_contents($path, json_encode($res));
+
         return $res['value'];
     }
 }

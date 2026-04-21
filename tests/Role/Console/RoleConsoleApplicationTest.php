@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Role\Console;
+namespace App\Rolling\Tests\Role\Console;
 
-use App\Infrastructure\Console\RoleConsoleApplication;
+use App\Rolling\Infrastructure\Console\RoleConsoleApplication;
 use PHPUnit\Framework\TestCase;
 
 final class RoleConsoleApplicationTest extends TestCase
@@ -14,7 +14,7 @@ final class RoleConsoleApplicationTest extends TestCase
         $application = new RoleConsoleApplication();
 
         ob_start();
-        $exitCode = $application->run(['bin/console', 'app:role:propagation:preview', 'propagation-chain']);
+        $exitCode = $application->run(['role-console', 'app:role:propagation:preview', 'propagation-chain']);
         $output = (string) ob_get_clean();
 
         self::assertSame(0, $exitCode);
@@ -27,7 +27,7 @@ final class RoleConsoleApplicationTest extends TestCase
         $application = new RoleConsoleApplication();
 
         ob_start();
-        $exitCode = $application->run(['bin/console', 'app:role:elimination:run', 'elimination-cascade']);
+        $exitCode = $application->run(['role-console', 'app:role:elimination:run', 'elimination-cascade']);
         $output = (string) ob_get_clean();
 
         self::assertSame(0, $exitCode);

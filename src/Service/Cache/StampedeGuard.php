@@ -6,9 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Cache;
-
-use Exception;
+namespace App\Rolling\Service\Cache;
 
 /**
  * File-lock based stampede guard with TTL jitter.
@@ -17,11 +15,11 @@ final class StampedeGuard
 {
     /**
      * @param string $lockDir
-     * @param int $jitterPercent
+     * @param int    $jitterPercent
      */
     public function __construct(
         private readonly string $lockDir = '/tmp/role_cache_locks',
-        private readonly int    $jitterPercent = 15,
+        private readonly int $jitterPercent = 15,
     ) {
         if (!is_dir($this->lockDir)) {
             @mkdir($this->lockDir, 0775, true);
@@ -30,19 +28,22 @@ final class StampedeGuard
 
     /**
      * @template T
-     * @param string $key
-     * @param int $ttlMs
+     *
+     * @param string       $key
+     * @param int          $ttlMs
      * @param callable():T $producer
+     *
      * @return array{value:mixed, ttlMs:int, expiresAt:int}
      */
     public function computeWithLock(string $key, int $ttlMs, callable $producer): array
     {
-        $lockPath = $this->lockDir . '/' . sha1($key) . '.lock';
+        $lockPath = $this->lockDir.'/'.sha1($key).'.lock';
         $fp = fopen($lockPath, 'c');
-        if ($fp === false) {
+        if (false === $fp) {
             // fallback: compute without lock
             $value = $producer();
             $effectiveTtl = $this->applyJitter($ttlMs);
+
             return ['value' => $value, 'ttlMs' => $effectiveTtl, 'expiresAt' => (int) (microtime(true) * 1000) + $effectiveTtl];
         }
         $locked = flock($fp, LOCK_EX);
@@ -55,11 +56,13 @@ final class StampedeGuard
             fclose($fp);
         }
         $effectiveTtl = $this->applyJitter($ttlMs);
+
         return ['value' => $value, 'ttlMs' => $effectiveTtl, 'expiresAt' => (int) (microtime(true) * 1000) + $effectiveTtl];
     }
 
     /**
      * @param int $ttlMs
+     *
      * @return int
      */
     private function applyJitter(int $ttlMs): int
@@ -68,10 +71,11 @@ final class StampedeGuard
         $delta = (int) floor($ttlMs * $p / 100);
         try {
             $j = random_int(0, $delta);
-        } catch (Exception $e) {
-            error_log('StampedeGuard::applyJitter fallback: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            error_log('StampedeGuard::applyJitter fallback: '.$e->getMessage());
             $j = $delta > 0 ? (int) floor($delta / 2) : 0;
         }
+
         return $ttlMs - $j; // only reduce TTL (anti-stampede)
     }
 }

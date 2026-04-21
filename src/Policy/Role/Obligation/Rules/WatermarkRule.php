@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Role\Obligation\Rules;
+namespace App\Rolling\Policy\Role\Obligation\Rules;
 
-use App\Entity\Role\PermissionKey;
-use App\Policy\Obligation\Obligation;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Policy\Obligation\Obligation;
 
 final class WatermarkRule
 {

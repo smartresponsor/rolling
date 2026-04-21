@@ -2,12 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
-/**
- *
- */
+namespace App\Rolling\Exception;
 
-/**
- *
- */
-final class RemoteErrorException extends ApiException {}
+final class RemoteErrorException extends ApiException
+{
+}

@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Admin;
+namespace App\Rolling\Security\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 
 final class Voter
 {
-    public function __construct(private readonly string $secretPath = __DIR__ . '/../../../var/admin_secret.txt') {}
+    public function __construct(private readonly string $secretPath = __DIR__.'/../../../var/admin_secret.txt')
+    {
+    }
 
     /**
      * @param list<string> $needed
@@ -24,6 +26,6 @@ final class Voter
 
         $fileSecret = trim((string) (@file_get_contents($this->secretPath) ?: ''));
 
-        return $fileSecret !== '' && hash_equals($fileSecret, $secret);
+        return '' !== $fileSecret && hash_equals($fileSecret, $secret);
     }
 }

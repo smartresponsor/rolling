@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Admin;
+namespace App\Rolling\ServiceInterface\Admin;
 
-use App\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\Service\Admin\Dto\ApprovalRequest;
 
 interface ApprovalWorkflowInterface
 {

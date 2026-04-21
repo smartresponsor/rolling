@@ -2,23 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Integration\Http\V2\Bulk;
-
-use Generator;
+namespace App\Rolling\Integration\Http\V2\Bulk;
 
 final class CsvReader implements BulkReaderInterface
 {
-    public function __construct(private readonly string $delimiter = ',') {}
+    public function __construct(private readonly string $delimiter = ',')
+    {
+    }
 
     /**
      * @param resource $stream
-     * @return Generator<int,array<string,mixed>>
+     *
+     * @return \Generator<int,array<string,mixed>>
      */
-    public function items($stream): Generator
+    public function items($stream): \Generator
     {
         $header = null;
         while (($row = fgetcsv($stream, 0, $this->delimiter)) !== false) {
-            if ($header === null) {
+            if (null === $header) {
                 $header = $row;
                 continue;
             }

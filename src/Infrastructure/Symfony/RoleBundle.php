@@ -2,14 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Symfony;
+namespace App\Rolling\Infrastructure\Symfony;
 
-use App\Infrastructure\Symfony\DependencyInjection\RoleExtension;
+use App\Rolling\Infrastructure\Symfony\DependencyInjection\RoleExtension;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class RoleBundle extends Bundle
 {
+    public function getPath(): string
+    {
+        return dirname(__DIR__, 3);
+    }
+
     public function getContainerExtension(): ?ExtensionInterface
     {
         if (null === $this->extension) {

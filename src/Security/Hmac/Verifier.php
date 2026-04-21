@@ -2,42 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Hmac;
+namespace App\Rolling\Security\Hmac;
 
-use App\Security\Util\Base64Url;
+use App\Rolling\Security\Util\Base64Url;
 
-/**
- *
- */
-
-/**
- *
- */
 interface SecretProviderInterface
 {
     /**
      * @param string $keyId
+     *
      * @return string|null
      */
     public function secret(string $keyId): ?string;
 }
 
-/**
- *
- */
-
-/**
- *
- */
 final class InMemorySecretProvider implements SecretProviderInterface
 {
     /**
      * @param array $map
      */
-    public function __construct(private readonly array $map) {}
+    public function __construct(private readonly array $map)
+    {
+    }
 
     /**
      * @param string $keyId
+     *
      * @return string|null
      */
     public function secret(string $keyId): ?string
@@ -46,37 +36,25 @@ final class InMemorySecretProvider implements SecretProviderInterface
     }
 }
 
-/**
- *
- */
-
-/**
- *
- */
 interface NonceStoreInterface
 {
     /**
      * @param string $nonce
-     * @param int $ttlSec
+     * @param int    $ttlSec
+     *
      * @return bool
      */
     public function seen(string $nonce, int $ttlSec): bool;
 }
 
-/**
- *
- */
-
-/**
- *
- */
 final class InMemoryNonceStore implements NonceStoreInterface
 {
     private array $exp = [];
 
     /**
      * @param string $nonce
-     * @param int $ttlSec
+     * @param int    $ttlSec
+     *
      * @return bool
      */
     public function seen(string $nonce, int $ttlSec): bool
@@ -87,38 +65,35 @@ final class InMemoryNonceStore implements NonceStoreInterface
                 unset($this->exp[$n]);
             }
         }
-        if ($nonce === '') {
+        if ('' === $nonce) {
             return false;
         }
         if (isset($this->exp[$nonce]) && $this->exp[$nonce] >= $now) {
             return true;
         }
         $this->exp[$nonce] = $now + $ttlSec;
+
         return false;
     }
 }
 
-/**
- *
- */
-
-/**
- *
- */
 final class Verifier
 {
     /**
-     * @param \App\Security\Hmac\SecretProviderInterface $secrets
-     * @param \App\Security\Hmac\NonceStoreInterface|null $nonces
-     * @param int $maxSkewSec
+     * @param SecretProviderInterface  $secrets
+     * @param NonceStoreInterface|null $nonces
+     * @param int                      $maxSkewSec
      */
-    public function __construct(private readonly SecretProviderInterface $secrets, private readonly ?NonceStoreInterface $nonces = null, private readonly int $maxSkewSec = 300) {}
+    public function __construct(private readonly SecretProviderInterface $secrets, private readonly ?NonceStoreInterface $nonces = null, private readonly int $maxSkewSec = 300)
+    {
+    }
 
     /**
      * @param string $method
      * @param string $pathWithQuery
      * @param string $body
-     * @param array $headers
+     * @param array  $headers
+     *
      * @return bool
      */
     public function verify(string $method, string $pathWithQuery, string $body, array $headers): bool
@@ -127,13 +102,13 @@ final class Verifier
         $ts = (int) ($headers['x-role-date'] ?? '0');
         $sig = $headers['x-role-sig'] ?? '';
         $nonce = $headers['x-role-nonce'] ?? '';
-        if ($kid === '' || $ts === 0 || $sig === '') {
+        if ('' === $kid || 0 === $ts || '' === $sig) {
             return false;
         }
         if (abs(time() - $ts) > $this->maxSkewSec) {
             return false;
         }
-        if ($this->nonces && $nonce !== '' && $this->nonces->seen($nonce, 300)) {
+        if ($this->nonces && '' !== $nonce && $this->nonces->seen($nonce, 300)) {
             return false;
         }
         $secret = $this->secrets->secret($kid);
@@ -142,6 +117,7 @@ final class Verifier
         }
         $canon = Canonicalizer::canonical($method, $pathWithQuery, $body, $ts, $nonce);
         $calc = Base64Url::enc(hash_hmac('sha256', $canon, $secret, true));
+
         return hash_equals($calc, $sig);
     }
 }

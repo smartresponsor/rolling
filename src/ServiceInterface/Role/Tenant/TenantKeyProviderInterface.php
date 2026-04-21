@@ -6,19 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Role\Tenant;
+namespace App\Rolling\ServiceInterface\Role\Tenant;
 
-/**
- *
- */
-
-/**
- *
- */
 interface TenantKeyProviderInterface
 {
     /**
      * @param string $tenant
+     *
      * @return string|null
      */
     public function getKey(string $tenant): ?string;

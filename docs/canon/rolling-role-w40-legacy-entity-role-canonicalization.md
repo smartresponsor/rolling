@@ -5,9 +5,9 @@
 The last structural tail under `src/Legacy/Entity/Role` was canonicalized into `src/Entity/Role`.
 
 Canonical classes added:
-- `App\Entity\Role\PermissionKey`
-- `App\Entity\Role\Scope`
-- `App\Entity\Role\SubjectId`
+- `App\Rolling\Entity\Role\PermissionKey`
+- `App\Rolling\Entity\Role\Scope`
+- `App\Rolling\Entity\Role\SubjectId`
 
 Legacy classes removed:
 - `src/Legacy/Entity/Role/PermissionKey.php`

@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Approval;
+namespace App\Rolling\Service\Approval;
 
-use App\ServiceInterface\Approval\ApprovalGateInterface;
-use App\ServiceInterface\Approval\ApprovalStoreInterface;
+use App\Rolling\ServiceInterface\Approval\ApprovalGateInterface;
+use App\Rolling\ServiceInterface\Approval\ApprovalStoreInterface;
 
 /**
  * Enforce SoD and four-eyes approval.
@@ -17,25 +17,27 @@ use App\ServiceInterface\Approval\ApprovalStoreInterface;
 final class ApprovalGate implements ApprovalGateInterface
 {
     /**
-     * @param \App\ServiceInterface\Approval\ApprovalStoreInterface $store
-     * @param array $rule
+     * @param ApprovalStoreInterface $store
+     * @param array                  $rule
      */
     public function __construct(
         private readonly ApprovalStoreInterface $store,
         /** @var array<string,mixed> */
-        private readonly array                  $rule = [
+        private readonly array $rule = [
             // sample: delete on doc demands four-eyes unless subject has role admin
             'action' => 'delete',
             'resource.type' => 'doc',
             'skipRole' => 'admin',
         ],
-    ) {}
+    ) {
+    }
 
     /**
-     * @param array $decision
-     * @param array $subject
+     * @param array  $decision
+     * @param array  $subject
      * @param string $action
-     * @param array $resource
+     * @param array  $resource
+     *
      * @return array
      */
     public function gate(array $decision, array $subject, string $action, array $resource): array
@@ -63,6 +65,7 @@ final class ApprovalGate implements ApprovalGateInterface
                 'reason' => $decision['reason'] ?? null,
             ];
             $id = $this->store->create($case);
+
             return [
                 'allowed' => false,
                 'ruleId' => $decision['ruleId'] ?? '',
@@ -77,6 +80,7 @@ final class ApprovalGate implements ApprovalGateInterface
 
     /**
      * @param string $id
+     *
      * @return array|null
      */
     public function resolve(string $id): ?array
@@ -85,10 +89,11 @@ final class ApprovalGate implements ApprovalGateInterface
         if (!$rec) {
             return null;
         }
-        if ($rec['state'] !== 'approved') {
+        if ('approved' !== $rec['state']) {
             return null;
         }
         $case = $rec['case'] ?? [];
+
         return [
             'allowed' => true,
             'ruleId' => (string) ($case['ruleId'] ?? ''),

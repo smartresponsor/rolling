@@ -2,8 +2,8 @@
 <?php
 declare(strict_types=1);
 
-use App\Infrastructure\Housekeeping\{PdoAuditGc, PdoReplayGc, Janitor};
-use App\Infrastructure\Housekeeping\Archive\JsonlAuditArchiver;
+use App\Rolling\Infrastructure\Housekeeping\{PdoAuditGc, PdoReplayGc, Janitor};
+use App\Rolling\Infrastructure\Housekeeping\Archive\JsonlAuditArchiver;
 
 require __DIR__ . '/../vendor/autoload.php';
 

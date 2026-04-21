@@ -6,19 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Resilience\CircuitBreaker;
+namespace App\Rolling\Service\Resilience\CircuitBreaker;
 
-use App\ServiceInterface\Resilience\CircuitBreakerInterface;
-use App\ServiceInterface\Resilience\Time\ClockInterface;
-use Throwable;
+use App\Rolling\ServiceInterface\Resilience\CircuitBreakerInterface;
+use App\Rolling\ServiceInterface\Resilience\Time\ClockInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class SimpleCircuitBreaker implements CircuitBreakerInterface
 {
     private string $state = self::CLOSED;
@@ -27,17 +19,18 @@ final class SimpleCircuitBreaker implements CircuitBreakerInterface
     private int $halfOpenProbeAt = 0;
 
     /**
-     * @param \App\ServiceInterface\Resilience\Time\ClockInterface $clock
-     * @param int $threshold
-     * @param int $windowMs
-     * @param int $coolDownMs
+     * @param ClockInterface $clock
+     * @param int            $threshold
+     * @param int            $windowMs
+     * @param int            $coolDownMs
      */
     public function __construct(
         private readonly ClockInterface $clock,
-        private readonly int            $threshold = 5,
-        private readonly int            $windowMs = 10_000,
-        private readonly int            $coolDownMs = 5_000,
-    ) {}
+        private readonly int $threshold = 5,
+        private readonly int $windowMs = 10_000,
+        private readonly int $coolDownMs = 5_000,
+    ) {
+    }
 
     /**
      * @return bool
@@ -45,18 +38,21 @@ final class SimpleCircuitBreaker implements CircuitBreakerInterface
     public function allow(): bool
     {
         $now = $this->clock->nowMs();
-        if ($this->state === self::OPEN) {
+        if (self::OPEN === $this->state) {
             if ($now - $this->lastFailAt >= $this->coolDownMs) {
                 $this->state = self::HALF_OPEN;
                 $this->halfOpenProbeAt = $now;
+
                 return true; // allow one probe
             }
+
             return false;
         }
-        if ($this->state === self::HALF_OPEN) {
+        if (self::HALF_OPEN === $this->state) {
             // allow single in-flight probe after coolDown
             return $now - $this->halfOpenProbeAt >= $this->coolDownMs;
         }
+
         // CLOSED
         return true;
     }
@@ -72,9 +68,10 @@ final class SimpleCircuitBreaker implements CircuitBreakerInterface
 
     /**
      * @param \Throwable $e
+     *
      * @return void
      */
-    public function onFailure(Throwable $e): void
+    public function onFailure(\Throwable $e): void
     {
         $now = $this->clock->nowMs();
         $this->lastFailAt = $now;
@@ -82,7 +79,7 @@ final class SimpleCircuitBreaker implements CircuitBreakerInterface
         if ($this->failCount > 0 && $now - $this->lastFailAt > $this->windowMs) {
             $this->failCount = 0;
         }
-        $this->failCount++;
+        ++$this->failCount;
         if ($this->failCount >= $this->threshold) {
             $this->state = self::OPEN;
         }

@@ -6,17 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Resilience\Time;
+namespace App\Rolling\Service\Resilience\Time;
 
-use App\ServiceInterface\Resilience\Time\ClockInterface;
+use App\Rolling\ServiceInterface\Resilience\Time\ClockInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class SystemClock implements ClockInterface
 {
     /**

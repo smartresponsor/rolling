@@ -2,29 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Acl;
+namespace App\Rolling\Infrastructure\Acl;
 
-use App\Entity\Role\SubjectId;
-use App\Entity\Role\Scope;
-
-/**
- *
- */
-
-/**
- *
- */
-use App\InfrastructureInterface\Acl\AclSourceInterface;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
 
 final class ChainAclSource implements AclSourceInterface
 {
     /** @param list<AclSourceInterface> $sources */
-    public function __construct(private readonly array $sources) {}
+    public function __construct(private readonly array $sources)
+    {
+    }
 
     /**
-     * @param \App\Entity\Role\SubjectId $subject
-     * @param \App\Entity\Role\Scope $scope
-     * @param array $ctx
+     * @param SubjectId $subject
+     * @param Scope     $scope
+     * @param array     $ctx
+     *
      * @return array
      */
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
@@ -49,6 +44,7 @@ final class ChainAclSource implements AclSourceInterface
 
     /**
      * @param list<string> $values
+     *
      * @return list<string>
      */
     private function uniqueValues(array $values): array

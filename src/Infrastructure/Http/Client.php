@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Infrastructure\Http;
+namespace App\Rolling\Infrastructure\Http;
 
 final class Client
 {
     public function __construct(
         private readonly string $endpoint,
         private readonly ?string $hmacKey = null,
-        private readonly int $timeoutMs = 800
+        private readonly int $timeoutMs = 800,
     ) {
     }
 
@@ -22,7 +23,7 @@ final class Client
             'context' => $context,
         ], JSON_UNESCAPED_SLASHES);
 
-        $handle = curl_init(rtrim($this->endpoint, '/') . '/check');
+        $handle = curl_init(rtrim($this->endpoint, '/').'/check');
         curl_setopt_array($handle, [
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $payload,
@@ -32,7 +33,7 @@ final class Client
         ]);
 
         $output = curl_exec($handle);
-        if ($output === false) {
+        if (false === $output) {
             return ['allowed' => false, 'meta' => ['error' => curl_error($handle)]];
         }
 
@@ -42,6 +43,6 @@ final class Client
 
         return is_array($decoded)
             ? ['allowed' => (bool) ($decoded['allowed'] ?? false), 'meta' => $decoded]
-            : ['allowed' => $code === 200];
+            : ['allowed' => 200 === $code];
     }
 }

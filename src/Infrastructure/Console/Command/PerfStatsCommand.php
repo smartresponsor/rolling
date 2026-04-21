@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\BatchPerfRuntime;
-use App\Infrastructure\Console\Support\PerfStatsReport;
-use App\Infrastructure\Console\Support\PerfStatsService;
+use App\Rolling\Infrastructure\Console\Support\BatchPerfRuntime;
+use App\Rolling\Infrastructure\Console\Support\PerfStatsReport;
+use App\Rolling\Infrastructure\Console\Support\PerfStatsService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:role:perf:stats', description: 'Return summarized performance stats for batch benchmark execution.')] 
+#[AsCommand(name: 'app:role:perf:stats', description: 'Return summarized performance stats for batch benchmark execution.')]
 final class PerfStatsCommand extends AbstractRoleCommand
 {
     public function __construct(
@@ -47,7 +47,7 @@ final class PerfStatsCommand extends AbstractRoleCommand
             $stats = $this->stats->summarize($payload);
             $report = $this->report->build($payload, $stats, (bool) $input->getOption('detailed'), (bool) $input->getOption('trace'));
             $outputPath = (string) ($input->getOption('output') ?? '');
-            if ($outputPath !== '') {
+            if ('' !== $outputPath) {
                 $report['output'] = $this->report->persist($report, $outputPath);
             }
 

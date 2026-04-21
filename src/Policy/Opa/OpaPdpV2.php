@@ -2,43 +2,38 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Opa;
+namespace App\Rolling\Policy\Opa;
 
-use App\InfrastructureInterface\Net\Opa\OpaClientInterface;
-use App\Policy\Obligation\Obligation;
-use App\Policy\Obligation\Obligations;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\SubjectId;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\InfrastructureInterface\Net\Opa\OpaClientInterface;
+use App\Rolling\Policy\Obligation\Obligation;
+use App\Rolling\Policy\Obligation\Obligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class OpaPdpV2 implements PdpV2Interface
 {
     /**
-     * @param \App\InfrastructureInterface\Net\Opa\OpaClientInterface $client
-     * @param \App\Policy\Opa\InputBuilder $input
-     * @param string $decisionPath
+     * @param OpaClientInterface $client
+     * @param InputBuilder       $input
+     * @param string             $decisionPath
      */
     public function __construct(
         private readonly OpaClientInterface $client,
-        private readonly InputBuilder       $input,
-        private readonly string             $decisionPath = 'role/v2/decision', // OPA data path
-    ) {}
+        private readonly InputBuilder $input,
+        private readonly string $decisionPath = 'role/v2/decision', // OPA data path
+    ) {
+    }
 
     /**
-     * @param \App\Entity\Role\SubjectId $s
-     * @param \App\Entity\Role\PermissionKey $a
-     * @param \App\Entity\Role\Scope $sc
-     * @param array $context
-     * @return \App\Policy\V2\DecisionWithObligations
+     * @param SubjectId     $s
+     * @param PermissionKey $a
+     * @param Scope         $sc
+     * @param array         $context
+     *
+     * @return DecisionWithObligations
      */
     public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $context = []): DecisionWithObligations
     {
@@ -62,6 +57,7 @@ final class OpaPdpV2 implements PdpV2Interface
                 }
             }
         }
+
         return $allow ? DecisionWithObligations::allow($reason, $obs) : DecisionWithObligations::deny($reason, $obs);
     }
 }

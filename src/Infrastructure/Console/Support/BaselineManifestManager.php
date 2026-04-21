@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
 final class BaselineManifestManager
 {
@@ -15,7 +15,7 @@ final class BaselineManifestManager
      */
     public function loadManifest(string $path): array
     {
-        if (!is_file($path) || @filesize($path) === 0) {
+        if (!is_file($path) || 0 === @filesize($path)) {
             return [
                 'generated_at' => gmdate(DATE_ATOM),
                 'baselines' => [],
@@ -77,6 +77,7 @@ final class BaselineManifestManager
         }
 
         $path = $entry['report_path'] ?? null;
-        return is_string($path) && $path != '' ? $path : null;
+
+        return is_string($path) && '' != $path ? $path : null;
     }
 }

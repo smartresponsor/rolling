@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Role\Acl;
 
-use App\InfrastructureInterface\Acl\AclSourceInterface;
-use App\Infrastructure\Acl\CachedAclSource;
-use App\Infrastructure\Acl\ChainAclSource;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Acl\CachedAclSource;
+use App\Rolling\Infrastructure\Acl\ChainAclSource;
+use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
 use PHPUnit\Framework\TestCase;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
 
 final class ChainAndCacheTest extends TestCase
 {

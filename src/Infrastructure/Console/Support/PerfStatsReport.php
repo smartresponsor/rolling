@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
 final class PerfStatsReport
 {
     /**
      * @param array<string, mixed> $payload
      * @param array<string, mixed> $stats
+     *
      * @return array<string, mixed>
      */
     public function build(array $payload, array $stats, bool $detailed = false, bool $trace = false): array
@@ -67,6 +68,7 @@ final class PerfStatsReport
 
     /**
      * @param array<string, mixed> $payload
+     *
      * @return array<int, array<string, float|int>>
      */
     private function throughputPerChunk(array $payload): array

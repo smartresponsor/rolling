@@ -1,4 +1,4 @@
 role_residency_enforce:
   path: /v2/residency/enforce
-  controller: App\Controller\Api\ResidencyController::enforce
+  controller: App\Rolling\Controller\Api\ResidencyController::enforce
   methods: [ POST ]

@@ -6,15 +6,8 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Audit\Dto;
+namespace App\Rolling\Service\Audit\Dto;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ExplainNode
 {
     /** @var ExplainNode[] */
@@ -23,18 +16,20 @@ final class ExplainNode
     /**
      * @param string $type
      * @param string $label
-     * @param bool $pass
-     * @param array $data
+     * @param bool   $pass
+     * @param array  $data
      */
     public function __construct(
         public string $type,
         public string $label,
-        public bool   $pass,
-        public array  $data = [],
-    ) {}
+        public bool $pass,
+        public array $data = [],
+    ) {
+    }
 
     /**
-     * @param \App\Service\Audit\Dto\ExplainNode $n
+     * @param ExplainNode $n
+     *
      * @return void
      */
     public function add(self $n): void
@@ -52,7 +47,7 @@ final class ExplainNode
             'label' => $this->label,
             'pass' => $this->pass,
             'data' => $this->data,
-            'children' => array_map(fn($c) => $c->toArray(), $this->children),
+            'children' => array_map(fn ($c) => $c->toArray(), $this->children),
         ];
     }
 }

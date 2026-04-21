@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Role\Http\Security;
 
-use App\Security\Http\HmacGuard;
-use App\Security\Http\Response;
-use App\Security\Http\HmacRequestVerifier;
-use App\InfrastructureInterface\Security\ReplayNonceStoreInterface;
-use App\Security\Http\HandlerInterface;
-use App\Security\Http\RequestInterface;
+use App\Rolling\InfrastructureInterface\Security\ReplayNonceStoreInterface;
+use App\Rolling\Security\Http\HandlerInterface;
+use App\Rolling\Security\Http\HmacGuard;
+use App\Rolling\Security\Http\HmacRequestVerifier;
+use App\Rolling\Security\Http\RequestInterface;
+use App\Rolling\Security\Http\Response;
 use PHPUnit\Framework\TestCase;
 
 final class HmacGuardTest extends TestCase
@@ -18,9 +18,9 @@ final class HmacGuardTest extends TestCase
     {
         $date = gmdate('D, d M Y H:i:s \\G\\M\\T');
         $body = '{"a":1}';
-        $base = 'POST /v2/access/check' . "\n" . $date . "\n" . $body;
-        $sig = 'v1=' . base64_encode(hash_hmac('sha256', $base, 'k', true));
-        $req = new class (['Date' => $date, 'X-Signature' => $sig], $body) implements RequestInterface {
+        $base = 'POST /v2/access/check'."\n".$date."\n".$body;
+        $sig = 'v1='.base64_encode(hash_hmac('sha256', $base, 'k', true));
+        $req = new class(['Date' => $date, 'X-Signature' => $sig], $body) implements RequestInterface {
             public function __construct(private readonly array $headers, private readonly string $bodyContent)
             {
             }
@@ -78,9 +78,9 @@ final class HmacGuardTest extends TestCase
     {
         $date = gmdate('D, d M Y H:i:s \\G\\M\\T');
         $body = '{"a":1}';
-        $base = 'POST /v2/access/check' . "\n" . $date . "\n" . $body;
-        $sig = 'v1=' . base64_encode(hash_hmac('sha256', $base, 'k', true));
-        $req = new class (['Date' => $date, 'X-Signature' => $sig], $body) implements RequestInterface {
+        $base = 'POST /v2/access/check'."\n".$date."\n".$body;
+        $sig = 'v1='.base64_encode(hash_hmac('sha256', $base, 'k', true));
+        $req = new class(['Date' => $date, 'X-Signature' => $sig], $body) implements RequestInterface {
             public function __construct(private readonly array $headers, private readonly string $bodyContent)
             {
             }

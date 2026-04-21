@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Policy\Registry;
+namespace App\Rolling\Infrastructure\Policy\Registry;
 
-use App\Service\Consistency\Policy\Token;
+use App\Rolling\Service\Consistency\Policy\Token;
 
 final class InMemoryStore implements StoreInterface
 {

@@ -1,0 +1,22 @@
+Rolling package cutover notes
+
+1. Namespace migration:
+- Main codebase moved from App\... to App\Rolling\...
+- Tests and bin scripts were updated to the same namespace root.
+
+2. Composer/package surface:
+- composer.json type changed from project to symfony-bundle
+- autoload switched to App\Rolling\ => src/
+- app-only scripts tied to bin/console/public were removed
+
+3. Symfony package cleanup:
+- removed standalone application files: src/Kernel.php, config/bundles.php, config/routes.yaml, .env*, bin/console, public/* health/debug entrypoints
+- RoleExtension now loads config/services.yaml directly for bundle DI registration
+
+4. QA/support cleanup:
+- readiness smoke now validates bundle/package surface instead of app kernel/public surface
+- panther smoke was disabled because the repository no longer exposes a standalone public/index.php app surface
+
+5. Remaining review target:
+- docs still contain some historical references to bin/console and old app surface in canon/history documents
+- route fragments under config/routes/*.yaml are kept as package resources but are no longer imported by a local application kernel

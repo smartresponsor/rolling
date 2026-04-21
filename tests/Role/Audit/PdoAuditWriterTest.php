@@ -4,17 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Role\Audit;
 
-use App\Infrastructure\Audit\{AuditRecord, PdoAuditWriter};
-use PDO;
+use App\Rolling\Infrastructure\Audit\AuditRecord;
+use App\Rolling\Infrastructure\Audit\PdoAuditWriter;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-
-/**
- *
- */
 final class PdoAuditWriterTest extends TestCase
 {
     /**
@@ -26,8 +19,8 @@ final class PdoAuditWriterTest extends TestCase
             $this->markTestSkipped('pdo_sqlite is not available in the local PHP CLI.');
         }
 
-        $pdo = new PDO('sqlite::memory:');
-        $schemaPath = __DIR__ . '/../../../ops/db/sqlite/role_audit.sql';
+        $pdo = new \PDO('sqlite::memory:');
+        $schemaPath = __DIR__.'/../../../ops/db/sqlite/role_audit.sql';
         self::assertFileExists($schemaPath);
         $sql = file_get_contents($schemaPath);
         self::assertNotFalse($sql);

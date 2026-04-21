@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Tenant;
+namespace App\Rolling\ServiceInterface\Tenant;
 
 interface LimitsInterface
 {

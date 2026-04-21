@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Service\Context;
+namespace App\Rolling\Service\Context;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,10 +15,10 @@ final class HeaderContext
         $region = (string) ($request->headers->get('X-Region') ?? '');
         $context = [];
 
-        if ($role !== '') {
+        if ('' !== $role) {
             $context['role'] = $role;
         }
-        if ($region !== '') {
+        if ('' !== $region) {
             $context['region'] = $region;
         }
 

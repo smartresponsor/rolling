@@ -2,27 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
+namespace App\Rolling\Exception;
 
-use RuntimeException;
-use Throwable;
-
-/**
- *
- */
-
-/**
- *
- */
-class ApiException extends RuntimeException
+class ApiException extends \RuntimeException
 {
     /**
-     * @param string $message
-     * @param int $status
-     * @param array $headers
+     * @param string          $message
+     * @param int             $status
+     * @param array           $headers
      * @param \Throwable|null $prev
      */
-    public function __construct(string $message, public int $status, public array $headers = [], ?Throwable $prev = null)
+    public function __construct(string $message, public int $status, public array $headers = [], ?\Throwable $prev = null)
     {
         parent::__construct($message, $status, $prev);
     }

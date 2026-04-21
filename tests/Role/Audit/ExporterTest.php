@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Role\Audit;
 
-use App\Infrastructure\Audit\{AuditRecord};
-use App\InfrastructureInterface\Audit\Export\ExporterInterface;
-use App\Infrastructure\Audit\Export\{JsonlExporter, RetryingExporter};
+use App\Rolling\Infrastructure\Audit\AuditRecord;
+use App\Rolling\Infrastructure\Audit\Export\JsonlExporter;
+use App\Rolling\Infrastructure\Audit\Export\RetryingExporter;
+use App\Rolling\InfrastructureInterface\Audit\Export\ExporterInterface;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
-/**
- *
- */
-
-/**
- *
- */
 final class ExporterTest extends TestCase
 {
     /**
@@ -24,7 +17,7 @@ final class ExporterTest extends TestCase
      */
     public function testJsonlExporterWritesLines(): void
     {
-        $path = sys_get_temp_dir() . '/audit.jsonl';
+        $path = sys_get_temp_dir().'/audit.jsonl';
         self::removeFile($path);
 
         $exp = new JsonlExporter();
@@ -52,20 +45,21 @@ final class ExporterTest extends TestCase
 
             /**
              * @param iterable $records
-             * @param string $path
+             * @param string   $path
+             *
              * @return void
              */
             public function export(iterable $records, string $path): void
             {
-                $this->calls++;
+                ++$this->calls;
                 if ($this->calls < 2) {
-                    throw new RuntimeException('fail once');
+                    throw new \RuntimeException('fail once');
                 }
                 (new JsonlExporter())->export($records, $path);
             }
         };
         $exp = new RetryingExporter($inner, retries: 2, baseMs: 10);
-        $path = sys_get_temp_dir() . '/audit_retry.jsonl';
+        $path = sys_get_temp_dir().'/audit_retry.jsonl';
         self::removeFile($path);
         try {
             $exp->export([new AuditRecord(1, 'u', 'a', 'global', 'ALLOW')], $path);

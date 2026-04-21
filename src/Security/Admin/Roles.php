@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Admin;
+namespace App\Rolling\Security\Admin;
 
 final class Roles
 {

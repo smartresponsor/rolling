@@ -2,41 +2,34 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Decorator\V2;
+namespace App\Rolling\Policy\Decorator\V2;
 
-use App\Infrastructure\Audit\AuditRecord;
-use App\Infrastructure\Audit\ObligationSummary;
-use App\InfrastructureInterface\Audit\AuditWriterInterface;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\SubjectId;
-use Throwable;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Audit\AuditRecord;
+use App\Rolling\Infrastructure\Audit\ObligationSummary;
+use App\Rolling\InfrastructureInterface\Audit\AuditWriterInterface;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class AuditingPdp implements PdpV2Interface
 {
     /**
-     * @param \App\ServiceInterface\Policy\PdpV2Interface $inner
-     * @param \App\InfrastructureInterface\Audit\AuditWriterInterface $writer
+     * @param PdpV2Interface       $inner
+     * @param AuditWriterInterface $writer
      */
     public function __construct(private readonly PdpV2Interface $inner, private readonly AuditWriterInterface $writer)
     {
     }
 
     /**
-     * @param \App\Entity\Role\SubjectId $subject
-     * @param \App\Entity\Role\PermissionKey $action
-     * @param \App\Entity\Role\Scope $objectScope
-     * @param array $context
-     * @return \App\Policy\V2\DecisionWithObligations
+     * @param SubjectId     $subject
+     * @param PermissionKey $action
+     * @param Scope         $objectScope
+     * @param array         $context
+     *
+     * @return DecisionWithObligations
      */
     public function check(SubjectId $subject, PermissionKey $action, Scope $objectScope, array $context = []): DecisionWithObligations
     {
@@ -53,9 +46,10 @@ final class AuditingPdp implements PdpV2Interface
                 context: $context,
             );
             $this->writer->write($rec);
-        } catch (Throwable $e) {
-            error_log('AuditingPdp::check audit fallback: ' . $e->getMessage());
+        } catch (\Throwable $e) {
+            error_log('AuditingPdp::check audit fallback: '.$e->getMessage());
         }
+
         return $d;
     }
 }

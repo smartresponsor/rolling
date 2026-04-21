@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace App\InfrastructureInterface\Admin;
+namespace App\Rolling\InfrastructureInterface\Admin;
 
-use App\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\Service\Admin\Dto\ApprovalRequest;
 
 interface ApprovalRequestRepositoryInterface
 {

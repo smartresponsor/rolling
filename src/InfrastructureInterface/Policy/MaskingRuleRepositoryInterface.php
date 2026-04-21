@@ -6,15 +6,8 @@
  */
 declare(strict_types=1);
 
-namespace App\InfrastructureInterface\Policy;
+namespace App\Rolling\InfrastructureInterface\Policy;
 
-/**
- *
- */
-
-/**
- *
- */
 interface MaskingRuleRepositoryInterface
 {
     /**
@@ -31,7 +24,7 @@ interface MaskingRuleRepositoryInterface
      *      'redact' => ['email'],
      *      'hash'   => ['fullName']
      *   ]
-     * ]
+     * ].
      *
      * @return array<int, array<string, mixed>>
      */
@@ -39,6 +32,7 @@ interface MaskingRuleRepositoryInterface
 
     /**
      * @param string $path
+     *
      * @return void
      */
     public function loadFromNdjson(string $path): void;

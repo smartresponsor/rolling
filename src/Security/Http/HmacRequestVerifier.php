@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Http;
+namespace App\Rolling\Security\Http;
 
 final class HmacRequestVerifier
 {
@@ -15,12 +15,12 @@ final class HmacRequestVerifier
     /** @return array{ok:bool, reason?:string} */
     public function verify(string $method, string $path, string $dateRfc1123, string $body, string $signatureHeader): array
     {
-        if ($dateRfc1123 === '') {
+        if ('' === $dateRfc1123) {
             return ['ok' => false, 'reason' => 'missing_date'];
         }
 
         $ts = strtotime($dateRfc1123);
-        if ($ts === false) {
+        if (false === $ts) {
             return ['ok' => false, 'reason' => 'bad_date'];
         }
 
@@ -28,16 +28,16 @@ final class HmacRequestVerifier
             return ['ok' => false, 'reason' => 'date_skew'];
         }
 
-        if ($signatureHeader === '') {
+        if ('' === $signatureHeader) {
             return ['ok' => false, 'reason' => 'missing_signature'];
         }
 
         $parts = explode('=', $signatureHeader, 2);
-        if (count($parts) !== 2 || $parts[0] !== 'v1') {
+        if (2 !== count($parts) || 'v1' !== $parts[0]) {
             return ['ok' => false, 'reason' => 'bad_signature_format'];
         }
 
-        $base = strtoupper($method) . ' ' . $path . "\n" . $dateRfc1123 . "\n" . $body;
+        $base = strtoupper($method).' '.$path."\n".$dateRfc1123."\n".$body;
         $expected = base64_encode(hash_hmac('sha256', $base, $this->secret, true));
 
         if (!hash_equals($expected, $parts[1])) {
@@ -49,6 +49,6 @@ final class HmacRequestVerifier
 
     public static function derivedNonce(string $dateRfc1123, string $body): string
     {
-        return hash('sha256', $dateRfc1123 . "\n" . $body);
+        return hash('sha256', $dateRfc1123."\n".$body);
     }
 }

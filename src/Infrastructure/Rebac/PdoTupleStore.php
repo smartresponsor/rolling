@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Rebac;
+namespace App\Rolling\Infrastructure\Rebac;
 
-use App\Service\Consistency\Rebac\Token;
+use App\Rolling\Service\Consistency\Rebac\Token;
 
-final class PdoTupleStore implements \App\InfrastructureInterface\Rebac\TupleStoreInterface
+final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface
 {
     /**
      * @param \PDO $pdo

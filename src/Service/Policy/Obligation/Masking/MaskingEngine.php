@@ -6,30 +6,26 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Policy\Obligation\Masking;
+namespace App\Rolling\Service\Policy\Obligation\Masking;
 
-use App\InfrastructureInterface\Policy\MaskingRuleRepositoryInterface;
-use App\ServiceInterface\Policy\Obligation\ObligationApplierInterface;
+use App\Rolling\InfrastructureInterface\Policy\MaskingRuleRepositoryInterface;
+use App\Rolling\ServiceInterface\Policy\Obligation\ObligationApplierInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class MaskingEngine implements ObligationApplierInterface
 {
     /**
-     * @param \App\InfrastructureInterface\Policy\MaskingRuleRepositoryInterface $repo
+     * @param MaskingRuleRepositoryInterface $repo
      */
-    public function __construct(private readonly MaskingRuleRepositoryInterface $repo) {}
+    public function __construct(private readonly MaskingRuleRepositoryInterface $repo)
+    {
+    }
 
     /**
-     * @param array $subject
+     * @param array  $subject
      * @param string $action
-     * @param array $resource
-     * @param array $context
+     * @param array  $resource
+     * @param array  $context
+     *
      * @return array
      */
     public function apply(array $subject, string $action, array $resource, array $context = []): array
@@ -84,6 +80,7 @@ final class MaskingEngine implements ObligationApplierInterface
 
     /**
      * @param string $s
+     *
      * @return string
      */
     private static function redact(string $s): string
@@ -93,6 +90,7 @@ final class MaskingEngine implements ObligationApplierInterface
             return str_repeat('*', $len);
         }
         $keep = max(1, (int) ($len * 0.25));
-        return mb_substr($s, 0, $keep) . str_repeat('*', $len - $keep);
+
+        return mb_substr($s, 0, $keep).str_repeat('*', $len - $keep);
     }
 }

@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Admin\Action;
+namespace App\Rolling\Service\Admin\Action;
 
-use App\Service\Admin\Dto\ApprovalRequest;
-use App\ServiceInterface\Admin\Action\GrantRoleActionInterface;
+use App\Rolling\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\ServiceInterface\Admin\Action\GrantRoleActionInterface;
 
 final class GrantRoleAction implements GrantRoleActionInterface
 {

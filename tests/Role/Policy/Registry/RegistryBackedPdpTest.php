@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Role\Policy\Registry;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\Infrastructure\Policy\Registry\InMemorySource;
-use App\Infrastructure\Policy\Registry\PolicyRegistry;
-use App\Policy\Decorator\V2\RegistryBackedPdp;
-use App\Policy\Obligation\Applier\ArrayApplier;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Policy\Registry\InMemorySource;
+use App\Rolling\Infrastructure\Policy\Registry\PolicyRegistry;
+use App\Rolling\Policy\Decorator\V2\RegistryBackedPdp;
+use App\Rolling\Policy\Obligation\Applier\ArrayApplier;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use PHPUnit\Framework\TestCase;
 
 final class RegistryBackedPdpTest extends TestCase

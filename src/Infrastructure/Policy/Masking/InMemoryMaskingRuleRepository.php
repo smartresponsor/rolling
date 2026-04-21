@@ -6,17 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Infrastructure\Policy\Masking;
+namespace App\Rolling\Infrastructure\Policy\Masking;
 
-use App\InfrastructureInterface\Policy\MaskingRuleRepositoryInterface;
+use App\Rolling\InfrastructureInterface\Policy\MaskingRuleRepositoryInterface;
 
-/**
- *
- */
-
-/**
- *
- */
 final class InMemoryMaskingRuleRepository implements MaskingRuleRepositoryInterface
 {
     /** @var array */
@@ -32,6 +25,7 @@ final class InMemoryMaskingRuleRepository implements MaskingRuleRepositoryInterf
 
     /**
      * @param string $path
+     *
      * @return void
      */
     public function loadFromNdjson(string $path): void
@@ -50,10 +44,11 @@ final class InMemoryMaskingRuleRepository implements MaskingRuleRepositoryInterf
     }
 
     /**
-     * @param string $resourceType
-     * @param string $action
+     * @param string      $resourceType
+     * @param string      $action
      * @param string|null $tenant
-     * @param array $roles
+     * @param array       $roles
+     *
      * @return array
      */
     public function find(string $resourceType, string $action, ?string $tenant, array $roles): array
@@ -66,15 +61,16 @@ final class InMemoryMaskingRuleRepository implements MaskingRuleRepositoryInterf
             if (($r['action'] ?? null) !== $action) {
                 continue;
             }
-            if (isset($r['tenant']) && $tenant !== null && $r['tenant'] !== $tenant) {
+            if (isset($r['tenant']) && null !== $tenant && $r['tenant'] !== $tenant) {
                 continue;
             }
             $roleCond = $r['role'] ?? null;
-            if ($roleCond !== null && !in_array($roleCond, $roles, true)) {
+            if (null !== $roleCond && !in_array($roleCond, $roles, true)) {
                 continue;
             }
             $out[] = $r;
         }
+
         return $out;
     }
 }

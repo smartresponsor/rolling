@@ -6,30 +6,24 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Audit\Dto;
+namespace App\Rolling\Service\Audit\Dto;
 
-/**
- *
- */
-
-/**
- *
- */
 final class DecisionInput
 {
     /**
-     * @param array $subject
+     * @param array  $subject
      * @param string $action
-     * @param array $resource
-     * @param array $context
-     * @param array $voterTrace
+     * @param array  $resource
+     * @param array  $context
+     * @param array  $voterTrace
      */
     public function __construct(
-        public array  $subject,
+        public array $subject,
         public string $action,
-        public array  $resource,
-        public array  $context = [],
+        public array $resource,
+        public array $context = [],
         /** @var array<int, array<string,mixed>> $voterTrace */
-        public array  $voterTrace = [],
-    ) {}
+        public array $voterTrace = [],
+    ) {
+    }
 }

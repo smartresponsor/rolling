@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
 final class BenchThresholdEvaluator
 {
     /**
      * @param array<string, mixed> $report
+     *
      * @return array<string, mixed>
      */
     public function evaluate(array $report, float $maxP95Ms, float $maxP99Ms, float $maxBatchPerItemMs): array
@@ -67,7 +68,7 @@ final class BenchThresholdEvaluator
         }
 
         return [
-            'ok' => $failureCount === 0,
+            'ok' => 0 === $failureCount,
             'scenario_count' => count($summary),
             'failure_count' => $failureCount,
             'scenarios' => $summary,

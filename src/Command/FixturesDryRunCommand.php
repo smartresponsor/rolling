@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Rolling\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,7 +21,7 @@ final class FixturesDryRunCommand extends Command
 
         foreach ($fixtures as $index => $fixture) {
             foreach (['subjectId', 'action', 'scopeType'] as $required) {
-                if (!isset($fixture[$required]) || $fixture[$required] === '') {
+                if (!isset($fixture[$required]) || '' === $fixture[$required]) {
                     $output->writeln(sprintf('Fixture %d is invalid: missing %s', $index, $required));
 
                     return Command::FAILURE;

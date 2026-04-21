@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Observability\Metrics\Decorators;
+namespace App\Rolling\Infrastructure\Observability\Metrics\Decorators;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\Infrastructure\Observability\Metrics\Counter;
-use App\Infrastructure\Observability\Metrics\Histogram;
-use App\Infrastructure\Observability\Metrics\Registry;
-use App\Policy\V2\DecisionWithObligations;
-use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Infrastructure\Observability\Metrics\Counter;
+use App\Rolling\Infrastructure\Observability\Metrics\Histogram;
+use App\Rolling\Infrastructure\Observability\Metrics\Registry;
+use App\Rolling\Policy\V2\DecisionWithObligations;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class MetricsPdpV2 implements PdpV2Interface
 {

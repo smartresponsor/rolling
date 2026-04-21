@@ -2,26 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Policy\Opa;
+namespace App\Rolling\Policy\Opa;
 
-use App\Entity\Role\Scope;
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\SubjectId;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
 
-/**
- *
- */
-
-/**
- *
- */
 final class InputBuilder
 {
     /**
-     * @param \App\Entity\Role\SubjectId $s
-     * @param \App\Entity\Role\PermissionKey $a
-     * @param \App\Entity\Role\Scope $sc
-     * @param array $context
+     * @param SubjectId     $s
+     * @param PermissionKey $a
+     * @param Scope         $sc
+     * @param array         $context
+     *
      * @return array
      */
     public function build(SubjectId $s, PermissionKey $a, Scope $sc, array $context = []): array

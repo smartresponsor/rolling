@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\RoleConsoleRuntime;
+use App\Rolling\Infrastructure\Console\Support\RoleConsoleRuntime;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +32,7 @@ final class AdminPolicyExportCommand extends AbstractRoleCommand
             $name = (string) $input->getArgument('name');
             $version = (string) $input->getArgument('version');
             $doc = $this->runtime->policyExport($name, $version, $this->runtime->roleAdminNs());
-            if ($doc === null) {
+            if (null === $doc) {
                 return $this->writeJson($output, [
                     'ok' => false,
                     'ns' => $this->runtime->roleAdminNs(),
@@ -43,7 +43,7 @@ final class AdminPolicyExportCommand extends AbstractRoleCommand
             }
 
             $outPath = $input->getArgument('out');
-            if (is_string($outPath) && $outPath !== '') {
+            if (is_string($outPath) && '' !== $outPath) {
                 file_put_contents($outPath, $doc);
             }
 
@@ -52,8 +52,8 @@ final class AdminPolicyExportCommand extends AbstractRoleCommand
                 'ns' => $this->runtime->roleAdminNs(),
                 'name' => $name,
                 'version' => $version,
-                'out' => (is_string($outPath) && $outPath !== '') ? $outPath : null,
-                'document' => (is_string($outPath) && $outPath !== '') ? null : $doc,
+                'out' => (is_string($outPath) && '' !== $outPath) ? $outPath : null,
+                'document' => (is_string($outPath) && '' !== $outPath) ? null : $doc,
             ]);
         } catch (\Throwable $throwable) {
             return $this->writeThrowable($output, $throwable);

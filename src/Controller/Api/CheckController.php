@@ -2,20 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Rolling\Controller\Api;
 
-use App\Service\Audit\Logger;
-use App\Service\Explain\TupleReader;
+use App\Rolling\Service\Audit\Logger;
+use App\Rolling\Service\Explain\TupleReader;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- *
- */
-
-/**
- *
- */
 final class CheckController
 {
     /**
@@ -23,13 +16,15 @@ final class CheckController
      * @param string $logDir
      */
     public function __construct(
-        private readonly string $tuplesPath = __DIR__ . '/../../../../var/tuples.ndjson',
-        private readonly string $logDir = __DIR__ . '/../../../../var/log/role',
-    ) {}
+        private readonly string $tuplesPath = __DIR__.'/../../../../var/tuples.ndjson',
+        private readonly string $logDir = __DIR__.'/../../../../var/log/role',
+    ) {
+    }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $req
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @param Request $req
+     *
+     * @return JsonResponse
      */
     public function check(Request $req): JsonResponse
     {
@@ -44,7 +39,7 @@ final class CheckController
         $mode = Consistency::mode($req);
         $reader = new TupleReader($this->tuplesPath);
         $evidence = $reader->exists($tenant, $subject, $relation, $resource);
-        $allowed = $evidence !== null;
+        $allowed = null !== $evidence;
         $token = (string) @filesize($this->tuplesPath) ?: '0';
 
         // audit
@@ -74,6 +69,7 @@ final class CheckController
         ];
         $res = new JsonResponse($out, 200);
         Consistency::applyHeaders($res, $mode, $token);
+
         return $res;
     }
 }

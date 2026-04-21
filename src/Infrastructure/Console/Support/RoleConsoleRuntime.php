@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Support;
+namespace App\Rolling\Infrastructure\Console\Support;
 
-use App\Service\Admin\RebacStatsService;
-use App\Infrastructure\Housekeeping\Archive\JsonlAuditArchiver;
-use App\Infrastructure\Housekeeping\Janitor;
-use App\Infrastructure\Housekeeping\PdoAuditGc;
-use App\Infrastructure\Housekeeping\PdoReplayGc;
-use App\Infrastructure\Rebac\Tuple;
-use App\Infrastructure\Rebac\InMemoryTupleStore;
-use App\Infrastructure\Rebac\PdoTupleStore;
-use App\InfrastructureInterface\Rebac\TupleStoreInterface;
-use App\Service\Rebac\Checker;
-use App\Service\Rebac\Writer;
-use PDO;
-use App\Infrastructure\Policy\Registry\InMemoryStore;
-use App\Infrastructure\Policy\Registry\PdoStore;
-use App\Infrastructure\Policy\Registry\RegistryService;
+use App\Rolling\Infrastructure\Housekeeping\Archive\JsonlAuditArchiver;
+use App\Rolling\Infrastructure\Housekeeping\Janitor;
+use App\Rolling\Infrastructure\Housekeeping\PdoAuditGc;
+use App\Rolling\Infrastructure\Housekeeping\PdoReplayGc;
+use App\Rolling\Infrastructure\Policy\Registry\InMemoryStore;
+use App\Rolling\Infrastructure\Policy\Registry\PdoStore;
+use App\Rolling\Infrastructure\Policy\Registry\RegistryService;
+use App\Rolling\Infrastructure\Rebac\InMemoryTupleStore;
+use App\Rolling\Infrastructure\Rebac\PdoTupleStore;
+use App\Rolling\Infrastructure\Rebac\Tuple;
+use App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface;
+use App\Rolling\Service\Admin\RebacStatsService;
+use App\Rolling\Service\Rebac\Checker;
+use App\Rolling\Service\Rebac\Writer;
 
 final class RoleConsoleRuntime
 {
     private ?RegistryService $policyServiceCache = null;
     private ?TupleStoreInterface $rebacStoreCache = null;
     private ?RebacStatsService $adminRebacStatsServiceCache = null;
+
     public function rolePolicyNs(): string
     {
         return $this->env('ROLE_POLICY_NS', 'default');
@@ -47,13 +47,12 @@ final class RoleConsoleRuntime
         }
 
         $dsn = getenv('ROLE_POLICY_DSN');
-        $store = is_string($dsn) && $dsn !== ''
-            ? new PdoStore(new PDO($dsn))
+        $store = is_string($dsn) && '' !== $dsn
+            ? new PdoStore(new \PDO($dsn))
             : new InMemoryStore();
 
         return $this->policyServiceCache = new RegistryService($store);
     }
-
 
     public function policyImport(string $name, string $version, string $docJson, ?string $ns = null): string
     {
@@ -89,8 +88,8 @@ final class RoleConsoleRuntime
         }
 
         $dsn = getenv('ROLE_REBAC_DSN');
-        if (is_string($dsn) && $dsn !== '') {
-            return $this->rebacStoreCache = new PdoTupleStore(new PDO($dsn));
+        if (is_string($dsn) && '' !== $dsn) {
+            return $this->rebacStoreCache = new PdoTupleStore(new \PDO($dsn));
         }
 
         return $this->rebacStoreCache = new InMemoryTupleStore();
@@ -126,8 +125,8 @@ final class RoleConsoleRuntime
         }
 
         $dsn = getenv('ROLE_REBAC_DSN');
-        $store = is_string($dsn) && $dsn !== ''
-            ? new PdoTupleStore(new PDO($dsn))
+        $store = is_string($dsn) && '' !== $dsn
+            ? new PdoTupleStore(new \PDO($dsn))
             : new InMemoryTupleStore();
 
         return $this->adminRebacStatsServiceCache = new RebacStatsService($store);
@@ -135,7 +134,7 @@ final class RoleConsoleRuntime
 
     public function janitorConfig(string $path): array
     {
-        if ($path === '' || !is_file($path)) {
+        if ('' === $path || !is_file($path)) {
             return [];
         }
 
@@ -146,7 +145,7 @@ final class RoleConsoleRuntime
 
     public function janitor(string $dsn, string $configPath): Janitor
     {
-        $pdo = new PDO($dsn);
+        $pdo = new \PDO($dsn);
         if (str_starts_with($dsn, 'sqlite:')) {
             @$pdo->exec('CREATE TABLE IF NOT EXISTS role_audit(id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, subject_id TEXT, action TEXT, scope_key TEXT, decision TEXT, reason TEXT, obligations TEXT, ctx TEXT)');
             @$pdo->exec('CREATE TABLE IF NOT EXISTS replay_nonce(nonce TEXT PRIMARY KEY, expires_ts INTEGER NOT NULL)');
@@ -162,12 +161,12 @@ final class RoleConsoleRuntime
 
     public function retentionConfigPath(): string
     {
-        return $this->env('ROLE_RETENTION_CONFIG', dirname(__DIR__, 4) . '/ops/retention.json');
+        return $this->env('ROLE_RETENTION_CONFIG', dirname(__DIR__, 4).'/ops/retention.json');
     }
 
-    public function janitorPdo(string $dsn): PDO
+    public function janitorPdo(string $dsn): \PDO
     {
-        $pdo = new PDO($dsn);
+        $pdo = new \PDO($dsn);
         if (str_starts_with($dsn, 'sqlite:')) {
             @$pdo->exec('CREATE TABLE IF NOT EXISTS role_audit(id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, subject_id TEXT, action TEXT, scope_key TEXT, decision TEXT, reason TEXT, obligations TEXT, ctx TEXT)');
             @$pdo->exec('CREATE TABLE IF NOT EXISTS replay_nonce(nonce TEXT PRIMARY KEY, expires_ts INTEGER NOT NULL)');
@@ -211,6 +210,6 @@ final class RoleConsoleRuntime
     {
         $value = getenv($name);
 
-        return is_string($value) && $value !== '' ? $value : $default;
+        return is_string($value) && '' !== $value ? $value : $default;
     }
 }

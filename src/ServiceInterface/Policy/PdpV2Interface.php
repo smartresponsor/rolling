@@ -2,25 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Policy;
+namespace App\Rolling\ServiceInterface\Policy;
 
-use App\Policy\V2\DecisionWithObligations;
+use App\Rolling\Policy\V2\DecisionWithObligations;
 
-/**
- *
- */
-
-/**
- *
- */
 interface PdpV2Interface
 {
     /**
-     * @param \App\Entity\Role\SubjectId $subject
-     * @param \App\Entity\Role\PermissionKey $action
-     * @param \App\Entity\Role\Scope $objectScope
-     * @param array $context
-     * @return \App\Policy\V2\DecisionWithObligations
+     * @param \App\Rolling\Entity\Role\SubjectId     $subject
+     * @param \App\Rolling\Entity\Role\PermissionKey $action
+     * @param \App\Rolling\Entity\Role\Scope         $objectScope
+     * @param array                                  $context
+     *
+     * @return DecisionWithObligations
      */
-    public function check(\App\Entity\Role\SubjectId $subject, \App\Entity\Role\PermissionKey $action, \App\Entity\Role\Scope $objectScope, array $context = []): DecisionWithObligations;
+    public function check(\App\Rolling\Entity\Role\SubjectId $subject, \App\Rolling\Entity\Role\PermissionKey $action, \App\Rolling\Entity\Role\Scope $objectScope, array $context = []): DecisionWithObligations;
 }

@@ -2,15 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Cache;
+namespace App\Rolling\Service\Cache;
 
-/**
- *
- */
-
-/**
- *
- */
 final class Cache
 {
     /** @var array */
@@ -34,6 +27,7 @@ final class Cache
      * @param string $relation
      * @param string $resource
      * @param string $mode
+     *
      * @return string
      */
     private function key(string $tenant, string $subject, string $relation, string $resource, string $mode): string
@@ -47,6 +41,7 @@ final class Cache
      * @param string $relation
      * @param string $resource
      * @param string $mode
+     *
      * @return mixed
      */
     public function get(string $tenant, string $subject, string $relation, string $resource, string $mode): mixed
@@ -58,8 +53,10 @@ final class Cache
         $e = $this->store[$k];
         if (time() - $e['ts'] > $this->ttlSeconds) {
             unset($this->store[$k]);
+
             return null;
         }
+
         return $e['v'];
     }
 
@@ -69,7 +66,8 @@ final class Cache
      * @param string $relation
      * @param string $resource
      * @param string $mode
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return void
      */
     public function set(string $tenant, string $subject, string $relation, string $resource, string $mode, mixed $value): void
@@ -83,17 +81,19 @@ final class Cache
 
     /**
      * @param string $tenantPrefix
+     *
      * @return int
      */
     public function invalidateByPrefix(string $tenantPrefix): int
     {
         $c = 0;
         foreach (array_keys($this->store) as $k) {
-            if (str_starts_with($k, $tenantPrefix . ':')) {
+            if (str_starts_with($k, $tenantPrefix.':')) {
                 unset($this->store[$k]);
-                $c++;
+                ++$c;
             }
         }
+
         return $c;
     }
 
@@ -102,6 +102,7 @@ final class Cache
      * @param string $subject
      * @param string $relation
      * @param string $resource
+     *
      * @return void
      */
     public function invalidateKey(string $tenant, string $subject, string $relation, string $resource): void

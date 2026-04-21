@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Console\Command;
+namespace App\Rolling\Infrastructure\Console\Command;
 
-use App\Infrastructure\Console\Support\RoleConsoleRuntime;
+use App\Rolling\Infrastructure\Console\Support\RoleConsoleRuntime;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,6 +30,7 @@ final class JanitorReplayGcCommand extends AbstractRoleCommand
     {
         try {
             $dsn = (string) ($input->getOption('dsn') ?: $this->runtime->auditDsn());
+
             return $this->writeJson($output, $this->runtime->janitorReplayGc($dsn, (int) $input->getArgument('batch')));
         } catch (\Throwable $throwable) {
             return $this->writeThrowable($output, $throwable);

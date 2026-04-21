@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\V2;
+namespace App\Rolling\Controller\V2;
 
-use App\Entity\Role\PermissionKey;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use App\Service\Shadow\Diff\DecisionDiff;
-use App\ServiceInterface\Policy\PdpV2Interface;
+use App\Rolling\Entity\Role\PermissionKey;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\Service\Shadow\Diff\DecisionDiff;
+use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

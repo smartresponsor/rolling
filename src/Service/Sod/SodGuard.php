@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Sod;
+namespace App\Rolling\Service\Sod;
 
 final class SodGuard
 {
@@ -11,7 +11,7 @@ final class SodGuard
         $requester = (string) ($attrs['requester'] ?? '');
         $approver = (string) ($attrs['approver'] ?? '');
 
-        if ($requester !== '' && $approver !== '' && $requester === $approver) {
+        if ('' !== $requester && '' !== $approver && $requester === $approver) {
             return ['ok' => false, 'reason' => 'sod-same-person'];
         }
 

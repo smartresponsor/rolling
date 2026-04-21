@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Residency;
+namespace App\Rolling\Infrastructure\Residency;
 
-use App\ServiceInterface\Residency\ResidencyPolicyInterface;
+use App\Rolling\ServiceInterface\Residency\ResidencyPolicyInterface;
 
 final class ResidencyFsPolicy implements ResidencyPolicyInterface
 {

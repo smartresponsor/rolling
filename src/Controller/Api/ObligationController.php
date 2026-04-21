@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Rolling\Controller\Api;
 
-use App\Infrastructure\Audit\FileAuditTrail;
-use App\Infrastructure\Obligation\ObligationFsStore;
-use App\Infrastructure\Policy\PolicyFsStore;
-use App\Service\Obligation\ObligationApplier;
-use App\Service\Pipeline\DecisionPipeline;
-use App\Service\Pipeline\RequestContext;
-use App\Service\Pipeline\Stage\ContextStage;
-use App\Service\Pipeline\Stage\PolicyStage;
-use App\Service\Pipeline\Stage\StrictDenyStage;
+use App\Rolling\Infrastructure\Audit\FileAuditTrail;
+use App\Rolling\Infrastructure\Obligation\ObligationFsStore;
+use App\Rolling\Infrastructure\Policy\PolicyFsStore;
+use App\Rolling\Service\Obligation\ObligationApplier;
+use App\Rolling\Service\Pipeline\DecisionPipeline;
+use App\Rolling\Service\Pipeline\RequestContext;
+use App\Rolling\Service\Pipeline\Stage\ContextStage;
+use App\Rolling\Service\Pipeline\Stage\PolicyStage;
+use App\Rolling\Service\Pipeline\Stage\StrictDenyStage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 final class ObligationController
 {
-    public function __construct(private readonly string $baseDir = __DIR__ . '/../../../../var')
+    public function __construct(private readonly string $baseDir = __DIR__.'/../../../../var')
     {
     }
 
@@ -32,7 +32,7 @@ final class ObligationController
         $resource = isset($payload['resource']) ? (array) $payload['resource'] : null;
         $version = (string) ($payload['version'] ?? 'active');
 
-        $applier = new ObligationApplier(new ObligationFsStore($this->baseDir . '/policy'));
+        $applier = new ObligationApplier(new ObligationFsStore($this->baseDir.'/policy'));
         $out = $applier->apply($tenant, $relation, $decision, $attrs, $resource, $version);
 
         return new JsonResponse($out, 200);
@@ -50,13 +50,13 @@ final class ObligationController
 
         $decision = $this->evaluateDecision($tenant, $relation, $subject, $resource, $attrs, $version);
 
-        $applier = new ObligationApplier(new ObligationFsStore($this->baseDir . '/policy'));
+        $applier = new ObligationApplier(new ObligationFsStore($this->baseDir.'/policy'));
         $out = $applier->apply(
             $tenant,
             $relation,
             ['allowed' => $decision['allowed'], 'reason' => $decision['reason']],
             $attrs,
-            $resource === [] ? null : $resource,
+            [] === $resource ? null : $resource,
             $version,
         );
         $out['decision'] = $decision;
@@ -69,12 +69,13 @@ final class ObligationController
     /**
      * @param array<string,mixed> $resource
      * @param array<string,mixed> $attrs
+     *
      * @return array{allowed:bool,reason:string,headers:array<int|string,mixed>,trace:array<int,array<string,mixed>>}
      */
     private function evaluateDecision(string $tenant, string $relation, string $subject, array $resource, array $attrs, string $version): array
     {
-        $policyStore = new PolicyFsStore($this->baseDir . '/policy');
-        $effective = $version === 'active' ? $policyStore->getEffective($tenant) : $policyStore->getDraft($tenant);
+        $policyStore = new PolicyFsStore($this->baseDir.'/policy');
+        $effective = 'active' === $version ? $policyStore->getEffective($tenant) : $policyStore->getDraft($tenant);
         $pipeline = new DecisionPipeline([
             new ContextStage(),
             new PolicyStage([$tenant => $effective]),
@@ -104,7 +105,7 @@ final class ObligationController
      */
     private function audit(string $tenant, string $relation, string $subject, array $decision, array $attrs, array $resource, string $version): void
     {
-        $trail = new FileAuditTrail($this->baseDir . '/audit');
+        $trail = new FileAuditTrail($this->baseDir.'/audit');
         $trail->write([
             'type' => 'obligation.check_and_apply',
             'tenant' => $tenant,

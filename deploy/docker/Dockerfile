@@ -23,4 +23,4 @@ RUN chmod +x /usr/local/bin/rolling-entrypoint
 EXPOSE 8000
 
 ENTRYPOINT ["rolling-entrypoint"]
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public", "public/index.php"]
+CMD ["php", "tools/qa/current-summary.php"]

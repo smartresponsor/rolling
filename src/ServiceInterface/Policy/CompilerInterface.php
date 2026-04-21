@@ -6,19 +6,20 @@
  */
 declare(strict_types=1);
 
-namespace App\ServiceInterface\Policy;
+namespace App\Rolling\ServiceInterface\Policy;
 
 /**
  * Compiles a PEL (Policy Expression Language) file into a PHP evaluator.
  * Returns path to generated PHP file which returns a callable with signature:
- * function(array $subject, string $action, array $resource, array $context): array{allowed:bool, ruleId:string, reason:string}
+ * function(array $subject, string $action, array $resource, array $context): array{allowed:bool, ruleId:string, reason:string}.
  */
 interface CompilerInterface
 {
     /**
-     * @param string $name
-     * @param string $inputPath
+     * @param string      $name
+     * @param string      $inputPath
      * @param string|null $outDir
+     *
      * @return string
      */
     public function compile(string $name, string $inputPath, ?string $outDir = null): string;

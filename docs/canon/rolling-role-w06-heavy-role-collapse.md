@@ -13,7 +13,7 @@ Relocated the following heavy internal forbidden trees out of canonical placemen
 
 ## Why classmap continuity was used
 
-These trees contain inconsistent namespace patterns, including non-`App\\...` namespaces and at least one file without a namespace declaration. A mass PSR-4 rewrite in the same wave would create unnecessary risk.
+These trees contain inconsistent namespace patterns, including non-`App\Rolling\\...` namespaces and at least one file without a namespace declaration. A mass PSR-4 rewrite in the same wave would create unnecessary risk.
 
 `autoload.classmap` is therefore used as an explicit continuity bridge while the trees are quarantined inside `src/Legacy/...`.
 

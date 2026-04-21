@@ -2,7 +2,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Bin {
+namespace App\Rolling\Bin {
     function noNamespaceAuditRun(): int
     {
         $root = dirname(__DIR__);
@@ -73,5 +73,5 @@ namespace App\Bin {
 }
 
 namespace {
-    exit(\App\Bin\noNamespaceAuditRun());
+    exit(\App\Rolling\Bin\noNamespaceAuditRun());
 }

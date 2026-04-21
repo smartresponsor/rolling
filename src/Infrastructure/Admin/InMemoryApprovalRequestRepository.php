@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace App\Infrastructure\Admin;
+namespace App\Rolling\Infrastructure\Admin;
 
-use App\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface;
-use App\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface;
+use App\Rolling\Service\Admin\Dto\ApprovalRequest;
 
 final class InMemoryApprovalRequestRepository implements ApprovalRequestRepositoryInterface
 {

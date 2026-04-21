@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Acl\Source;
+namespace App\Rolling\Infrastructure\Acl\Source;
 
-use App\InfrastructureInterface\Acl\AclSourceInterface;
-use App\Net\Http\SimpleHttpClientInterface;
-use App\Entity\Role\Scope;
-use App\Entity\Role\SubjectId;
-use Throwable;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
+use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
+use App\Rolling\Net\Http\SimpleHttpClientInterface;
 
 /**
  * Мапит GitHub teams -> локальные роли по конфигу.
@@ -20,7 +19,7 @@ use Throwable;
  *     {"team":"admins","role":"admin","tenantId":"t1"},
  *     {"team":"support","role":"reader","tenantId":"t1"}
  *   ]
- * ]
+ * ].
  */
 final class GithubAclSource implements AclSourceInterface
 {
@@ -30,9 +29,9 @@ final class GithubAclSource implements AclSourceInterface
     private GithubSubjectResolver $resolver;
 
     /**
-     * @param \App\Net\Http\SimpleHttpClientInterface $http
-     * @param array $config
-     * @param \App\Infrastructure\Acl\Source\GithubSubjectResolver|null $resolver
+     * @param SimpleHttpClientInterface  $http
+     * @param array                      $config
+     * @param GithubSubjectResolver|null $resolver
      */
     public function __construct(SimpleHttpClientInterface $http, array $config, ?GithubSubjectResolver $resolver = null)
     {
@@ -42,9 +41,10 @@ final class GithubAclSource implements AclSourceInterface
     }
 
     /**
-     * @param \App\Entity\Role\SubjectId $subject
-     * @param \App\Entity\Role\Scope $scope
-     * @param array $ctx
+     * @param SubjectId $subject
+     * @param Scope     $scope
+     * @param array     $ctx
+     *
      * @return array
      */
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
@@ -60,7 +60,7 @@ final class GithubAclSource implements AclSourceInterface
         $token = getenv((string) ($this->cfg['tokenEnv'] ?? '')) ?: null;
         $headers = ['User-Agent' => 'SmartResponsor-Role', 'Accept' => 'application/vnd.github+json'];
         if ($token) {
-            $headers['Authorization'] = 'Bearer ' . $token;
+            $headers['Authorization'] = 'Bearer '.$token;
         }
 
         $scopeKey = $scope->key();
@@ -70,11 +70,11 @@ final class GithubAclSource implements AclSourceInterface
             $tenantId = isset($m['tenantId']) ? (string) $m['tenantId'] : null;
             // Соответствие scope: global/tenant/resource (тут используем только tenant/global)
             if ($tenantId) {
-                if (!str_starts_with($scopeKey, 'tenant:') || !str_contains($scopeKey, ':' . $tenantId)) {
+                if (!str_starts_with($scopeKey, 'tenant:') || !str_contains($scopeKey, ':'.$tenantId)) {
                     continue;
                 }
             } else {
-                if ($scopeKey !== 'global') {
+                if ('global' !== $scopeKey) {
                     continue;
                 }
             }
@@ -83,11 +83,13 @@ final class GithubAclSource implements AclSourceInterface
                 $roles[] = $role;
             }
         }
+
         return array_values(array_unique($roles));
     }
 
     /**
      * @param string $role
+     *
      * @return array
      */
     public function permissionsForRole(string $role): array
@@ -100,7 +102,8 @@ final class GithubAclSource implements AclSourceInterface
      * @param string $org
      * @param string $team
      * @param string $login
-     * @param array $headers
+     * @param array  $headers
+     *
      * @return bool
      */
     private function isMember(string $org, string $team, string $login, array $headers): bool
@@ -108,16 +111,18 @@ final class GithubAclSource implements AclSourceInterface
         $url = "https://api.github.com/orgs/{$org}/teams/{$team}/memberships/{$login}";
         try {
             $resp = $this->http->request('GET', $url, $headers, null, 3000);
-            if ($resp['status'] === 200) {
+            if (200 === $resp['status']) {
                 $data = json_decode($resp['body'] ?? 'null', true);
+
                 return is_array($data) && (($data['state'] ?? '') === 'active');
             }
-            if ($resp['status'] === 404) {
+            if (404 === $resp['status']) {
                 return false;
             }
-        } catch (Throwable $e) {
-            error_log('GithubAclSource::isMember request failure: ' . $e->getMessage());
+        } catch (\Throwable $e) {
+            error_log('GithubAclSource::isMember request failure: '.$e->getMessage());
         }
+
         return false;
     }
 }

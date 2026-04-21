@@ -2,14 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Attribute\Cache;
-/**
- *
- */
+namespace App\Rolling\Service\Attribute\Cache;
 
-/**
- *
- */
 final class ArrayCache
 {
     /** @var array */
@@ -17,8 +11,8 @@ final class ArrayCache
 
     /**
      * @param string $k
-     * @param array $val
-     * @param int $ttl
+     * @param array  $val
+     * @param int    $ttl
      */
     public function set(string $k, array $val, int $ttl): void
     {
@@ -34,8 +28,10 @@ final class ArrayCache
         }
         if ($r['exp'] < time()) {
             unset($this->m[$k]);
+
             return null;
         }
+
         return $r['val'];
     }
 }

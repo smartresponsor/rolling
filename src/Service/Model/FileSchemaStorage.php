@@ -2,16 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Model;
+namespace App\Rolling\Service\Model;
 
-/**
- *
- */
-
-/**
- *
- */
-use App\ServiceInterface\Model\SchemaStorageInterface;
+use App\Rolling\ServiceInterface\Model\SchemaStorageInterface;
 
 final class FileSchemaStorage implements SchemaStorageInterface
 {
@@ -39,11 +32,13 @@ final class FileSchemaStorage implements SchemaStorageInterface
             $data = ['active' => null, 'versions' => []];
         }
         $data['versions'] = $data['versions'] ?? [];
+
         return $data;
     }
 
     /**
      * @param array $state
+     *
      * @return void
      */
     public function save(array $state): void

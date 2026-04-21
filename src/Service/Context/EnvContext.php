@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Service\Context;
+namespace App\Rolling\Service\Context;
 
 final class EnvContext
 {
@@ -10,6 +11,6 @@ final class EnvContext
     {
         $subject = getenv('ROLE_SUBJECT') ?: '';
 
-        return $subject !== '' ? ['subject' => $subject] : [];
+        return '' !== $subject ? ['subject' => $subject] : [];
     }
 }

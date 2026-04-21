@@ -2,18 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\InfrastructureInterface\Acl;
+namespace App\Rolling\InfrastructureInterface\Acl;
 
-use App\Entity\Role\SubjectId;
-use App\Entity\Role\Scope;
+use App\Rolling\Entity\Role\Scope;
+use App\Rolling\Entity\Role\SubjectId;
 
-/**
- *
- */
-
-/**
- *
- */
 interface AclSourceInterface
 {
     /** @return list<string> roles (e.g. ["admin","reader"]) */

@@ -30,4 +30,4 @@
 - `misc/repo/tools/tenant/sign_verify.php`
 
 ## Result
-Primary execution home for tenant/mask/sod slice is now canonical `App\Service\...` and `App\ServiceInterface\...`. Legacy remains BC bridge only.
+Primary execution home for tenant/mask/sod slice is now canonical `App\Rolling\Service\...` and `App\Rolling\ServiceInterface\...`. Legacy remains BC bridge only.

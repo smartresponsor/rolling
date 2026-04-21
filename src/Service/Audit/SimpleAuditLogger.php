@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace App\Service\Audit;
+namespace App\Rolling\Service\Audit;
 
-use App\InfrastructureInterface\Audit\AuditRepositoryInterface;
-use App\Service\Audit\Dto\DecisionRecord;
-use App\ServiceInterface\Audit\AuditLoggerInterface;
+use App\Rolling\InfrastructureInterface\Audit\AuditRepositoryInterface;
+use App\Rolling\Service\Audit\Dto\DecisionRecord;
+use App\Rolling\ServiceInterface\Audit\AuditLoggerInterface;
 
 final class SimpleAuditLogger implements AuditLoggerInterface
 {

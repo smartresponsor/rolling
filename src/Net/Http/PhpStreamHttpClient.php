@@ -2,30 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Net\Http;
+namespace App\Rolling\Net\Http;
 
-/**
- *
- */
-
-/**
- *
- */
 final class PhpStreamHttpClient implements SimpleHttpClientInterface
 {
     /**
-     * @param string $method
-     * @param string $url
-     * @param array $headers
+     * @param string      $method
+     * @param string      $url
+     * @param array       $headers
      * @param string|null $body
-     * @param int $timeoutMs
+     * @param int         $timeoutMs
+     *
      * @return array
      */
     public function request(string $method, string $url, array $headers = [], ?string $body = null, int $timeoutMs = 5000): array
     {
         $hdr = '';
         foreach ($headers as $k => $v) {
-            $hdr .= $k . ': ' . $v . "\r\n";
+            $hdr .= $k.': '.$v."\r\n";
         }
         $ctx = stream_context_create(['http' => ['method' => $method, 'header' => $hdr, 'content' => $body ?? '', 'timeout' => $timeoutMs / 1000]]);
         $res = @file_get_contents($url, false, $ctx);
@@ -38,6 +32,7 @@ final class PhpStreamHttpClient implements SimpleHttpClientInterface
                 }
             }
         }
-        return ['status' => $status, 'headers' => [], 'body' => ($res === false ? null : $res)];
+
+        return ['status' => $status, 'headers' => [], 'body' => (false === $res ? null : $res)];
     }
 }
