@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Infrastructure\Rebac;
 
-use App\Rolling\Service\Consistency\Rebac\Token;
+use App\Rolling\Service\Consistency\Rebac\RebacConsistencyToken;
 
 final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface
 {
@@ -19,11 +19,11 @@ final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\
      * @param string $ns
      * @param array  $tuples
      *
-     * @return Token
+     * @return RebacConsistencyToken
      *
      * @throws \Throwable
      */
-    public function write(string $ns, array $tuples): Token
+    public function write(string $ns, array $tuples): RebacConsistencyToken
     {
         $this->pdo->beginTransaction();
         try {
@@ -46,11 +46,11 @@ final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\
      * @param string $ns
      * @param Tuple  $tuple
      *
-     * @return Token
+     * @return RebacConsistencyToken
      *
      * @throws \Throwable
      */
-    public function delete(string $ns, Tuple $tuple): Token
+    public function delete(string $ns, Tuple $tuple): RebacConsistencyToken
     {
         $this->pdo->beginTransaction();
         try {
@@ -101,13 +101,13 @@ final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\
     }
 
     /**
-     * @return Token
+     * @return RebacConsistencyToken
      */
-    public function currentToken(): Token
+    public function currentToken(): RebacConsistencyToken
     {
         $rev = (int) $this->pdo->query('SELECT rev FROM role_rev WHERE id=1')->fetchColumn();
 
-        return new Token($rev);
+        return new RebacConsistencyToken($rev);
     }
 
     /**

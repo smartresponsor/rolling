@@ -24,7 +24,8 @@
     "symfony/twig-bundle": "^8.0",
     "symfony/validator": "^8.0",
     "symfony/yaml": "^8.0",
-    "twig/twig": "^3.24"
+    "twig/twig": "^3.24",
+    "smart-responsor/objecting": "*@dev"
   },
   "require-dev": {
     "dbrekelmans/bdi": "^1.4.1",
@@ -76,5 +77,14 @@
     }
   },
   "minimum-stability": "stable",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../Objecting",
+      "options": {
+        "symlink": true
+      }
+    }
+  ]
 }

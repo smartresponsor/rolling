@@ -4,7 +4,7 @@ Goal: enforce segregation-of-duties (SoD) with a minimal four-eyes gate.
 
 - When policy allows a sensitive action (e.g., delete on doc), gate decision with `approvalId`.
 - Second actor approves via `tools/approval/approve.php <id> [actor]`.
-- `ApprovalGate::resolve(id)` returns final allowed decision.
+- `FourEyesFourEyesApprovalGateServiceService::resolve(id)` returns final allowed decision.
 
 Config notes:
 

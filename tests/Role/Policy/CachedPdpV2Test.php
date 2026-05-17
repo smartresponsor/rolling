@@ -12,7 +12,7 @@ use App\Rolling\Policy\Decorator\V2\CachedPdpV2;
 use App\Rolling\Policy\Obligation\Obligation;
 use App\Rolling\Policy\Obligation\Obligations;
 use App\Rolling\Policy\V2\DecisionWithObligations;
-use App\Rolling\Service\Cache\SubjectEpochs;
+use App\Rolling\Service\Cache\SubjectCacheEpochRegistry;
 use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use PHPUnit\Framework\TestCase;
 
@@ -48,7 +48,7 @@ final class CachedPdpV2Test extends TestCase
             }
         };
         $cache = new InMemoryCache();
-        $epochs = new SubjectEpochs();
+        $epochs = new SubjectCacheEpochRegistry();
         $pdp = new CachedPdpV2($inner, $cache, $epochs, 60);
 
         $sid = new SubjectId('u1');
@@ -114,7 +114,7 @@ final class CachedPdpV2Test extends TestCase
             }
         };
         $cache = new InMemoryCache();
-        $epochs = new SubjectEpochs();
+        $epochs = new SubjectCacheEpochRegistry();
         $pdp = new CachedPdpV2($inner, $cache, $epochs, 60);
 
         $sid = new SubjectId('u2');

@@ -16,8 +16,8 @@ use App\Rolling\Infrastructure\Rebac\PdoTupleStore;
 use App\Rolling\Infrastructure\Rebac\Tuple;
 use App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface;
 use App\Rolling\Service\Admin\RebacStatsService;
-use App\Rolling\Service\Rebac\Checker;
-use App\Rolling\Service\Rebac\Writer;
+use App\Rolling\Service\Rebac\RebacRelationshipChecker;
+use App\Rolling\Service\Rebac\RebacRelationshipWriter;
 
 final class RoleConsoleRuntime
 {
@@ -97,12 +97,12 @@ final class RoleConsoleRuntime
 
     public function rebacWriter(): Writer
     {
-        return new Writer($this->rebacStore());
+        return new RebacRelationshipWriter($this->rebacStore());
     }
 
     public function rebacChecker(): Checker
     {
-        return new Checker($this->rebacStore());
+        return new RebacRelationshipChecker($this->rebacStore());
     }
 
     public function rebacTuple(string $objectType, string $objectId, string $relation, string $subjectType, string $subjectId): Tuple

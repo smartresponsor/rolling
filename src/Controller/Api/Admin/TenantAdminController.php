@@ -6,20 +6,20 @@ namespace App\Rolling\Controller\Api\Admin;
 
 use App\Rolling\Security\Admin\Roles;
 use App\Rolling\Security\Admin\Voter;
-use App\Rolling\Service\Tenant\Backup;
-use App\Rolling\Service\Tenant\Limits;
-use App\Rolling\Service\Tenant\Quota;
-use App\Rolling\Service\Tenant\Restore;
+use App\Rolling\Service\Tenant\TenantBackupArchiveRestorer;
+use App\Rolling\Service\Tenant\TenantBackupArchiveWriter;
+use App\Rolling\Service\Tenant\TenantLimitConfigurationService;
+use App\Rolling\Service\Tenant\TenantRequestQuotaService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 final class TenantAdminController
 {
     private Voter $voter;
-    private Quota $quota;
-    private Limits $limits;
-    private Backup $backup;
-    private Restore $restore;
+    private TenantRequestQuotaService $quota;
+    private TenantLimitConfigurationService $limits;
+    private TenantBackupArchiveWriter $backup;
+    private TenantBackupArchiveRestorer $restore;
 
     /**
      * @param string $secretPath
@@ -30,10 +30,10 @@ final class TenantAdminController
         string $varDir = __DIR__.'/../../../../../var',
     ) {
         $this->voter = new Voter($secretPath);
-        $this->quota = new Quota($varDir.'/tenants');
-        $this->limits = new Limits($varDir.'/tenants');
-        $this->backup = new Backup($varDir, $varDir.'/backup');
-        $this->restore = new Restore($varDir);
+        $this->quota = new TenantRequestQuotaService($varDir.'/tenants');
+        $this->limits = new TenantLimitConfigurationService($varDir.'/tenants');
+        $this->backup = new TenantBackupArchiveWriter($varDir, $varDir.'/backup');
+        $this->restore = new TenantBackupArchiveRestorer($varDir);
     }
 
     /**

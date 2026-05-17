@@ -5,12 +5,12 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Explain;
 
-use App\Rolling\Service\Pipeline\Trace;
+use App\Rolling\Service\Pipeline\RollingPipelineTrace;
 
 final class DecisionGraph
 {
     /** @return array{nodes:array<int,array<string,mixed>>,edges:array<int,array{from:int,to:int,label:string}>} */
-    public static function build(Trace $t): array
+    public static function build(RollingPipelineTrace $t): array
     {
         $steps = $t->all();
         $nodes = [];

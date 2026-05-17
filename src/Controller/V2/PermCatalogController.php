@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Rolling\Controller\V2;
 
-use App\Rolling\Service\Permission\Catalog\CatalogService;
+use App\Rolling\Service\Permission\Catalog\PermissionCatalogSnapshotService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 final class PermCatalogController
 {
     /**
-     * @param CatalogService $svc
+     * @param PermissionCatalogSnapshotService $svc
      */
-    public function __construct(private readonly CatalogService $svc)
+    public function __construct(private readonly PermissionCatalogSnapshotService $svc)
     {
     }
 

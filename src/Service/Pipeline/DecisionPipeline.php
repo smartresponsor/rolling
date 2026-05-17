@@ -18,19 +18,19 @@ final class DecisionPipeline
         $this->stages = $stages;
     }
 
-    public function evaluate(RequestContext $ctx): Decision
+    public function evaluate(RollingPipelineRequestContext $ctx): RollingPipelineDecision
     {
-        $trace = new Trace();
+        $trace = new RollingPipelineTrace();
 
         foreach ($this->stages as $stage) {
             $result = $stage->apply($ctx, $trace);
-            if ($result instanceof Decision) {
+            if ($result instanceof RollingPipelineDecision) {
                 return $result;
             }
         }
 
         $trace->add('pipeline', 'no-decision');
 
-        return Decision::denied($trace, 'no-decision');
+        return RollingPipelineDecision::denied($trace, 'no-decision');
     }
 }

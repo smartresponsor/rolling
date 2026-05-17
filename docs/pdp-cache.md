@@ -1,7 +1,7 @@
 # PDP Cache Decorator
 
 - Interface: `ServiceInterface/Role/Pdp/PolicyDecisionProviderInterface`
-- Decorator: `Service/Role/Pdp/Cache/PdpCache`
+- Decorator: `Service/Pdp/Cache/CachedPolicyDecisionProvider`
 - Cache: `InfraInterface/Cache/CacheInterface` + `Infra/Cache/InMemoryCache`
 
 ## Run smoke

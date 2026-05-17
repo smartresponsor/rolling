@@ -1,6 +1,6 @@
 # SDK workspace
 
-This directory is the canonical home for language SDK assets that are shipped with the Rollin workspace.
+This directory is the canonical home for language SDK assets that are shipped with the Rolling workspace.
 
 Subtrees:
 - `php/` — PHP SDK sources used by Composer autoload and packaging.

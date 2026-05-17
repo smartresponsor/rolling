@@ -10,9 +10,9 @@ use App\Rolling\Entity\Role\SubjectId;
 use App\Rolling\Infrastructure\Cache\ConsistentCachePdpV2;
 use App\Rolling\Policy\Obligation\Obligations;
 use App\Rolling\Policy\V2\DecisionWithObligations;
-use App\Rolling\Service\Consistency\Composer;
-use App\Rolling\Service\Consistency\Policy\Token as PolicyToken;
-use App\Rolling\Service\Consistency\Rebac\Token as RebacToken;
+use App\Rolling\Service\Consistency\ConsistencyTokenComposer;
+use App\Rolling\Service\Consistency\Policy\PolicyConsistencyToken;
+use App\Rolling\Service\Consistency\Rebac\RebacConsistencyToken;
 use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use PHPUnit\Framework\TestCase;
 
@@ -25,9 +25,9 @@ final class TokenAndCacheTest extends TestCase
     {
         $policyRev = 1;
         $rebacRev = 5;
-        $composer = new Composer(
-            policyTokenFn: function () use (&$policyRev) { return new PolicyToken($policyRev); },
-            rebacTokenFn: function () use (&$rebacRev) { return new RebacToken($rebacRev); },
+        $composer = new ConsistencyTokenComposer(
+            policyTokenFn: function () use (&$policyRev) { return new PolicyConsistencyToken($policyRev); },
+            rebacTokenFn: function () use (&$rebacRev) { return new RebacConsistencyToken($rebacRev); },
             subjectEpochFn: fn (string $sid) => 0
         );
         $calls = 0;

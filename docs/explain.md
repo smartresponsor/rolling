@@ -8,7 +8,7 @@ Endpoint:
       log), `explain: {nodes, edges, evidence}`.
     - With `?dot=1` returns GraphViz DOT.
 
-Planner:
+DecisionExplanationPlanner:
 
 - Reads `var/tuples.ndjson` and proves direct tuple presence as evidence.
 - Nodes: tenant/subject/relation/resource. Edges mark `proven` or `missing`.
@@ -19,6 +19,6 @@ Debug UI:
 
 Notes:
 
-- For production, connect Planner to your actual check() pipeline / data store.
+- For production, connect DecisionExplanationPlanner to your actual check() pipeline / data store.
 - Keep SSE watch (D3) to drive cache invalidations; token is `filesize(var/tuples.ndjson)` for quick monotonic
   watermark.

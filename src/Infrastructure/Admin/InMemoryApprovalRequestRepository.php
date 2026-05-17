@@ -9,28 +9,28 @@ declare(strict_types=1);
 namespace App\Rolling\Infrastructure\Admin;
 
 use App\Rolling\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface;
-use App\Rolling\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\Service\Admin\Dto\AdminApprovalRequestDto;
 
 final class InMemoryApprovalRequestRepository implements ApprovalRequestRepositoryInterface
 {
-    /** @var array<string, ApprovalRequest> */
+    /** @var array<string, AdminApprovalRequestDto> */
     private array $map = [];
 
-    public function save(ApprovalRequest $req): void
+    public function save(AdminApprovalRequestDto $req): void
     {
         $this->map[$req->id] = $req;
     }
 
-    public function get(string $id): ?ApprovalRequest
+    public function get(string $id): ?AdminApprovalRequestDto
     {
         return $this->map[$id] ?? null;
     }
 
     /**
-     * @return list<ApprovalRequest>
+     * @return list<AdminApprovalRequestDto>
      */
     public function listPending(): array
     {
-        return array_values(array_filter($this->map, fn ($r) => ApprovalRequest::STATUS_PENDING === $r->status));
+        return array_values(array_filter($this->map, fn ($r) => AdminApprovalRequestDto::STATUS_PENDING === $r->status));
     }
 }

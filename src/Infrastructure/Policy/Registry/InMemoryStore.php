@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Infrastructure\Policy\Registry;
 
-use App\Rolling\Service\Consistency\Policy\Token;
+use App\Rolling\Service\Consistency\Policy\PolicyConsistencyToken;
 
 final class InMemoryStore implements StoreInterface
 {
@@ -19,15 +19,15 @@ final class InMemoryStore implements StoreInterface
 
     private int $rev = 0;
 
-    public function put(string $ns, string $name, string $version, string $docJson): Token
+    public function put(string $ns, string $name, string $version, string $docJson): PolicyConsistencyToken
     {
         $this->db[$ns][$name][$version] = new PolicyRecord($ns, $name, $version, $docJson, time(), false);
         ++$this->rev;
 
-        return new Token($this->rev);
+        return new PolicyConsistencyToken($this->rev);
     }
 
-    public function activate(string $ns, string $name, string $version): Token
+    public function activate(string $ns, string $name, string $version): PolicyConsistencyToken
     {
         if (!isset($this->db[$ns][$name][$version])) {
             throw new \RuntimeException('version not found');
@@ -41,7 +41,7 @@ final class InMemoryStore implements StoreInterface
         $this->active[$ns][$name] = $version;
         ++$this->rev;
 
-        return new Token($this->rev);
+        return new PolicyConsistencyToken($this->rev);
     }
 
     public function getActive(string $ns, string $name): ?PolicyRecord
@@ -61,9 +61,9 @@ final class InMemoryStore implements StoreInterface
         return $this->db[$ns][$name][$version]->docJson ?? null;
     }
 
-    public function currentToken(): Token
+    public function currentToken(): PolicyConsistencyToken
     {
-        return new Token($this->rev);
+        return new PolicyConsistencyToken($this->rev);
     }
 
     public function recordMigration(string $ns, string $name, string $from, string $to, ?string $note = null, ?string $stepsJson = null): void

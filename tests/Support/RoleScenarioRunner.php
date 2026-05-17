@@ -6,8 +6,8 @@ namespace App\Rolling\Tests\Support;
 
 use App\Rolling\Infrastructure\Rebac\InMemoryTupleStore;
 use App\Rolling\Infrastructure\Rebac\Tuple;
-use App\Rolling\Service\Rebac\Checker;
-use App\Rolling\Service\Rebac\Writer;
+use App\Rolling\Service\Rebac\RebacRelationshipChecker;
+use App\Rolling\Service\Rebac\RebacRelationshipWriter;
 
 final class RoleScenarioRunner
 {
@@ -131,8 +131,8 @@ final class RoleScenarioRunner
     private static function bootEngine(array $fixture): array
     {
         $store = new InMemoryTupleStore();
-        $writer = new Writer($store);
-        $checker = new Checker($store);
+        $writer = new RebacRelationshipWriter($store);
+        $checker = new RebacRelationshipChecker($store);
 
         $seed = [];
         foreach (($fixture['seed'] ?? $fixture['tuples'] ?? []) as $row) {

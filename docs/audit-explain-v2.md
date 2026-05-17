@@ -1,6 +1,6 @@
 # Audit & Explain v2
 
-- DTOs: DecisionInput, DecisionResult, DecisionRecord, ExplainNode
+- DTOs: AuditDecisionInputDto, AuditDecisionResultDto, AuditDecisionRecordDto, AuditExplainNodeDto
 - Interfaces: AuditLoggerInterface, ExplainerInterface
 - Implementations: FileAuditRepository, SimpleAuditLogger, RuleExplainer
 - Output: NDJSON audit (one record per decision) + structured explain tree

@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace App\Rolling\ServiceInterface\Audit;
 
-use App\Rolling\Service\Audit\Dto\DecisionInput;
-use App\Rolling\Service\Audit\Dto\DecisionResult;
+use App\Rolling\Service\Audit\Dto\AuditDecisionInputDto;
+use App\Rolling\Service\Audit\Dto\AuditDecisionResultDto;
 
 interface ExplainerInterface
 {
@@ -18,5 +18,5 @@ interface ExplainerInterface
      *
      * @return array<string,mixed> JSON-serializable structure
      */
-    public function explain(DecisionInput $in, DecisionResult $res): array;
+    public function explain(AuditDecisionInputDto $in, AuditDecisionResultDto $res): array;
 }

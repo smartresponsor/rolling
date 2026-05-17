@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Rolling\Controller\Api;
 
 use App\Rolling\Service\Pipeline\DecisionPipeline;
-use App\Rolling\Service\Pipeline\RequestContext;
+use App\Rolling\Service\Pipeline\RollingPipelineRequestContext;
 use App\Rolling\Service\Pipeline\Stage\ContextStage;
 use App\Rolling\Service\Pipeline\Stage\StrictDenyStage;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,7 +21,7 @@ final class EvalController
     public function eval(Request $req): JsonResponse
     {
         $p = json_decode((string) $req->getContent(), true) ?? [];
-        $ctx = new RequestContext(
+        $ctx = new RollingPipelineRequestContext(
             (string) ($p['tenant'] ?? 't1'),
             (string) ($p['subject'] ?? 'u1'),
             (string) ($p['action'] ?? 'read'),
@@ -45,7 +45,7 @@ final class EvalController
         $res = [];
 
         foreach ($list as $row) {
-            $ctx = new RequestContext(
+            $ctx = new RollingPipelineRequestContext(
                 (string) ($row['tenant'] ?? 't1'),
                 (string) ($row['subject'] ?? 'u1'),
                 (string) ($row['action'] ?? 'read'),

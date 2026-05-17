@@ -5,14 +5,14 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Pipeline\Stage;
 
-use App\Rolling\Service\Pipeline\Decision;
-use App\Rolling\Service\Pipeline\RequestContext;
-use App\Rolling\Service\Pipeline\Trace;
+use App\Rolling\Service\Pipeline\RollingPipelineDecision;
+use App\Rolling\Service\Pipeline\RollingPipelineRequestContext;
+use App\Rolling\Service\Pipeline\RollingPipelineTrace;
 use App\Rolling\ServiceInterface\Pipeline\StageInterface;
 
 final class ContextStage implements StageInterface
 {
-    public function apply(RequestContext $ctx, Trace $trace): ?Decision
+    public function apply(RollingPipelineRequestContext $ctx, RollingPipelineTrace $trace): ?RollingPipelineDecision
     {
         $trace->add('context', 'normalized', [
             'tenant' => $ctx->tenant,

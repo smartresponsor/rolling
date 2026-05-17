@@ -4,7 +4,7 @@ declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Rolling\Infrastructure\Rebac\Tuple;
-use App\Rolling\Service\Rebac\{Checker, Writer};
+use App\Rolling\Service\Rebac\{RebacRelationshipChecker, RebacRelationshipWriter};
 use App\Rolling\Infrastructure\Rebac\{InMemoryTupleStore, PdoTupleStore};
 
 $dsn = getenv('ROLE_REBAC_DSN') ?: null;
@@ -16,8 +16,8 @@ if ($dsn) {
 } else {
     $store = new InMemoryTupleStore();
 }
-$writer = new Writer($store);
-$checker = new Checker($store);
+$writer = new RebacRelationshipWriter($store);
+$checker = new RebacRelationshipChecker($store);
 
 $cmd = $argv[1] ?? 'help';
 switch ($cmd) {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Rolling\Controller\Api;
 
 use App\Rolling\Service\Pipeline\DecisionPipeline;
-use App\Rolling\Service\Pipeline\RequestContext;
+use App\Rolling\Service\Pipeline\RollingPipelineRequestContext;
 use App\Rolling\Service\Pipeline\Stage\ContextStage;
 use App\Rolling\Service\Pipeline\Stage\PolicyStage;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,7 +25,7 @@ final class PelEvalController
     public function eval(Request $req): JsonResponse
     {
         $p = json_decode((string) $req->getContent(), true) ?? [];
-        $ctx = new RequestContext(
+        $ctx = new RollingPipelineRequestContext(
             (string) ($p['tenant'] ?? 't1'),
             (string) ($p['subject'] ?? 'u1'),
             (string) ($p['action'] ?? 'read'),

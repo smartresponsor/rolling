@@ -1,0 +1,65 @@
+health:
+  resource: 'routes/health.yaml'
+
+metrics:
+  resource: 'routes/metrics.yaml'
+
+role_admin:
+  resource: 'routes/role_admin.yaml'
+
+role_bulk:
+  resource: 'routes/role_bulk.yaml'
+
+role_check:
+  resource: 'routes/role_check.yaml'
+
+role_consistency:
+  resource: 'routes/role_consistency.yaml'
+
+role_context:
+  resource: 'routes/role_context.yaml'
+
+role_eval:
+  resource: 'routes/role_eval.yaml'
+
+role_explain:
+  resource: 'routes/role_explain.yaml'
+
+role_obligations:
+  resource: 'routes/role_obligations.yaml'
+
+role_pdp:
+  resource: 'routes/role_pdp.yaml'
+
+role_pel:
+  resource: 'routes/role_pel.yaml'
+
+role_perm_catalog:
+  resource: 'routes/role_perm_catalog.yaml'
+
+role_policy:
+  resource: 'routes/role_policy.yaml'
+
+role_rebac:
+  resource: 'routes/role_rebac.yaml'
+
+role_residency:
+  resource: 'routes/role_residency.yaml'
+
+role_security:
+  resource: 'routes/role_security.yaml'
+
+role_shadow:
+  resource: 'routes/role_shadow.yaml'
+
+role_sod:
+  resource: 'routes/role_sod.yaml'
+
+role_tenants:
+  resource: 'routes/role_tenants.yaml'
+
+role_whatif:
+  resource: 'routes/role_whatif.yaml'
+
+role:
+  resource: 'routes/role.yaml'

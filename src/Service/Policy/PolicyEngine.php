@@ -55,9 +55,9 @@ final class PolicyEngine implements PolicyEngineInterface
      * @param array  $resource
      * @param array  $context
      *
-     * @return Decision
+     * @return PolicyEngineDecision
      */
-    public function decide(array $subject, string $action, array $resource, array $context = []): Decision
+    public function decide(array $subject, string $action, array $resource, array $context = []): PolicyEngineDecision
     {
         $grants = 0;
         $denies = 0;
@@ -83,37 +83,37 @@ final class PolicyEngine implements PolicyEngineInterface
             case 'unanimous':
                 // All non-abstain must GRANT, and no DENY.
                 if ($denies > 0) {
-                    return Decision::deny($meta);
+                    return PolicyEngineDecision::deny($meta);
                 }
                 if ($grants > 0 && 0 === $denies) {
                     $nonAbstain = $grants + $denies;
                     if ($nonAbstain === $grants) {
-                        return Decision::allow($meta);
+                        return PolicyEngineDecision::allow($meta);
                     }
                 }
 
-                return Decision::deny($meta);
+                return PolicyEngineDecision::deny($meta);
 
             case 'consensus':
                 // Majority of non-abstain voters must GRANT; no hard deny dominance.
                 if ($grants > $denies) {
-                    return Decision::allow($meta);
+                    return PolicyEngineDecision::allow($meta);
                 }
 
-                return Decision::deny($meta);
+                return PolicyEngineDecision::deny($meta);
 
             case 'affirmative':
             default:
                 // Any GRANT wins unless there is an explicit DENY-voter policy preference.
                 // Here: if any GRANT and no DENY -> allow. If both present, prefer DENY.
                 if ($grants > 0 && 0 === $denies) {
-                    return Decision::allow($meta);
+                    return PolicyEngineDecision::allow($meta);
                 }
                 if ($denies > 0) {
-                    return Decision::deny($meta);
+                    return PolicyEngineDecision::deny($meta);
                 }
 
-                return Decision::deny($meta);
+                return PolicyEngineDecision::deny($meta);
         }
     }
 }

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Admin\Action;
 
-use App\Rolling\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\Service\Admin\Dto\AdminApprovalRequestDto;
 use App\Rolling\ServiceInterface\Admin\Action\GrantRoleActionInterface;
 
 final class GrantRoleAction implements GrantRoleActionInterface
@@ -20,7 +20,7 @@ final class GrantRoleAction implements GrantRoleActionInterface
     {
     }
 
-    public function apply(ApprovalRequest $req): void
+    public function apply(AdminApprovalRequestDto $req): void
     {
         @mkdir($this->reportDir, 0775, true);
         $path = $this->reportDir.'/grants_applied.ndjson';

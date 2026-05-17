@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace App\Rolling\ServiceInterface\Audit;
 
-use App\Rolling\Service\Audit\Dto\DecisionRecord;
+use App\Rolling\Service\Audit\Dto\AuditDecisionRecordDto;
 
 interface AuditLoggerInterface
 {
     /**
-     * @param DecisionRecord $rec
+     * @param AuditDecisionRecordDto $rec
      *
      * @return void
      */
-    public function log(DecisionRecord $rec): void;
+    public function log(AuditDecisionRecordDto $rec): void;
 }

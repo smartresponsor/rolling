@@ -4,13 +4,13 @@
 
 ```bash
 npm i @smartresponsor/role-sdk
-# или локально: скопируйте sdk/js и соберите tsc
+# или локально: скопируйте SDK/js и соберите tsc
 ```
 
 ## Использование (Node)
 
 ```ts
-import { Client, Types } from '@smartresponsor/role-sdk/v2';
+import { Client } from '@smartresponsor/role-sdk';
 
 const client = new Client('https://pdp.internal', { apiKey: process.env.ROLE_PDP_API_KEY, hmacSecret: process.env.ROLE_PDP_HMAC });
 const res = await client.check({

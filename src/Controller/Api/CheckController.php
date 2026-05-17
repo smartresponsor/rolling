@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Rolling\Controller\Api;
 
-use App\Rolling\Service\Audit\Logger;
-use App\Rolling\Service\Explain\TupleReader;
+use App\Rolling\Service\Audit\DecisionAuditLogWriter;
+use App\Rolling\Service\Consistency\Http\ConsistencyHeaderService;
+use App\Rolling\Service\Explain\RelationshipTupleLogReader;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -36,14 +37,14 @@ final class CheckController
         $context = is_array($payload['context'] ?? null) ? $payload['context'] : [];
         $oblig = is_array($payload['obligations'] ?? null) ? $payload['obligations'] : [];
 
-        $mode = Consistency::mode($req);
-        $reader = new TupleReader($this->tuplesPath);
+        $mode = ConsistencyHeaderService::mode($req);
+        $reader = new RelationshipTupleLogReader($this->tuplesPath);
         $evidence = $reader->exists($tenant, $subject, $relation, $resource);
         $allowed = null !== $evidence;
         $token = (string) @filesize($this->tuplesPath) ?: '0';
 
         // audit
-        $logger = new Logger($this->logDir);
+        $logger = new DecisionAuditLogWriter($this->logDir);
         $auditEvent = [
             'ts' => gmdate('c'),
             'tenant' => $tenant,
@@ -68,7 +69,7 @@ final class CheckController
             ],
         ];
         $res = new JsonResponse($out, 200);
-        Consistency::applyHeaders($res, $mode, $token);
+        ConsistencyHeaderService::applyHeaders($res, $mode, $token);
 
         return $res;
     }

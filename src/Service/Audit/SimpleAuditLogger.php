@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Rolling\Service\Audit;
 
 use App\Rolling\InfrastructureInterface\Audit\AuditRepositoryInterface;
-use App\Rolling\Service\Audit\Dto\DecisionRecord;
+use App\Rolling\Service\Audit\Dto\AuditDecisionRecordDto;
 use App\Rolling\ServiceInterface\Audit\AuditLoggerInterface;
 
 final class SimpleAuditLogger implements AuditLoggerInterface
@@ -18,7 +18,7 @@ final class SimpleAuditLogger implements AuditLoggerInterface
     {
     }
 
-    public function log(DecisionRecord $rec): void
+    public function log(AuditDecisionRecordDto $rec): void
     {
         $this->repo->save($rec->toArray());
     }

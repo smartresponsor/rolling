@@ -7,9 +7,9 @@ namespace App\Rolling\Controller\Api;
 use App\Rolling\Infrastructure\Audit\FileAuditTrail;
 use App\Rolling\Infrastructure\Obligation\ObligationFsStore;
 use App\Rolling\Infrastructure\Policy\PolicyFsStore;
-use App\Rolling\Service\Obligation\ObligationApplier;
+use App\Rolling\Service\Obligation\PolicyObligationApplierService;
 use App\Rolling\Service\Pipeline\DecisionPipeline;
-use App\Rolling\Service\Pipeline\RequestContext;
+use App\Rolling\Service\Pipeline\RollingPipelineRequestContext;
 use App\Rolling\Service\Pipeline\Stage\ContextStage;
 use App\Rolling\Service\Pipeline\Stage\PolicyStage;
 use App\Rolling\Service\Pipeline\Stage\StrictDenyStage;
@@ -32,7 +32,7 @@ final class ObligationController
         $resource = isset($payload['resource']) ? (array) $payload['resource'] : null;
         $version = (string) ($payload['version'] ?? 'active');
 
-        $applier = new ObligationApplier(new ObligationFsStore($this->baseDir.'/policy'));
+        $applier = new PolicyObligationApplierService(new ObligationFsStore($this->baseDir.'/policy'));
         $out = $applier->apply($tenant, $relation, $decision, $attrs, $resource, $version);
 
         return new JsonResponse($out, 200);
@@ -50,7 +50,7 @@ final class ObligationController
 
         $decision = $this->evaluateDecision($tenant, $relation, $subject, $resource, $attrs, $version);
 
-        $applier = new ObligationApplier(new ObligationFsStore($this->baseDir.'/policy'));
+        $applier = new PolicyObligationApplierService(new ObligationFsStore($this->baseDir.'/policy'));
         $out = $applier->apply(
             $tenant,
             $relation,
@@ -82,7 +82,7 @@ final class ObligationController
             new StrictDenyStage(),
         ]);
 
-        $decision = $pipeline->evaluate(new RequestContext(
+        $decision = $pipeline->evaluate(new RollingPipelineRequestContext(
             tenant: $tenant,
             subject: $subject,
             action: $relation,

@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Rolling\Controller\V2;
 
 use App\Rolling\Infrastructure\Rebac\Tuple;
-use App\Rolling\Service\Rebac\Checker;
-use App\Rolling\Service\Rebac\Writer;
+use App\Rolling\Service\Rebac\RebacRelationshipChecker;
+use App\Rolling\Service\Rebac\RebacRelationshipWriter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 final class RebacController
 {
     /**
-     * @param Writer  $writer
-     * @param Checker $checker
+     * @param RebacRelationshipWriter  $writer
+     * @param RebacRelationshipChecker $checker
      */
-    public function __construct(private readonly Writer $writer, private readonly Checker $checker)
+    public function __construct(private readonly RebacRelationshipWriter $writer, private readonly RebacRelationshipChecker $checker)
     {
     }
 

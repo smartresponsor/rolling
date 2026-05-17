@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace App\Rolling\ServiceInterface\Admin\Guard;
 
-use App\Rolling\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\Service\Admin\Dto\AdminApprovalRequestDto;
 
 interface ApprovalGuardInterface
 {
-    public function isSatisfied(ApprovalRequest $req): bool;
+    public function isSatisfied(AdminApprovalRequestDto $req): bool;
 
-    public function remaining(ApprovalRequest $req): int;
+    public function remaining(AdminApprovalRequestDto $req): int;
 }

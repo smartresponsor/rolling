@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
+ * All code comments MUST be in English.
+ */
+declare(strict_types=1);
+
+namespace App\Rolling\Service\Cache;
+
+use App\Rolling\ServiceInterface\Cache\TagInvalidatorInterface;
+
+/**
+ * File-cache with tag versioning for PDP-like results.
+ */
+final class FileBackedPdpDecisionCache
+{
+    private string $cacheDir;
+    private CacheStampedeGuardService $guard;
+    private TagInvalidatorInterface $tags;
+
+    /**
+     * @param TagInvalidatorInterface        $tags
+     * @param CacheStampedeGuardService|null $guard
+     * @param string                         $cacheDir
+     */
+    public function __construct(TagInvalidatorInterface $tags, ?CacheStampedeGuardService $guard = null, string $cacheDir = '/tmp/role_cache')
+    {
+        $this->cacheDir = $cacheDir;
+        $this->guard = $guard ?? new CacheStampedeGuardService();
+        $this->tags = $tags;
+        if (!is_dir($this->cacheDir)) {
+            @mkdir($this->cacheDir, 0775, true);
+        }
+    }
+
+    /**
+     * @param array    $keyParts
+     * @param int      $ttlMs
+     * @param string[] $tags
+     * @param callable $producer
+     *
+     * @return mixed
+     */
+    public function get(array $keyParts, int $ttlMs, array $tags, callable $producer)
+    {
+        $tagVer = [];
+        foreach ($tags as $t) {
+            $tagVer[$t] = $this->tags->getTagVersion($t);
+        }
+        $rawKey = json_encode([$keyParts, $tagVer], JSON_UNESCAPED_SLASHES);
+        $hash = sha1($rawKey);
+        $path = $this->cacheDir.'/'.$hash.'.json';
+
+        // Read
+        if (is_file($path)) {
+            $d = json_decode((string) file_get_contents($path), true);
+            if (is_array($d) && isset($d['expiresAt']) && $d['expiresAt'] > (int) (microtime(true) * 1000)) {
+                return $d['value'];
+            }
+        }
+
+        // Compute with stampede guard
+        $res = $this->guard->computeWithLock($hash, $ttlMs, $producer);
+        @file_put_contents($path, json_encode($res));
+
+        return $res['value'];
+    }
+}

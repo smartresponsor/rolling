@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Infrastructure\Rebac;
 
-use App\Rolling\Service\Consistency\Rebac\Token;
+use App\Rolling\Service\Consistency\Rebac\RebacConsistencyToken;
 
 final class InMemoryTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface
 {
@@ -16,25 +16,25 @@ final class InMemoryTupleStore implements \App\Rolling\InfrastructureInterface\R
      * @param string $ns
      * @param array  $tuples
      *
-     * @return Token
+     * @return RebacConsistencyToken
      */
-    public function write(string $ns, array $tuples): Token
+    public function write(string $ns, array $tuples): RebacConsistencyToken
     {
         foreach ($tuples as $t) {
             $this->tuples[] = $t;
         }
         ++$this->rev;
 
-        return new Token($this->rev);
+        return new RebacConsistencyToken($this->rev);
     }
 
     /**
      * @param string $ns
      * @param Tuple  $tuple
      *
-     * @return Token
+     * @return RebacConsistencyToken
      */
-    public function delete(string $ns, Tuple $tuple): Token
+    public function delete(string $ns, Tuple $tuple): RebacConsistencyToken
     {
         $subjectRelation = $tuple->subjRel;
 
@@ -45,7 +45,7 @@ final class InMemoryTupleStore implements \App\Rolling\InfrastructureInterface\R
         }));
         ++$this->rev;
 
-        return new Token($this->rev);
+        return new RebacConsistencyToken($this->rev);
     }
 
     /**
@@ -83,10 +83,10 @@ final class InMemoryTupleStore implements \App\Rolling\InfrastructureInterface\R
     }
 
     /**
-     * @return Token
+     * @return RebacConsistencyToken
      */
-    public function currentToken(): Token
+    public function currentToken(): RebacConsistencyToken
     {
-        return new Token($this->rev);
+        return new RebacConsistencyToken($this->rev);
     }
 }

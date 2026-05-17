@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Infrastructure\Policy\Registry;
 
-use App\Rolling\Service\Consistency\Policy\Token;
+use App\Rolling\Service\Consistency\Policy\PolicyConsistencyToken;
 
 final class RegistryService
 {
@@ -12,12 +12,12 @@ final class RegistryService
     {
     }
 
-    public function importPolicy(string $ns, string $name, string $version, string $docJson): Token
+    public function importPolicy(string $ns, string $name, string $version, string $docJson): PolicyConsistencyToken
     {
         return $this->store->put($ns, $name, $version, $docJson);
     }
 
-    public function activatePolicy(string $ns, string $name, string $version): Token
+    public function activatePolicy(string $ns, string $name, string $version): PolicyConsistencyToken
     {
         return $this->store->activate($ns, $name, $version);
     }
@@ -49,7 +49,7 @@ final class RegistryService
         return $this->store->listMigrations($ns, $name);
     }
 
-    public function token(): Token
+    public function token(): PolicyConsistencyToken
     {
         return $this->store->currentToken();
     }

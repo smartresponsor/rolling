@@ -3,7 +3,7 @@
 declare(strict_types=1);
 /* Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp */
 
-namespace App\Rolling\Infra\Role\Policy;
+namespace App\Rolling\Infrastructure\Role\Policy;
 
 use App\Rolling\InfrastructureInterface\Policy\PolicyStoreInterface;
 

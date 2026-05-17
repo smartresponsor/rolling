@@ -7,7 +7,7 @@
 ## Added canonical files
 - `src/Service/Tenant/TenantKeyProvider.php`
 - `src/Service/Tenant/SimpleTenantContextResolver.php`
-- `src/Service/Mask/DataMasker.php`
+- `src/Service/Mask/ObligationDataMaskingService.php`
 - `src/Service/Sod/SodGuard.php`
 - `src/ServiceInterface/Tenant/TenantKeyProviderInterface.php`
 - `src/ServiceInterface/Tenant/TenantContextResolverInterface.php`
@@ -31,3 +31,7 @@
 
 ## Result
 Primary execution home for tenant/mask/sod slice is now canonical `App\Rolling\Service\...` and `App\Rolling\ServiceInterface\...`. Legacy remains BC bridge only.
+
+## W32 follow-up
+
+The canonical mask service class-form was normalized from the short implementation name `DataMasker` to `ObligationDataMaskingService`. The stable contract `DataMaskerInterface` remains unchanged for dependency injection and consumer compatibility.

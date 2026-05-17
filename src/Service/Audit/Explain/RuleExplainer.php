@@ -8,33 +8,33 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Audit\Explain;
 
-use App\Rolling\Service\Audit\Dto\DecisionInput;
-use App\Rolling\Service\Audit\Dto\DecisionResult;
-use App\Rolling\Service\Audit\Dto\ExplainNode;
+use App\Rolling\Service\Audit\Dto\AuditDecisionInputDto;
+use App\Rolling\Service\Audit\Dto\AuditDecisionResultDto;
+use App\Rolling\Service\Audit\Dto\AuditExplainNodeDto;
 use App\Rolling\ServiceInterface\Audit\ExplainerInterface;
 
 final class RuleExplainer implements ExplainerInterface
 {
     /**
-     * @param DecisionInput  $in
-     * @param DecisionResult $res
+     * @param AuditDecisionInputDto  $in
+     * @param AuditDecisionResultDto $res
      *
      * @return array
      */
-    public function explain(DecisionInput $in, DecisionResult $res): array
+    public function explain(AuditDecisionInputDto $in, AuditDecisionResultDto $res): array
     {
-        $root = new ExplainNode('decision', $in->action, $res->allow, [
+        $root = new AuditExplainNodeDto('decision', $in->action, $res->allow, [
             'policyVersion' => $res->policyVersion,
             'tenant' => $in->context['tenant'] ?? null,
             'resourceType' => $in->resource['type'] ?? null,
         ]);
 
         // Voter trace aggregation
-        $group = new ExplainNode('voters', 'Voters', true);
+        $group = new AuditExplainNodeDto('voters', 'Voters', true);
         $allPass = true;
         foreach ($in->voterTrace as $i => $v) {
             $pass = (bool) ($v['allow'] ?? false);
-            $node = new ExplainNode('voter', (string) ($v['name'] ?? ('v'.$i)), $pass, [
+            $node = new AuditExplainNodeDto('voter', (string) ($v['name'] ?? ('v'.$i)), $pass, [
                 'reason' => $v['reason'] ?? null,
                 'ruleId' => $v['ruleId'] ?? null,
                 'weight' => $v['weight'] ?? 1,
@@ -48,10 +48,10 @@ final class RuleExplainer implements ExplainerInterface
 
         // Winning rule / obligations
         if ($res->ruleId) {
-            $root->add(new ExplainNode('rule', 'Matched Rule', true, ['ruleId' => $res->ruleId]));
+            $root->add(new AuditExplainNodeDto('rule', 'Matched Rule', true, ['ruleId' => $res->ruleId]));
         }
         if (!empty($res->obligations)) {
-            $root->add(new ExplainNode('obligations', 'Obligations', true, $res->obligations));
+            $root->add(new AuditExplainNodeDto('obligations', 'Obligations', true, $res->obligations));
         }
 
         // Summary

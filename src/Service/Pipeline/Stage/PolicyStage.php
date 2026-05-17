@@ -5,9 +5,9 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Pipeline\Stage;
 
-use App\Rolling\Service\Pipeline\Decision;
-use App\Rolling\Service\Pipeline\RequestContext;
-use App\Rolling\Service\Pipeline\Trace;
+use App\Rolling\Service\Pipeline\RollingPipelineDecision;
+use App\Rolling\Service\Pipeline\RollingPipelineRequestContext;
+use App\Rolling\Service\Pipeline\RollingPipelineTrace;
 use App\Rolling\ServiceInterface\Pipeline\StageInterface;
 
 final class PolicyStage implements StageInterface
@@ -21,7 +21,7 @@ final class PolicyStage implements StageInterface
         $this->pol = $pol;
     }
 
-    public function apply(RequestContext $ctx, Trace $trace): ?Decision
+    public function apply(RollingPipelineRequestContext $ctx, RollingPipelineTrace $trace): ?RollingPipelineDecision
     {
         $expr = $this->pol[$ctx->tenant] ?? '';
         if ('' === $expr) {
@@ -76,6 +76,6 @@ final class PolicyStage implements StageInterface
         @unlink($tmp);
         $trace->add('policy', $ok ? 'allow' : 'deny', ['expr' => $expr]);
 
-        return $ok ? Decision::allowed($trace, 'pel-allow') : Decision::denied($trace, 'pel-deny');
+        return $ok ? RollingPipelineDecision::allowed($trace, 'pel-allow') : RollingPipelineDecision::denied($trace, 'pel-deny');
     }
 }

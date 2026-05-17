@@ -1,3 +1,7 @@
+# Developer-experience shim for the canonical deploy compose file.
+# Keep this root file equivalent to deploy/compose/compose.yaml; deploy ownership lives under deploy/.
+name: rolling
+
 services:
   app:
     build:

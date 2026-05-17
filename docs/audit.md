@@ -31,7 +31,7 @@ If check() returns a decision, it SHOULD attach meta:
 { "decision":"allow", "meta": { "audit":"logged", "masked":1, "redact":1, "ts":"..." } }
 ```
 
-Use `Logger::write($event, $obligations)` to obtain meta.
+Use `DecisionAuditLogWriter::write($event, $obligations)` to obtain meta.
 
 ## Headers (opt-in example)
 

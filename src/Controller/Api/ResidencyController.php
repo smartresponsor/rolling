@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Rolling\Controller\Api;
 
 use App\Rolling\Infrastructure\Residency\ResidencyFsPolicy;
-use App\Rolling\Service\Residency\ResidencyGuard;
+use App\Rolling\Service\Residency\TenantDataResidencyGuardService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,11 +19,11 @@ final class ResidencyController
     }
 
     /**
-     * @return ResidencyGuard
+     * @return TenantDataResidencyGuardService
      */
-    private function guard(): ResidencyGuard
+    private function guard(): TenantDataResidencyGuardService
     {
-        return new ResidencyGuard(new ResidencyFsPolicy($this->conf));
+        return new TenantDataResidencyGuardService(new ResidencyFsPolicy($this->conf));
     }
 
     /**

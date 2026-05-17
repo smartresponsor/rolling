@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Infrastructure\Policy\Registry;
 
-use App\Rolling\Service\Consistency\Policy\Token;
+use App\Rolling\Service\Consistency\Policy\PolicyConsistencyToken;
 
 final class PdoStore implements StoreInterface
 {
@@ -12,7 +12,7 @@ final class PdoStore implements StoreInterface
     {
     }
 
-    public function put(string $ns, string $name, string $version, string $docJson): Token
+    public function put(string $ns, string $name, string $version, string $docJson): PolicyConsistencyToken
     {
         $statement = $this->pdo->prepare('INSERT INTO role_policy(ns,name,version,doc,created_at,is_active) VALUES(?,?,?,?,?,0)');
         $statement->execute([$ns, $name, $version, $docJson, time()]);
@@ -21,7 +21,7 @@ final class PdoStore implements StoreInterface
         return $this->currentToken();
     }
 
-    public function activate(string $ns, string $name, string $version): Token
+    public function activate(string $ns, string $name, string $version): PolicyConsistencyToken
     {
         $this->pdo->beginTransaction();
 
@@ -77,11 +77,11 @@ final class PdoStore implements StoreInterface
         return false !== $doc ? (string) $doc : null;
     }
 
-    public function currentToken(): Token
+    public function currentToken(): PolicyConsistencyToken
     {
         $rev = (int) $this->pdo->query('SELECT rev FROM role_policy_rev WHERE id=1')->fetchColumn();
 
-        return new Token($rev);
+        return new PolicyConsistencyToken($rev);
     }
 
     public function recordMigration(string $ns, string $name, string $from, string $to, ?string $note = null, ?string $stepsJson = null): void

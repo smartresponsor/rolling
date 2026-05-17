@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Rolling\Infrastructure\Cache;
 
 use App\Rolling\Policy\V2\DecisionWithObligations;
-use App\Rolling\Service\Consistency\TokenSet;
+use App\Rolling\Service\Consistency\ConsistencyTokenSet;
 use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class ConsistentCachePdpV2 implements PdpV2Interface
@@ -18,7 +18,7 @@ final class ConsistentCachePdpV2 implements PdpV2Interface
      */
     public function __construct(
         private readonly PdpV2Interface $inner,
-        private readonly \Closure $tokenFn, // fn(?string $subjectId): TokenSet
+        private readonly \Closure $tokenFn, // fn(?string $subjectId): ConsistencyTokenSet
     ) {
     }
 
@@ -27,7 +27,7 @@ final class ConsistentCachePdpV2 implements PdpV2Interface
      */
     public function check(\App\Rolling\Entity\Role\SubjectId $s, \App\Rolling\Entity\Role\PermissionKey $a, \App\Rolling\Entity\Role\Scope $sc, array $context = []): DecisionWithObligations
     {
-        /** @var TokenSet $tok */
+        /** @var ConsistencyTokenSet $tok */
         $sid = $s->value();
         $act = $a->value();
         $tok = ($this->tokenFn)($sid);

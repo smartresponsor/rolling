@@ -10,7 +10,7 @@ use App\Rolling\Entity\Role\SubjectId;
 use App\Rolling\Integration\Http\V2\Bulk\CsvReader;
 use App\Rolling\Integration\Http\V2\Bulk\NdjsonReader;
 use App\Rolling\Integration\Http\V2\Bulk\NdjsonWriter;
-use App\Rolling\Service\Consistency\Composer;
+use App\Rolling\Service\Consistency\ConsistencyTokenComposer;
 use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -18,9 +18,9 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 final class BulkController
 {
     /**
-     * @param Composer $composer
+     * @param ConsistencyTokenComposer $composer
      */
-    public function __construct(private readonly PdpV2Interface $pdp, private readonly Composer $composer)
+    public function __construct(private readonly PdpV2Interface $pdp, private readonly ConsistencyTokenComposer $composer)
     {
     }
 

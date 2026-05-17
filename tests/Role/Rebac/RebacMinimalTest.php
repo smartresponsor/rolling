@@ -6,8 +6,8 @@ namespace Tests\Role\Rebac;
 
 use App\Rolling\Infrastructure\Rebac\InMemoryTupleStore;
 use App\Rolling\Infrastructure\Rebac\Tuple;
-use App\Rolling\Service\Rebac\Checker;
-use App\Rolling\Service\Rebac\Writer;
+use App\Rolling\Service\Rebac\RebacRelationshipChecker;
+use App\Rolling\Service\Rebac\RebacRelationshipWriter;
 use PHPUnit\Framework\TestCase;
 
 final class RebacMinimalTest extends TestCase
@@ -18,8 +18,8 @@ final class RebacMinimalTest extends TestCase
     public function testDirectAndGroupMembership(): void
     {
         $store = new InMemoryTupleStore();
-        $w = new Writer($store);
-        $c = new Checker($store);
+        $w = new RebacRelationshipWriter($store);
+        $c = new RebacRelationshipChecker($store);
 
         $ns = 'acme';
 

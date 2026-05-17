@@ -11,7 +11,7 @@ use App\Rolling\Infrastructure\Cache\KeyValueCache;
 use App\Rolling\Policy\Obligation\Obligation;
 use App\Rolling\Policy\Obligation\Obligations;
 use App\Rolling\Policy\V2\DecisionWithObligations;
-use App\Rolling\Service\Cache\SubjectEpochs;
+use App\Rolling\Service\Cache\SubjectCacheEpochRegistry;
 use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 /**
@@ -20,15 +20,15 @@ use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 final class CachedPdpV2 implements PdpV2Interface
 {
     /**
-     * @param PdpV2Interface $inner
-     * @param KeyValueCache  $cache
-     * @param SubjectEpochs  $epochs
-     * @param int            $ttlSeconds
+     * @param PdpV2Interface            $inner
+     * @param KeyValueCache             $cache
+     * @param SubjectCacheEpochRegistry $epochs
+     * @param int                       $ttlSeconds
      */
     public function __construct(
         private readonly PdpV2Interface $inner,
         private readonly KeyValueCache $cache,
-        private readonly SubjectEpochs $epochs,
+        private readonly SubjectCacheEpochRegistry $epochs,
         private readonly int $ttlSeconds = 600,
     ) {
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Rolling\Controller\Api;
 
 use App\Rolling\Service\Pipeline\DecisionPipeline;
-use App\Rolling\Service\Pipeline\RequestContext;
+use App\Rolling\Service\Pipeline\RollingPipelineRequestContext;
 use App\Rolling\Service\Pipeline\Stage\ContextStage;
 use App\Rolling\Service\Pipeline\Stage\StrictDenyStage;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,7 +21,7 @@ final class WhatIfController
     public function run(Request $r): JsonResponse
     {
         $p = json_decode((string) $r->getContent(), true) ?? [];
-        $ctx = new RequestContext((string) ($p['tenant'] ?? 't1'), (string) ($p['subject'] ?? 'u1'), (string) ($p['action'] ?? 'read'), (array) ($p['resource'] ?? []), (array) ($p['attrs'] ?? []));
+        $ctx = new RollingPipelineRequestContext((string) ($p['tenant'] ?? 't1'), (string) ($p['subject'] ?? 'u1'), (string) ($p['action'] ?? 'read'), (array) ($p['resource'] ?? []), (array) ($p['attrs'] ?? []));
         $hyp = (array) ($p['hyp'] ?? []);
         foreach ($hyp as $k => $v) {
             $ctx->attrs[$k] = $v;

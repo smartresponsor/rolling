@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\ServiceInterface\Policy;
 
-use App\Rolling\Service\Policy\Decision;
+use App\Rolling\Service\Policy\PolicyEngineDecision;
 
 interface PolicyEngineInterface
 {
@@ -35,7 +35,7 @@ interface PolicyEngineInterface
      * @param array  $resource
      * @param array  $context
      *
-     * @return Decision
+     * @return PolicyEngineDecision
      */
-    public function decide(array $subject, string $action, array $resource, array $context = []): Decision;
+    public function decide(array $subject, string $action, array $resource, array $context = []): PolicyEngineDecision;
 }

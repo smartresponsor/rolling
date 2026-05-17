@@ -28,7 +28,7 @@ Headers echoed: `X-Role-Consistency`, `X-Role-Consistency-Token`.
 
 ## Files
 
-- `src/Http/Role/Api/CheckController.php` — server-side `/v2/check` (TupleReader evidence + Audit Logger).
+- `src/Http/Role/Api/CheckController.php` — server-side `/v2/check` (RelationshipTupleLogReader evidence + Decision audit log writer).
 - `docs/openapi/role_v2.yaml` — OpenAPI 3.1 covering the public endpoints.
 - `docs/api.http` — curl/HTTPie examples.
 - `ops/postman/role.postman_collection.json` — ready to import.

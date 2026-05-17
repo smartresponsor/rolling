@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace App\Rolling\InfrastructureInterface\Admin;
 
-use App\Rolling\Service\Admin\Dto\ApprovalRequest;
+use App\Rolling\Service\Admin\Dto\AdminApprovalRequestDto;
 
 interface ApprovalRequestRepositoryInterface
 {
-    public function save(ApprovalRequest $req): void;
+    public function save(AdminApprovalRequestDto $req): void;
 
-    public function get(string $id): ?ApprovalRequest;
+    public function get(string $id): ?AdminApprovalRequestDto;
 
-    /** @return list<ApprovalRequest> */
+    /** @return list<AdminApprovalRequestDto> */
     public function listPending(): array;
 }

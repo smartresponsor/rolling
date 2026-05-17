@@ -7,7 +7,7 @@ namespace App\Rolling\Controller\Api;
 use App\Rolling\Infrastructure\Admin\ApprovalFsStore;
 use App\Rolling\Infrastructure\Admin\ApproverFsDirectory;
 use App\Rolling\Infrastructure\Admin\OverrideFsPolicy;
-use App\Rolling\Service\Admin\AdminWorkflowService;
+use App\Rolling\Service\Admin\AdminRelationApprovalWorkflowService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,9 +20,9 @@ final class AdminController
     {
     }
 
-    private function svc(): AdminWorkflowService
+    private function svc(): AdminRelationApprovalWorkflowService
     {
-        return new AdminWorkflowService(
+        return new AdminRelationApprovalWorkflowService(
             new ApprovalFsStore($this->baseDir.'/admin'),
             new ApproverFsDirectory($this->baseDir.'/admin'),
             new OverrideFsPolicy($this->baseDir.'/admin'),

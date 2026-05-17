@@ -1,8 +1,8 @@
 # Cache Invalidation + Anti-Stampede (G2)
 
-- `TagInvalidatorInterface` + file-based implementation (`TagInvalidator`).
-- `StampedeGuard` with file lock + TTL jitter (reduce TTL by up to 15%).
-- `PdpCache` that composes tag versions into cache keys and guards recomputation.
+- `TagInvalidatorInterface` + file-based implementation (`FileBackedCacheTagInvalidator`).
+- `CacheStampedeGuardService` with file lock + TTL jitter (reduce TTL by up to 15%).
+- `FileBackedPdpDecisionCache` that composes tag versions into cache keys and guards recomputation.
 
 ## Demos
 
