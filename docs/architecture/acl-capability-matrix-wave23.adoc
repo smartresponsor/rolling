@@ -1,0 +1,33 @@
+= Rolling ACL Capability Matrix - Wave 23
+
+Wave 23 adds a safe capability matrix for Rolling ACL administration.
+
+== Purpose
+
+Rolling exposes metadata describing permission catalog capabilities and allowed ACL mutation types. The matrix helps Administering and the host application understand what can be visualized, reviewed, or eventually executed.
+
+== Current state
+
+Permission catalog capabilities are readable.
+
+ACL mutation capabilities remain blocked until Rolling has Doctrine-backed ACL storage and Rolling-owned mutation execution.
+
+== Safety rules
+
+The matrix may expose:
+
+* permission keys;
+* labels;
+* categories;
+* scopes;
+* mutation type names;
+* storage mode;
+* readiness status.
+
+The matrix must not expose:
+
+* raw subject grants;
+* raw policy internals;
+* secrets;
+* sessions;
+* passwords.

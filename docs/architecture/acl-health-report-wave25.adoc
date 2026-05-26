@@ -1,0 +1,7 @@
+= Wave 25: Rolling ACL Health Report
+
+Rolling now exposes a safe ACL administration health report for Administering and host diagnostics.
+
+The report describes authorization ownership, ACL storage readiness, capability readiness, contract readiness, and forbidden raw ACL/security boundaries.
+
+It must never expose raw subject grants, raw policy internals, secrets, sessions, or passwords.

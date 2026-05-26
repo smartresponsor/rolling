@@ -1,0 +1,29 @@
+= Rolling ACL Administration Contract
+
+Rolling owns application authorization, ACL hierarchy, policy decisions, and permission catalog semantics.
+Administering may visualize and orchestrate ACL changes, but ACL mutation semantics belong to Rolling.
+
+== Contract
+
+`RollingAclAdministrationServiceInterface` is the Administering-facing mutation boundary.
+It accepts safe mutation requests and returns safe results.
+
+== Mutation examples
+
+* assign role to subject
+* revoke role from subject
+* grant permission in scope
+* revoke permission in scope
+* enable/disable ACL rule
+* propose approval/four-eyes flow
+
+== Storage direction
+
+The bootstrap service rejects mutations until Doctrine-backed ACL storage is wired.
+Future storage should own Rolling ACL tables and should not be stored as Accessing account JSON roles.
+
+== Identity format
+
+Subjects from Accessing should use the stable format:
+
+`accessing:account:{id}`

@@ -1,0 +1,18 @@
+= Rolling ACL Review Artifact Boundary - Wave 13
+
+Rolling now exposes a safe artifact exporter for ACL mutation dry-run reviews.
+
+The artifact is intended for Administering reports and operation artifacts. It may contain:
+
+* mutation type
+* subject identifier
+* permission or role key
+* scope key
+* validation status
+* step/warning/violation counts
+* safe review payload
+* checksum
+
+It must not contain passwords, session payloads, secrets, decrypted values, or raw policy internals.
+
+This keeps Rolling as the authorization authority while allowing Administering to persist and visualize review outcomes safely.

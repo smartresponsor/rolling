@@ -1,0 +1,19 @@
+= Wave 12: ACL Mutation Review Boundary
+
+Rolling now provides a safe `RollingAclMutationReview` DTO and `RollingAclMutationReviewBuilderInterface`.
+
+The review layer is intended for Administering screens that need to show an operator what would happen before a mutation is applied.
+
+The review is metadata-only and dry-run friendly. It wraps planner output into a stable review projection with:
+
+* mutation type
+* subject identifier
+* permission or role key
+* scope key
+* validity
+* planner steps
+* warnings
+* violations
+* safe context
+
+This keeps Rolling as the ACL/policy owner while allowing Administering to visualize and orchestrate review workflows.

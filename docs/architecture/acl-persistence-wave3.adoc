@@ -1,0 +1,12 @@
+= Rolling ACL Persistence Wave 3
+
+Rolling owns application authorization. Accessing remains the identity/session owner and Administering remains the administrative UI/orchestration owner.
+
+Wave 3 adds two missing persistence concepts:
+
+* `RollingRoleHierarchy` stores role-to-role inheritance edges.
+* `RollingAclRule` stores explicit subject/permission/scope/effect rules.
+
+These entities prepare Rolling for an application-level ACL hierarchy without forcing Administering to know Rolling internals. Administering should call Rolling permission-decision services and expose CRUD screens only as an administrative surface.
+
+Storage note: these are system/security records and must target the system storage side of the host application, not user/business PostgreSQL data.

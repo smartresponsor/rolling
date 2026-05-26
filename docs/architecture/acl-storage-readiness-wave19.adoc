@@ -1,0 +1,11 @@
+= Wave 19: ACL Storage Readiness
+
+Rolling now exposes a storage-readiness report for Administering and host diagnostics.
+
+The report separates ready safe metadata surfaces from pending Doctrine-backed mutation execution.
+
+Ready surfaces include permission manifests, dry-run reviews, apply request DTOs, and execution-event contracts.
+
+Pending capabilities include persisted ACL mutation execution, persisted execution event repositories, subject-role assignment mutation, and ACL rule mutation.
+
+No subject secrets, sessions, passwords, or raw policy internals are exposed.

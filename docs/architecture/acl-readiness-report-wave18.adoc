@@ -1,0 +1,28 @@
+= Wave 18: ACL Administration Readiness Report
+
+Rolling now exposes a safe ACL administration readiness report.
+
+== Contents
+
+The report may include:
+
+* supported mutation type keys;
+* permission count;
+* role count;
+* aggregate assignment summary;
+* ACL execution summary.
+
+The report must not expose:
+
+* subject grants;
+* secrets;
+* session payloads;
+* passwords;
+* raw policy internals;
+* unreviewed mutation payloads.
+
+== Purpose
+
+Administering can use this report to decide whether the Rolling ACL administration surface is readable, reportable, and ready for controlled apply flows.
+
+The report is deliberately metadata-only and does not execute ACL mutations.

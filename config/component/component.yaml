@@ -1,0 +1,5 @@
+component: Rolling
+ui_label: Rolling
+package: rolling/role
+namespace: App\Rolling
+status: active

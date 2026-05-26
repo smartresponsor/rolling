@@ -1,0 +1,19 @@
+= Rolling Wave 8: ACL Manifest Role Hierarchy Projection
+
+Rolling's safe ACL manifest now includes role metadata and aggregate assignment counts in addition to permission descriptors.
+
+== Exported metadata
+
+The manifest may expose:
+
+* permission key, label, category, scopes, sensitivity flag;
+* role key, label, system flag, and role inheritance keys;
+* aggregate assignment counts.
+
+== Forbidden metadata
+
+The manifest must not expose subject grants, password data, secrets, sessions, token values, or raw policy internals.
+
+== Purpose
+
+Administering can render the application ACL hierarchy without becoming the authorization owner. Rolling remains the source of truth for authorization decisions and ACL persistence.

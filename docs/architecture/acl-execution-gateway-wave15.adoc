@@ -1,0 +1,11 @@
+= ACL Execution Gateway Wave 15
+
+Rolling exposes `RollingAclMutationExecutionGatewayInterface` as a thin execution boundary for reviewed ACL apply requests.
+
+The gateway validates the review-valid flag and delegates to `RollingAclAdministrationServiceInterface`. It does not let Administering own ACL mutation internals.
+
+Current storage can still reject mutations until Doctrine-backed ACL persistence is wired, but the call path is now stable:
+
+----
+review -> apply request -> execution gateway -> ACL administration service -> audit/result
+----

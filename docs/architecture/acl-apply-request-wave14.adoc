@@ -1,0 +1,13 @@
+= Rolling ACL Apply Request Boundary - Wave 14
+
+Rolling now exposes a metadata-only `RollingAclMutationApplyRequest` boundary.
+
+The boundary promotes a reviewed ACL mutation dry-run into a safe request object that can later be sent to the Rolling ACL administration service. It does not apply ACL changes by itself.
+
+Rules:
+
+* Rolling remains the owner of ACL mutation execution.
+* Administering may request review and visualize safe metadata.
+* A valid review can be transformed into an apply request.
+* Invalid reviews are preserved as blocked metadata, not silently applied.
+* No secrets, sessions, password hashes, token payloads, or raw policy internals belong in this boundary.

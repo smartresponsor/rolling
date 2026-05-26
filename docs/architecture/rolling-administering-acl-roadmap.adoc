@@ -1,0 +1,41 @@
+= Rolling ACL Roadmap for Administering Integration
+
+Rolling is the application authorization owner. Accessing supplies identity and session state; Administering supplies the EasyAdmin control surface.
+
+== Target responsibilities
+
+Rolling owns:
+
+* roles and role hierarchy;
+* permission catalog;
+* subject-role assignments;
+* ACL and scoped grants;
+* policy decisions;
+* four-eyes approval, delegation, overrides, and SoD rules;
+* authorization audit.
+
+== Administering integration contract
+
+Administering should call Rolling through a stable permission-decision surface, not through prototype storage internals.
+
+The canonical subject id for Accessing accounts is:
+
+`accessing:account:{id}`
+
+The canonical permission shape is:
+
+`administration.{area}.{action}`
+
+Examples:
+
+* `administration.dashboard.view`
+* `administration.config.view`
+* `administration.config.update`
+* `administration.secret.set`
+* `administration.secret.rotate`
+* `rolling.role.update`
+* `accessing.account.lock`
+
+== Persistence direction
+
+Current file/in-memory/prototype policy stores may remain as compatibility layers during transition. The target ACL hierarchy should become Doctrine-backed so Administering can manage roles, permissions, assignments, approvals, delegations, and overrides through EasyAdmin.

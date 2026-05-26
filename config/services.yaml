@@ -4,6 +4,10 @@ services:
     autoconfigure: true
 
   _instanceof:
+    App\Administering\ServiceInterface\Admin\AdministrationOwnerConfigurationToolProviderInterface:
+      tags: ['administering.owner_configuration_tool_provider']
+    App\Administering\ServiceInterface\Config\AdministrationConfigToolServiceInterface:
+      tags: ['administering.config_tool']
     App\Rolling\ServiceInterface\Policy\VoterInterface:
       tags: ['rolling.policy_voter']
 
@@ -21,9 +25,62 @@ services:
   App\Rolling\Service\:
     resource: '../src/Service/'
 
+  App\Rolling\Service\Config\RollingConfigurationRoleRuntimeService:
+    arguments:
+      $projectDir: '%kernel.project_dir%'
+
+  App\Rolling\Repository\:
+    resource: '../src/Repository/'
+
   App\Rolling\Infrastructure\Rebac\InMemoryTupleStore: ~
   App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface: '@App\Rolling\Infrastructure\Rebac\InMemoryTupleStore'
 
   App\Rolling\Integration\Symfony\DemoPdpV2: ~
 
   App\Rolling\ServiceInterface\Policy\PdpV2Interface: '@App\Rolling\Integration\Symfony\DemoPdpV2'
+
+  App\Rolling\ServiceInterface\Administration\RollingAdministrationPermissionCatalogInterface: '@App\Rolling\Service\Administration\RollingAdministrationPermissionCatalog'
+  App\Rolling\ServiceInterface\Administration\RollingAclAdministrationServiceInterface: '@App\Rolling\Service\Administration\DoctrineRollingAclAdministrationService'
+  App\Rolling\ServiceInterface\Administration\RollingAdministrationPermissionDecisionServiceInterface: '@App\Rolling\Service\Administration\DoctrineRollingAdministrationPermissionDecisionService'
+  App\Rolling\ServiceInterface\Administration\RollingFieldAccessDecisionServiceInterface: '@App\Rolling\Service\Administration\DoctrineRollingFieldAccessDecisionService'
+  App\Rolling\ServiceInterface\Administration\RollingAdministrationCatalogSyncServiceInterface: '@App\Rolling\Service\Administration\DoctrineRollingAdministrationCatalogSyncService'
+  App\Rolling\ServiceInterface\Administration\RollingAdministrationSubjectAccessReportProviderInterface: '@App\Rolling\Service\Administration\DoctrineRollingAdministrationSubjectAccessReportProvider'
+
+
+  App\Rolling\ServiceInterface\Administration\RollingAclManifestBuilderInterface: '@App\Rolling\Service\Administration\RollingAclManifestBuilder'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclManifestExporterInterface: '@App\Rolling\Service\Administration\RollingAclManifestExporter'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationAuditRecorderInterface: '@App\Rolling\Service\Administration\NullRollingAclMutationAuditRecorder'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationValidatorInterface: '@App\Rolling\Service\Administration\RollingAclMutationValidator'
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationPlannerInterface: '@App\Rolling\Service\Administration\RollingAclMutationPlanner'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationReviewBuilderInterface: '@App\Rolling\Service\Administration\RollingAclMutationReviewBuilder'
+
+
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationReviewArtifactExporterInterface: '@App\Rolling\Service\Administration\RollingAclMutationReviewArtifactExporter'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationApplyRequestBuilderInterface: '@App\Rolling\Service\Administration\RollingAclMutationApplyRequestBuilder'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationExecutionGatewayInterface: '@App\Rolling\Service\Administration\RollingAclMutationExecutionGateway'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationExecutionEventRecorderInterface: '@App\Rolling\Service\Administration\DoctrineRollingAclMutationExecutionEventRecorder'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationExecutionReportProviderInterface: '@App\Rolling\Service\Administration\DoctrineRollingAclMutationExecutionReportProvider'
+
+
+  App\Rolling\ServiceInterface\Administration\RollingAclAdministrationReadinessReportProviderInterface: '@App\Rolling\Service\Administration\RollingAclAdministrationReadinessReportProvider'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclStorageReadinessReportProviderInterface: '@App\Rolling\Service\Administration\RollingAclStorageReadinessReportProvider'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclRemediationPlanProviderInterface: '@App\Rolling\Service\Administration\RollingAclRemediationPlanProvider'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclWorkPlanProviderInterface: '@App\Rolling\Service\Administration\RollingAclWorkPlanProvider'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclExecutionPlanProviderInterface: '@App\Rolling\Service\Administration\RollingAclExecutionPlanProvider'
+
+  App\Rolling\ServiceInterface\Administration\RollingAclCapabilityMatrixProviderInterface: '@App\Rolling\Service\Administration\RollingAclCapabilityMatrixProvider'
+  App\Rolling\ServiceInterface\Administration\RollingAclAdministrationContractMatrixProviderInterface: '@App\Rolling\Service\Administration\RollingAclAdministrationContractMatrixProvider'
+  App\Rolling\ServiceInterface\Administration\RollingAclHealthReportProviderInterface: '@App\Rolling\Service\Administration\RollingAclHealthReportProvider'
+  App\Rolling\ServiceInterface\Administration\RollingAclDiagnosticReportProviderInterface: '@App\Rolling\Service\Administration\RollingAclDiagnosticReportProvider'

@@ -1,0 +1,28 @@
+= Rolling Wave 6: Application ACL Manifest
+
+Rolling is the authorization owner for the host application.
+
+Wave 6 adds a safe ACL manifest projection that Administering can read and visualize without taking ownership of policy decisions.
+
+== Manifest content
+
+The manifest exposes only safe metadata:
+
+* permission key;
+* label;
+* category;
+* supported scopes;
+* whether the permission is sensitive.
+
+It does not expose secrets, user credentials, session data, policy internals, or private approval payloads.
+
+== Administering use
+
+Administering may use the manifest to:
+
+* render permission catalogs;
+* build ACL administration screens;
+* show sensitive permissions more carefully;
+* compare expected permissions with persisted ACL grants.
+
+Rolling remains the policy authority and PDP owner.

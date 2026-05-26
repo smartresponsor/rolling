@@ -1,0 +1,10 @@
+= Wave 16: ACL Execution Events
+
+Rolling now has a dedicated metadata-only execution event boundary for reviewed ACL mutation apply requests.
+
+`RollingAclMutationExecutionGateway` emits `RollingAclMutationExecutionEvent` after invalid-review rejection and after delegated ACL execution.
+
+The default recorder is intentionally null. This stabilizes the service contract before adding Doctrine-backed event persistence.
+
+The event may include request key, mutation type, subject identifier, permission or role key, scope key, requester, status, safe message, and safe context.
+It must not include secrets, sessions, passwords, raw policy internals, or decrypted configuration values.

@@ -1,0 +1,23 @@
+= Rolling ACL Manifest Wave 7
+
+Rolling exposes the application ACL catalog to Administering through a safe manifest/export boundary.
+
+== Ownership
+
+* Rolling owns permissions, roles, ACL hierarchy, policy decisions, and authorization semantics.
+* Administering may visualize and orchestrate the safe metadata exported by Rolling.
+* Accessing remains the identity/authentication/session owner.
+
+== Export rule
+
+The manifest exporter returns only metadata:
+
+* permission key
+* label
+* category
+* scopes
+* sensitivity flag
+* generated timestamp
+* manifest version
+
+The export must not include subject grants, secret values, password data, session payloads, or security internals.

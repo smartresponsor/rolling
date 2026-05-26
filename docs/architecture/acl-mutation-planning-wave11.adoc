@@ -1,0 +1,7 @@
+= ACL Mutation Planning
+
+Rolling exposes a dry-run ACL mutation planning boundary for Administering.
+
+The planner validates the mutation request and returns safe review metadata: mutation type, subject identifier, permission or role key, scope key, planned steps, warnings, and safe context.
+
+The plan does not expose credentials, sessions, password material, subject private data, or raw policy internals. It is designed for Administering review screens before a future Doctrine-backed ACL mutation service executes the change.

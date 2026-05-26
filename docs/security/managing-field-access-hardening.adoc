@@ -1,0 +1,37 @@
+= Managing Field Access Hardening
+
+Managing field value access is authorized through Rolling with the permission key `managing.field.view`.
+Other Managing field permissions, such as profile update or policy configuration, are control-plane permissions and must not be used as substitutes for value access.
+
+== Scope chain
+
+Rolling evaluates Managing field access from most-specific to least-specific scope:
+
+. `component:managing:resource:{resource}:page:{page}:field:{field}`
+. `component:managing:resource:{resource}:page:{page}`
+. `component:managing:resource:{resource}`
+. `component:managing`
+. `global`
+
+The resource FQCN remains in decision attributes. The scope token is normalized and bounded so ACL rows remain storage-safe.
+
+== Mutation corridor
+
+Administering may prepare/review/apply only these mutation types for Managing field access:
+
+* `permission.grant`
+* `permission.revoke`
+* `acl.allow`
+* `acl.deny`
+
+For access to field values, the permission must be exactly `managing.field.view`.
+Profile visibility preferences are presentation-only and remain outside this access grant corridor.
+
+== Deny precedence
+
+Effective access is conservative:
+
+* direct subject deny wins over direct allow;
+* role deny wins inside role grants;
+* absence of a matching rule returns abstain;
+* Managing may fail closed when the external Rolling adapter is enabled and unavailable.

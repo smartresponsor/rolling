@@ -15,6 +15,11 @@ final class Scope
         return new self('global');
     }
 
+    public static function fromKey(string $key): self
+    {
+        return new self($key);
+    }
+
     public static function tenant(string $tenantId): self
     {
         return new self('tenant:'.$tenantId);

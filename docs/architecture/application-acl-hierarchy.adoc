@@ -1,0 +1,45 @@
+= Rolling Application ACL Hierarchy
+
+Rolling is the application authorization authority for the host application.
+Accessing authenticates subjects. Administering visualizes and edits the administrative surface.
+Rolling owns the durable ACL model and policy decisions.
+
+== First Persistent ACL Layer
+
+[source,text]
+----
+rolling_role
+rolling_permission
+rolling_role_permission
+rolling_subject_role_assignment
+----
+
+These tables are the first Doctrine-backed baseline for application ACL. They do not remove the
+existing PDP, ReBAC, approval, delegation, or policy services. They give Administering a stable
+CRUD surface and give Rolling a persistent hierarchy to harden in later waves.
+
+== Subject Convention
+
+Accessing accounts should be mapped to Rolling subjects as:
+
+[source,text]
+----
+accessing:account:{id}
+----
+
+== Permission Convention
+
+Administering permissions use dotted keys:
+
+[source,text]
+----
+administration.dashboard.view
+administration.config.view
+administration.config.update
+administration.secret.set
+administration.secret.rotate
+rolling.role.view
+rolling.role.update
+accessing.account.view
+accessing.account.lock
+----

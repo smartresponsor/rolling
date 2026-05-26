@@ -4,14 +4,19 @@
   "type": "symfony-bundle",
   "license": "MIT",
   "require": {
-    "php": "^8.4",
+    "doctrine/dbal": "^4.0",
+    "doctrine/doctrine-bundle": "^3.0",
+    "doctrine/doctrine-migrations-bundle": "^4.0",
+    "doctrine/orm": "^3.0",
     "ext-ctype": "*",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
     "ext-openssl": "*",
     "ext-pdo": "*",
+    "php": "^8.4",
     "psr/simple-cache": "^3.0",
+    "smart-responsor/objecting": "*@dev",
     "symfony/config": "^8.0",
     "symfony/dependency-injection": "^8.0",
     "symfony/error-handler": "^8.0",
@@ -24,8 +29,7 @@
     "symfony/twig-bundle": "^8.0",
     "symfony/validator": "^8.0",
     "symfony/yaml": "^8.0",
-    "twig/twig": "^3.24",
-    "smart-responsor/objecting": "*@dev"
+    "twig/twig": "^3.24"
   },
   "require-dev": {
     "dbrekelmans/bdi": "^1.4.1",

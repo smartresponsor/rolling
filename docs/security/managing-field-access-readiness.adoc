@@ -1,0 +1,92 @@
+= Rolling Managing Field Access Readiness
+:toc:
+
+== Purpose
+
+This document is the Rolling-side readiness checkpoint for Managing field-value access.
+Rolling owns authorization semantics for the field-access contour.
+It does not own EasyAdmin rendering, Managing view profile storage, or Administering control-plane screens.
+
+== Canonical permission
+
+The only permission that grants or denies access to field values is:
+
+[source,text]
+----
+managing.field.view
+----
+
+The following permissions are control-plane/profile permissions and must not be treated as field-value access grants:
+
+* `managing.field.configure`
+* `managing.field.profile.self_update`
+* `managing.field.profile.user_update`
+* `managing.field.profile.role_update`
+* `managing.field.profile.group_update`
+* `managing.field.profile.assign`
+
+== Scope format
+
+The canonical field access scope starts with the Managing component scope:
+
+[source,text]
+----
+component:managing
+----
+
+The most specific field-level scope uses:
+
+[source,text]
+----
+component:managing:resource:<resource>:page:<page>:field:<field>
+----
+
+The scope chain may safely degrade through page, resource, component, and global scopes, but a field-value access decision must still be tied to `managing.field.view`.
+
+== Required decision attributes
+
+Rolling field access decisions require these attributes:
+
+* `permission`
+* `component`
+* `resource`
+* `field`
+* `page`
+* `operation`
+* `subject`
+
+The expected operation for field-value access is `view`.
+
+== Allowed mutation corridor
+
+The Administering review/apply corridor may only emit these mutation types for Managing field-value access:
+
+* `permission.grant`
+* `permission.revoke`
+* `acl.allow`
+* `acl.deny`
+
+Role-level access uses permission grant/revoke.
+User/group direct access uses ACL allow/deny.
+
+== Readiness checklist
+
+Rolling is ready for Managing field-value access when:
+
+* `RollingManagingFieldPermissionVocabulary::FIELD_VIEW` is `managing.field.view`.
+* `RollingManagingFieldAccessScopeVocabulary` rejects profile/configure permissions as field-value access permissions.
+* Direct subject rules are evaluated before role/inherited role permissions.
+* Deny wins inside a decision layer.
+* Abstain is returned when no matching field-value access grant is found.
+* Administering validates that field-access reviews use `managing.field.view` only.
+* Managing receives allow/deny/abstain through the optional external access adapter.
+
+== Explainability boundary
+
+Rolling deny must be reported to Managing diagnostics as an access-axis decision, not as presentation hiding.
+The canonical reason code exposed by Managing is:
+
+[source,text]
+----
+rolling_field_value_access_denied
+----

@@ -1,0 +1,21 @@
+= Rolling ACL Work Plan — Wave 21
+
+Wave 21 adds a safe work-plan provider for Rolling ACL hardening.
+
+== Scope
+
+Rolling remains the authorization, ACL, permission catalog, policy decision, and ACL mutation owner.
+
+The work plan exposes only metadata about:
+
+* remediation items;
+* storage-readiness blockers;
+* permission catalog and manifest safety.
+
+== Mutation boundary
+
+Real ACL mutation remains blocked until Rolling reports Doctrine-backed storage readiness.
+
+== Forbidden data
+
+The work plan must not expose raw subject grants, raw policy internals, sessions, passwords, or secrets.

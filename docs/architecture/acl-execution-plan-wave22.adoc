@@ -1,0 +1,15 @@
+= Wave 22: Rolling ACL Execution Plan
+
+Rolling now publishes a metadata-only ACL execution plan for Administering aggregation.
+
+The plan converts ACL work/readiness metadata into safe execution-step descriptors.
+
+The plan does not apply ACL mutations. Real mutation execution remains behind Rolling-owned validation, review, apply and execution gateway boundaries.
+
+Forbidden payloads:
+
+* raw subject grants
+* raw policy internals
+* secrets
+* sessions
+* passwords

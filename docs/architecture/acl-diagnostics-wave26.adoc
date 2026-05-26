@@ -1,0 +1,13 @@
+= Wave 26: Rolling ACL Diagnostics
+
+Rolling now exposes a safe diagnostic issue register for its ACL administration surface.
+
+The diagnostic provider derives issues from Rolling-owned health checks and only emits metadata suitable for Administering visualization.
+
+== Blocking example
+
+If ACL storage is still bootstrap-only, diagnostics expose that state as a blocking issue. Real ACL mutation execution must remain blocked until Doctrine-backed storage is ready.
+
+== Forbidden payloads
+
+Diagnostics must never include raw subject grants, raw policy internals, secrets, sessions, passwords, or decrypted credentials.

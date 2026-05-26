@@ -1,0 +1,18 @@
+= Rolling Admin Permission Catalog Wave 4
+
+Rolling exposes the administration permission catalog as both plain permission keys and safe descriptors.
+
+The catalog is consumed by Administering for menu visibility, form gating, ACL editing, and audit labeling.
+
+== Descriptor fields
+
+* key: canonical permission key.
+* label: human-readable admin label.
+* category: grouping for Administering UI.
+* scopes: allowed scope families such as global, component, environment, or application.
+* sensitive: whether granting or executing the permission needs elevated review.
+
+== Ownership
+
+Rolling remains the owner of roles, permissions, ACL rules, policy decisions, delegation, approval, and overrides.
+Administering may visualize and edit Rolling-owned ACL records through its UI, but it must not duplicate the authorization source of truth.

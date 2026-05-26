@@ -1,0 +1,16 @@
+= ACL Mutation Validation Wave 10
+
+Rolling now exposes a dedicated validation boundary for Administering-driven ACL mutation requests.
+
+`RollingAclMutationValidatorInterface` validates the mutation type, subject identifier, permission or role key, scope key, and requester subject before any persistence-backed ACL mutation implementation is allowed to act on the request.
+
+The bootstrap administration service still rejects mutations until Doctrine-backed ACL storage is wired. However, rejected mutations now pass through validation and audit hooks so that Administering can show a safe, explainable result without relying on raw Rolling internals.
+
+Allowed initial mutation types are:
+
+* `role.assign`
+* `role.revoke`
+* `permission.grant`
+* `permission.revoke`
+* `acl.allow`
+* `acl.deny`

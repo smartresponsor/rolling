@@ -1,0 +1,13 @@
+= ACL Mutation Audit Boundary
+
+Rolling owns application authorization and ACL policy. Administering may request ACL mutations through Rolling contracts, but Rolling remains responsible for accepting, rejecting, applying, and auditing those mutations.
+
+Wave 9 adds a metadata-only audit boundary:
+
+* `RollingAclMutationAuditEvent`
+* `RollingAclMutationAuditRecorderInterface`
+* `NullRollingAclMutationAuditRecorder`
+
+The bootstrap ACL administration service still rejects mutations until Doctrine-backed ACL storage is wired, but every attempted mutation now has a clear audit hook.
+
+Audit events must not contain secrets, password data, session payloads, raw security internals, or private policy internals. They may contain only mutation type, status, subject reference, permission/role key, scope key, requester subject, and safe context.

@@ -1,0 +1,15 @@
+= Wave 24: Rolling ACL Contract Matrix
+
+Rolling now provides a safe ACL administration contract matrix for Administering integration diagnostics.
+
+== Contracts
+
+The matrix describes the permission catalog, ACL manifest builder/exporter, mutation validator, review builder, apply-request builder, execution gateway, ACL persistence readiness and forbidden raw-grant exposure boundary.
+
+== Storage Mode
+
+ACL mutation execution remains blocked while Rolling reports bootstrap storage or non-Doctrine-backed persistence.
+
+== Safety
+
+Rolling does not expose raw subject grants, raw policy internals, sessions, passwords or secrets through this matrix.

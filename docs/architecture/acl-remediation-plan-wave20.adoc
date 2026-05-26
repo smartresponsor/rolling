@@ -1,0 +1,16 @@
+= ACL Remediation Plan Wave 20
+
+Wave 20 adds a safe remediation plan provider for Rolling ACL administration readiness.
+
+Rolling remains the policy and ACL authority. The remediation plan only explains what is still missing before Administering may safely orchestrate real ACL mutations.
+
+== Current checks
+
+* ACL storage mode
+* Doctrine-backed readiness flag
+* expected ACL persistence entities
+* allowed mutation type catalog
+
+== Safety
+
+The plan must not expose subject grants, credentials, sessions, passwords, or raw policy internals.

@@ -1,0 +1,24 @@
+= Rolling ACL Execution Report - Wave 17
+
+Rolling exposes a metadata-only execution report contract for ACL mutation execution events.
+
+The first implementation is intentionally bootstrap-only and returns an empty report until Rolling execution events are persisted. This keeps Administering integrated against a stable contract without pretending that historical storage exists.
+
+Allowed report data:
+
+* mutation type
+* execution status
+* subject identifier
+* counts by status
+* counts by mutation type
+* safe event messages
+* safe context metadata
+
+Forbidden report data:
+
+* passwords
+* sessions
+* secrets
+* raw policy internals
+* decrypted credentials
+* raw security payloads
