@@ -3,3 +3,51 @@ ui_label: Rolling
 package: rolling/role
 namespace: App\Rolling
 status: active
+
+# Rolling owns its integration contract here.
+# Administering reads this via RollingConfigurationToolProvider::integrationContract().
+# The 'integrations.rolling' block in Administering/config/component/component.yaml
+# is now DELETED — this is the single source of truth.
+integrations:
+  rolling:
+    owns: authorization_acl_policy
+
+    # ACL decision services
+    decision_contract: App\Rolling\ServiceInterface\Administration\RollingAdministrationPermissionDecisionServiceInterface
+    field_decision_contract: App\Rolling\ServiceInterface\Administration\RollingFieldAccessDecisionServiceInterface
+
+    # Managing / Rolling field-access adapter
+    managing_rolling_external_access_backend: rolling
+    managing_rolling_external_access_failure_effect: deny
+    managing_rolling_external_access_permission_key: managing.field.view
+    managing_rolling_external_access_adapter: App\Managing\Resolver\Crud\ManageCrudRollingFieldExternalAccessResolver
+    managing_external_access_resolver_contract: App\Managing\ResolverInterface\Crud\ManageCrudFieldExternalAccessResolverInterface
+    managing_rolling_external_access_readiness_surface: administration_managing_rolling_field_access_readiness
+
+    # Managing field visibility
+    managing_visibility_explanation_contract: App\Managing\ResolverInterface\Crud\ManageCrudFieldVisibilityExplanationResolverInterface
+    managing_visibility_explanation_axes: [access, presentation, availability]
+    managing_visibility_inspection_contract: App\Managing\InspectorInterface\Crud\ManageCrudFieldVisibilityInspectorInterface
+
+    # Managing field-access policy
+    managing_field_access_descriptor_validator: App\Managing\ValidatorInterface\Administration\ManagingFieldAccessPolicyDescriptorValidatorInterface
+    managing_field_access_hardening_doc: docs/architecture/022-managing-field-access-catalog-hardening.adoc
+    managing_field_visibility_readiness_doc: docs/architecture/023-managing-rolling-administering-field-visibility-readiness.adoc
+
+    # Managing field view profiles
+    managing_profile_apply_contract: App\Managing\HandlerInterface\Crud\ManageCrudFieldUserProfileApplyHandlerInterface
+    managing_profile_storage_entity: App\Managing\Entity\Crud\ManageCrudFieldViewProfileRule
+    managing_profile_storage_entity_manager: system
+
+    # Administering route names for Rolling-owned surfaces
+    field_access_apply_surface: administration_managing_field_access_mutation_apply
+    field_view_profile_surface: administration_managing_field_view_profiles
+    field_view_profile_priority_surface: administration_managing_field_view_profile_priority
+    field_view_profile_review_surface: administration_managing_field_view_profile_edit
+    field_view_profile_apply_surface: administration_managing_field_view_profile_apply
+    field_visibility_explanation_surface: administration_managing_field_visibility_explanation
+    field_visibility_inspection_surface: administration_managing_field_visibility_inspection
+
+    # Service section anchor sync
+    service_section_anchor_sync_operation: administration.service_section_anchors.sync
+    service_section_anchor_sync_doc: docs/architecture/032-service-section-anchor-sync-operation.adoc

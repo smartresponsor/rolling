@@ -7,7 +7,7 @@ namespace Tests\Role\Acl;
 use App\Rolling\Entity\Role\Scope;
 use App\Rolling\Entity\Role\SubjectId;
 use App\Rolling\Infrastructure\Acl\Source\GithubAclSource;
-use App\Rolling\Infrastructure\Acl\Source\GithubSubjectResolver;
+use App\Rolling\InfrastructureInterface\Acl\Source\GithubSubjectResolverInterface;
 use App\Rolling\Net\Http\SimpleHttpClientInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ final class GithubAclSourceTest extends TestCase
             }
         };
 
-        $resolver = new class implements GithubSubjectResolver {
+        $resolver = new class implements GithubSubjectResolverInterface {
             public function githubLogin(SubjectId $subject): ?string
             {
                 return $subject->value();

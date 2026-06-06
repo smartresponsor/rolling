@@ -1,16 +1,16 @@
 role_policy_get_draft:
   path: /v2/role/policy/draft
-  controller: App\Rolling\Controller\Api\PolicyController::getDraft
   methods: [ GET ]
+  controller: 'App\Rolling\Service\Http\Role\Api\PolicyHttpService::getDraft'
 role_policy_put_draft:
   path: /v2/role/policy/draft
-  controller: App\Rolling\Controller\Api\PolicyController::putDraft
   methods: [ POST ]
+  controller: 'App\Rolling\Service\Http\Role\Api\PolicyHttpService::putDraft'
 role_policy_publish:
   path: /v2/role/policy/publish
-  controller: App\Rolling\Controller\Api\PolicyController::publish
   methods: [ POST ]
+  controller: 'App\Rolling\Service\Http\Role\Api\PolicyHttpService::publish'
 role_policy_effective:
   path: /v2/role/policy/effective
-  controller: App\Rolling\Controller\Api\PolicyController::getEffective
   methods: [ GET ]
+  controller: 'App\Rolling\Service\Http\Role\Api\PolicyHttpService::getEffective'

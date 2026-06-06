@@ -4,23 +4,26 @@
   "type": "symfony-bundle",
   "license": "MIT",
   "require": {
+    "configuring/config": "*@dev",
     "doctrine/dbal": "^4.0",
     "doctrine/doctrine-bundle": "^3.0",
     "doctrine/doctrine-migrations-bundle": "^4.0",
     "doctrine/orm": "^3.0",
+    "easycorp/easyadmin-bundle": "^5.0",
     "ext-ctype": "*",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
     "ext-openssl": "*",
     "ext-pdo": "*",
+    "objecting/object": "*@dev",
     "php": "^8.4",
     "psr/simple-cache": "^3.0",
-    "smart-responsor/objecting": "*@dev",
     "symfony/config": "^8.0",
     "symfony/dependency-injection": "^8.0",
     "symfony/error-handler": "^8.0",
     "symfony/event-dispatcher": "^8.0",
+    "symfony/form": "^8.0",
     "symfony/framework-bundle": "^8.0",
     "symfony/http-foundation": "^8.0",
     "symfony/http-kernel": "^8.0",
@@ -72,7 +75,13 @@
       "@lint",
       "@phpstan",
       "@test"
-    ]
+    ],
+    "surface:audit": "@php tools/qa/rolling-surface-audit.php",
+    "symfony81:audit": "@php tools/qa/rolling-symfony81-audit.php",
+    "http-payload:audit": "@php tools/qa/rolling-http-payload-audit.php",
+    "checkbox-form:audit": "@php tools/qa/rolling-checkbox-form-audit.php",
+    "easyadmin-surface:audit": "@php tools/qa/rolling-easyadmin-surface-audit.php",
+    "solid-canon:audit": "@php tools/qa/rolling-solid-canon-audit.php"
   },
   "config": {
     "sort-packages": true,
@@ -86,6 +95,13 @@
     {
       "type": "path",
       "url": "../Objecting",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Configuring",
       "options": {
         "symlink": true
       }

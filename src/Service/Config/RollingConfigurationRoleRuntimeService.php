@@ -4,117 +4,123 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Config;
 
-use App\Administering\Service\Config\ConfigApplyService;
-use App\Administering\Service\Config\ConfigFileWriterService;
-use App\Administering\ServiceInterface\Config\AdministrationConfigToolServiceInterface;
-use App\Administering\Value\Config\AdministrationConfigToolDescriptor;
-use App\Rolling\Form\Config\RollingConfigurationRoleRuntimeFormType;
-use App\Rolling\Value\Form\Config\RollingConfigurationRoleRuntimeData;
+use App\Configuring\ServiceInterface\Config\ConfigToolServiceInterface;
+use App\Configuring\ServiceInterface\Config\ConfigVariableToolServiceInterface;
+use App\Configuring\ServiceInterface\Config\ManagedConfigVariablesProviderInterface;
+use App\Configuring\Value\Config\ConfigToolDescriptor;
+use App\Configuring\Value\Config\ConfigVariable;
+use App\Configuring\Value\Config\ConfigVariableType;
 use Symfony\Component\Yaml\Yaml;
 
-final readonly class RollingConfigurationRoleRuntimeService implements AdministrationConfigToolServiceInterface
+/**
+ * Rolling-owned configuration tool for role runtime settings.
+ *
+ * This service declares the variables it owns, but it does not depend on
+ * Administering writers, SQLite records, or EasyAdmin mechanics. Administering
+ * is responsible for discovery, form building, central writing, and indexing.
+ */
+final readonly class RollingConfigurationRoleRuntimeService implements ConfigToolServiceInterface, ManagedConfigVariablesProviderInterface, ConfigVariableToolServiceInterface
 {
     public function __construct(
         private string $projectDir,
-        private ConfigApplyService $applyService,
-        private ConfigFileWriterService $fileWriter,
     ) {
     }
 
-    public function descriptor(): AdministrationConfigToolDescriptor
+    public function descriptor(): ConfigToolDescriptor
     {
-        return new AdministrationConfigToolDescriptor(
+        return new ConfigToolDescriptor(
             applicationCode: 'Rolling',
             toolCode: 'rolling.role_runtime',
             label: 'Rolling Role Runtime',
             description: 'Runtime knobs for the Rolling role subsystem.',
-            formClass: RollingConfigurationRoleRuntimeFormType::class,
+            formClass: '',
             serviceClass: self::class,
             requiredPermission: 'administration.config.update',
-            editableFields: ['enabled', 'policyNamespace', 'adminNamespace', 'auditNamespace', 'opsDir', 'sdkNamespace'],
+            editableFields: [],
             sensitiveFields: [],
             readableFiles: ['config/component/runtime.yaml'],
             writableFiles: ['config/component/runtime.yaml'],
             metadata: [
                 'section' => 'Configuration',
                 'kind' => 'runtime',
+                'writer_owner' => 'administering',
             ],
             secretNames: [],
             applyStrategy: 'component_runtime_yaml',
         );
     }
 
-    public function loadData(): object
+    /** @return iterable<ConfigVariable> */
+    public function managedVariables(): iterable
     {
-        $data = new RollingConfigurationRoleRuntimeData();
+        yield ConfigVariable::yaml('role.enabled', 'config/component/runtime.yaml', ConfigVariableType::BOOL)
+            ->withLabel('Role subsystem enabled')
+            ->required();
+        yield ConfigVariable::yaml('role.policy_namespace', 'config/component/runtime.yaml')
+            ->withLabel('Policy namespace')
+            ->required();
+        yield ConfigVariable::yaml('role.admin_namespace', 'config/component/runtime.yaml')
+            ->withLabel('Admin namespace')
+            ->required();
+        yield ConfigVariable::yaml('role.audit_namespace', 'config/component/runtime.yaml')
+            ->withLabel('Audit namespace')
+            ->required();
+        yield ConfigVariable::yaml('role.ops_dir', 'config/component/runtime.yaml')
+            ->withLabel('Operations directory')
+            ->required();
+        yield ConfigVariable::yaml('role.sdk_namespace', 'config/component/runtime.yaml')
+            ->withLabel('SDK namespace')
+            ->required();
+    }
+
+    /** @return array<string, mixed> */
+    public function loadVariableData(): array
+    {
         $runtime = $this->runtimeManifest();
         $role = is_array($runtime['role'] ?? null) ? $runtime['role'] : [];
 
-        $data->enabled = (bool) ($role['enabled'] ?? true);
-        $data->policyNamespace = (string) ($role['policy_namespace'] ?? $data->policyNamespace);
-        $data->adminNamespace = (string) ($role['admin_namespace'] ?? $data->adminNamespace);
-        $data->auditNamespace = (string) ($role['audit_namespace'] ?? $data->auditNamespace);
-        $data->opsDir = (string) ($role['ops_dir'] ?? $data->opsDir);
-        $data->sdkNamespace = (string) ($role['sdk_namespace'] ?? $data->sdkNamespace);
-
-        return $data;
-    }
-
-    public function save(object $data, array $context = []): array
-    {
-        $payload = $this->assertData($data);
-        $values = $this->stateRows($payload, 'pending');
-        $masked = [
-            'enabled' => $payload->enabled,
-            'policy_namespace' => $payload->policyNamespace,
-            'admin_namespace' => $payload->adminNamespace,
-            'audit_namespace' => $payload->auditNamespace,
-            'ops_dir' => $payload->opsDir,
-            'sdk_namespace' => $payload->sdkNamespace,
+        return [
+            'role.enabled' => (bool) ($role['enabled'] ?? true),
+            'role.policy_namespace' => (string) ($role['policy_namespace'] ?? 'App\\Rolling\\Policy'),
+            'role.admin_namespace' => (string) ($role['admin_namespace'] ?? 'App\\Rolling\\Admin'),
+            'role.audit_namespace' => (string) ($role['audit_namespace'] ?? 'App\\Rolling\\Audit'),
+            'role.ops_dir' => (string) ($role['ops_dir'] ?? 'ops/rolling'),
+            'role.sdk_namespace' => (string) ($role['sdk_namespace'] ?? 'App\\Rolling\\SDK'),
         ];
-
-        return $this->applyService->save($this->descriptor(), (string) ($context['actor'] ?? 'system'), $values, $masked, []);
     }
 
-    public function apply(object $data, array $context = []): array
+    /**
+     * @param array<string, mixed> $variables
+     * @param array<string, mixed> $context
+     *
+     * @return array{status:string, messages:list<string>, masked_changes:array<string, string>, file_changes:array<int, array<string, mixed>>, secret_changes:array<int, array<string, mixed>>}
+     */
+    public function saveVariables(array $variables, array $context = []): array
     {
-        $payload = $this->assertData($data);
-        $patch = $this->runtimePatch($payload);
-        $write = $this->fileWriter->write(
-            $this->projectDir.'/../Rolling',
-            'config/component/runtime.yaml',
-            $patch,
-            $this->descriptor()->writableFiles,
-        );
-
-        $status = 'applied' === $write['status'] ? 'applied' : 'failed';
-        $values = $this->stateRows($payload, $status);
-
-        return $this->applyService->apply(
-            $this->descriptor(),
-            (string) ($context['actor'] ?? 'system'),
-            $values,
-            $patch,
-            [],
-            [[
-                'path' => $write['path'],
-                'backup_path' => $write['backup_path'],
-                'status' => $write['status'],
-                'message' => $write['message'],
-            ]],
-            [],
-            'applied' === $write['status'] ? null : $write['message'],
-            $status,
-        );
+        return [
+            'status' => 'pending',
+            'messages' => ['Rolling declared a variable-based role runtime configuration review. Administering owns persistence and file writing.'],
+            'masked_changes' => $this->runtimePatchFromVariables($variables),
+            'file_changes' => [],
+            'secret_changes' => [],
+        ];
     }
 
-    private function assertData(object $data): RollingConfigurationRoleRuntimeData
+    /**
+     * @param array<string, mixed> $variables
+     * @param array<string, mixed> $context
+     *
+     * @return array{status:string, messages:list<string>, masked_changes:array<string, string>, file_changes:array<int, array<string, mixed>>, secret_changes:array<int, array<string, mixed>>}
+     */
+    public function applyVariables(array $variables, array $context = []): array
     {
-        if (!$data instanceof RollingConfigurationRoleRuntimeData) {
-            throw new \InvalidArgumentException('Rolling role runtime config expects RollingConfigurationRoleRuntimeData.');
-        }
-
-        return $data;
+        return [
+            'status' => 'review_required',
+            'messages' => ['Rolling does not write host files directly. Apply variable changes through Administering central writer.'],
+            'masked_changes' => $this->runtimePatchFromVariables($variables),
+            'file_changes' => [],
+            'secret_changes' => [],
+        ];
     }
 
     /** @return array<string, mixed> */
@@ -127,34 +133,42 @@ final readonly class RollingConfigurationRoleRuntimeService implements Administr
     }
 
     /**
+     * @param array<string, mixed> $variables
+     *
      * @return array<string, mixed>
      */
-    private function runtimePatch(RollingConfigurationRoleRuntimeData $data): array
+    private function runtimePatchFromVariables(array $variables): array
     {
         return [
             'role' => [
-                'enabled' => $data->enabled,
-                'policy_namespace' => $data->policyNamespace,
-                'admin_namespace' => $data->adminNamespace,
-                'audit_namespace' => $data->auditNamespace,
-                'ops_dir' => $data->opsDir,
-                'sdk_namespace' => $data->sdkNamespace,
+                'enabled' => (bool) ($variables['role.enabled'] ?? true),
+                'policy_namespace' => (string) ($variables['role.policy_namespace'] ?? ''),
+                'admin_namespace' => (string) ($variables['role.admin_namespace'] ?? ''),
+                'audit_namespace' => (string) ($variables['role.audit_namespace'] ?? ''),
+                'ops_dir' => (string) ($variables['role.ops_dir'] ?? ''),
+                'sdk_namespace' => (string) ($variables['role.sdk_namespace'] ?? ''),
             ],
         ];
     }
 
-    /**
-     * @return array<string, array{fieldType:string, secret:bool, current:?string, pending:?string, masked:?string, status:string}>
-     */
-    private function stateRows(RollingConfigurationRoleRuntimeData $data, string $status): array
+    public function loadData(): object
     {
-        return [
-            'enabled' => ['fieldType' => 'boolean', 'secret' => false, 'current' => $data->enabled ? '1' : '0', 'pending' => $data->enabled ? '1' : '0', 'masked' => null, 'status' => $status],
-            'policy_namespace' => ['fieldType' => 'string', 'secret' => false, 'current' => $data->policyNamespace, 'pending' => $data->policyNamespace, 'masked' => null, 'status' => $status],
-            'admin_namespace' => ['fieldType' => 'string', 'secret' => false, 'current' => $data->adminNamespace, 'pending' => $data->adminNamespace, 'masked' => null, 'status' => $status],
-            'audit_namespace' => ['fieldType' => 'string', 'secret' => false, 'current' => $data->auditNamespace, 'pending' => $data->auditNamespace, 'masked' => null, 'status' => $status],
-            'ops_dir' => ['fieldType' => 'string', 'secret' => false, 'current' => $data->opsDir, 'pending' => $data->opsDir, 'masked' => null, 'status' => $status],
-            'sdk_namespace' => ['fieldType' => 'string', 'secret' => false, 'current' => $data->sdkNamespace, 'pending' => $data->sdkNamespace, 'masked' => null, 'status' => $status],
-        ];
+        return new \ArrayObject($this->loadVariableData());
+    }
+
+    public function save(object $data, array $context = []): array
+    {
+        return $this->saveVariables($this->objectToArray($data), $context);
+    }
+
+    public function apply(object $data, array $context = []): array
+    {
+        return $this->applyVariables($this->objectToArray($data), $context);
+    }
+
+    /** @return array<string, mixed> */
+    private function objectToArray(object $data): array
+    {
+        return $data instanceof \Traversable ? iterator_to_array($data) : get_object_vars($data);
     }
 }

@@ -1,4 +1,4 @@
 app_healthz:
   path: /healthz
-  controller: App\Rolling\Controller\HealthController::index
   methods: [ GET ]
+  controller: 'App\Rolling\Service\Http\Role\HealthHttpService::index'

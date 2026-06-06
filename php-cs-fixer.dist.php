@@ -9,7 +9,7 @@ $finder = PhpCsFixer\Finder::create()
         __DIR__ . '/bin',
     ])
     ->name('*.php')
-    ->notPath('tests/SDK/PHP/psr_stubs.php')
+    ->notPath('tests/SDK/PHP/psr_stubs.php');
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)

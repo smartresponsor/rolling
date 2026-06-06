@@ -5,3 +5,13 @@ role:
   audit_namespace: role-audit
   ops_dir: '%kernel.project_dir%/ops'
   sdk_namespace: Rolling\SDK\V2
+
+role_hierarchy:
+  enabled: true
+  review_required: true
+  bootstrap_viewer_role: administration.viewer
+  bootstrap_operator_role: administration.operator
+  bootstrap_security_admin_role: administration.security_admin
+  default_edges:
+    - administration.operator>administration.viewer
+    - administration.security_admin>administration.operator

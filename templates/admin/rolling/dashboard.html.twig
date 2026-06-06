@@ -1,0 +1,18 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Rolling{% endblock %}
+
+{% block main %}
+    <section class="content-panel">
+        <h2>Rolling administration surface</h2>
+        <p>
+            Rolling owns this native EasyAdmin surface. Public/front access remains zero-controller
+            and is handled through Cruding, Viewing, and Interfacing.
+        </p>
+        <ul>
+            <li>Roles and permissions are managed through native EasyAdmin CRUD controllers.</li>
+            <li>HTTP/API runtime endpoints remain routed to service controllers under <code>src/Service/Http</code>.</li>
+            <li>Mutation execution events are read-only in this dashboard.</li>
+        </ul>
+    </section>
+{% endblock %}

@@ -50,4 +50,26 @@ class RollingRoleHierarchy
     {
         return $this->enabled;
     }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function enable(): self
+    {
+        return $this->setEnabled(true);
+    }
+
+    public function disable(): self
+    {
+        return $this->setEnabled(false);
+    }
 }

@@ -1,0 +1,3 @@
+rolling_admin_easyadmin:
+  resource: ../../src/Controller/Admin/
+  type: attribute

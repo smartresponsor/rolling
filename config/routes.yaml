@@ -1,3 +1,6 @@
+rolling_admin_easyadmin:
+  resource: 'routes/rolling_admin_easyadmin.yaml'
+
 health:
   resource: 'routes/health.yaml'
 

@@ -1,4 +1,4 @@
 role_pel_eval:
   path: /v2/role/pel-eval
-  controller: App\Rolling\Controller\Api\PelEvalController::eval
   methods: [ POST ]
+  controller: 'App\Rolling\Service\Http\Role\Api\PelEvalHttpService::eval'

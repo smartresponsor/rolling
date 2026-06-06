@@ -4,16 +4,13 @@ services:
     autoconfigure: true
 
   _instanceof:
-    App\Administering\ServiceInterface\Admin\AdministrationOwnerConfigurationToolProviderInterface:
-      tags: ['administering.owner_configuration_tool_provider']
-    App\Administering\ServiceInterface\Config\AdministrationConfigToolServiceInterface:
-      tags: ['administering.config_tool']
+    App\Configuring\ServiceInterface\Tool\ConfigurationToolProviderInterface:
+      tags: ['configuring.configuration_tool_provider']
+    App\Configuring\ServiceInterface\Config\ConfigToolServiceInterface:
+      tags: ['configuring.config_tool']
     App\Rolling\ServiceInterface\Policy\VoterInterface:
       tags: ['rolling.policy_voter']
 
-  App\Rolling\Controller\:
-    resource: '../src/Controller/'
-    tags: [ 'controller.service_arguments' ]
 
   App\Rolling\Command\:
     resource: '../src/Command/'
@@ -26,6 +23,10 @@ services:
     resource: '../src/Service/'
 
   App\Rolling\Service\Config\RollingConfigurationRoleRuntimeService:
+    arguments:
+      $projectDir: '%kernel.project_dir%'
+
+  App\Rolling\Service\Config\RollingConfigurationRoleHierarchyService:
     arguments:
       $projectDir: '%kernel.project_dir%'
 
@@ -45,6 +46,7 @@ services:
   App\Rolling\ServiceInterface\Administration\RollingFieldAccessDecisionServiceInterface: '@App\Rolling\Service\Administration\DoctrineRollingFieldAccessDecisionService'
   App\Rolling\ServiceInterface\Administration\RollingAdministrationCatalogSyncServiceInterface: '@App\Rolling\Service\Administration\DoctrineRollingAdministrationCatalogSyncService'
   App\Rolling\ServiceInterface\Administration\RollingAdministrationSubjectAccessReportProviderInterface: '@App\Rolling\Service\Administration\DoctrineRollingAdministrationSubjectAccessReportProvider'
+  App\Rolling\ServiceInterface\Administration\RollingRoleHierarchyMutationServiceInterface: '@App\Rolling\Service\Administration\DoctrineRollingRoleHierarchyMutationService'
 
 
   App\Rolling\ServiceInterface\Administration\RollingAclManifestBuilderInterface: '@App\Rolling\Service\Administration\RollingAclManifestBuilder'
@@ -62,6 +64,7 @@ services:
   App\Rolling\ServiceInterface\Administration\RollingAclMutationReviewArtifactExporterInterface: '@App\Rolling\Service\Administration\RollingAclMutationReviewArtifactExporter'
 
   App\Rolling\ServiceInterface\Administration\RollingAclMutationApplyRequestBuilderInterface: '@App\Rolling\Service\Administration\RollingAclMutationApplyRequestBuilder'
+  App\Rolling\ServiceInterface\Administration\RollingAclMutationApplyServiceInterface: '@App\Rolling\Service\Administration\RollingAclMutationApplyService'
 
   App\Rolling\ServiceInterface\Administration\RollingAclMutationExecutionGatewayInterface: '@App\Rolling\Service\Administration\RollingAclMutationExecutionGateway'
 
@@ -84,3 +87,41 @@ services:
   App\Rolling\ServiceInterface\Administration\RollingAclAdministrationContractMatrixProviderInterface: '@App\Rolling\Service\Administration\RollingAclAdministrationContractMatrixProvider'
   App\Rolling\ServiceInterface\Administration\RollingAclHealthReportProviderInterface: '@App\Rolling\Service\Administration\RollingAclHealthReportProvider'
   App\Rolling\ServiceInterface\Administration\RollingAclDiagnosticReportProviderInterface: '@App\Rolling\Service\Administration\RollingAclDiagnosticReportProvider'
+  App\Rolling\ServiceInterface\View\RollSurfaceProviderInterface: '@App\Rolling\Service\View\RollSurfaceProvider'
+
+  App\Rolling\Infrastructure\Policy\PolicyFsStore:
+    arguments:
+      $dir: '%kernel.project_dir%/var/policy'
+
+  App\Rolling\ServiceInterface\PolicyStoreInterface: '@App\Rolling\Infrastructure\Policy\PolicyFsStore'
+
+  App\Rolling\Infrastructure\Security\HmacKeyFsStore:
+    arguments:
+      $baseDir: '%kernel.project_dir%/var/keys'
+
+  App\Rolling\Infrastructure\Security\JwksFsVerifier: ~
+
+  App\Rolling\InfrastructureInterface\Security\KeyStoreInterface: '@App\Rolling\Infrastructure\Security\HmacKeyFsStore'
+  App\Rolling\InfrastructureInterface\Security\JwksVerifierInterface: '@App\Rolling\Infrastructure\Security\JwksFsVerifier'
+
+  App\Rolling\Infrastructure\Acl\Source\DefaultGithubSubjectResolver: ~
+  App\Rolling\InfrastructureInterface\Acl\Source\GithubSubjectResolverInterface: '@App\Rolling\Infrastructure\Acl\Source\DefaultGithubSubjectResolver'
+
+  App\Rolling\Infrastructure\Residency\ResidencyFsPolicy:
+    arguments:
+      $file: '%kernel.project_dir%/config/role/residency.json'
+
+  App\Rolling\ServiceInterface\Residency\ResidencyPolicyInterface: '@App\Rolling\Infrastructure\Residency\ResidencyFsPolicy'
+
+
+  App\Rolling\Controller\Admin\:
+    resource: '../src/Controller/Admin/'
+    public: true
+    tags: ['controller.service_arguments']
+
+  # HTTP endpoint services are intentionally routed as services.
+  # Native EasyAdmin controllers remain allowed only under src/Controller/Admin/*.
+  App\Rolling\Service\Http\Role\:
+    resource: '../src/Service/Http/Role/'
+    public: true
+    tags: ['controller.service_arguments']

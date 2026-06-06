@@ -7,11 +7,12 @@ namespace App\Rolling\Infrastructure\Acl\Source;
 use App\Rolling\Entity\Role\Scope;
 use App\Rolling\Entity\Role\SubjectId;
 use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
+use App\Rolling\InfrastructureInterface\Acl\Source\GithubSubjectResolverInterface;
 use App\Rolling\Net\Http\SimpleHttpClientInterface;
 
 /**
- * Мапит GitHub teams -> локальные роли по конфигу.
- * Конфиг:
+ * Maps GitHub teams to local roles from configuration.
+ * Configuration:
  * [
  *   "org": "acme",
  *   "tokenEnv": "GITHUB_TOKEN",
@@ -26,18 +27,18 @@ final class GithubAclSource implements AclSourceInterface
     /** @var array */
     private array $cfg;
     private SimpleHttpClientInterface $http;
-    private GithubSubjectResolver $resolver;
+    private GithubSubjectResolverInterface $resolver;
 
     /**
-     * @param SimpleHttpClientInterface  $http
-     * @param array                      $config
-     * @param GithubSubjectResolver|null $resolver
+     * @param SimpleHttpClientInterface      $http
+     * @param array                          $config
+     * @param GithubSubjectResolverInterface $resolver
      */
-    public function __construct(SimpleHttpClientInterface $http, array $config, ?GithubSubjectResolver $resolver = null)
+    public function __construct(SimpleHttpClientInterface $http, array $config, GithubSubjectResolverInterface $resolver)
     {
         $this->http = $http;
         $this->cfg = $config;
-        $this->resolver = $resolver ?? new DefaultGithubResolver();
+        $this->resolver = $resolver;
     }
 
     /**
@@ -68,7 +69,7 @@ final class GithubAclSource implements AclSourceInterface
             $team = (string) ($m['team'] ?? '');
             $role = (string) ($m['role'] ?? '');
             $tenantId = isset($m['tenantId']) ? (string) $m['tenantId'] : null;
-            // Соответствие scope: global/tenant/resource (тут используем только tenant/global)
+            // Scope match: global/tenant/resource. This source uses tenant/global only.
             if ($tenantId) {
                 if (!str_starts_with($scopeKey, 'tenant:') || !str_contains($scopeKey, ':'.$tenantId)) {
                     continue;
@@ -94,7 +95,7 @@ final class GithubAclSource implements AclSourceInterface
      */
     public function permissionsForRole(string $role): array
     {
-        // GitHub источник не хранит permissions — оставляем пустым, их дадут другие источники (Json/PDO).
+        // GitHub source does not own permissions; other sources provide them.
         return [];
     }
 

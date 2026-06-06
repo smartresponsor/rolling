@@ -7,7 +7,7 @@ namespace App\Rolling\Policy\Decorator\V2;
 use App\Rolling\Entity\Role\PermissionKey;
 use App\Rolling\Entity\Role\Scope;
 use App\Rolling\Entity\Role\SubjectId;
-use App\Rolling\Infrastructure\Cache\KeyValueCache;
+use App\Rolling\InfrastructureInterface\Cache\CacheInterface;
 use App\Rolling\Policy\Obligation\Obligation;
 use App\Rolling\Policy\Obligation\Obligations;
 use App\Rolling\Policy\V2\DecisionWithObligations;
@@ -15,19 +15,19 @@ use App\Rolling\Service\Cache\SubjectCacheEpochRegistry;
 use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 /**
- * Реальный кеширующий декоратор PDP v2.
+ * Cache decorator for PDP v2 decisions.
  */
 final class CachedPdpV2 implements PdpV2Interface
 {
     /**
      * @param PdpV2Interface            $inner
-     * @param KeyValueCache             $cache
+     * @param CacheInterface            $cache
      * @param SubjectCacheEpochRegistry $epochs
      * @param int                       $ttlSeconds
      */
     public function __construct(
         private readonly PdpV2Interface $inner,
-        private readonly KeyValueCache $cache,
+        private readonly CacheInterface $cache,
         private readonly SubjectCacheEpochRegistry $epochs,
         private readonly int $ttlSeconds = 600,
     ) {
@@ -60,12 +60,12 @@ final class CachedPdpV2 implements PdpV2Interface
 
         $dec = $this->inner->check($s, $a, $sc, $context);
 
-        // bypass при obligations != []
+        // Bypass cache when obligations are present.
         if (!empty($dec->obligations()->all())) {
             return $dec;
         }
 
-        // Сохраним сериализованно (меньше рисков на кросс-проц. сторе)
+        // Store serialized data to reduce cross-process storage risk.
         $this->cache->set($key, self::toArray($dec), $this->ttlSeconds);
 
         return $dec;

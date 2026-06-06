@@ -6,10 +6,10 @@ namespace App\Rolling\Value\Form\Config;
 
 final class RollingConfigurationRoleRuntimeData
 {
-    public bool $enabled = true;
-    public string $policyNamespace = 'role';
-    public string $adminNamespace = 'role-admin';
-    public string $auditNamespace = 'role-audit';
-    public string $opsDir = '%kernel.project_dir%/ops';
-    public string $sdkNamespace = 'Rolling\\SDK\\V2';
+    public bool $roleEnabled = true;
+    public string $rolePolicyNamespace = 'role';
+    public string $roleAdminNamespace = 'role-admin';
+    public string $roleAuditNamespace = 'role-audit';
+    public string $roleOpsDir = '%kernel.project_dir%/ops';
+    public string $roleSdkNamespace = 'Rolling\\SDK\\V2';
 }

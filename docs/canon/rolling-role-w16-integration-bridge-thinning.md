@@ -5,8 +5,8 @@ This wave thins remaining donor-zone integration classes by pointing them at can
 ## Changes
 
 - canonical `App\Rolling\PolicyInterface\PdpV2Interface` adopted by runtime-facing controllers, console runtimes, bins, and selected tests
-- `App\Rolling\Integration\Symfony\Controller\RoleApiV2Controller` now bridges to `App\Rolling\Controller\V2\AccessController`
-- `App\Rolling\Integration\Symfony\Controller\MetricsController` now bridges to `App\Rolling\Controller\Observability\MetricsController`
+- `App\Rolling\Integration\Symfony\Controller\RoleApiV2Controller` now bridges to `App\Rolling\Service\Http\Role\V2\AccessHttpService`
+- `App\Rolling\Integration\Symfony\Controller\MetricsController` now bridges to `App\Rolling\Service\Http\Role\Observability\MetricsHttpService`
 - `App\Rolling\Legacy\Http\SymfonyBundle\*` bundle/DI classes now bridge to canonical `App\Rolling\Infrastructure\Symfony\*`
 - integration docs updated to canonical bundle/controller naming
 
