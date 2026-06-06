@@ -6,7 +6,10 @@ namespace App\Rolling\Infrastructure\Rebac;
 
 final class Tuple
 {
-    public $subjRel;
+    /**
+     * Backward-compatible alias used by legacy REBAC store/checker paths.
+     */
+    public ?string $subjRel;
 
     public function __construct(
         public readonly string $ns,
@@ -17,6 +20,7 @@ final class Tuple
         public readonly string $subjId,
         public readonly ?string $subjectRelation = null,
     ) {
+        $this->subjRel = $subjectRelation;
     }
 
     /**
@@ -35,7 +39,7 @@ final class Tuple
         );
     }
 
-    /** @return array{ns: string, objType: string, objId: string, relation: string, subjType: string, subjId: string, subjectRelation: ?string} */
+    /** @return array{ns: string, objType: string, objId: string, relation: string, subjType: string, subjId: string, subjectRelation: ?string, subjRel: ?string} */
     public function toArray(): array
     {
         return [
@@ -46,6 +50,7 @@ final class Tuple
             'subjType' => $this->subjType,
             'subjId' => $this->subjId,
             'subjectRelation' => $this->subjectRelation,
+            'subjRel' => $this->subjRel,
         ];
     }
 }

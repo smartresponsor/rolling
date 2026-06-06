@@ -95,12 +95,12 @@ final class RoleConsoleRuntime
         return $this->rebacStoreCache = new InMemoryTupleStore();
     }
 
-    public function rebacWriter(): Writer
+    public function rebacWriter(): RebacRelationshipWriter
     {
         return new RebacRelationshipWriter($this->rebacStore());
     }
 
-    public function rebacChecker(): Checker
+    public function rebacChecker(): RebacRelationshipChecker
     {
         return new RebacRelationshipChecker($this->rebacStore());
     }

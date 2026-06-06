@@ -13,9 +13,9 @@ use App\Rolling\InfrastructureInterface\Rebac\RebacClientInterface;
 class SpiceDbClient implements RebacClientInterface
 {
     /**
-     * @param HttpClient $http
+     * @param RebacRelationshipHttpJsonClient $http
      */
-    public function __construct(private readonly HttpClient $http)
+    public function __construct(private readonly RebacRelationshipHttpJsonClient $http)
     {
     }
 

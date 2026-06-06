@@ -13,10 +13,10 @@ use App\Rolling\InfrastructureInterface\Rebac\RebacClientInterface;
 class OpenFgaClient implements RebacClientInterface
 {
     /**
-     * @param HttpClient $http
-     * @param string     $storeId
+     * @param RebacRelationshipHttpJsonClient $http
+     * @param string                          $storeId
      */
-    public function __construct(private readonly HttpClient $http, private readonly string $storeId)
+    public function __construct(private readonly RebacRelationshipHttpJsonClient $http, private readonly string $storeId)
     {
     }
 

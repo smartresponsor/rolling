@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace App\Rolling\Controller\Admin;
 
-use App\Rolling\Entity\Acl\RollingAclMutationExecutionEventEntity;
-use App\Rolling\Entity\Acl\RollingAclRule;
-use App\Rolling\Entity\Acl\RollingPermission;
-use App\Rolling\Entity\Acl\RollingRole;
-use App\Rolling\Entity\Acl\RollingRolePermission;
-use App\Rolling\Entity\Acl\RollingSubjectRoleAssignment;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -35,12 +29,12 @@ final class RollingDashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Rolling dashboard', 'fa fa-shield-halved');
         yield MenuItem::section('ACL catalog');
-        yield MenuItem::linkToCrud('Roles', 'fa fa-user-shield', RollingRole::class);
-        yield MenuItem::linkToCrud('Permissions', 'fa fa-key', RollingPermission::class);
-        yield MenuItem::linkToCrud('Role permissions', 'fa fa-link', RollingRolePermission::class);
-        yield MenuItem::linkToCrud('Subject assignments', 'fa fa-users-gear', RollingSubjectRoleAssignment::class);
-        yield MenuItem::linkToCrud('ACL rules', 'fa fa-scale-balanced', RollingAclRule::class);
+        yield MenuItem::linkTo(RollingRoleCrudController::class, 'Roles', 'fa fa-user-shield');
+        yield MenuItem::linkTo(RollingPermissionCrudController::class, 'Permissions', 'fa fa-key');
+        yield MenuItem::linkTo(RollingRolePermissionCrudController::class, 'Role permissions', 'fa fa-link');
+        yield MenuItem::linkTo(RollingSubjectRoleAssignmentCrudController::class, 'Subject assignments', 'fa fa-users-gear');
+        yield MenuItem::linkTo(RollingAclRuleCrudController::class, 'ACL rules', 'fa fa-scale-balanced');
         yield MenuItem::section('Audit');
-        yield MenuItem::linkToCrud('Mutation executions', 'fa fa-clock-rotate-left', RollingAclMutationExecutionEventEntity::class);
+        yield MenuItem::linkTo(RollingAclMutationExecutionEventCrudController::class, 'Mutation executions', 'fa fa-clock-rotate-left');
     }
 }

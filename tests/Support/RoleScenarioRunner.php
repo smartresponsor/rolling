@@ -159,7 +159,7 @@ final class RoleScenarioRunner
     /**
      * @return array{writes:list<array<string,mixed>>,deletes:list<array<string,mixed>>}
      */
-    private static function applyOperations(Writer $writer, string $ns, array $spec, bool $preview): array
+    private static function applyOperations(RebacRelationshipWriter $writer, string $ns, array $spec, bool $preview): array
     {
         $writes = [];
         foreach (($spec['writes'] ?? []) as $row) {
@@ -192,7 +192,7 @@ final class RoleScenarioRunner
      *
      * @return array{ok:bool,checks:list<array<string,mixed>>}
      */
-    private static function evaluateChecks(Checker $checker, string $defaultNs, array $rows): array
+    private static function evaluateChecks(RebacRelationshipChecker $checker, string $defaultNs, array $rows): array
     {
         $checks = [];
         $ok = true;
@@ -233,7 +233,7 @@ final class RoleScenarioRunner
      *
      * @return array<string,mixed>
      */
-    private static function evaluateSingleCheck(Checker $checker, array $row): array
+    private static function evaluateSingleCheck(RebacRelationshipChecker $checker, array $row): array
     {
         $actual = $checker->check((string) $row['ns'], (string) $row['subject'], (string) $row['object'], (string) $row['relation']);
         $expected = (bool) $row['allow'];
