@@ -47,17 +47,12 @@
   "autoload": {
     "psr-4": {
       "App\\Rolling\\": "src/",
-      "Role\\SDK\\V2\\": "SDK/php/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/",
       "App\\Rolling\\Tests\\": "tests/"
-    },
-    "files": [
-      "tests/SDK/PHP/psr_stubs.php"
-    ]
+    }
   },
   "scripts": {
     "canon:scan": "@php bin/canon-scan.php",
