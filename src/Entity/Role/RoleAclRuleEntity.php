@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Rolling\Entity\Acl;
+namespace App\Rolling\Entity\Role;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: \App\Rolling\Repository\Role\RoleAclRuleRepository::class)]
 #[ORM\Table(name: 'rolling_acl_rule')]
 #[ORM\Index(name: 'idx_rolling_acl_rule_subject', columns: ['subject_identifier'])]
 #[ORM\Index(name: 'idx_rolling_acl_rule_permission', columns: ['permission_key'])]
-class RollingAclRule
+#[ORM\Index(name: 'idx_rolling_acl_rule_subject_permission', columns: ['subject_identifier', 'permission_key'])]
+class RoleAclRuleEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

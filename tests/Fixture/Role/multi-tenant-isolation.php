@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'multi-tenant-isolation',
+    'nameEntity' => 'multi-tenant-isolation',
     'engine' => 'rebac-minimal',
     'ns' => 'tenant-a',
     'seed' => [

@@ -16,10 +16,10 @@ final class BenchStatsService implements PerfStatsInterface
                 continue;
             }
 
-            $name = (string) ($scenario['name'] ?? 'unknown');
+            $nameEntity = (string) ($scenario['nameEntity'] ?? 'unknown');
             if (isset($scenario['samples_ms']) && is_array($scenario['samples_ms'])) {
                 $summary[] = [
-                    'name' => $name,
+                    'nameEntity' => $nameEntity,
                     'n' => (int) ($scenario['n'] ?? count($scenario['samples_ms'])),
                     'p50_ms' => $this->percentile($scenario['samples_ms'], 0.50),
                     'p95_ms' => $this->percentile($scenario['samples_ms'], 0.95),
@@ -29,7 +29,7 @@ final class BenchStatsService implements PerfStatsInterface
             }
 
             $summary[] = [
-                'name' => $name,
+                'nameEntity' => $nameEntity,
                 'n' => (int) ($scenario['n'] ?? 0),
                 'duration_ms' => round((float) ($scenario['duration_ms'] ?? 0.0), 3),
                 'per_item_ms' => round((float) ($scenario['per_item_ms'] ?? 0.0), 3),

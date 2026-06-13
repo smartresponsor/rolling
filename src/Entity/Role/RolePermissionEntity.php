@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Rolling\Entity\Acl;
+namespace App\Rolling\Entity\Role;
 
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: \App\Rolling\Repository\Role\RolePermissionRepository::class)]
 #[ORM\Table(name: 'rolling_role_permission')]
 #[ORM\UniqueConstraint(name: 'uniq_rolling_role_permission', columns: ['role_key', 'permission_key', 'scope_pattern'])]
-class RollingRolePermission
+#[ORM\Index(name: 'idx_rolling_role_permission_role', columns: ['role_key'])]
+#[ORM\Index(name: 'idx_rolling_role_permission_permission', columns: ['permission_key'])]
+class RolePermissionEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -38,30 +38,30 @@ function readFileStrict(string $path): string
 
 switch ($cmd) {
     case 'policy:import':
-        // role-admin policy:import <name> <version> <file.json>
-        [$name, $ver, $file] = array_slice($argv, 2) + [null, null, null];
+        // role-admin policy:import <nameEntity> <version> <file.json>
+        [$nameEntity, $ver, $file] = array_slice($argv, 2) + [null, null, null];
         $doc = readFileStrict((string)$file);
-        $policySvc->importPolicy($ns, (string)$name, (string)$ver, $doc);
-        echo "imported $ns/$name@$ver\n";
+        $policySvc->importPolicy($ns, (string)$nameEntity, (string)$ver, $doc);
+        echo "imported $ns/$nameEntity@$ver\n";
         break;
     case 'policy:activate':
-        // role-admin policy:activate <name> <version>
-        [$name, $ver] = array_slice($argv, 2) + [null, null];
-        $policySvc->activatePolicy($ns, (string)$name, (string)$ver);
-        echo "activated $ns/$name@$ver\n";
+        // role-admin policy:activate <nameEntity> <version>
+        [$nameEntity, $ver] = array_slice($argv, 2) + [null, null];
+        $policySvc->activatePolicy($ns, (string)$nameEntity, (string)$ver);
+        echo "activated $ns/$nameEntity@$ver\n";
         break;
     case 'policy:list':
-        // role-admin policy:list <name>
-        [$name] = array_slice($argv, 2) + [null];
-        foreach ($policySvc->listVersions($ns, (string)$name) as $rec) {
+        // role-admin policy:list <nameEntity>
+        [$nameEntity] = array_slice($argv, 2) + [null];
+        foreach ($policySvc->listVersions($ns, (string)$nameEntity) as $rec) {
             $mark = $rec->isActive ? '*' : ' ';
-            echo sprintf("%s %s/%s@%s (ts=%d)\n", $mark, $rec->ns, $rec->name, $rec->version, $rec->createdAt);
+            echo sprintf("%s %s/%s@%s (ts=%d)\n", $mark, $rec->ns, $rec->nameEntity, $rec->version, $rec->createdAt);
         }
         break;
     case 'policy:export':
-        // role-admin policy:export <name> <version> [out.json]
-        [$name, $ver, $out] = array_slice($argv, 2) + [null, null, null];
-        $doc = $policySvc->exportPolicy($ns, (string)$name, (string)$ver);
+        // role-admin policy:export <nameEntity> <version> [out.json]
+        [$nameEntity, $ver, $out] = array_slice($argv, 2) + [null, null, null];
+        $doc = $policySvc->exportPolicy($ns, (string)$nameEntity, (string)$ver);
         if ($doc === null) {
             fwrite(STDERR, "not found\n");
             exit(2);
@@ -81,10 +81,10 @@ switch ($cmd) {
     default:
         echo "Usage:\n";
         echo "  ROLE_POLICY_DSN, ROLE_REBAC_DSN, ROLE_ADMIN_NS envs\n";
-        echo "  policy:import <name> <version> <file.json>\n";
-        echo "  policy:activate <name> <version>\n";
-        echo "  policy:list <name>\n";
-        echo "  policy:export <name> <version> [out.json]\n";
+        echo "  policy:import <nameEntity> <version> <file.json>\n";
+        echo "  policy:activate <nameEntity> <version>\n";
+        echo "  policy:list <nameEntity>\n";
+        echo "  policy:export <nameEntity> <version> [out.json]\n";
         echo "  rebac:stats\n";
         exit(1);
 }

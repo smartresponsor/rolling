@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'tenant-basic',
+    'nameEntity' => 'tenant-basic',
     'engine' => 'rebac-minimal',
     'ns' => 'acme',
     'seed' => [

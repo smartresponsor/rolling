@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Rolling\Repository\Acl;
+namespace App\Rolling\Repository\Role;
 
-use App\Rolling\Entity\Acl\RollingAclMutationExecutionEventEntity;
+use App\Rolling\Entity\Role\RoleAclMutationExecutionEventEntity;
+use App\Rolling\RepositoryInterface\Role\RoleAclMutationExecutionEventRepositoryInterface;
 use App\Rolling\Value\Administration\RollingAclMutationExecutionFilter;
 use App\Rolling\Value\Administration\RollingAclMutationExecutionSummary;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -13,14 +14,14 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<RollingAclMutationExecutionEventEntity>
  */
-final class RollingAclMutationExecutionEventRepository extends ServiceEntityRepository
+final class RoleAclMutationExecutionEventRepository extends ServiceEntityRepository implements RoleAclMutationExecutionEventRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RollingAclMutationExecutionEventEntity::class);
+        parent::__construct($registry, RoleAclMutationExecutionEventEntity::class);
     }
 
-    public function save(RollingAclMutationExecutionEventEntity $event, bool $flush = false): void
+    public function save(RoleAclMutationExecutionEventEntity $event, bool $flush = false): void
     {
         $this->getEntityManager()->persist($event);
 

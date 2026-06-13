@@ -21,7 +21,7 @@ final class PolicyActivateCommand extends AbstractRoleCommand
     protected function configure(): void
     {
         $this
-            ->addArgument('name', InputArgument::REQUIRED, 'Policy name.')
+            ->addArgument('nameEntity', InputArgument::REQUIRED, 'Policy nameEntity.')
             ->addArgument('version', InputArgument::REQUIRED, 'Policy version.');
     }
 
@@ -31,9 +31,9 @@ final class PolicyActivateCommand extends AbstractRoleCommand
             return $this->writeJson($output, [
                 'ok' => true,
                 'ns' => $this->runtime->rolePolicyNs(),
-                'name' => (string) $input->getArgument('name'),
+                'nameEntity' => (string) $input->getArgument('nameEntity'),
                 'version' => (string) $input->getArgument('version'),
-                'token' => $this->runtime->policyActivate((string) $input->getArgument('name'), (string) $input->getArgument('version')),
+                'token' => $this->runtime->policyActivate((string) $input->getArgument('nameEntity'), (string) $input->getArgument('version')),
             ]);
         } catch (\Throwable $throwable) {
             return $this->writeThrowable($output, $throwable);

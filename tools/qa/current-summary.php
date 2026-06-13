@@ -104,8 +104,8 @@ if ($blockers === []) {
 }
 $pretty[] = '';
 $pretty[] = 'Artifacts';
-foreach ($summary['artifacts'] as $name => $artifact) {
-    $pretty[] = sprintf('  %s: %s', $name, ($artifact['available'] ?? false) ? 'available' : 'missing');
+foreach ($summary['artifacts'] as $nameEntity => $artifact) {
+    $pretty[] = sprintf('  %s: %s', $nameEntity, ($artifact['available'] ?? false) ? 'available' : 'missing');
 }
 
 file_put_contents($reportDir . '/current-summary.pretty.txt', implode(PHP_EOL, $pretty) . PHP_EOL);

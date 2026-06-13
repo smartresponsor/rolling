@@ -31,22 +31,22 @@ function readFileStrict(string $path): string
 
 switch ($cmd) {
     case 'import':
-        // role-policy import <name> <version> <file.json>
-        [$name, $ver, $file] = array_slice($argv, 2) + [null, null, null];
+        // role-policy import <nameEntity> <version> <file.json>
+        [$nameEntity, $ver, $file] = array_slice($argv, 2) + [null, null, null];
         $doc = readFileStrict((string)$file);
-        $svc->importPolicy($ns, (string)$name, (string)$ver, $doc);
-        echo "imported $ns/$name@$ver\n";
+        $svc->importPolicy($ns, (string)$nameEntity, (string)$ver, $doc);
+        echo "imported $ns/$nameEntity@$ver\n";
         break;
     case 'activate':
-        // role-policy activate <name> <version>
-        [$name, $ver] = array_slice($argv, 2) + [null, null];
-        $svc->activatePolicy($ns, (string)$name, (string)$ver);
-        echo "active $ns/$name@$ver\n";
+        // role-policy activate <nameEntity> <version>
+        [$nameEntity, $ver] = array_slice($argv, 2) + [null, null];
+        $svc->activatePolicy($ns, (string)$nameEntity, (string)$ver);
+        echo "active $ns/$nameEntity@$ver\n";
         break;
     case 'export':
-        // role-policy export <name> <version> [out.json]
-        [$name, $ver, $out] = array_slice($argv, 2) + [null, null, null];
-        $doc = $svc->exportPolicy($ns, (string)$name, (string)$ver);
+        // role-policy export <nameEntity> <version> [out.json]
+        [$nameEntity, $ver, $out] = array_slice($argv, 2) + [null, null, null];
+        $doc = $svc->exportPolicy($ns, (string)$nameEntity, (string)$ver);
         if ($doc === null) {
             fwrite(STDERR, "not found\n");
             exit(2);
@@ -59,26 +59,27 @@ switch ($cmd) {
         }
         break;
     case 'list':
-        // role-policy list <name>
-        [$name] = array_slice($argv, 2) + [null];
-        foreach ($svc->listVersions($ns, (string)$name) as $rec) {
+        // role-policy list <nameEntity>
+        [$nameEntity] = array_slice($argv, 2) + [null];
+        foreach ($svc->listVersions($ns, (string)$nameEntity) as $rec) {
             $mark = $rec->isActive ? '*' : ' ';
-            echo sprintf("%s %s/%s@%s (ts=%d)\n", $mark, $rec->ns, $rec->name, $rec->version, $rec->createdAt);
+            echo sprintf("%s %s/%s@%s (ts=%d)\n", $mark, $rec->ns, $rec->nameEntity, $rec->version, $rec->createdAt);
         }
         break;
     case 'migrate':
-        // role-policy migrate <name> <from> <to> [note]
-        [$name, $from, $to, $note] = array_slice($argv, 2) + [null, null, null, null];
-        $svc->recordMigration($ns, (string)$name, (string)$from, (string)$to, $note ? (string)$note : null);
-        $svc->activatePolicy($ns, (string)$name, (string)$to);
+        // role-policy migrate <nameEntity> <from> <to> [note]
+        [$nameEntity, $from, $to, $note] = array_slice($argv, 2) + [null, null, null, null];
+        $svc->recordMigration($ns, (string)$nameEntity, (string)$from, (string)$to, $note ? (string)$note : null);
+        $svc->activatePolicy($ns, (string)$nameEntity, (string)$to);
         echo "migrated $ns/$name: $from -> $to\n";
         break;
     default:
         echo "Usage:\n";
-        echo "  ROLE_POLICY_DSN='sqlite:./var/policy.db' ROLE_POLICY_NS='acme' php bin/role-policy.php import <name> <version> <file.json>\n";
-        echo "  php bin/role-policy.php activate <name> <version>\n";
-        echo "  php bin/role-policy.php export <name> <version> [out.json]\n";
-        echo "  php bin/role-policy.php list <name>\n";
-        echo "  php bin/role-policy.php migrate <name> <from> <to> [note]\n";
+        echo "  ROLE_POLICY_DSN='sqlite:./var/policy.db' ROLE_POLICY_NS='acme' php bin/role-policy.php import <nameEntity> <version> <file.json>\n";
+        echo "  php bin/role-policy.php activate <nameEntity> <version>\n";
+        echo "  php bin/role-policy.php export <nameEntity> <version> [out.json]\n";
+        echo "  php bin/role-policy.php list <nameEntity>\n";
+        echo "  php bin/role-policy.php migrate <nameEntity> <from> <to> [note]\n";
         exit(1);
 }
+

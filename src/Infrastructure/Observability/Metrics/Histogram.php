@@ -8,18 +8,10 @@ final class Histogram
 {
     /** @var array<float,int> */
     private array $buckets;
-    /** @var array */
     private array $labelNames;
-    /** @var array */
     private array $values = [];
 
-    /**
-     * @param string $name
-     * @param string $help
-     * @param array  $buckets
-     * @param array  $labelNames
-     */
-    public function __construct(private readonly string $name, private readonly string $help = '', array $buckets = [], array $labelNames = [])
+    public function __construct(private readonly string $nameEntity, private readonly string $help = '', array $buckets = [], array $labelNames = [])
     {
         $this->buckets = array_values($buckets);
         sort($this->buckets, SORT_NUMERIC);
@@ -29,10 +21,6 @@ final class Histogram
         $this->labelNames = array_values($labelNames);
     }
 
-    /**
-     * @param float $value
-     * @param array $labels
-     */
     public function observe(float $value, array $labels = []): void
     {
         $k = $this->keyFor($labels);
@@ -54,35 +42,21 @@ final class Histogram
         return ['names' => $this->labelNames, 'data' => $this->values];
     }
 
-    /**
-     * @return string
-     */
-    public function name(): string
+    public function nameEntity(): string
     {
-        return $this->name;
+        return $this->nameEntity;
     }
 
-    /**
-     * @return string
-     */
     public function help(): string
     {
         return $this->help;
     }
 
-    /**
-     * @return array
-     */
     public function buckets(): array
     {
         return $this->buckets;
     }
 
-    /**
-     * @param array $labels
-     *
-     * @return string
-     */
     private function keyFor(array $labels): string
     {
         $vals = [];

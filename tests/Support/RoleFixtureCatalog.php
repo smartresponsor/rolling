@@ -20,16 +20,16 @@ final class RoleFixtureCatalog
         return $names;
     }
 
-    public static function get(string $name): array
+    public static function get(string $nameEntity): array
     {
-        $path = self::BASE_DIR.'/'.$name.'.php';
+        $path = self::BASE_DIR.'/'.$nameEntity.'.php';
         if (!is_file($path)) {
-            throw new \InvalidArgumentException(sprintf('Unknown fixture "%s".', $name));
+            throw new \InvalidArgumentException(sprintf('Unknown fixture "%s".', $nameEntity));
         }
 
         $fixture = require $path;
         if (!is_array($fixture)) {
-            throw new \InvalidArgumentException(sprintf('Fixture "%s" must return an array.', $name));
+            throw new \InvalidArgumentException(sprintf('Fixture "%s" must return an array.', $nameEntity));
         }
 
         return $fixture;

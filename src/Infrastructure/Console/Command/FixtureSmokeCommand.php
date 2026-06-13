@@ -14,7 +14,7 @@ final class FixtureSmokeCommand extends AbstractRoleCommand
 {
     protected function configure(): void
     {
-        $this->addArgument('fixture', InputArgument::REQUIRED, 'Fixture name.');
+        $this->addArgument('fixture', InputArgument::REQUIRED, 'Fixture nameEntity.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

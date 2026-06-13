@@ -54,7 +54,7 @@ final class PerfRegressionComparator
         };
 
         return [
-            'name' => $metric,
+            'nameEntity' => $metric,
             'baseline' => round($baseline, 4),
             'current' => round($current, 4),
             'delta_pct' => round($deltaPct, 4),

@@ -26,14 +26,7 @@ use App\Rolling\ServiceInterface\Policy\CompilerInterface;
  */
 final class PolicyExpressionLanguageCompiler implements CompilerInterface
 {
-    /**
-     * @param string      $name
-     * @param string      $inputPath
-     * @param string|null $outDir
-     *
-     * @return string
-     */
-    public function compile(string $name, string $inputPath, ?string $outDir = null): string
+    public function compile(string $nameEntity, string $inputPath, ?string $outDir = null): string
     {
         $spec = $this->loadSpec($inputPath);
         if (!isset($spec['rules']) || !is_array($spec['rules'])) {
@@ -44,7 +37,7 @@ final class PolicyExpressionLanguageCompiler implements CompilerInterface
         if (!is_dir($outDir)) {
             @mkdir($outDir, 0775, true);
         }
-        $outPath = rtrim($outDir, '/\\').'/'.$name.'.php';
+        $outPath = rtrim($outDir, '/\\').'/'.$nameEntity.'.php';
         file_put_contents($outPath, $code);
 
         return $outPath;
@@ -97,11 +90,6 @@ final class PolicyExpressionLanguageCompiler implements CompilerInterface
         return $obj;
     }
 
-    /**
-     * @param array $rules
-     *
-     * @return string
-     */
     private function generateEvaluator(array $rules): string
     {
         $ifs = [];
@@ -129,11 +117,6 @@ return function(array \$subject, string \$action, array \$resource, array \$cont
 PHP;
     }
 
-    /**
-     * @param array $when
-     *
-     * @return string
-     */
     private function compileWhen(array $when): string
     {
         if (empty($when)) {
@@ -151,11 +134,6 @@ PHP;
         return implode(' && ', $parts);
     }
 
-    /**
-     * @param string $expr
-     *
-     * @return string
-     */
     private function compileExpr(string $expr): string
     {
         // Supported forms:

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'multi-hop-chain',
+    'nameEntity' => 'multi-hop-chain',
     'engine' => 'rebac-minimal',
     'ns' => 'acme',
     'seed' => [

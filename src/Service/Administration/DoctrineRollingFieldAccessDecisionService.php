@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
-use App\Rolling\Entity\Acl\RollingAclRule;
-use App\Rolling\Entity\Acl\RollingRole;
-use App\Rolling\Entity\Acl\RollingRoleHierarchy;
-use App\Rolling\Entity\Acl\RollingRolePermission;
-use App\Rolling\Entity\Acl\RollingSubjectRoleAssignment;
+use App\Rolling\Entity\Role\RoleAclRuleEntity;
+use App\Rolling\Entity\Role\RoleEntity;
+use App\Rolling\Entity\Role\RoleHierarchyEntity;
+use App\Rolling\Entity\Role\RolePermissionEntity;
+use App\Rolling\Entity\Role\RoleSubjectAssignmentEntity;
 use App\Rolling\ServiceInterface\Administration\RollingFieldAccessDecisionServiceInterface;
 use App\Rolling\Value\Administration\RollingFieldAccessDecision;
 use App\Rolling\Value\Administration\RollingFieldAccessDecisionRequest;
@@ -59,12 +59,12 @@ final class DoctrineRollingFieldAccessDecisionService implements RollingFieldAcc
         array $scopes,
         RollingFieldAccessDecisionRequest $request,
     ): ?RollingFieldAccessDecision {
-        $manager = $this->registry->getManagerForClass(RollingAclRule::class);
+        $manager = $this->registry->getManagerForClass(RoleAclRuleEntity::class);
         if (null === $manager) {
             return null;
         }
 
-        $rules = $manager->getRepository(RollingAclRule::class)->findBy([
+        $rules = $manager->getRepository(RoleAclRuleEntity::class)->findBy([
             'subjectIdentifier' => $subjectIdentifier,
             'permissionKey' => $permission,
             'enabled' => true,
@@ -72,7 +72,7 @@ final class DoctrineRollingFieldAccessDecisionService implements RollingFieldAcc
 
         $allow = null;
         foreach ($rules as $rule) {
-            if (!$rule instanceof RollingAclRule || !$this->matchesAnyScope($rule->scopeKey(), $scopes)) {
+            if (!$rule instanceof RoleAclRuleEntity || !$this->matchesAnyScope($rule->scopeKey(), $scopes)) {
                 continue;
             }
 
@@ -99,18 +99,18 @@ final class DoctrineRollingFieldAccessDecisionService implements RollingFieldAcc
      */
     private function roleKeysForSubject(string $subjectIdentifier, array $scopes): array
     {
-        $manager = $this->registry->getManagerForClass(RollingSubjectRoleAssignment::class);
+        $manager = $this->registry->getManagerForClass(RoleSubjectAssignmentEntity::class);
         if (null === $manager) {
             return [];
         }
 
-        $assignments = $manager->getRepository(RollingSubjectRoleAssignment::class)->findBy([
+        $assignments = $manager->getRepository(RoleSubjectAssignmentEntity::class)->findBy([
             'subjectIdentifier' => $subjectIdentifier,
         ]);
 
         $roleKeys = [];
         foreach ($assignments as $assignment) {
-            if (!$assignment instanceof RollingSubjectRoleAssignment) {
+            if (!$assignment instanceof RoleSubjectAssignmentEntity) {
                 continue;
             }
 
@@ -129,14 +129,14 @@ final class DoctrineRollingFieldAccessDecisionService implements RollingFieldAcc
 
     private function roleEnabled(string $roleKey): bool
     {
-        $manager = $this->registry->getManagerForClass(RollingRole::class);
+        $manager = $this->registry->getManagerForClass(RoleEntity::class);
         if (null === $manager) {
             return false;
         }
 
-        $role = $manager->getRepository(RollingRole::class)->findOneBy(['roleKey' => $roleKey]);
+        $role = $manager->getRepository(RoleEntity::class)->findOneBy(['roleKey' => $roleKey]);
 
-        return $role instanceof RollingRole && $role->enabled();
+        return $role instanceof RoleEntity && $role->enabled();
     }
 
     /**
@@ -150,7 +150,7 @@ final class DoctrineRollingFieldAccessDecisionService implements RollingFieldAcc
             return [];
         }
 
-        $manager = $this->registry->getManagerForClass(RollingRoleHierarchy::class);
+        $manager = $this->registry->getManagerForClass(RoleHierarchyEntity::class);
         if (null === $manager) {
             return array_values(array_unique($roleKeys));
         }
@@ -172,20 +172,20 @@ final class DoctrineRollingFieldAccessDecisionService implements RollingFieldAcc
      */
     private function collectChildRoles(array $frontier, array &$known): array
     {
-        $manager = $this->registry->getManagerForClass(RollingRoleHierarchy::class);
+        $manager = $this->registry->getManagerForClass(RoleHierarchyEntity::class);
         if (null === $manager) {
             return [];
         }
 
         $next = [];
         foreach ($frontier as $parentRoleKey) {
-            $edges = $manager->getRepository(RollingRoleHierarchy::class)->findBy([
+            $edges = $manager->getRepository(RoleHierarchyEntity::class)->findBy([
                 'parentRoleKey' => $parentRoleKey,
                 'enabled' => true,
             ]);
 
             foreach ($edges as $edge) {
-                if (!$edge instanceof RollingRoleHierarchy) {
+                if (!$edge instanceof RoleHierarchyEntity) {
                     continue;
                 }
 
@@ -208,20 +208,20 @@ final class DoctrineRollingFieldAccessDecisionService implements RollingFieldAcc
      */
     private function rolePermissionDecision(array $roleKeys, string $permission, array $scopes): ?RollingFieldAccessDecision
     {
-        $manager = $this->registry->getManagerForClass(RollingRolePermission::class);
+        $manager = $this->registry->getManagerForClass(RolePermissionEntity::class);
         if (null === $manager) {
             return null;
         }
 
         $allow = null;
         foreach ($roleKeys as $roleKey) {
-            $grants = $manager->getRepository(RollingRolePermission::class)->findBy([
+            $grants = $manager->getRepository(RolePermissionEntity::class)->findBy([
                 'roleKey' => $roleKey,
                 'permissionKey' => $permission,
             ]);
 
             foreach ($grants as $grant) {
-                if (!$grant instanceof RollingRolePermission || !$this->matchesAnyScope($grant->scopePattern(), $scopes)) {
+                if (!$grant instanceof RolePermissionEntity || !$this->matchesAnyScope($grant->scopePattern(), $scopes)) {
                     continue;
                 }
 
@@ -283,12 +283,12 @@ final class DoctrineRollingFieldAccessDecisionService implements RollingFieldAcc
         }
 
         $attributes = $request->toAttributes();
-        foreach ($conditions as $name => $expected) {
-            if (!array_key_exists((string) $name, $attributes)) {
+        foreach ($conditions as $nameEntity => $expected) {
+            if (!array_key_exists((string) $nameEntity, $attributes)) {
                 return false;
             }
 
-            if (!$this->conditionMatches($attributes[(string) $name], $expected)) {
+            if (!$this->conditionMatches($attributes[(string) $nameEntity], $expected)) {
                 return false;
             }
         }

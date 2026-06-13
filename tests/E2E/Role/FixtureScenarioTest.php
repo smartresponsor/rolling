@@ -55,16 +55,16 @@ final class FixtureScenarioTest extends TestCase
 
     public static function fixtureProvider(): array
     {
-        return array_map(static fn (string $name): array => [$name], RoleFixtureCatalog::names());
+        return array_map(static fn (string $nameEntity): array => [$nameEntity], RoleFixtureCatalog::names());
     }
 
     public static function scenarioProvider(): array
     {
         $rows = [];
-        foreach (RoleFixtureCatalog::names() as $name) {
-            $fixture = RoleFixtureCatalog::get($name);
+        foreach (RoleFixtureCatalog::names() as $nameEntity) {
+            $fixture = RoleFixtureCatalog::get($nameEntity);
             foreach (array_keys($fixture['scenarios'] ?? []) as $scenarioName) {
-                $rows[] = [$name, (string) $scenarioName];
+                $rows[] = [$nameEntity, (string) $scenarioName];
             }
         }
 

@@ -21,7 +21,7 @@ final class PolicyMigrateCommand extends AbstractRoleCommand
     protected function configure(): void
     {
         $this
-            ->addArgument('name', InputArgument::REQUIRED, 'Policy name.')
+            ->addArgument('nameEntity', InputArgument::REQUIRED, 'Policy nameEntity.')
             ->addArgument('from', InputArgument::REQUIRED, 'From version.')
             ->addArgument('to', InputArgument::REQUIRED, 'To version.')
             ->addArgument('note', InputArgument::OPTIONAL, 'Optional note.');
@@ -30,16 +30,16 @@ final class PolicyMigrateCommand extends AbstractRoleCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $name = (string) $input->getArgument('name');
+            $nameEntity = (string) $input->getArgument('nameEntity');
             $from = (string) $input->getArgument('from');
             $to = (string) $input->getArgument('to');
             $note = $input->getArgument('note');
-            $this->runtime->policyMigrate($name, $from, $to, is_string($note) ? $note : null);
+            $this->runtime->policyMigrate($nameEntity, $from, $to, is_string($note) ? $note : null);
 
             return $this->writeJson($output, [
                 'ok' => true,
                 'ns' => $this->runtime->rolePolicyNs(),
-                'name' => $name,
+                'nameEntity' => $nameEntity,
                 'from' => $from,
                 'to' => $to,
                 'note' => is_string($note) ? $note : null,

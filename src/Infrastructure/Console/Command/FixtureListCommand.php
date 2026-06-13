@@ -13,8 +13,8 @@ final class FixtureListCommand extends AbstractRoleCommand
 {
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        foreach ($this->fixtureNames() as $name) {
-            $output->writeln($name);
+        foreach ($this->fixtureNames() as $nameEntity) {
+            $output->writeln($nameEntity);
         }
 
         return self::SUCCESS;

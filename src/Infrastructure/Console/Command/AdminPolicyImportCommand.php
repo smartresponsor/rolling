@@ -21,7 +21,7 @@ final class AdminPolicyImportCommand extends AbstractRoleCommand
     protected function configure(): void
     {
         $this
-            ->addArgument('name', InputArgument::REQUIRED, 'Policy name.')
+            ->addArgument('nameEntity', InputArgument::REQUIRED, 'Policy nameEntity.')
             ->addArgument('version', InputArgument::REQUIRED, 'Policy version.')
             ->addArgument('file', InputArgument::REQUIRED, 'Path to JSON document.');
     }
@@ -38,9 +38,9 @@ final class AdminPolicyImportCommand extends AbstractRoleCommand
             return $this->writeJson($output, [
                 'ok' => true,
                 'ns' => $this->runtime->roleAdminNs(),
-                'name' => (string) $input->getArgument('name'),
+                'nameEntity' => (string) $input->getArgument('nameEntity'),
                 'version' => (string) $input->getArgument('version'),
-                'token' => $this->runtime->policyImport((string) $input->getArgument('name'), (string) $input->getArgument('version'), $doc, $this->runtime->roleAdminNs()),
+                'token' => $this->runtime->policyImport((string) $input->getArgument('nameEntity'), (string) $input->getArgument('version'), $doc, $this->runtime->roleAdminNs()),
             ]);
         } catch (\Throwable $throwable) {
             return $this->writeThrowable($output, $throwable);

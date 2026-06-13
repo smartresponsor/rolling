@@ -4,281 +4,98 @@ declare(strict_types=1);
 // Minimal PSR-7/17/18 implementations for tests (no external deps)
 
 namespace Psr\Http\Message {
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     interface StreamInterface
     {
-        /**
-         * @return mixed
-         */
         public function __toString();
 
-        /**
-         * @return mixed
-         */
         public function close();
 
-        /**
-         * @return mixed
-         */
         public function detach();
 
-        /**
-         * @return mixed
-         */
         public function getSize();
 
-        /**
-         * @return mixed
-         */
         public function tell();
 
-        /**
-         * @return mixed
-         */
         public function eof();
 
-        /**
-         * @return mixed
-         */
         public function isSeekable();
 
-        /**
-         * @param $offset
-         * @param $whence
-         * @return mixed
-         */
-        /**
-         * @param $offset
-         * @param $whence
-         * @return mixed
-         */
         public function seek($offset, $whence = SEEK_SET);
 
-        /**
-         * @return mixed
-         */
         public function rewind();
 
-        /**
-         * @return mixed
-         */
         public function isWritable();
 
-        /**
-         * @param $string
-         * @return mixed
-         */
-        /**
-         * @param $string
-         * @return mixed
-         */
         public function write($string);
 
-        /**
-         * @return mixed
-         */
         public function isReadable();
 
-        /**
-         * @param $length
-         * @return mixed
-         */
-        /**
-         * @param $length
-         * @return mixed
-         */
         public function read($length);
 
-        /**
-         * @return mixed
-         */
         public function getContents();
 
-        /**
-         * @param $key
-         * @return mixed
-         */
-        /**
-         * @param $key
-         * @return mixed
-         */
         public function getMetadata($key = null);
     }
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     interface RequestInterface
     {
-        /**
-         * @return mixed
-         */
         public function getMethod();
 
-        /**
-         * @return mixed
-         */
         public function getUri();
 
-        /**
-         * @param $name
-         * @return mixed
-         */
-        /**
-         * @param $name
-         * @return mixed
-         */
-        public function getHeaderLine($name);
+        public function getHeaderLine($nameEntity);
 
-        /**
-         * @return mixed
-         */
         public function getHeaders();
 
-        /**
-         * @param $name
-         * @param $value
-         * @return mixed
-         */
-        /**
-         * @param $name
-         * @param $value
-         * @return mixed
-         */
-        public function withHeader($name, $value);
+        public function withHeader($nameEntity, $value);
 
-        /**
-         * @param \Psr\Http\Message\StreamInterface $b
-         * @return mixed
-         */
         public function withBody(StreamInterface $b);
 
-        /**
-         * @return mixed
-         */
         public function getBody();
     }
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     interface ResponseInterface
     {
-        /**
-         * @return mixed
-         */
         public function getStatusCode();
 
-        /**
-         * @return mixed
-         */
         public function getHeaders();
 
-        /**
-         * @return mixed
-         */
         public function getBody();
     }
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     interface RequestFactoryInterface
     {
-        /**
-         * @param string $method
-         * @param $uri
-         * @return \Psr\Http\Message\RequestInterface
-         */
-        /**
-         * @param string $method
-         * @param $uri
-         * @return \Psr\Http\Message\RequestInterface
-         */
         public function createRequest(string $method, $uri): RequestInterface;
     }
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     interface StreamFactoryInterface
     {
-        /**
-         * @param string $content
-         * @return \Psr\Http\Message\StreamInterface
-         */
         public function createStream(string $content = ''): StreamInterface;
     }
 }
 
 namespace Psr\Http\Client {
-
     use Psr\Http\Message\RequestInterface;
     use Psr\Http\Message\ResponseInterface;
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     interface ClientInterface
     {
-        /**
-         * @param \Psr\Http\Message\RequestInterface $request
-         * @return \Psr\Http\Message\ResponseInterface
-         */
         public function sendRequest(RequestInterface $request): ResponseInterface;
     }
 }
 
 namespace Tests\Support {
-
     use Psr\Http\Client\ClientInterface;
-    use Psr\Http\Message\{RequestInterface,
-        StreamInterface,
-        ResponseInterface,
-        RequestFactoryInterface,
-        StreamFactoryInterface
-    };
+    use Psr\Http\Message\RequestFactoryInterface;
+    use Psr\Http\Message\RequestInterface;
+    use Psr\Http\Message\ResponseInterface;
+    use Psr\Http\Message\StreamFactoryInterface;
+    use Psr\Http\Message\StreamInterface;
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     final class MemoryStream implements StreamInterface
     {
         private string $buf;
 
-        /**
-         * @param string $c
-         */
         public function __construct(string $c = '')
         {
             $this->buf = $c;
@@ -298,7 +115,9 @@ namespace Tests\Support {
         /**
          * @return void
          */
-        public function close() {}
+        public function close(): void
+        {
+        }
 
         /**
          * @return null
@@ -356,21 +175,21 @@ namespace Tests\Support {
         }
 
         /**
-         * @param $o
-         * @param $w
          * @return void
          */
         /**
-         * @param $o
-         * @param $w
          * @return void
          */
-        public function seek($o, $w = SEEK_SET) {}
+        public function seek($o, $w = SEEK_SET): void
+        {
+        }
 
         /**
          * @return void
          */
-        public function rewind() {}
+        public function rewind(): void
+        {
+        }
 
         /**
          * @return true
@@ -384,16 +203,15 @@ namespace Tests\Support {
         }
 
         /**
-         * @param $s
          * @return int
          */
         /**
-         * @param $s
          * @return int
          */
         public function write($s)
         {
             $this->buf .= $s;
+
             return strlen($s);
         }
 
@@ -409,11 +227,9 @@ namespace Tests\Support {
         }
 
         /**
-         * @param $l
          * @return string
          */
         /**
-         * @param $l
          * @return string
          */
         public function read($l)
@@ -433,11 +249,9 @@ namespace Tests\Support {
         }
 
         /**
-         * @param $k
          * @return null
          */
         /**
-         * @param $k
          * @return null
          */
         public function getMetadata($k = null)
@@ -446,21 +260,11 @@ namespace Tests\Support {
         }
     }
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     final class MemoryResponse implements ResponseInterface
     {
-        /**
-         * @param int $code
-         * @param array $headers
-         * @param string $body
-         */
-        public function __construct(private readonly int $code, private readonly array $headers, private readonly string $body) {}
+        public function __construct(private readonly int $code, private readonly array $headers, private readonly string $body)
+        {
+        }
 
         /**
          * @return int
@@ -485,10 +289,10 @@ namespace Tests\Support {
         }
 
         /**
-         * @return \Tests\Support\MemoryStream
+         * @return MemoryStream
          */
         /**
-         * @return \Tests\Support\MemoryStream
+         * @return MemoryStream
          */
         public function getBody()
         {
@@ -496,22 +300,11 @@ namespace Tests\Support {
         }
     }
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     final class MemoryRequest implements RequestInterface
     {
         private array $headers = [];
         private StreamInterface $body;
 
-        /**
-         * @param string $method
-         * @param string $url
-         */
         public function __construct(private readonly string $method, private readonly string $url)
         {
             $this->body = new MemoryStream('');
@@ -540,21 +333,20 @@ namespace Tests\Support {
         }
 
         /**
-         * @param $name
          * @return string
          */
         /**
-         * @param $name
          * @return string
          */
-        public function getHeaderLine($name)
+        public function getHeaderLine($nameEntity)
         {
-            $n = strtolower($name);
+            $n = strtolower($nameEntity);
             foreach ($this->headers as $k => $v) {
                 if (strtolower($k) === $n) {
                     return implode(', ', (array) $v);
                 }
             }
+
             return '';
         }
 
@@ -570,42 +362,38 @@ namespace Tests\Support {
         }
 
         /**
-         * @param $name
-         * @param $value
-         * @return $this|\Tests\Support\MemoryRequest
+         * @return $this|MemoryRequest
          */
         /**
-         * @param $name
-         * @param $value
-         * @return $this|\Tests\Support\MemoryRequest
+         * @return $this|MemoryRequest
          */
-        public function withHeader($name, $value)
+        public function withHeader($nameEntity, $value)
         {
             $c = clone $this;
-            $c->headers[$name] = (array) $value;
+            $c->headers[$nameEntity] = (array) $value;
+
             return $c;
         }
 
         /**
-         * @param \Psr\Http\Message\StreamInterface $b
-         * @return $this|\Tests\Support\MemoryRequest
+         * @return $this|MemoryRequest
          */
         /**
-         * @param \Psr\Http\Message\StreamInterface $b
-         * @return $this|\Tests\Support\MemoryRequest
+         * @return $this|MemoryRequest
          */
         public function withBody(StreamInterface $b)
         {
             $c = clone $this;
             $c->body = $b;
+
             return $c;
         }
 
         /**
-         * @return \Psr\Http\Message\StreamInterface|\Tests\Support\MemoryStream
+         * @return StreamInterface|MemoryStream
          */
         /**
-         * @return \Psr\Http\Message\StreamInterface|\Tests\Support\MemoryStream
+         * @return StreamInterface|MemoryStream
          */
         public function getBody()
         {
@@ -613,79 +401,38 @@ namespace Tests\Support {
         }
     }
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     final class MemoryRequestFactory implements RequestFactoryInterface
     {
-        /**
-         * @param string $method
-         * @param $uri
-         * @return \Psr\Http\Message\RequestInterface
-         */
-        /**
-         * @param string $method
-         * @param $uri
-         * @return \Psr\Http\Message\RequestInterface
-         */
         public function createRequest(string $method, $uri): RequestInterface
         {
             return new MemoryRequest($method, (string) $uri);
         }
     }
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     final class MemoryStreamFactory implements StreamFactoryInterface
     {
-        /**
-         * @param string $content
-         * @return \Psr\Http\Message\StreamInterface
-         */
         public function createStream(string $content = ''): StreamInterface
         {
             return new MemoryStream($content);
         }
     }
 
-    /**
-     *
-     */
-
-    /**
-     *
-     */
     final class DummyHttpClient implements ClientInterface
     {
         public ?RequestInterface $last = null;
         /** @var callable(RequestInterface):ResponseInterface */
         public $responder;
 
-        /**
-         * @param callable $responder
-         */
         public function __construct(callable $responder)
         {
             $this->responder = $responder;
         }
 
-        /**
-         * @param \Psr\Http\Message\RequestInterface $request
-         * @return \Psr\Http\Message\ResponseInterface
-         */
         public function sendRequest(RequestInterface $request): ResponseInterface
         {
             $this->last = $request;
             $fn = $this->responder;
+
             return $fn($request);
         }
     }

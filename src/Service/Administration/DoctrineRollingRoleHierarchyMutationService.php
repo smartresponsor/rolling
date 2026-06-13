@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
-use App\Rolling\Entity\Acl\RollingRole;
-use App\Rolling\Entity\Acl\RollingRoleHierarchy;
+use App\Rolling\Entity\Role\RoleEntity;
+use App\Rolling\Entity\Role\RoleHierarchyEntity;
 use App\Rolling\ServiceInterface\Administration\RollingRoleHierarchyMutationServiceInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
@@ -52,13 +52,13 @@ final readonly class DoctrineRollingRoleHierarchyMutationService implements Roll
         }
 
         $manager = $this->manager();
-        $edge = $manager->getRepository(RollingRoleHierarchy::class)->findOneBy([
+        $edge = $manager->getRepository(RoleHierarchyEntity::class)->findOneBy([
             'parentRoleKey' => $normalized['parent_role_key'],
             'childRoleKey' => $normalized['child_role_key'],
         ]);
 
         $created = false;
-        if (!$edge instanceof RollingRoleHierarchy) {
+        if (!$edge instanceof RoleHierarchyEntity) {
             if (self::ACTION_DISABLE_EDGE === $normalized['action']) {
                 return [
                     'status' => 'not_found',
@@ -67,7 +67,7 @@ final readonly class DoctrineRollingRoleHierarchyMutationService implements Roll
                 ];
             }
 
-            $edge = new RollingRoleHierarchy($normalized['parent_role_key'], $normalized['child_role_key']);
+            $edge = new RoleHierarchyEntity($normalized['parent_role_key'], $normalized['child_role_key']);
             $manager->persist($edge);
             $created = true;
         }
@@ -129,8 +129,8 @@ final readonly class DoctrineRollingRoleHierarchyMutationService implements Roll
         if ($requireExistingRoles && [] === $messages) {
             $manager = $this->manager();
             foreach (['parent_role_key', 'child_role_key'] as $field) {
-                $role = $manager->getRepository(RollingRole::class)->findOneBy(['roleKey' => $payload[$field]]);
-                if (!$role instanceof RollingRole) {
+                $role = $manager->getRepository(RoleEntity::class)->findOneBy(['roleKey' => $payload[$field]]);
+                if (!$role instanceof RoleEntity) {
                     $messages[] = sprintf('Role "%s" does not exist. Synchronize or create roles before mutating hierarchy.', $payload[$field]);
                 }
             }
@@ -149,15 +149,15 @@ final readonly class DoctrineRollingRoleHierarchyMutationService implements Roll
         $manager = $this->manager();
         $edge = null;
         if ('' !== $payload['parent_role_key'] && '' !== $payload['child_role_key']) {
-            $edge = $manager->getRepository(RollingRoleHierarchy::class)->findOneBy([
+            $edge = $manager->getRepository(RoleHierarchyEntity::class)->findOneBy([
                 'parentRoleKey' => $payload['parent_role_key'],
                 'childRoleKey' => $payload['child_role_key'],
             ]);
         }
 
         return [
-            'edge_exists' => $edge instanceof RollingRoleHierarchy,
-            'edge_enabled' => $edge instanceof RollingRoleHierarchy ? $edge->isEnabled() : false,
+            'edge_exists' => $edge instanceof RoleHierarchyEntity,
+            'edge_enabled' => $edge instanceof RoleHierarchyEntity ? $edge->isEnabled() : false,
             'cycle_check' => self::ACTION_DISABLE_EDGE === $payload['action'] ? 'not_applicable' : ($this->wouldCreateCycle($payload['parent_role_key'], $payload['child_role_key']) ? 'would_create_cycle' : 'clear'),
         ];
     }
@@ -197,9 +197,9 @@ final readonly class DoctrineRollingRoleHierarchyMutationService implements Roll
     private function enabledHierarchyAdjacency(string $proposedParentRoleKey, string $proposedChildRoleKey): array
     {
         $adjacency = [];
-        $edges = $this->manager()->getRepository(RollingRoleHierarchy::class)->findBy(['enabled' => true]);
+        $edges = $this->manager()->getRepository(RoleHierarchyEntity::class)->findBy(['enabled' => true]);
         foreach ($edges as $edge) {
-            if (!$edge instanceof RollingRoleHierarchy) {
+            if (!$edge instanceof RoleHierarchyEntity) {
                 continue;
             }
 
@@ -215,9 +215,9 @@ final readonly class DoctrineRollingRoleHierarchyMutationService implements Roll
 
     private function manager(): ObjectManager
     {
-        $manager = $this->registry->getManagerForClass(RollingRoleHierarchy::class);
+        $manager = $this->registry->getManagerForClass(RoleHierarchyEntity::class);
         if (null === $manager) {
-            throw new \RuntimeException(sprintf('No Doctrine manager configured for %s.', RollingRoleHierarchy::class));
+            throw new \RuntimeException(sprintf('No Doctrine manager configured for %s.', RoleHierarchyEntity::class));
         }
 
         return $manager;

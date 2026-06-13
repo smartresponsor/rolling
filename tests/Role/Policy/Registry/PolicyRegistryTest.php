@@ -14,19 +14,19 @@ final class PolicyRegistryTest extends TestCase
     {
         $svc = new RegistryService(new InMemoryStore());
         $ns = 'acme';
-        $name = 'doc-view';
+        $nameEntity = 'doc-view';
 
-        $svc->importPolicy($ns, $name, '1.0.0', '{"rules":[{"allow":"viewer"}]}');
-        $svc->importPolicy($ns, $name, '1.1.0', '{"rules":[{"allow":"viewer"},{"deny":"banned"}]}');
+        $svc->importPolicy($ns, $nameEntity, '1.0.0', '{"rules":[{"allow":"viewer"}]}');
+        $svc->importPolicy($ns, $nameEntity, '1.1.0', '{"rules":[{"allow":"viewer"},{"deny":"banned"}]}');
 
-        $svc->activatePolicy($ns, $name, '1.0.0');
-        $active = $svc->getActive($ns, $name);
+        $svc->activatePolicy($ns, $nameEntity, '1.0.0');
+        $active = $svc->getActive($ns, $nameEntity);
         self::assertNotNull($active);
         self::assertSame('1.0.0', $active->version);
 
-        $svc->recordMigration($ns, $name, '1.0.0', '1.1.0', 'add deny banned');
-        $svc->activatePolicy($ns, $name, '1.1.0');
-        $active2 = $svc->getActive($ns, $name);
+        $svc->recordMigration($ns, $nameEntity, '1.0.0', '1.1.0', 'add deny banned');
+        $svc->activatePolicy($ns, $nameEntity, '1.1.0');
+        $active2 = $svc->getActive($ns, $nameEntity);
         self::assertNotNull($active2);
         self::assertSame('1.1.0', $active2->version);
     }

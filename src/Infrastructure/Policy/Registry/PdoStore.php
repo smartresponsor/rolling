@@ -12,24 +12,24 @@ final class PdoStore implements StoreInterface
     {
     }
 
-    public function put(string $ns, string $name, string $version, string $docJson): PolicyConsistencyToken
+    public function put(string $ns, string $nameEntity, string $version, string $docJson): PolicyConsistencyToken
     {
-        $statement = $this->pdo->prepare('INSERT INTO role_policy(ns,name,version,doc,created_at,is_active) VALUES(?,?,?,?,?,0)');
-        $statement->execute([$ns, $name, $version, $docJson, time()]);
+        $statement = $this->pdo->prepare('INSERT INTO role_policy(ns,nameEntity,version,doc,created_at,is_active) VALUES(?,?,?,?,?,0)');
+        $statement->execute([$ns, $nameEntity, $version, $docJson, time()]);
         $this->bumpRev();
 
         return $this->currentToken();
     }
 
-    public function activate(string $ns, string $name, string $version): PolicyConsistencyToken
+    public function activate(string $ns, string $nameEntity, string $version): PolicyConsistencyToken
     {
         $this->pdo->beginTransaction();
 
         try {
-            $deactivate = $this->pdo->prepare('UPDATE role_policy SET is_active=0 WHERE ns=? AND name=?');
-            $deactivate->execute([$ns, $name]);
-            $activate = $this->pdo->prepare('UPDATE role_policy SET is_active=1 WHERE ns=? AND name=? AND version=?');
-            $activate->execute([$ns, $name, $version]);
+            $deactivate = $this->pdo->prepare('UPDATE role_policy SET is_active=0 WHERE ns=? AND nameEntity=?');
+            $deactivate->execute([$ns, $nameEntity]);
+            $activate = $this->pdo->prepare('UPDATE role_policy SET is_active=1 WHERE ns=? AND nameEntity=? AND version=?');
+            $activate->execute([$ns, $nameEntity, $version]);
             if (0 === $activate->rowCount()) {
                 throw new \RuntimeException('version not found');
             }
@@ -43,35 +43,35 @@ final class PdoStore implements StoreInterface
         return $this->currentToken();
     }
 
-    public function getActive(string $ns, string $name): ?PolicyRecord
+    public function getActive(string $ns, string $nameEntity): ?PolicyRecord
     {
-        $statement = $this->pdo->prepare('SELECT ns,name,version,doc,created_at,is_active FROM role_policy WHERE ns=? AND name=? AND is_active=1 LIMIT 1');
-        $statement->execute([$ns, $name]);
+        $statement = $this->pdo->prepare('SELECT ns,nameEntity,version,doc,created_at,is_active FROM role_policy WHERE ns=? AND nameEntity=? AND is_active=1 LIMIT 1');
+        $statement->execute([$ns, $nameEntity]);
         $row = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if (false === $row) {
             return null;
         }
 
-        return new PolicyRecord((string) $row['ns'], (string) $row['name'], (string) $row['version'], (string) $row['doc'], (int) $row['created_at'], (bool) $row['is_active']);
+        return new PolicyRecord((string) $row['ns'], (string) $row['nameEntity'], (string) $row['version'], (string) $row['doc'], (int) $row['created_at'], (bool) $row['is_active']);
     }
 
-    public function listVersions(string $ns, string $name): array
+    public function listVersions(string $ns, string $nameEntity): array
     {
-        $statement = $this->pdo->prepare('SELECT ns,name,version,doc,created_at,is_active FROM role_policy WHERE ns=? AND name=? ORDER BY created_at ASC');
-        $statement->execute([$ns, $name]);
+        $statement = $this->pdo->prepare('SELECT ns,nameEntity,version,doc,created_at,is_active FROM role_policy WHERE ns=? AND nameEntity=? ORDER BY created_at ASC');
+        $statement->execute([$ns, $nameEntity]);
         $records = [];
         while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
-            $records[] = new PolicyRecord((string) $row['ns'], (string) $row['name'], (string) $row['version'], (string) $row['doc'], (int) $row['created_at'], (bool) $row['is_active']);
+            $records[] = new PolicyRecord((string) $row['ns'], (string) $row['nameEntity'], (string) $row['version'], (string) $row['doc'], (int) $row['created_at'], (bool) $row['is_active']);
         }
 
         return $records;
     }
 
-    public function export(string $ns, string $name, string $version): ?string
+    public function export(string $ns, string $nameEntity, string $version): ?string
     {
-        $statement = $this->pdo->prepare('SELECT doc FROM role_policy WHERE ns=? AND name=? AND version=?');
-        $statement->execute([$ns, $name, $version]);
+        $statement = $this->pdo->prepare('SELECT doc FROM role_policy WHERE ns=? AND nameEntity=? AND version=?');
+        $statement->execute([$ns, $nameEntity, $version]);
         $doc = $statement->fetchColumn();
 
         return false !== $doc ? (string) $doc : null;
@@ -84,16 +84,16 @@ final class PdoStore implements StoreInterface
         return new PolicyConsistencyToken($rev);
     }
 
-    public function recordMigration(string $ns, string $name, string $from, string $to, ?string $note = null, ?string $stepsJson = null): void
+    public function recordMigration(string $ns, string $nameEntity, string $from, string $to, ?string $note = null, ?string $stepsJson = null): void
     {
-        $statement = $this->pdo->prepare('INSERT INTO role_policy_migration(ns,name,from_version,to_version,note,steps,applied_at) VALUES(?,?,?,?,?,?,?)');
-        $statement->execute([$ns, $name, $from, $to, $note, $stepsJson, time()]);
+        $statement = $this->pdo->prepare('INSERT INTO role_policy_migration(ns,nameEntity,from_version,to_version,note,steps,applied_at) VALUES(?,?,?,?,?,?,?)');
+        $statement->execute([$ns, $nameEntity, $from, $to, $note, $stepsJson, time()]);
     }
 
-    public function listMigrations(string $ns, string $name): array
+    public function listMigrations(string $ns, string $nameEntity): array
     {
-        $statement = $this->pdo->prepare('SELECT from_version, to_version, note, applied_at FROM role_policy_migration WHERE ns=? AND name=? ORDER BY applied_at ASC');
-        $statement->execute([$ns, $name]);
+        $statement = $this->pdo->prepare('SELECT from_version, to_version, note, applied_at FROM role_policy_migration WHERE ns=? AND nameEntity=? ORDER BY applied_at ASC');
+        $statement->execute([$ns, $nameEntity]);
         $migrations = [];
         while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
             $migrations[] = ['from' => (string) $row['from_version'], 'to' => (string) $row['to_version'], 'note' => null !== $row['note'] ? (string) $row['note'] : null, 'applied_at' => (int) $row['applied_at']];

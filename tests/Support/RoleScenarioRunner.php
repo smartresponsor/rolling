@@ -48,7 +48,7 @@ final class RoleScenarioRunner
         ));
 
         return [
-            'fixture' => $fixture['name'] ?? 'unknown',
+            'fixture' => $fixture['nameEntity'] ?? 'unknown',
             'mode' => $mode,
             'scenario' => $scenario,
             'summary' => [
@@ -71,7 +71,7 @@ final class RoleScenarioRunner
         }
 
         return [
-            'fixture' => $fixture['name'] ?? 'unknown',
+            'fixture' => $fixture['nameEntity'] ?? 'unknown',
             'mode' => 'audit',
             'ok' => $baseline['ok'] && array_reduce($scenarios, static fn (bool $carry, array $row): bool => $carry && (bool) ($row['ok'] ?? false), true),
             'summary' => [
@@ -113,7 +113,7 @@ final class RoleScenarioRunner
         }
 
         return [
-            'fixture' => $fixture['name'] ?? 'unknown',
+            'fixture' => $fixture['nameEntity'] ?? 'unknown',
             'engine' => 'rebac-minimal',
             'mode' => $mode,
             'scenario' => $scenario,

@@ -27,7 +27,7 @@ final class ProfileAutoPromoteCommand extends AbstractRoleCommand
         $this
             ->addArgument('kind', InputArgument::REQUIRED, 'Report kind: perf or bench.')
             ->addArgument('report', InputArgument::REQUIRED, 'Path to a known-good perf/bench report JSON.')
-            ->addOption('profile', null, InputOption::VALUE_REQUIRED, 'Baseline profile name. Defaults to report profile or standard.', '')
+            ->addOption('profile', null, InputOption::VALUE_REQUIRED, 'Baseline profile nameEntity. Defaults to report profile or standard.', '')
             ->addOption('manifest', null, InputOption::VALUE_REQUIRED, 'Baseline manifest path.', 'var/bench_stats/baseline_manifest.json')
             ->addOption('label', null, InputOption::VALUE_REQUIRED, 'Optional label recorded in manifest.', '')
             ->addOption('require-passing', null, InputOption::VALUE_NONE, 'Require report gating/comparison to be passing before promote.');

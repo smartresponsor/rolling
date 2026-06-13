@@ -2,23 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Rolling\Repository\Acl;
+namespace App\Rolling\Repository\Role;
 
-use App\Rolling\Entity\Acl\RollingSubjectRoleAssignment;
+use App\Rolling\Entity\Role\RoleSubjectAssignmentEntity;
+use App\Rolling\RepositoryInterface\Role\RoleSubjectAssignmentRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<RollingSubjectRoleAssignment>
  */
-final class RollingSubjectRoleAssignmentRepository extends ServiceEntityRepository
+final class RoleSubjectAssignmentRepository extends ServiceEntityRepository implements RoleSubjectAssignmentRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RollingSubjectRoleAssignment::class);
+        parent::__construct($registry, RoleSubjectAssignmentEntity::class);
     }
 
-    public function findOneAssignment(string $subjectIdentifier, string $roleKey, string $scopeKey): ?RollingSubjectRoleAssignment
+    public function findOneAssignment(string $subjectIdentifier, string $roleKey, string $scopeKey): ?RoleSubjectAssignmentEntity
     {
         $assignment = $this->findOneBy([
             'subjectIdentifier' => trim($subjectIdentifier),
@@ -26,10 +27,10 @@ final class RollingSubjectRoleAssignmentRepository extends ServiceEntityReposito
             'scopeKey' => trim($scopeKey),
         ]);
 
-        return $assignment instanceof RollingSubjectRoleAssignment ? $assignment : null;
+        return $assignment instanceof RoleSubjectAssignmentEntity ? $assignment : null;
     }
 
-    public function save(RollingSubjectRoleAssignment $assignment, bool $flush = false): void
+    public function save(RoleSubjectAssignmentEntity $assignment, bool $flush = false): void
     {
         $this->getEntityManager()->persist($assignment);
 
@@ -38,7 +39,7 @@ final class RollingSubjectRoleAssignmentRepository extends ServiceEntityReposito
         }
     }
 
-    public function remove(RollingSubjectRoleAssignment $assignment, bool $flush = false): void
+    public function remove(RoleSubjectAssignmentEntity $assignment, bool $flush = false): void
     {
         $this->getEntityManager()->remove($assignment);
 

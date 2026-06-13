@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Controller\Admin;
 
-use App\Rolling\Entity\Acl\RollingPermission;
+use App\Rolling\Entity\Role\RolePermissionEntity;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -15,7 +15,7 @@ final class RollingPermissionCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return RollingPermission::class;
+        return RolePermissionEntity::class;
     }
 
     public function configureCrud(Crud $crud): Crud

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'partial-propagation',
+    'nameEntity' => 'partial-propagation',
     'engine' => 'rebac-minimal',
     'ns' => 'acme',
     'seed' => [

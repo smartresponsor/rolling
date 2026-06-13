@@ -53,7 +53,7 @@ final readonly class RollingIntegrationContract
     /** FQCN of the external access resolver contract (Managing side) */
     public string $managingExternalAccessResolverContract;
 
-    /** Route name of the Rolling-backed Managing access readiness surface */
+    /** Route nameEntity of the Rolling-backed Managing access readiness surface */
     public string $managingExternalAccessReadinessSurface;
 
     // -----------------------------------------------------------------
@@ -92,7 +92,7 @@ final readonly class RollingIntegrationContract
     /** FQCN of the Managing field view profile storage entity */
     public string $managingProfileStorageEntity;
 
-    /** Entity manager name for profile storage ('system') */
+    /** Entity manager nameEntity for profile storage ('system') */
     public string $managingProfileStorageEntityManager;
 
     // -----------------------------------------------------------------

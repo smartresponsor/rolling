@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
-use App\Rolling\Entity\Acl\RollingAclRule;
-use App\Rolling\Entity\Acl\RollingRolePermission;
-use App\Rolling\Entity\Acl\RollingSubjectRoleAssignment;
-use App\Rolling\Repository\Acl\RollingAclRuleRepository;
-use App\Rolling\Repository\Acl\RollingPermissionRepository;
-use App\Rolling\Repository\Acl\RollingRolePermissionRepository;
-use App\Rolling\Repository\Acl\RollingRoleRepository;
-use App\Rolling\Repository\Acl\RollingSubjectRoleAssignmentRepository;
+use App\Rolling\Entity\Role\RoleAclRuleEntity;
+use App\Rolling\Entity\Role\RolePermissionEntity;
+use App\Rolling\Entity\Role\RoleSubjectAssignmentEntity;
+use App\Rolling\Repository\Role\RoleAclRuleRepository;
+use App\Rolling\Repository\Role\RolePermissionRepository;
+use App\Rolling\Repository\Role\RoleRepository;
+use App\Rolling\Repository\Role\RoleSubjectAssignmentRepository;
 use App\Rolling\ServiceInterface\Administration\RollingAclAdministrationServiceInterface;
 use App\Rolling\ServiceInterface\Administration\RollingAclMutationAuditRecorderInterface;
 use App\Rolling\ServiceInterface\Administration\RollingAclMutationValidatorInterface;
@@ -33,11 +32,11 @@ final class DoctrineRollingAclAdministrationService implements RollingAclAdminis
         private readonly ManagerRegistry $registry,
         private readonly RollingAclMutationValidatorInterface $mutationValidator,
         private readonly RollingAclMutationAuditRecorderInterface $auditRecorder,
-        private readonly RollingRoleRepository $roleRepository,
-        private readonly RollingPermissionRepository $permissionRepository,
-        private readonly RollingSubjectRoleAssignmentRepository $assignmentRepository,
-        private readonly RollingRolePermissionRepository $rolePermissionRepository,
-        private readonly RollingAclRuleRepository $aclRuleRepository,
+        private readonly RoleRepository $roleRepository,
+        private readonly RolePermissionRepository $permissionRepository,
+        private readonly RoleSubjectAssignmentRepository $assignmentRepository,
+        private readonly RolePermissionRepository $rolePermissionRepository,
+        private readonly RoleAclRuleRepository $aclRuleRepository,
     ) {
     }
 
@@ -77,9 +76,9 @@ final class DoctrineRollingAclAdministrationService implements RollingAclAdminis
             return RollingAclMutationResult::success('Role assignment already exists.', ['assignment_id' => $existing->id(), 'role_key' => $roleKey]);
         }
 
-        $assignment = new RollingSubjectRoleAssignment($request->subjectIdentifier(), $roleKey, $request->scopeKey());
+        $assignment = new RoleSubjectAssignmentEntity($request->subjectIdentifier(), $roleKey, $request->scopeKey());
         $this->assignmentRepository->save($assignment);
-        $this->flushManagerFor(RollingSubjectRoleAssignment::class);
+        $this->flushManagerFor(RoleSubjectAssignmentEntity::class);
 
         return RollingAclMutationResult::success('Role assignment persisted.', ['assignment_id' => $assignment->id(), 'role_key' => $roleKey]);
     }
@@ -94,7 +93,7 @@ final class DoctrineRollingAclAdministrationService implements RollingAclAdminis
 
         $assignmentId = $assignment->id();
         $this->assignmentRepository->remove($assignment);
-        $this->flushManagerFor(RollingSubjectRoleAssignment::class);
+        $this->flushManagerFor(RoleSubjectAssignmentEntity::class);
 
         return RollingAclMutationResult::success('Role assignment removed.', ['assignment_id' => $assignmentId, 'role_key' => $roleKey]);
     }
@@ -117,9 +116,9 @@ final class DoctrineRollingAclAdministrationService implements RollingAclAdminis
             return RollingAclMutationResult::success('Role permission grant already exists.', ['grant_id' => $existing->id()]);
         }
 
-        $grant = new RollingRolePermission($roleKey, $permissionKey, $request->scopeKey());
+        $grant = new RolePermissionEntity($roleKey, $permissionKey, $request->scopeKey());
         $this->rolePermissionRepository->save($grant);
-        $this->flushManagerFor(RollingRolePermission::class);
+        $this->flushManagerFor(RolePermissionEntity::class);
 
         return RollingAclMutationResult::success('Role permission grant persisted.', ['grant_id' => $grant->id(), 'role_key' => $roleKey, 'permission_key' => $permissionKey]);
     }
@@ -135,7 +134,7 @@ final class DoctrineRollingAclAdministrationService implements RollingAclAdminis
 
         $grantId = $grant->id();
         $this->rolePermissionRepository->remove($grant);
-        $this->flushManagerFor(RollingRolePermission::class);
+        $this->flushManagerFor(RolePermissionEntity::class);
 
         return RollingAclMutationResult::success('Role permission grant removed.', ['grant_id' => $grantId, 'role_key' => $roleKey, 'permission_key' => $permissionKey]);
     }
@@ -147,9 +146,9 @@ final class DoctrineRollingAclAdministrationService implements RollingAclAdminis
             return RollingAclMutationResult::rejected('Permission does not exist.', ['permission_key' => $permissionKey]);
         }
 
-        $rule = new RollingAclRule($request->subjectIdentifier(), $permissionKey, $request->scopeKey(), $effect);
+        $rule = new RoleAclRuleEntity($request->subjectIdentifier(), $permissionKey, $request->scopeKey(), $effect);
         $this->aclRuleRepository->save($rule);
-        $this->flushManagerFor(RollingAclRule::class);
+        $this->flushManagerFor(RoleAclRuleEntity::class);
 
         return RollingAclMutationResult::success('ACL rule persisted.', ['rule_id' => $rule->id(), 'effect' => $effect, 'permission_key' => $permissionKey]);
     }

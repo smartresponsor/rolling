@@ -14,7 +14,7 @@ final class ScenarioListCommand extends AbstractRoleCommand
 {
     protected function configure(): void
     {
-        $this->addArgument('fixture', InputArgument::REQUIRED, 'Fixture name.');
+        $this->addArgument('fixture', InputArgument::REQUIRED, 'Fixture nameEntity.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -23,7 +23,7 @@ final class ScenarioListCommand extends AbstractRoleCommand
             $fixture = $this->fixture((string) $input->getArgument('fixture'));
 
             return $this->writeJson($output, [
-                'fixture' => $fixture['name'] ?? (string) $input->getArgument('fixture'),
+                'fixture' => $fixture['nameEntity'] ?? (string) $input->getArgument('fixture'),
                 'scenarios' => $this->scenarioNames($fixture),
             ]);
         } catch (\Throwable $throwable) {

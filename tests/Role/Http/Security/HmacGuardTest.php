@@ -35,9 +35,9 @@ final class HmacGuardTest extends TestCase
                 return '/v2/access/check';
             }
 
-            public function header(string $name): ?string
+            public function header(string $nameEntity): ?string
             {
-                return $this->headers[$name] ?? null;
+                return $this->headers[$nameEntity] ?? null;
             }
 
             public function body(): string
@@ -95,9 +95,9 @@ final class HmacGuardTest extends TestCase
                 return '/v2/access/check';
             }
 
-            public function header(string $name): ?string
+            public function header(string $nameEntity): ?string
             {
-                return $this->headers[$name] ?? null;
+                return $this->headers[$nameEntity] ?? null;
             }
 
             public function body(): string

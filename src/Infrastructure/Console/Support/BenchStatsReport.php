@@ -35,7 +35,7 @@ final class BenchStatsReport
         if ($trace) {
             $report['trace'] = [
                 'scenario_names' => array_values(array_map(
-                    static fn (array $scenario): string => (string) ($scenario['name'] ?? 'unknown'),
+                    static fn (array $scenario): string => (string) ($scenario['nameEntity'] ?? 'unknown'),
                     array_values(array_filter($payload['scenarios'] ?? [], 'is_array')),
                 )),
                 'scenario_count' => (int) ($stats['scenario_count'] ?? 0),

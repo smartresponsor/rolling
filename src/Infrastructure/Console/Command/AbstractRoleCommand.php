@@ -11,22 +11,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractRoleCommand extends Command
 {
-    protected function fixture(string $name): array
+    protected function fixture(string $nameEntity): array
     {
-        if ('' === $name) {
-            throw new \InvalidArgumentException('Fixture name is required.');
+        if ('' === $nameEntity) {
+            throw new \InvalidArgumentException('Fixture nameEntity is required.');
         }
 
-        return RoleFixtureCatalog::get($name);
+        return RoleFixtureCatalog::get($nameEntity);
     }
 
-    protected function scenario(string $name): string
+    protected function scenario(string $nameEntity): string
     {
-        if ('' === $name) {
-            throw new \InvalidArgumentException('Scenario name is required.');
+        if ('' === $nameEntity) {
+            throw new \InvalidArgumentException('Scenario nameEntity is required.');
         }
 
-        return $name;
+        return $nameEntity;
     }
 
     protected function writeJson(OutputInterface $output, array $payload): int

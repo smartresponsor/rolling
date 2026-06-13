@@ -26,7 +26,7 @@ final class PerfBaselinePromoteCommand extends AbstractRoleCommand
     {
         $this
             ->addArgument('report', InputArgument::REQUIRED, 'Path to a known-good perf report JSON.')
-            ->addOption('profile', null, InputOption::VALUE_REQUIRED, 'Baseline profile name.', 'standard')
+            ->addOption('profile', null, InputOption::VALUE_REQUIRED, 'Baseline profile nameEntity.', 'standard')
             ->addOption('manifest', null, InputOption::VALUE_REQUIRED, 'Baseline manifest path.', 'var/bench_stats/baseline_manifest.json')
             ->addOption('label', null, InputOption::VALUE_REQUIRED, 'Optional label recorded in manifest.', '');
     }

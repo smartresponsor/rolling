@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
-use App\Rolling\Entity\Acl\RollingAclRule;
-use App\Rolling\Entity\Acl\RollingRole;
-use App\Rolling\Entity\Acl\RollingRoleHierarchy;
-use App\Rolling\Entity\Acl\RollingRolePermission;
-use App\Rolling\Entity\Acl\RollingSubjectRoleAssignment;
+use App\Rolling\Entity\Role\RoleAclRuleEntity;
+use App\Rolling\Entity\Role\RoleEntity;
+use App\Rolling\Entity\Role\RoleHierarchyEntity;
+use App\Rolling\Entity\Role\RolePermissionEntity;
+use App\Rolling\Entity\Role\RoleSubjectAssignmentEntity;
 use App\Rolling\ServiceInterface\Administration\RollingAdministrationPermissionDecisionServiceInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -50,12 +50,12 @@ final class DoctrineRollingAdministrationPermissionDecisionService implements Ro
 
     private function directRuleDecision(string $subjectIdentifier, string $permission, string $scope): ?bool
     {
-        $manager = $this->registry->getManagerForClass(RollingAclRule::class);
+        $manager = $this->registry->getManagerForClass(RoleAclRuleEntity::class);
         if (null === $manager) {
             return null;
         }
 
-        $rules = $manager->getRepository(RollingAclRule::class)->findBy([
+        $rules = $manager->getRepository(RoleAclRuleEntity::class)->findBy([
             'subjectIdentifier' => $subjectIdentifier,
             'permissionKey' => $permission,
             'enabled' => true,
@@ -63,7 +63,7 @@ final class DoctrineRollingAdministrationPermissionDecisionService implements Ro
 
         $allow = false;
         foreach ($rules as $rule) {
-            if (!$rule instanceof RollingAclRule || !$this->scopeMatches($rule->scopeKey(), $scope)) {
+            if (!$rule instanceof RoleAclRuleEntity || !$this->scopeMatches($rule->scopeKey(), $scope)) {
                 continue;
             }
 
@@ -82,18 +82,18 @@ final class DoctrineRollingAdministrationPermissionDecisionService implements Ro
     /** @return list<string> */
     private function roleKeysForSubject(string $subjectIdentifier, string $scope): array
     {
-        $manager = $this->registry->getManagerForClass(RollingSubjectRoleAssignment::class);
+        $manager = $this->registry->getManagerForClass(RoleSubjectAssignmentEntity::class);
         if (null === $manager) {
             return [];
         }
 
-        $assignments = $manager->getRepository(RollingSubjectRoleAssignment::class)->findBy([
+        $assignments = $manager->getRepository(RoleSubjectAssignmentEntity::class)->findBy([
             'subjectIdentifier' => $subjectIdentifier,
         ]);
 
         $roleKeys = [];
         foreach ($assignments as $assignment) {
-            if (!$assignment instanceof RollingSubjectRoleAssignment || !$this->scopeMatches($assignment->scopeKey(), $scope)) {
+            if (!$assignment instanceof RoleSubjectAssignmentEntity || !$this->scopeMatches($assignment->scopeKey(), $scope)) {
                 continue;
             }
 
@@ -108,14 +108,14 @@ final class DoctrineRollingAdministrationPermissionDecisionService implements Ro
 
     private function roleEnabled(string $roleKey): bool
     {
-        $manager = $this->registry->getManagerForClass(RollingRole::class);
+        $manager = $this->registry->getManagerForClass(RoleEntity::class);
         if (null === $manager) {
             return false;
         }
 
-        $role = $manager->getRepository(RollingRole::class)->findOneBy(['roleKey' => $roleKey]);
+        $role = $manager->getRepository(RoleEntity::class)->findOneBy(['roleKey' => $roleKey]);
 
-        return $role instanceof RollingRole && $role->enabled();
+        return $role instanceof RoleEntity && $role->enabled();
     }
 
     /**
@@ -129,7 +129,7 @@ final class DoctrineRollingAdministrationPermissionDecisionService implements Ro
             return [];
         }
 
-        $manager = $this->registry->getManagerForClass(RollingRoleHierarchy::class);
+        $manager = $this->registry->getManagerForClass(RoleHierarchyEntity::class);
         if (null === $manager) {
             return array_values(array_unique($roleKeys));
         }
@@ -140,13 +140,13 @@ final class DoctrineRollingAdministrationPermissionDecisionService implements Ro
         while ([] !== $frontier) {
             $next = [];
             foreach ($frontier as $parentRoleKey) {
-                $edges = $manager->getRepository(RollingRoleHierarchy::class)->findBy([
+                $edges = $manager->getRepository(RoleHierarchyEntity::class)->findBy([
                     'parentRoleKey' => $parentRoleKey,
                     'enabled' => true,
                 ]);
 
                 foreach ($edges as $edge) {
-                    if (!$edge instanceof RollingRoleHierarchy) {
+                    if (!$edge instanceof RoleHierarchyEntity) {
                         continue;
                     }
 
@@ -169,20 +169,20 @@ final class DoctrineRollingAdministrationPermissionDecisionService implements Ro
     /** @param list<string> $roleKeys */
     private function rolePermissionDecision(array $roleKeys, string $permission, string $scope): ?bool
     {
-        $manager = $this->registry->getManagerForClass(RollingRolePermission::class);
+        $manager = $this->registry->getManagerForClass(RolePermissionEntity::class);
         if (null === $manager) {
             return null;
         }
 
         $allow = false;
         foreach ($roleKeys as $roleKey) {
-            $grants = $manager->getRepository(RollingRolePermission::class)->findBy([
+            $grants = $manager->getRepository(RolePermissionEntity::class)->findBy([
                 'roleKey' => $roleKey,
                 'permissionKey' => $permission,
             ]);
 
             foreach ($grants as $grant) {
-                if (!$grant instanceof RollingRolePermission || !$this->scopeMatches($grant->scopePattern(), $scope)) {
+                if (!$grant instanceof RolePermissionEntity || !$this->scopeMatches($grant->scopePattern(), $scope)) {
                     continue;
                 }
 

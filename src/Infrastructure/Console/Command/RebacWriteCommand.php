@@ -23,7 +23,7 @@ final class RebacWriteCommand extends AbstractRoleCommand
         $this
             ->addArgument('objectType', InputArgument::REQUIRED, 'Object type.')
             ->addArgument('objectId', InputArgument::REQUIRED, 'Object id.')
-            ->addArgument('relation', InputArgument::REQUIRED, 'Relation name.')
+            ->addArgument('relation', InputArgument::REQUIRED, 'Relation nameEntity.')
             ->addArgument('subjectType', InputArgument::REQUIRED, 'Subject type.')
             ->addArgument('subjectId', InputArgument::REQUIRED, 'Subject id.');
     }

@@ -15,10 +15,6 @@ use App\Rolling\ServiceInterface\Residency\ResidencyPolicyInterface;
  */
 final class ResidencyStorage
 {
-    /**
-     * @param ResidencyPolicyInterface $policy
-     * @param string                   $root
-     */
     public function __construct(private readonly ResidencyPolicyInterface $policy, private readonly string $root = __DIR__.'/../../../var/residency')
     {
         if (!is_dir($this->root)) {
@@ -26,14 +22,7 @@ final class ResidencyStorage
         }
     }
 
-    /**
-     * @param string $tenant
-     * @param string $kind
-     * @param string $name
-     *
-     * @return string
-     */
-    public function path(string $tenant, string $kind, string $name): string
+    public function path(string $tenant, string $kind, string $nameEntity): string
     {
         $region = $this->policy->regionForTenant($tenant);
         $dir = $this->root.'/'.$region.'/'.$tenant.'/'.$kind;
@@ -41,35 +30,20 @@ final class ResidencyStorage
             @mkdir($dir, 0775, true);
         }
 
-        return $dir.'/'.$name;
+        return $dir.'/'.$nameEntity;
     }
 
-    /**
-     * @param string $tenant
-     * @param string $kind
-     * @param string $name
-     * @param string $content
-     *
-     * @return string
-     */
-    public function write(string $tenant, string $kind, string $name, string $content): string
+    public function write(string $tenant, string $kind, string $nameEntity, string $content): string
     {
-        $p = $this->path($tenant, $kind, $name);
+        $p = $this->path($tenant, $kind, $nameEntity);
         file_put_contents($p, $content);
 
         return $p;
     }
 
-    /**
-     * @param string $tenant
-     * @param string $kind
-     * @param string $name
-     *
-     * @return string|null
-     */
-    public function read(string $tenant, string $kind, string $name): ?string
+    public function read(string $tenant, string $kind, string $nameEntity): ?string
     {
-        $p = $this->path($tenant, $kind, $name);
+        $p = $this->path($tenant, $kind, $nameEntity);
         if (!is_file($p)) {
             return null;
         }

@@ -54,31 +54,31 @@ final class RoleConsoleRuntime
         return $this->policyServiceCache = new RegistryService($store);
     }
 
-    public function policyImport(string $name, string $version, string $docJson, ?string $ns = null): string
+    public function policyImport(string $nameEntity, string $version, string $docJson, ?string $ns = null): string
     {
-        return (string) $this->policyService()->importPolicy($ns ?? $this->rolePolicyNs(), $name, $version, $docJson);
+        return (string) $this->policyService()->importPolicy($ns ?? $this->rolePolicyNs(), $nameEntity, $version, $docJson);
     }
 
-    public function policyActivate(string $name, string $version, ?string $ns = null): string
+    public function policyActivate(string $nameEntity, string $version, ?string $ns = null): string
     {
-        return (string) $this->policyService()->activatePolicy($ns ?? $this->rolePolicyNs(), $name, $version);
+        return (string) $this->policyService()->activatePolicy($ns ?? $this->rolePolicyNs(), $nameEntity, $version);
     }
 
-    public function policyExport(string $name, string $version, ?string $ns = null): ?string
+    public function policyExport(string $nameEntity, string $version, ?string $ns = null): ?string
     {
-        return $this->policyService()->exportPolicy($ns ?? $this->rolePolicyNs(), $name, $version);
+        return $this->policyService()->exportPolicy($ns ?? $this->rolePolicyNs(), $nameEntity, $version);
     }
 
-    public function policyList(string $name, ?string $ns = null): array
+    public function policyList(string $nameEntity, ?string $ns = null): array
     {
-        return $this->policyService()->listVersions($ns ?? $this->rolePolicyNs(), $name);
+        return $this->policyService()->listVersions($ns ?? $this->rolePolicyNs(), $nameEntity);
     }
 
-    public function policyMigrate(string $name, string $from, string $to, ?string $note = null, ?string $ns = null): void
+    public function policyMigrate(string $nameEntity, string $from, string $to, ?string $note = null, ?string $ns = null): void
     {
         $policyNs = $ns ?? $this->rolePolicyNs();
-        $this->policyService()->recordMigration($policyNs, $name, $from, $to, $note);
-        $this->policyService()->activatePolicy($policyNs, $name, $to);
+        $this->policyService()->recordMigration($policyNs, $nameEntity, $from, $to, $note);
+        $this->policyService()->activatePolicy($policyNs, $nameEntity, $to);
     }
 
     public function rebacStore(): TupleStoreInterface
@@ -206,9 +206,9 @@ final class RoleConsoleRuntime
         return $result;
     }
 
-    private function env(string $name, string $default): string
+    private function env(string $nameEntity, string $default): string
     {
-        $value = getenv($name);
+        $value = getenv($nameEntity);
 
         return is_string($value) && '' !== $value ? $value : $default;
     }

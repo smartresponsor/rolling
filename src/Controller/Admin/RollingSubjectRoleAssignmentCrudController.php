@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Controller\Admin;
 
-use App\Rolling\Entity\Acl\RollingSubjectRoleAssignment;
+use App\Rolling\Entity\Role\RoleSubjectAssignmentEntity;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -15,7 +15,7 @@ final class RollingSubjectRoleAssignmentCrudController extends AbstractCrudContr
 {
     public static function getEntityFqcn(): string
     {
-        return RollingSubjectRoleAssignment::class;
+        return RoleSubjectAssignmentEntity::class;
     }
 
     public function configureCrud(Crud $crud): Crud

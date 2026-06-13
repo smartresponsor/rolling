@@ -40,7 +40,7 @@ final class BenchProfileCheckCommand extends AbstractRoleCommand
             ->addArgument('iterations', InputArgument::OPTIONAL, 'Iterations for micro benches.', '20000')
             ->addArgument('batch_n', InputArgument::OPTIONAL, 'Batch benchmark request count.', '3000')
             ->addArgument('rpc_us', InputArgument::OPTIONAL, 'Synthetic RPC latency in microseconds.', '200')
-            ->addOption('profile', null, InputOption::VALUE_REQUIRED, 'CI profile name.', 'standard')
+            ->addOption('profile', null, InputOption::VALUE_REQUIRED, 'CI profile nameEntity.', 'standard')
             ->addOption('manifest', null, InputOption::VALUE_REQUIRED, 'Baseline manifest path.', 'var/bench_stats/baseline_manifest.json')
             ->addOption('baseline', null, InputOption::VALUE_REQUIRED, 'Explicit baseline path override.')
             ->addOption('output', null, InputOption::VALUE_REQUIRED, 'Persist report to file.')

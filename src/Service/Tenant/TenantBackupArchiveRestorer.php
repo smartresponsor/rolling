@@ -11,9 +11,6 @@ namespace App\Rolling\Service\Tenant;
  */
 final class TenantBackupArchiveRestorer
 {
-    /**
-     * @param string $varDir
-     */
     public function __construct(private readonly string $varDir = __DIR__.'/../../../../var')
     {
     }
@@ -37,10 +34,10 @@ final class TenantBackupArchiveRestorer
         $tenantDir = rtrim($this->varDir, '/').'/tenants';
         for ($i = 0; $i < $zip->numFiles; ++$i) {
             $stat = $zip->statIndex($i);
-            $name = $stat['name'] ?? '';
-            if (str_starts_with($name, 'tenants/')) {
+            $nameEntity = $stat['nameEntity'] ?? '';
+            if (str_starts_with($nameEntity, 'tenants/')) {
                 $content = $zip->getFromIndex($i);
-                $out = $tenantDir.'/'.basename($name);
+                $out = $tenantDir.'/'.basename($nameEntity);
                 if (!is_dir(dirname($out))) {
                     @mkdir(dirname($out), 0775, true);
                 }

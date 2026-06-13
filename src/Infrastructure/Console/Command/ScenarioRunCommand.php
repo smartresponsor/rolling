@@ -15,8 +15,8 @@ final class ScenarioRunCommand extends AbstractRoleCommand
     protected function configure(): void
     {
         $this
-            ->addArgument('fixture', InputArgument::REQUIRED, 'Fixture name.')
-            ->addArgument('scenario', InputArgument::REQUIRED, 'Scenario name.');
+            ->addArgument('fixture', InputArgument::REQUIRED, 'Fixture nameEntity.')
+            ->addArgument('scenario', InputArgument::REQUIRED, 'Scenario nameEntity.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Rolling\Entity\Acl;
+namespace App\Rolling\Entity\Role;
 
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: \App\Rolling\Repository\Role\RoleHierarchyRepository::class)]
 #[ORM\Table(name: 'rolling_role_hierarchy')]
 #[ORM\UniqueConstraint(name: 'uniq_rolling_role_hierarchy_edge', columns: ['parent_role_key', 'child_role_key'])]
-class RollingRoleHierarchy
+#[ORM\Index(name: 'idx_rolling_role_hierarchy_parent', columns: ['parent_role_key'])]
+#[ORM\Index(name: 'idx_rolling_role_hierarchy_child', columns: ['child_role_key'])]
+class RoleHierarchyEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

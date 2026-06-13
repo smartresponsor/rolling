@@ -15,12 +15,5 @@ namespace App\Rolling\ServiceInterface\Policy;
  */
 interface CompilerInterface
 {
-    /**
-     * @param string      $name
-     * @param string      $inputPath
-     * @param string|null $outDir
-     *
-     * @return string
-     */
-    public function compile(string $name, string $inputPath, ?string $outDir = null): string;
+    public function compile(string $nameEntity, string $inputPath, ?string $outDir = null): string;
 }

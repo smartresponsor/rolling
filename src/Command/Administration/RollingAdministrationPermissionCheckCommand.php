@@ -112,9 +112,9 @@ final class RollingAdministrationPermissionCheckCommand extends Command
         return $granted ? Command::SUCCESS : Command::FAILURE;
     }
 
-    private function stringOption(InputInterface $input, string $name): string
+    private function stringOption(InputInterface $input, string $nameEntity): string
     {
-        $value = $input->getOption($name);
+        $value = $input->getOption($nameEntity);
 
         return is_string($value) ? trim($value) : '';
     }

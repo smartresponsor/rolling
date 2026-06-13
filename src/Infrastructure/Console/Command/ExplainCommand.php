@@ -15,11 +15,11 @@ final class ExplainCommand extends AbstractRoleCommand
     protected function configure(): void
     {
         $this
-            ->addArgument('fixture', InputArgument::REQUIRED, 'Fixture name.')
+            ->addArgument('fixture', InputArgument::REQUIRED, 'Fixture nameEntity.')
             ->addArgument('subject', InputArgument::REQUIRED, 'Subject identifier.')
             ->addArgument('object', InputArgument::REQUIRED, 'Object identifier.')
-            ->addArgument('relation', InputArgument::REQUIRED, 'Relation name.')
-            ->addArgument('scenario', InputArgument::OPTIONAL, 'Optional scenario name.');
+            ->addArgument('relation', InputArgument::REQUIRED, 'Relation nameEntity.')
+            ->addArgument('scenario', InputArgument::OPTIONAL, 'Optional scenario nameEntity.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:role:policy:list', description: 'List policy versions for a policy name.')]
+#[AsCommand(name: 'app:role:policy:list', description: 'List policy versions for a policy nameEntity.')]
 final class PolicyListCommand extends AbstractRoleCommand
 {
     public function __construct(private readonly RoleConsoleRuntime $runtime)
@@ -20,21 +20,21 @@ final class PolicyListCommand extends AbstractRoleCommand
 
     protected function configure(): void
     {
-        $this->addArgument('name', InputArgument::REQUIRED, 'Policy name.');
+        $this->addArgument('nameEntity', InputArgument::REQUIRED, 'Policy nameEntity.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $name = (string) $input->getArgument('name');
-            $records = $this->runtime->policyService()->listVersions($this->runtime->rolePolicyNs(), $name);
+            $nameEntity = (string) $input->getArgument('nameEntity');
+            $records = $this->runtime->policyService()->listVersions($this->runtime->rolePolicyNs(), $nameEntity);
             $payload = [
                 'ok' => true,
                 'ns' => $this->runtime->rolePolicyNs(),
-                'name' => $name,
+                'nameEntity' => $nameEntity,
                 'versions' => array_map(static fn (object $record): array => [
                     'ns' => $record->ns,
-                    'name' => $record->name,
+                    'nameEntity' => $record->nameEntity,
                     'version' => $record->version,
                     'is_active' => $record->isActive,
                     'created_at' => $record->createdAt,

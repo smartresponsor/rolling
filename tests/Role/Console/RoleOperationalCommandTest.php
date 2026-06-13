@@ -42,12 +42,12 @@ final class RoleOperationalCommandTest extends TestCase
         $application = (new RoleConsoleApplication())->build();
         $tester = new CommandTester($application->find('app:role:policy:list'));
 
-        $exitCode = $tester->execute(['name' => 'default-policy']);
+        $exitCode = $tester->execute(['nameEntity' => 'default-policy']);
 
         self::assertSame(0, $exitCode);
         $payload = json_decode($tester->getDisplay(), true, flags: JSON_THROW_ON_ERROR);
         self::assertTrue($payload['ok']);
-        self::assertSame('default-policy', $payload['name']);
+        self::assertSame('default-policy', $payload['nameEntity']);
         self::assertSame([], $payload['versions']);
     }
 

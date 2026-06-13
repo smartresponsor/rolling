@@ -91,7 +91,7 @@ function bench_serial_ctx(int $n = DEFAULT_ITER): array
         $samples[] = ($t1 - $t0) * 1000.0; // ms
         $ctx['num'] = ($ctx['num'] + 1) % 1000;
     }
-    return ['name' => 'serial_ctx', 'n' => $n, 'samples_ms' => $samples];
+    return ['nameEntity' => 'serial_ctx', 'n' => $n, 'samples_ms' => $samples];
 }
 
 /** cache_hit: модель PDP кеша */
@@ -136,7 +136,7 @@ function bench_cache_hit(int $n = DEFAULT_ITER): array
         $samples[] = ($t1 - $t0) * 1000.0;
         if (!$v) throw new RuntimeException('cache miss in cache_hit bench');
     }
-    return ['name' => 'cache_hit', 'n' => $n, 'samples_ms' => $samples];
+    return ['nameEntity' => 'cache_hit', 'n' => $n, 'samples_ms' => $samples];
 }
 
 /** rpc_sim: имитация задержки сети */
@@ -149,7 +149,7 @@ function bench_rpc_sim(int $n = 2000, int $us = 200): array
         $t1 = hr();
         $samples[] = ($t1 - $t0) * 1000.0;
     }
-    return ['name' => 'rpc_sim', 'n' => $n, 'param_us' => $us, 'samples_ms' => $samples];
+    return ['nameEntity' => 'rpc_sim', 'n' => $n, 'param_us' => $us, 'samples_ms' => $samples];
 }
 
 /** batch_proc: если доступен CheckBatchProcessor из RC-B3 */
@@ -184,7 +184,7 @@ function bench_batch_proc(int $n = DEFAULT_BATCH_N, int $chunk = 128): ?array
     }
     $t1 = hr();
     $durMs = ($t1 - $t0) * 1000.0;
-    return ['name' => 'batch_proc', 'n' => $n, 'chunk' => $chunk, 'duration_ms' => $durMs, 'per_item_ms' => $durMs / $n];
+    return ['nameEntity' => 'batch_proc', 'n' => $n, 'chunk' => $chunk, 'duration_ms' => $durMs, 'per_item_ms' => $durMs / $n];
 }
 
 // ---- Run ----
@@ -207,9 +207,9 @@ foreach ($scenarios as $s) {
         $p50 = pct($s['samples_ms'], 0.50);
         $p95 = pct($s['samples_ms'], 0.95);
         $p99 = pct($s['samples_ms'], 0.99);
-        $rows[] = [$s['name'], $s['n'], round($p50, 4), round($p95, 4), round($p99, 4), '—', '—'];
+        $rows[] = [$s['nameEntity'], $s['n'], round($p50, 4), round($p95, 4), round($p99, 4), '—', '—'];
     } else {
-        $rows[] = [$s['name'], $s['n'] ?? '—', '—', '—', '—', round($s['duration_ms'], 3) ?? '—', round(($s['per_item_ms'] ?? 0.0), 3)];
+        $rows[] = [$s['nameEntity'], $s['n'] ?? '—', '—', '—', '—', round($s['duration_ms'], 3) ?? '—', round(($s['per_item_ms'] ?? 0.0), 3)];
     }
 }
 $csvPath = $reportDir . "/summary_$ts.csv";

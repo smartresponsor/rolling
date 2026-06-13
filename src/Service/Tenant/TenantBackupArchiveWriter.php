@@ -12,10 +12,6 @@ namespace App\Rolling\Service\Tenant;
  */
 final class TenantBackupArchiveWriter
 {
-    /**
-     * @param string $varDir
-     * @param string $backupDir
-     */
     public function __construct(
         private readonly string $varDir = __DIR__.'/../../../../var',
         private readonly string $backupDir = __DIR__.'/../../../../var/backup',
@@ -29,8 +25,8 @@ final class TenantBackupArchiveWriter
     public function run(string $tenant): array
     {
         $ts = gmdate('Ymd_His');
-        $name = sprintf('%s_%s.zip', preg_replace('~[^a-zA-Z0-9_.-]~', '_', $tenant), $ts);
-        $zipPath = rtrim($this->backupDir, '/').'/'.$name;
+        $nameEntity = sprintf('%s_%s.zip', preg_replace('~[^a-zA-Z0-9_.-]~', '_', $tenant), $ts);
+        $zipPath = rtrim($this->backupDir, '/').'/'.$nameEntity;
         $zip = new \ZipArchive();
         if (true !== $zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
             return ['ok' => false, 'path' => ''];

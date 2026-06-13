@@ -15,12 +15,6 @@ use App\Rolling\ServiceInterface\Audit\ExplainerInterface;
 
 final class RuleExplainer implements ExplainerInterface
 {
-    /**
-     * @param AuditDecisionInputDto  $in
-     * @param AuditDecisionResultDto $res
-     *
-     * @return array
-     */
     public function explain(AuditDecisionInputDto $in, AuditDecisionResultDto $res): array
     {
         $root = new AuditExplainNodeDto('decision', $in->action, $res->allow, [
@@ -34,7 +28,7 @@ final class RuleExplainer implements ExplainerInterface
         $allPass = true;
         foreach ($in->voterTrace as $i => $v) {
             $pass = (bool) ($v['allow'] ?? false);
-            $node = new AuditExplainNodeDto('voter', (string) ($v['name'] ?? ('v'.$i)), $pass, [
+            $node = new AuditExplainNodeDto('voter', (string) ($v['nameEntity'] ?? ('v'.$i)), $pass, [
                 'reason' => $v['reason'] ?? null,
                 'ruleId' => $v['ruleId'] ?? null,
                 'weight' => $v['weight'] ?? 1,

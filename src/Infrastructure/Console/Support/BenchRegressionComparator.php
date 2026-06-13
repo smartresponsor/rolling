@@ -20,14 +20,14 @@ final class BenchRegressionComparator
 
         $scenarios = [];
         $failureCount = 0;
-        foreach ($scenarioNames as $name) {
-            $curr = $currentSummary[$name] ?? [];
-            $base = $baselineSummary[$name] ?? [];
+        foreach ($scenarioNames as $nameEntity) {
+            $curr = $currentSummary[$nameEntity] ?? [];
+            $base = $baselineSummary[$nameEntity] ?? [];
             $checks = [];
 
             if ([] === $curr || [] === $base) {
                 $checks[] = [
-                    'name' => 'scenario_presence',
+                    'nameEntity' => 'scenario_presence',
                     'baseline' => [] !== $base,
                     'current' => [] !== $curr,
                     'delta_pct' => null,
@@ -52,7 +52,7 @@ final class BenchRegressionComparator
             }
 
             $scenarios[] = [
-                'name' => $name,
+                'nameEntity' => $nameEntity,
                 'checks' => $checks,
             ];
         }
@@ -80,7 +80,7 @@ final class BenchRegressionComparator
             if (!is_array($scenario)) {
                 continue;
             }
-            $summary[(string) ($scenario['name'] ?? 'unknown')] = $scenario;
+            $summary[(string) ($scenario['nameEntity'] ?? 'unknown')] = $scenario;
         }
 
         return $summary;
@@ -99,7 +99,7 @@ final class BenchRegressionComparator
         $deltaPct = $base > 0.0 ? (($curr - $base) / $base) * 100.0 : 0.0;
 
         return [
-            'name' => $metric,
+            'nameEntity' => $metric,
             'baseline' => round($base, 4),
             'current' => round($curr, 4),
             'delta_pct' => round($deltaPct, 4),

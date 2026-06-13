@@ -22,7 +22,7 @@ final class TenantDataResidencyGuardService
     {
         $defaultRegion = $this->pol->regionForTenant($tenant);
         $region = (string) ($attrs['region'] ?? $defaultRegion);
-        $headers = [['name' => 'X-Data-Region', 'value' => $region]];
+        $headers = [['nameEntity' => 'X-Data-Region', 'value' => $region]];
 
         return [
             'allowed' => true,

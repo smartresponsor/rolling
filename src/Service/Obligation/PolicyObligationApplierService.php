@@ -9,20 +9,14 @@ use App\Rolling\ServiceInterface\ObligationStoreInterface;
 
 final class PolicyObligationApplierService
 {
-    /**
-     * @param ObligationStoreInterface $store
-     */
     public function __construct(private readonly ObligationStoreInterface $store)
     {
     }
 
     /**
-     * @param string     $tenant
-     * @param string     $relation
      * @param array      $decision expects ['allowed'=>bool]
      * @param array      $attrs    subject/resource attributes
      * @param array|null $resource viewable resource (optional)
-     * @param string     $version
      *
      * @return array{view:array<string,mixed>|null, headers:array<int,array<string,string>>, actions:array<int,array<string,mixed>>}
      */
@@ -59,10 +53,10 @@ final class PolicyObligationApplierService
                     $this->redactPath($view, $path);
                     $applied[] = ['type' => 'redact', 'path' => $path];
                 } elseif ('header' === $t) {
-                    $headers[] = ['name' => (string) $act['name'], 'value' => (string) $act['value']];
-                    $applied[] = ['type' => 'header', 'name' => $act['name'] ?? ''];
+                    $headers[] = ['nameEntity' => (string) $act['nameEntity'], 'value' => (string) $act['value']];
+                    $applied[] = ['type' => 'header', 'nameEntity' => $act['nameEntity'] ?? ''];
                 } elseif ('purpose' === $t) {
-                    $headers[] = ['name' => 'X-Data-Purpose', 'value' => (string) ($act['tag'] ?? 'unspecified')];
+                    $headers[] = ['nameEntity' => 'X-Data-Purpose', 'value' => (string) ($act['tag'] ?? 'unspecified')];
                     $applied[] = ['type' => 'purpose', 'tag' => $act['tag'] ?? ''];
                 }
             }
@@ -71,12 +65,6 @@ final class PolicyObligationApplierService
         return ['view' => $view, 'headers' => $headers, 'actions' => $applied];
     }
 
-    /**
-     * @param array $conds
-     * @param array $attrs
-     *
-     * @return bool
-     */
     private function whenOk(array $conds, array $attrs): bool
     {
         foreach ($conds as $c) {
@@ -100,11 +88,6 @@ final class PolicyObligationApplierService
         return true;
     }
 
-    /**
-     * @param array|null $obj
-     * @param string     $path
-     * @param string     $with
-     */
     private function maskPath(?array &$obj, string $path, string $with): void
     {
         if (null === $obj || '' === $path) {
@@ -127,10 +110,6 @@ final class PolicyObligationApplierService
         }
     }
 
-    /**
-     * @param array|null $obj
-     * @param string     $path
-     */
     private function redactPath(?array &$obj, string $path): void
     {
         if (null === $obj || '' === $path) {
@@ -150,12 +129,6 @@ final class PolicyObligationApplierService
         }
     }
 
-    /**
-     * @param array  $obj
-     * @param string $path
-     *
-     * @return mixed
-     */
     private function getByPath(array $obj, string $path): mixed
     {
         if ('' === $path) {

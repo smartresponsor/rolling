@@ -8,12 +8,12 @@ final class OtelBridge
 {
     private ?object $tracer;
 
-    public function __construct(string $name = 'SmartResponsor/Role')
+    public function __construct(string $nameEntity = 'SmartResponsor/Role')
     {
         $providerClass = 'OpenTelemetry\\API\\Trace\\TracerProvider';
         if (class_exists($providerClass) && method_exists($providerClass, 'getTracer')) {
-            /** @var object $providerClass */
-            $this->tracer = $providerClass::getTracer($name);
+            /* @var object $providerClass */
+            $this->tracer = $providerClass::getTracer($nameEntity);
         } else {
             $this->tracer = null;
         }
@@ -22,10 +22,10 @@ final class OtelBridge
     /**
      * @param array<string, scalar|null> $attrs
      */
-    public function startSpan(string $name, array $attrs = []): object
+    public function startSpan(string $nameEntity, array $attrs = []): object
     {
         if (null !== $this->tracer && method_exists($this->tracer, 'spanBuilder')) {
-            $span = $this->tracer->spanBuilder($name)->startSpan();
+            $span = $this->tracer->spanBuilder($nameEntity)->startSpan();
             foreach ($attrs as $key => $value) {
                 try {
                     $span->setAttribute((string) $key, $value);

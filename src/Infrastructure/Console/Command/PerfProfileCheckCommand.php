@@ -40,7 +40,7 @@ final class PerfProfileCheckCommand extends AbstractRoleCommand
             ->addArgument('n', InputArgument::OPTIONAL, 'Number of requests.', '1000')
             ->addArgument('sleep_us', InputArgument::OPTIONAL, 'Optional micro-sleep in PDP.', '0')
             ->addArgument('chunk', InputArgument::OPTIONAL, 'Chunk size.', '128')
-            ->addOption('profile', null, InputOption::VALUE_REQUIRED, 'CI profile name.', 'standard')
+            ->addOption('profile', null, InputOption::VALUE_REQUIRED, 'CI profile nameEntity.', 'standard')
             ->addOption('manifest', null, InputOption::VALUE_REQUIRED, 'Baseline manifest path.', 'var/bench_stats/baseline_manifest.json')
             ->addOption('baseline', null, InputOption::VALUE_REQUIRED, 'Explicit baseline path override.')
             ->addOption('output', null, InputOption::VALUE_REQUIRED, 'Persist report to file.')

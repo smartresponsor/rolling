@@ -21,7 +21,7 @@ final class AdminPolicyExportCommand extends AbstractRoleCommand
     protected function configure(): void
     {
         $this
-            ->addArgument('name', InputArgument::REQUIRED, 'Policy name.')
+            ->addArgument('nameEntity', InputArgument::REQUIRED, 'Policy nameEntity.')
             ->addArgument('version', InputArgument::REQUIRED, 'Policy version.')
             ->addArgument('out', InputArgument::OPTIONAL, 'Optional output path.');
     }
@@ -29,14 +29,14 @@ final class AdminPolicyExportCommand extends AbstractRoleCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $name = (string) $input->getArgument('name');
+            $nameEntity = (string) $input->getArgument('nameEntity');
             $version = (string) $input->getArgument('version');
-            $doc = $this->runtime->policyExport($name, $version, $this->runtime->roleAdminNs());
+            $doc = $this->runtime->policyExport($nameEntity, $version, $this->runtime->roleAdminNs());
             if (null === $doc) {
                 return $this->writeJson($output, [
                     'ok' => false,
                     'ns' => $this->runtime->roleAdminNs(),
-                    'name' => $name,
+                    'nameEntity' => $nameEntity,
                     'version' => $version,
                     'error' => 'not found',
                 ]);
@@ -50,7 +50,7 @@ final class AdminPolicyExportCommand extends AbstractRoleCommand
             return $this->writeJson($output, [
                 'ok' => true,
                 'ns' => $this->runtime->roleAdminNs(),
-                'name' => $name,
+                'nameEntity' => $nameEntity,
                 'version' => $version,
                 'out' => (is_string($outPath) && '' !== $outPath) ? $outPath : null,
                 'document' => (is_string($outPath) && '' !== $outPath) ? null : $doc,

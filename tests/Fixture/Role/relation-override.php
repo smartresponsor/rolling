@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'relation-override',
+    'nameEntity' => 'relation-override',
     'engine' => 'rebac-minimal',
     'ns' => 'acme',
     'seed' => [

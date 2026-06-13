@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'elimination-cascade',
+    'nameEntity' => 'elimination-cascade',
     'engine' => 'rebac-minimal',
     'ns' => 'acme',
     'seed' => [

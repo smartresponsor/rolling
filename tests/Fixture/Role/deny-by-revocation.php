@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'deny-by-revocation',
+    'nameEntity' => 'deny-by-revocation',
     'engine' => 'rebac-minimal',
     'ns' => 'acme',
     'seed' => [

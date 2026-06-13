@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
-use App\Rolling\Entity\Acl\RollingAclRule;
-use App\Rolling\Entity\Acl\RollingRole;
-use App\Rolling\Entity\Acl\RollingRoleHierarchy;
-use App\Rolling\Entity\Acl\RollingRolePermission;
-use App\Rolling\Entity\Acl\RollingSubjectRoleAssignment;
+use App\Rolling\Entity\Role\RoleAclRuleEntity;
+use App\Rolling\Entity\Role\RoleEntity;
+use App\Rolling\Entity\Role\RoleHierarchyEntity;
+use App\Rolling\Entity\Role\RolePermissionEntity;
+use App\Rolling\Entity\Role\RoleSubjectAssignmentEntity;
 use App\Rolling\ServiceInterface\Administration\RollingAdministrationPermissionCatalogInterface;
 use App\Rolling\ServiceInterface\Administration\RollingAdministrationPermissionDecisionServiceInterface;
 use App\Rolling\ServiceInterface\Administration\RollingAdministrationSubjectAccessReportProviderInterface;
@@ -74,15 +74,15 @@ final class DoctrineRollingAdministrationSubjectAccessReportProvider implements 
     /** @return list<array<string, mixed>> */
     private function assignedRoles(string $subjectIdentifier, string $scope): array
     {
-        $manager = $this->registry->getManagerForClass(RollingSubjectRoleAssignment::class);
+        $manager = $this->registry->getManagerForClass(RoleSubjectAssignmentEntity::class);
         if (null === $manager || '' === $subjectIdentifier) {
             return [];
         }
 
         $rows = [];
-        $assignments = $manager->getRepository(RollingSubjectRoleAssignment::class)->findBy(['subjectIdentifier' => $subjectIdentifier]);
+        $assignments = $manager->getRepository(RoleSubjectAssignmentEntity::class)->findBy(['subjectIdentifier' => $subjectIdentifier]);
         foreach ($assignments as $assignment) {
-            if (!$assignment instanceof RollingSubjectRoleAssignment) {
+            if (!$assignment instanceof RoleSubjectAssignmentEntity) {
                 continue;
             }
 
@@ -135,7 +135,7 @@ final class DoctrineRollingAdministrationSubjectAccessReportProvider implements 
             return [];
         }
 
-        $manager = $this->registry->getManagerForClass(RollingRoleHierarchy::class);
+        $manager = $this->registry->getManagerForClass(RoleHierarchyEntity::class);
         if (null === $manager) {
             sort($roleKeys);
 
@@ -147,13 +147,13 @@ final class DoctrineRollingAdministrationSubjectAccessReportProvider implements 
         while ([] !== $frontier) {
             $next = [];
             foreach ($frontier as $parentRoleKey) {
-                $edges = $manager->getRepository(RollingRoleHierarchy::class)->findBy([
+                $edges = $manager->getRepository(RoleHierarchyEntity::class)->findBy([
                     'parentRoleKey' => $parentRoleKey,
                     'enabled' => true,
                 ]);
 
                 foreach ($edges as $edge) {
-                    if (!$edge instanceof RollingRoleHierarchy) {
+                    if (!$edge instanceof RoleHierarchyEntity) {
                         continue;
                     }
 
@@ -179,15 +179,15 @@ final class DoctrineRollingAdministrationSubjectAccessReportProvider implements 
     /** @return list<array<string, mixed>> */
     private function directRules(string $subjectIdentifier, string $scope): array
     {
-        $manager = $this->registry->getManagerForClass(RollingAclRule::class);
+        $manager = $this->registry->getManagerForClass(RoleAclRuleEntity::class);
         if (null === $manager || '' === $subjectIdentifier) {
             return [];
         }
 
         $rows = [];
-        $rules = $manager->getRepository(RollingAclRule::class)->findBy(['subjectIdentifier' => $subjectIdentifier]);
+        $rules = $manager->getRepository(RoleAclRuleEntity::class)->findBy(['subjectIdentifier' => $subjectIdentifier]);
         foreach ($rules as $rule) {
-            if (!$rule instanceof RollingAclRule) {
+            if (!$rule instanceof RoleAclRuleEntity) {
                 continue;
             }
 
@@ -213,16 +213,16 @@ final class DoctrineRollingAdministrationSubjectAccessReportProvider implements 
      */
     private function rolePermissions(array $roleKeys, string $scope): array
     {
-        $manager = $this->registry->getManagerForClass(RollingRolePermission::class);
+        $manager = $this->registry->getManagerForClass(RolePermissionEntity::class);
         if (null === $manager || [] === $roleKeys) {
             return [];
         }
 
         $rows = [];
         foreach ($roleKeys as $roleKey) {
-            $grants = $manager->getRepository(RollingRolePermission::class)->findBy(['roleKey' => $roleKey]);
+            $grants = $manager->getRepository(RolePermissionEntity::class)->findBy(['roleKey' => $roleKey]);
             foreach ($grants as $grant) {
-                if (!$grant instanceof RollingRolePermission) {
+                if (!$grant instanceof RolePermissionEntity) {
                     continue;
                 }
 
@@ -244,14 +244,14 @@ final class DoctrineRollingAdministrationSubjectAccessReportProvider implements 
 
     private function roleEnabled(string $roleKey): bool
     {
-        $manager = $this->registry->getManagerForClass(RollingRole::class);
+        $manager = $this->registry->getManagerForClass(RoleEntity::class);
         if (null === $manager) {
             return false;
         }
 
-        $role = $manager->getRepository(RollingRole::class)->findOneBy(['roleKey' => $roleKey]);
+        $role = $manager->getRepository(RoleEntity::class)->findOneBy(['roleKey' => $roleKey]);
 
-        return $role instanceof RollingRole && $role->enabled();
+        return $role instanceof RoleEntity && $role->enabled();
     }
 
     private function normalizeScope(string $scope): string

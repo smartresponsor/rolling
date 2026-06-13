@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Controller\Admin;
 
-use App\Rolling\Entity\Acl\RollingAclRule;
+use App\Rolling\Entity\Role\RoleAclRuleEntity;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
@@ -17,7 +17,7 @@ final class RollingAclRuleCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return RollingAclRule::class;
+        return RoleAclRuleEntity::class;
     }
 
     public function configureCrud(Crud $crud): Crud

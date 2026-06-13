@@ -10,7 +10,7 @@ interface RequestInterface
 
     public function path(): string;
 
-    public function header(string $name): ?string;
+    public function header(string $nameEntity): ?string;
 
     public function body(): string;
 }

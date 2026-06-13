@@ -63,12 +63,12 @@ final class RolePerfBaselineComparisonCommandTest extends TestCase
             'stats' => [
                 'summary' => [
                     [
-                        'name' => 'micro',
+                        'nameEntity' => 'micro',
                         'p95_ms' => 0.0001,
                         'p99_ms' => 0.0001,
                     ],
                     [
-                        'name' => 'batch',
+                        'nameEntity' => 'batch',
                         'per_item_ms' => 0.0001,
                     ],
                 ],

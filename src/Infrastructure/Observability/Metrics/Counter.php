@@ -6,25 +6,14 @@ namespace App\Rolling\Infrastructure\Observability\Metrics;
 
 final class Counter
 {
-    /** @var array */
     private array $labelNames;
-    /** @var array */
     private array $values = [];
 
-    /**
-     * @param string $name
-     * @param string $help
-     * @param array  $labelNames
-     */
-    public function __construct(private readonly string $name, private readonly string $help = '', array $labelNames = [])
+    public function __construct(private readonly string $nameEntity, private readonly string $help = '', array $labelNames = [])
     {
         $this->labelNames = array_values($labelNames);
     }
 
-    /**
-     * @param float $delta
-     * @param array $labels
-     */
     public function inc(float $delta = 1.0, array $labels = []): void
     {
         $key = $this->keyFor($labels);
@@ -37,27 +26,16 @@ final class Counter
         return ['names' => $this->labelNames, 'series' => $this->values];
     }
 
-    /**
-     * @return string
-     */
-    public function name(): string
+    public function nameEntity(): string
     {
-        return $this->name;
+        return $this->nameEntity;
     }
 
-    /**
-     * @return string
-     */
     public function help(): string
     {
         return $this->help;
     }
 
-    /**
-     * @param array $labels
-     *
-     * @return string
-     */
     private function keyFor(array $labels): string
     {
         $vals = [];

@@ -17,12 +17,12 @@ final class ModelSchemaValidator
             $errors[] = "Missing 'relations' (map)";
         }
         // simple keys/values check
-        foreach (($schema['relations'] ?? []) as $name => $def) {
-            if (!preg_match('/^[a-z][a-z0-9_]*$/', (string) $name)) {
-                $errors[] = "Invalid relation name: $name";
+        foreach (($schema['relations'] ?? []) as $nameEntity => $def) {
+            if (!preg_match('/^[a-z][a-z0-9_]*$/', (string) $nameEntity)) {
+                $errors[] = "Invalid relation name: $nameEntity";
             }
             if (!is_array($def) || !isset($def['of'])) {
-                $errors[] = "Relation '$name' missing 'of'";
+                $errors[] = "Relation '$nameEntity' missing 'of'";
             }
         }
 

@@ -8,7 +8,7 @@ final class PolicyRecord
 {
     public function __construct(
         public string $ns,
-        public string $name,
+        public string $nameEntity,
         public string $version,
         public string $docJson,
         public int $createdAt,

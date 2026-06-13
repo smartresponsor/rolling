@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Rolling\Entity\Acl;
+namespace App\Rolling\Entity\Role;
 
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: \App\Rolling\Repository\Role\RoleSubjectAssignmentRepository::class)]
 #[ORM\Table(name: 'rolling_subject_role_assignment')]
 #[ORM\UniqueConstraint(name: 'uniq_rolling_subject_role_scope', columns: ['subject_identifier', 'role_key', 'scope_key'])]
-class RollingSubjectRoleAssignment
+#[ORM\Index(name: 'idx_rolling_subject_role_subject', columns: ['subject_identifier'])]
+#[ORM\Index(name: 'idx_rolling_subject_role_role', columns: ['role_key'])]
+class RoleSubjectAssignmentEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

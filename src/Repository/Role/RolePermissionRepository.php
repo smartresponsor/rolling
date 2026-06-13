@@ -2,23 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Rolling\Repository\Acl;
+namespace App\Rolling\Repository\Role;
 
-use App\Rolling\Entity\Acl\RollingRolePermission;
+use App\Rolling\Entity\Role\RolePermissionEntity;
+use App\Rolling\RepositoryInterface\Role\RolePermissionRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<RollingRolePermission>
  */
-final class RollingRolePermissionRepository extends ServiceEntityRepository
+final class RolePermissionRepository extends ServiceEntityRepository implements RolePermissionRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RollingRolePermission::class);
+        parent::__construct($registry, RolePermissionEntity::class);
     }
 
-    public function findOneGrant(string $roleKey, string $permissionKey, string $scopePattern): ?RollingRolePermission
+    public function findOneGrant(string $roleKey, string $permissionKey, string $scopePattern): ?RolePermissionEntity
     {
         $grant = $this->findOneBy([
             'roleKey' => trim($roleKey),
@@ -26,10 +27,10 @@ final class RollingRolePermissionRepository extends ServiceEntityRepository
             'scopePattern' => trim($scopePattern),
         ]);
 
-        return $grant instanceof RollingRolePermission ? $grant : null;
+        return $grant instanceof RolePermissionEntity ? $grant : null;
     }
 
-    public function save(RollingRolePermission $grant, bool $flush = false): void
+    public function save(RolePermissionEntity $grant, bool $flush = false): void
     {
         $this->getEntityManager()->persist($grant);
 
@@ -38,7 +39,7 @@ final class RollingRolePermissionRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(RollingRolePermission $grant, bool $flush = false): void
+    public function remove(RolePermissionEntity $grant, bool $flush = false): void
     {
         $this->getEntityManager()->remove($grant);
 

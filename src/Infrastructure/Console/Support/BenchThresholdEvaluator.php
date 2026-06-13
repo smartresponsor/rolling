@@ -20,20 +20,20 @@ final class BenchThresholdEvaluator
                 continue;
             }
 
-            $name = (string) ($scenario['name'] ?? 'unknown');
+            $nameEntity = (string) ($scenario['nameEntity'] ?? 'unknown');
             if (isset($scenario['p95_ms'])) {
                 $summary[] = [
-                    'name' => $name,
+                    'nameEntity' => $nameEntity,
                     'checks' => [
                         [
-                            'name' => 'max_p95_ms',
+                            'nameEntity' => 'max_p95_ms',
                             'actual' => round((float) ($scenario['p95_ms'] ?? 0.0), 4),
                             'operator' => '<=',
                             'expected' => round($maxP95Ms, 4),
                             'ok' => (float) ($scenario['p95_ms'] ?? 0.0) <= $maxP95Ms,
                         ],
                         [
-                            'name' => 'max_p99_ms',
+                            'nameEntity' => 'max_p99_ms',
                             'actual' => round((float) ($scenario['p99_ms'] ?? 0.0), 4),
                             'operator' => '<=',
                             'expected' => round($maxP99Ms, 4),
@@ -45,10 +45,10 @@ final class BenchThresholdEvaluator
             }
 
             $summary[] = [
-                'name' => $name,
+                'nameEntity' => $nameEntity,
                 'checks' => [
                     [
-                        'name' => 'max_batch_per_item_ms',
+                        'nameEntity' => 'max_batch_per_item_ms',
                         'actual' => round((float) ($scenario['per_item_ms'] ?? 0.0), 4),
                         'operator' => '<=',
                         'expected' => round($maxBatchPerItemMs, 4),

@@ -72,7 +72,7 @@ final class BenchRuntime
             $ctx['num'] = ($ctx['num'] + 1) % 1000;
         }
 
-        return ['name' => 'serial_ctx', 'n' => $n, 'samples_ms' => $samples];
+        return ['nameEntity' => 'serial_ctx', 'n' => $n, 'samples_ms' => $samples];
     }
 
     /** @return array<string, mixed> */
@@ -91,7 +91,7 @@ final class BenchRuntime
             $samples[] = ($t1 - $t0) * 1000.0;
         }
 
-        return ['name' => 'cache_hit', 'n' => $n, 'samples_ms' => $samples];
+        return ['nameEntity' => 'cache_hit', 'n' => $n, 'samples_ms' => $samples];
     }
 
     /** @return array<string, mixed> */
@@ -107,7 +107,7 @@ final class BenchRuntime
             $samples[] = ($t1 - $t0) * 1000.0;
         }
 
-        return ['name' => 'rpc_sim', 'n' => $n, 'param_us' => $us, 'samples_ms' => $samples];
+        return ['nameEntity' => 'rpc_sim', 'n' => $n, 'param_us' => $us, 'samples_ms' => $samples];
     }
 
     /** @return array<string, mixed>|null */
@@ -139,7 +139,7 @@ final class BenchRuntime
         $durationMs = ($t1 - $t0) * 1000.0;
 
         return [
-            'name' => 'batch_proc',
+            'nameEntity' => 'batch_proc',
             'n' => $n,
             'chunk' => $chunk,
             'duration_ms' => round($durationMs, 3),

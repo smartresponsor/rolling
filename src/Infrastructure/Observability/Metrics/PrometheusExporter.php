@@ -6,30 +6,24 @@ namespace App\Rolling\Infrastructure\Observability\Metrics;
 
 final class PrometheusExporter
 {
-    /**
-     * @param Registry $registry
-     */
     public function __construct(private readonly Registry $registry)
     {
     }
 
-    /**
-     * @return string
-     */
     public function render(): string
     {
         $lines = [];
         foreach ($this->registry->all() as $m) {
-            $name = $this->sanitize($m->name());
+            $nameEntity = $this->sanitize($m->nameEntity());
             $help = $this->escape($m->help());
             $type = ($m instanceof Counter) ? 'counter' : 'histogram';
-            $lines[] = "# HELP {$name} {$help}";
-            $lines[] = "# TYPE {$name} {$type}";
+            $lines[] = "# HELP {$nameEntity} {$help}";
+            $lines[] = "# TYPE {$nameEntity} {$type}";
             $d = $m->dump();
             if ($m instanceof Counter) {
                 foreach ($d['series'] as $key => $val) {
                     $labels = $this->labels($d['names'], $key);
-                    $lines[] = "{$name}{$labels} ".$this->fmt($val);
+                    $lines[] = "{$nameEntity}{$labels} ".$this->fmt($val);
                 }
             } else { // Histogram
                 foreach ($d['data'] as $key => $row) {
@@ -41,10 +35,10 @@ final class PrometheusExporter
                         $bucketLabels = '' === $labels
                             ? '{le="'.$this->labelEscape($bstr).'"}'
                             : substr($labels, 0, -1).',le="'.$this->labelEscape($bstr).'"}';
-                        $lines[] = "{$name}_bucket{$bucketLabels} ".$this->fmt($acc);
+                        $lines[] = "{$nameEntity}_bucket{$bucketLabels} ".$this->fmt($acc);
                     }
-                    $lines[] = "{$name}_sum{$labels} ".$this->fmt($row['sum']);
-                    $lines[] = "{$name}_count{$labels} ".(int) $row['count'];
+                    $lines[] = "{$nameEntity}_sum{$labels} ".$this->fmt($row['sum']);
+                    $lines[] = "{$nameEntity}_count{$labels} ".(int) $row['count'];
                 }
             }
         }
@@ -52,42 +46,21 @@ final class PrometheusExporter
         return implode("\n", $lines)."\n";
     }
 
-    /**
-     * @param string $s
-     *
-     * @return string
-     */
     private function sanitize(string $s): string
     {
         return preg_replace('/[^a-zA-Z0-9_:]/', '_', $s) ?? $s;
     }
 
-    /**
-     * @param string $s
-     *
-     * @return string
-     */
     private function escape(string $s): string
     {
         return str_replace(['\\', "\n"], ['\\\\', '\\n'], $s);
     }
 
-    /**
-     * @param float $v
-     *
-     * @return string
-     */
     private function fmt(float $v): string
     {
         return rtrim(rtrim(sprintf('%.6F', $v), '0'), '.');
     }
 
-    /**
-     * @param array  $names
-     * @param string $key
-     *
-     * @return string
-     */
     private function labels(array $names, string $key): string
     {
         if (!$names) {
@@ -103,11 +76,6 @@ final class PrometheusExporter
         return '{'.implode(',', $pairs).'}';
     }
 
-    /**
-     * @param string $v
-     *
-     * @return string
-     */
     private function labelEscape(string $v): string
     {
         return str_replace(['\\', '"', "\n"], ['\\\\', '\\"', '\\n'], $v);

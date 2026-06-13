@@ -2,37 +2,38 @@
 
 declare(strict_types=1);
 
-namespace App\Rolling\Repository\Acl;
+namespace App\Rolling\Repository\Role;
 
-use App\Rolling\Entity\Acl\RollingRole;
+use App\Rolling\Entity\Role\RoleEntity;
+use App\Rolling\RepositoryInterface\Role\RoleRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<RollingRole>
  */
-final class RollingRoleRepository extends ServiceEntityRepository
+final class RoleRepository extends ServiceEntityRepository implements RoleRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RollingRole::class);
+        parent::__construct($registry, RoleEntity::class);
     }
 
-    public function findOneByRoleKey(string $roleKey): ?RollingRole
+    public function findOneByRoleKey(string $roleKey): ?RoleEntity
     {
         $role = $this->findOneBy(['roleKey' => trim($roleKey)]);
 
-        return $role instanceof RollingRole ? $role : null;
+        return $role instanceof RoleEntity ? $role : null;
     }
 
-    public function requireEnabled(string $roleKey): ?RollingRole
+    public function requireEnabled(string $roleKey): ?RoleEntity
     {
         $role = $this->findOneByRoleKey($roleKey);
 
         return null !== $role && $role->enabled() ? $role : null;
     }
 
-    public function save(RollingRole $role, bool $flush = false): void
+    public function save(RoleEntity $role, bool $flush = false): void
     {
         $this->getEntityManager()->persist($role);
 

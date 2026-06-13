@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Controller\Admin;
 
-use App\Rolling\Entity\Acl\RollingRole;
+use App\Rolling\Entity\Role\RoleEntity;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -15,7 +15,7 @@ final class RollingRoleCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return RollingRole::class;
+        return RoleEntity::class;
     }
 
     public function configureCrud(Crud $crud): Crud

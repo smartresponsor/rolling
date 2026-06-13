@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
-use App\Rolling\Entity\Acl\RollingPermission;
-use App\Rolling\Entity\Acl\RollingRole;
-use App\Rolling\Entity\Acl\RollingRoleHierarchy;
-use App\Rolling\Entity\Acl\RollingRolePermission;
-use App\Rolling\Entity\Acl\RollingSubjectRoleAssignment;
+use App\Rolling\Entity\Role\RoleEntity;
+use App\Rolling\Entity\Role\RoleHierarchyEntity;
+use App\Rolling\Entity\Role\RolePermissionEntity;
+use App\Rolling\Entity\Role\RoleSubjectAssignmentEntity;
 use App\Rolling\ServiceInterface\Administration\RollingAdministrationCatalogSyncServiceInterface;
 use App\Rolling\ServiceInterface\Administration\RollingAdministrationPermissionCatalogInterface;
 use App\Rolling\Value\Administration\RollingAdministrationCatalogSyncResult;
@@ -40,9 +39,9 @@ final class DoctrineRollingAdministrationCatalogSyncService implements RollingAd
      */
     public function sync(?string $bootstrapSubjectIdentifier = null, array $bootstrapSubjectIdentifiers = []): RollingAdministrationCatalogSyncResult
     {
-        $manager = $this->registry->getManagerForClass(RollingPermission::class);
+        $manager = $this->registry->getManagerForClass(RolePermissionEntity::class);
         if (null === $manager) {
-            throw new \RuntimeException(sprintf('No Doctrine manager configured for %s.', RollingPermission::class));
+            throw new \RuntimeException(sprintf('No Doctrine manager configured for %s.', RolePermissionEntity::class));
         }
 
         $createdPermissions = 0;
@@ -59,9 +58,9 @@ final class DoctrineRollingAdministrationCatalogSyncService implements RollingAd
                 continue;
             }
 
-            $permission = $manager->getRepository(RollingPermission::class)->findOneBy(['permissionKey' => $descriptor->key()]);
-            if (!$permission instanceof RollingPermission) {
-                $permission = new RollingPermission($descriptor->key(), 'administration');
+            $permission = $manager->getRepository(RolePermissionEntity::class)->findOneBy(['permissionKey' => $descriptor->key()]);
+            if (!$permission instanceof RolePermissionEntity) {
+                $permission = new RolePermissionEntity($descriptor->key(), 'administration');
                 $permission->setDescription($descriptor->label());
                 $manager->persist($permission);
                 ++$createdPermissions;
@@ -175,13 +174,13 @@ final class DoctrineRollingAdministrationCatalogSyncService implements RollingAd
 
         foreach ($systemRoles as $roleKey) {
             $desired = array_fill_keys($desiredRolePermissions[$roleKey] ?? [], true);
-            $grants = $manager->getRepository(RollingRolePermission::class)->findBy([
+            $grants = $manager->getRepository(RolePermissionEntity::class)->findBy([
                 'roleKey' => $roleKey,
                 'scopePattern' => 'administering:*',
             ]);
 
             foreach ($grants as $grant) {
-                if (!$grant instanceof RollingRolePermission) {
+                if (!$grant instanceof RolePermissionEntity) {
                     continue;
                 }
 
@@ -221,8 +220,8 @@ final class DoctrineRollingAdministrationCatalogSyncService implements RollingAd
 
     private function ensureSystemRole(ObjectManager $manager, string $roleKey, string $label): int
     {
-        $role = $manager->getRepository(RollingRole::class)->findOneBy(['roleKey' => $roleKey]);
-        if ($role instanceof RollingRole) {
+        $role = $manager->getRepository(RoleEntity::class)->findOneBy(['roleKey' => $roleKey]);
+        if ($role instanceof RoleEntity) {
             if (!$role->systemRole() || !$role->enabled() || $role->label() !== $label) {
                 $role->setSystemRole(true);
                 $role->setEnabled(true);
@@ -232,7 +231,7 @@ final class DoctrineRollingAdministrationCatalogSyncService implements RollingAd
             return 0;
         }
 
-        $role = new RollingRole($roleKey, $label);
+        $role = new RoleEntity($roleKey, $label);
         $role->setSystemRole(true);
         $role->setEnabled(true);
         $manager->persist($role);
@@ -242,29 +241,29 @@ final class DoctrineRollingAdministrationCatalogSyncService implements RollingAd
 
     private function ensureHierarchy(ObjectManager $manager, string $parentRoleKey, string $childRoleKey): int
     {
-        $edge = $manager->getRepository(RollingRoleHierarchy::class)->findOneBy([
+        $edge = $manager->getRepository(RoleHierarchyEntity::class)->findOneBy([
             'parentRoleKey' => $parentRoleKey,
             'childRoleKey' => $childRoleKey,
         ]);
 
-        if ($edge instanceof RollingRoleHierarchy) {
+        if ($edge instanceof RoleHierarchyEntity) {
             return 0;
         }
 
-        $manager->persist(new RollingRoleHierarchy($parentRoleKey, $childRoleKey));
+        $manager->persist(new RoleHierarchyEntity($parentRoleKey, $childRoleKey));
 
         return 1;
     }
 
     private function ensureRolePermission(ObjectManager $manager, string $roleKey, string $permissionKey): int
     {
-        $grant = $manager->getRepository(RollingRolePermission::class)->findOneBy([
+        $grant = $manager->getRepository(RolePermissionEntity::class)->findOneBy([
             'roleKey' => $roleKey,
             'permissionKey' => $permissionKey,
             'scopePattern' => 'administering:*',
         ]);
 
-        if ($grant instanceof RollingRolePermission) {
+        if ($grant instanceof RolePermissionEntity) {
             if ('allow' !== $grant->effect()) {
                 $grant->setEffect('allow');
             }
@@ -272,7 +271,7 @@ final class DoctrineRollingAdministrationCatalogSyncService implements RollingAd
             return 0;
         }
 
-        $grant = new RollingRolePermission($roleKey, $permissionKey, 'administering:*');
+        $grant = new RolePermissionEntity($roleKey, $permissionKey, 'administering:*');
         $grant->setEffect('allow');
         $manager->persist($grant);
 
@@ -281,17 +280,17 @@ final class DoctrineRollingAdministrationCatalogSyncService implements RollingAd
 
     private function ensureAssignment(ObjectManager $manager, string $subjectIdentifier, string $roleKey, string $scopeKey): int
     {
-        $assignment = $manager->getRepository(RollingSubjectRoleAssignment::class)->findOneBy([
+        $assignment = $manager->getRepository(RoleSubjectAssignmentEntity::class)->findOneBy([
             'subjectIdentifier' => $subjectIdentifier,
             'roleKey' => $roleKey,
             'scopeKey' => $scopeKey,
         ]);
 
-        if ($assignment instanceof RollingSubjectRoleAssignment) {
+        if ($assignment instanceof RoleSubjectAssignmentEntity) {
             return 0;
         }
 
-        $manager->persist(new RollingSubjectRoleAssignment($subjectIdentifier, $roleKey, $scopeKey));
+        $manager->persist(new RoleSubjectAssignmentEntity($subjectIdentifier, $roleKey, $scopeKey));
 
         return 1;
     }

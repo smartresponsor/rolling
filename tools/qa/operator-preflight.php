@@ -13,13 +13,13 @@ $commands = [
 
 $results = [];
 
-foreach ($commands as $name => $command) {
+foreach ($commands as $nameEntity => $command) {
     $escaped = array_map(static fn (string $part): string => escapeshellarg($part), $command);
     $output = [];
     $exitCode = 0;
     exec(implode(' ', $escaped) . ' 2>&1', $output, $exitCode);
 
-    $results[$name] = [
+    $results[$nameEntity] = [
         'command' => $command,
         'exit_code' => $exitCode,
         'output_preview' => array_slice($output, 0, 20),
@@ -45,8 +45,8 @@ $pretty[] = 'Operator preflight';
 $pretty[] = 'Generated at UTC: ' . $summary['generated_at_utc'];
 $pretty[] = 'Project root: ' . $projectRoot;
 $pretty[] = '';
-foreach ($results as $name => $result) {
-    $pretty[] = sprintf('[%s] exit=%d', $name, $result['exit_code']);
+foreach ($results as $nameEntity => $result) {
+    $pretty[] = sprintf('[%s] exit=%d', $nameEntity, $result['exit_code']);
     foreach ($result['output_preview'] as $line) {
         $pretty[] = '  ' . $line;
     }

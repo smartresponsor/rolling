@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Controller\Admin;
 
-use App\Rolling\Entity\Acl\RollingAclMutationExecutionEventEntity;
+use App\Rolling\Entity\Role\RoleAclMutationExecutionEventEntity;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -20,7 +20,7 @@ final class RollingAclMutationExecutionEventCrudController extends AbstractCrudC
 {
     public static function getEntityFqcn(): string
     {
-        return RollingAclMutationExecutionEventEntity::class;
+        return RoleAclMutationExecutionEventEntity::class;
     }
 
     public function configureCrud(Crud $crud): Crud

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
-use App\Rolling\Repository\Acl\RollingAclMutationExecutionEventRepository;
+use App\Rolling\Repository\Role\RoleAclMutationExecutionEventRepository;
 use App\Rolling\ServiceInterface\Administration\RollingAclMutationExecutionReportProviderInterface;
 use App\Rolling\Value\Administration\RollingAclMutationExecutionFilter;
 use App\Rolling\Value\Administration\RollingAclMutationExecutionReport;
@@ -14,7 +14,7 @@ use App\Rolling\Value\Administration\RollingAclMutationExecutionReport;
  */
 final readonly class DoctrineRollingAclMutationExecutionReportProvider implements RollingAclMutationExecutionReportProviderInterface
 {
-    public function __construct(private RollingAclMutationExecutionEventRepository $repository)
+    public function __construct(private RoleAclMutationExecutionEventRepository $repository)
     {
     }
 

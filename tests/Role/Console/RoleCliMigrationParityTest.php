@@ -39,17 +39,17 @@ final class RoleCliMigrationParityTest extends TestCase
         ], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
 
         $import = new CommandTester($application->find('app:role:policy:import'));
-        self::assertSame(0, $import->execute(['name' => 'default-policy', 'version' => 'v1', 'file' => $policyPath]));
+        self::assertSame(0, $import->execute(['nameEntity' => 'default-policy', 'version' => 'v1', 'file' => $policyPath]));
 
         $activate = new CommandTester($application->find('app:role:policy:activate'));
-        self::assertSame(0, $activate->execute(['name' => 'default-policy', 'version' => 'v1']));
+        self::assertSame(0, $activate->execute(['nameEntity' => 'default-policy', 'version' => 'v1']));
 
         $export = new CommandTester($application->find('app:role:policy:export'));
-        self::assertSame(0, $export->execute(['name' => 'default-policy', 'version' => 'v1']));
+        self::assertSame(0, $export->execute(['nameEntity' => 'default-policy', 'version' => 'v1']));
         $payload = json_decode($export->getDisplay(), true, flags: JSON_THROW_ON_ERROR);
 
         self::assertTrue($payload['ok']);
-        self::assertSame('default-policy', $payload['name']);
+        self::assertSame('default-policy', $payload['nameEntity']);
         self::assertStringContainsString('viewer', (string) $payload['document']);
 
         @unlink($policyPath);

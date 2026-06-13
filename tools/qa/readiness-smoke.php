@@ -10,12 +10,12 @@ $checks = [];
 $status = role_runtime_requirement_status($root);
 
 $checks[] = [
-    'name' => 'php_version',
+    'nameEntity' => 'php_version',
     'status' => PHP_VERSION_ID >= 80400 ? 'ok' : 'fail',
     'detail' => PHP_VERSION,
 ];
 $checks[] = [
-    'name' => 'dependency_readiness',
+    'nameEntity' => 'dependency_readiness',
     'status' => $status['ready_for_bootstrap'] ? 'ok' : 'warn',
     'detail' => implode("
 ", role_runtime_requirement_messages($status)),
@@ -35,7 +35,7 @@ foreach ($lintTargets as $target) {
     $path = $root . '/' . $target;
     if (!is_file($path)) {
         $checks[] = [
-            'name' => 'lint:' . $target,
+            'nameEntity' => 'lint:' . $target,
             'status' => 'fail',
             'detail' => 'Missing file',
         ];
@@ -46,7 +46,7 @@ foreach ($lintTargets as $target) {
     $code = 0;
     exec(sprintf('php -l %s 2>&1', escapeshellarg($path)), $output, $code);
     $checks[] = [
-        'name' => 'lint:' . $target,
+        'nameEntity' => 'lint:' . $target,
         'status' => $code === 0 ? 'ok' : 'fail',
         'detail' => implode("
 ", $output),

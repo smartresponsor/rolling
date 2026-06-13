@@ -23,7 +23,7 @@ final class RebacCheckCommand extends AbstractRoleCommand
         $this
             ->addArgument('subject', InputArgument::REQUIRED, 'Subject in type:id form.')
             ->addArgument('object', InputArgument::REQUIRED, 'Object in type:id form.')
-            ->addArgument('relation', InputArgument::REQUIRED, 'Relation name.');
+            ->addArgument('relation', InputArgument::REQUIRED, 'Relation nameEntity.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

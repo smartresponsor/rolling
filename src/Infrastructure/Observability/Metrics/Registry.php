@@ -6,42 +6,25 @@ namespace App\Rolling\Infrastructure\Observability\Metrics;
 
 final class Registry
 {
-    /** @var array */
     private array $counters = [];
-    /** @var array */
     private array $histograms = [];
 
-    /**
-     * @param string $name
-     * @param string $help
-     * @param array  $labelNames
-     *
-     * @return Counter
-     */
-    public function counter(string $name, string $help = '', array $labelNames = []): Counter
+    public function counter(string $nameEntity, string $help = '', array $labelNames = []): Counter
     {
-        if (!isset($this->counters[$name])) {
-            $this->counters[$name] = new Counter($name, $help, $labelNames);
+        if (!isset($this->counters[$nameEntity])) {
+            $this->counters[$nameEntity] = new Counter($nameEntity, $help, $labelNames);
         }
 
-        return $this->counters[$name];
+        return $this->counters[$nameEntity];
     }
 
-    /**
-     * @param string $name
-     * @param string $help
-     * @param array  $buckets
-     * @param array  $labelNames
-     *
-     * @return Histogram
-     */
-    public function histogram(string $name, string $help = '', array $buckets = [], array $labelNames = []): Histogram
+    public function histogram(string $nameEntity, string $help = '', array $buckets = [], array $labelNames = []): Histogram
     {
-        if (!isset($this->histograms[$name])) {
-            $this->histograms[$name] = new Histogram($name, $help, $buckets ?: [0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2, 5], $labelNames);
+        if (!isset($this->histograms[$nameEntity])) {
+            $this->histograms[$nameEntity] = new Histogram($nameEntity, $help, $buckets ?: [0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2, 5], $labelNames);
         }
 
-        return $this->histograms[$name];
+        return $this->histograms[$nameEntity];
     }
 
     /** @return array<int,Counter|Histogram> */

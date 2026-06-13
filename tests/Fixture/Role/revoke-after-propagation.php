@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'revoke-after-propagation',
+    'nameEntity' => 'revoke-after-propagation',
     'engine' => 'rebac-minimal',
     'ns' => 'acme',
     'seed' => [

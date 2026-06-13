@@ -90,9 +90,9 @@ final class RollingAdministrationSubjectReportCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function stringOption(InputInterface $input, string $name): string
+    private function stringOption(InputInterface $input, string $nameEntity): string
     {
-        $value = $input->getOption($name);
+        $value = $input->getOption($nameEntity);
 
         return is_string($value) ? trim($value) : '';
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Rolling\Entity\Acl;
+namespace App\Rolling\Entity\Role;
 
 use App\Rolling\Value\Administration\RollingAclMutationExecutionEvent;
 use Doctrine\DBAL\Types\Types;
@@ -15,14 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
  * include passwords, sessions, secrets, decrypted configuration, or raw policy
  * internals.
  */
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: \App\Rolling\Repository\Role\RoleAclMutationExecutionEventRepository::class)]
 #[ORM\Table(name: 'rolling_acl_mutation_execution_event')]
 #[ORM\Index(name: 'idx_rolling_acl_execution_request_key', columns: ['request_key'])]
 #[ORM\Index(name: 'idx_rolling_acl_execution_mutation_type', columns: ['mutation_type'])]
 #[ORM\Index(name: 'idx_rolling_acl_execution_subject', columns: ['subject_identifier'])]
 #[ORM\Index(name: 'idx_rolling_acl_execution_status', columns: ['status'])]
 #[ORM\Index(name: 'idx_rolling_acl_execution_created_at', columns: ['created_at'])]
-class RollingAclMutationExecutionEventEntity
+class RoleAclMutationExecutionEventEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -16,13 +16,13 @@ $results = [
     'commands' => [],
 ];
 
-foreach ($commands as $name => $command) {
+foreach ($commands as $nameEntity => $command) {
     $escaped = implode(' ', array_map('escapeshellarg', $command));
     $output = [];
     $exitCode = 0;
     exec($escaped . ' 2>&1', $output, $exitCode);
 
-    $results['commands'][$name] = [
+    $results['commands'][$nameEntity] = [
         'command' => $command,
         'exit_code' => $exitCode,
         'output' => $output,
@@ -45,8 +45,8 @@ $pretty[] = 'Generated at UTC: ' . $results['generated_at_utc'];
 $pretty[] = 'Project root: ' . $projectRoot;
 $pretty[] = 'Ready for operator review: ' . ($results['ready_for_operator_review'] ? 'yes' : 'no');
 $pretty[] = '';
-foreach ($results['commands'] as $name => $result) {
-    $pretty[] = sprintf('[%s] exit=%d', $name, $result['exit_code']);
+foreach ($results['commands'] as $nameEntity => $result) {
+    $pretty[] = sprintf('[%s] exit=%d', $nameEntity, $result['exit_code']);
     foreach (array_slice($result['output'], 0, 20) as $line) {
         $pretty[] = '  ' . $line;
     }
