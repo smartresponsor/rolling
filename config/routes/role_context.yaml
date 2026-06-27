@@ -1,4 +1,4 @@
 role_context_capture:
-  path: /v2/role/context
+  path: /role/context/capture
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\Api\ContextHttpService::capture'

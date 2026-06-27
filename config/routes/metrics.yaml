@@ -1,4 +1,4 @@
 role_metrics:
-  path: /api/rolling/role/metric
+  path: /role/metric/view
   methods: [ GET ]
   controller: 'App\Rolling\Service\Http\Role\Observability\MetricsHttpService::metrics'

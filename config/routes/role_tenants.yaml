@@ -1,20 +1,3 @@
-# config/routes/role_tenants.yaml
-role_admin_tenant_quota_get:
-  path: /v2/admin/tenants/quota
-  methods: [ GET ]
-  controller: 'App\Rolling\Service\Http\Role\Api\Admin\TenantAdminHttpService::quotaGet'
-
-role_admin_tenant_quota_set:
-  path: /v2/admin/tenants/quota
-  methods: [ POST ]
-  controller: 'App\Rolling\Service\Http\Role\Api\Admin\TenantAdminHttpService::quotaSet'
-
-role_admin_tenant_backup:
-  path: /v2/admin/tenants/backup
-  methods: [ POST ]
-  controller: 'App\Rolling\Service\Http\Role\Api\Admin\TenantAdminHttpService::backup'
-
-role_admin_tenant_restore:
-  path: /v2/admin/tenants/restore
-  methods: [ POST ]
-  controller: 'App\Rolling\Service\Http\Role\Api\Admin\TenantAdminHttpService::restore'
+# Legacy tenant route file intentionally left empty.
+# Canonical vendor admin business routes live in role_vendor.yaml.
+# Do not import this file from aggregate route maps.

@@ -1,9 +1,9 @@
-role_rebac_write:
-  path: /v2/rebac/tuple/write
+role_relation_write:
+  path: /role/relation/write
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\V2\RebacHttpService::write'
 
-role_rebac_check:
-  path: /v2/rebac/check
+role_relation_check:
+  path: /role/relation/check
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\V2\RebacHttpService::check'

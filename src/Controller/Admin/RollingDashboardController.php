@@ -10,7 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 
-#[AdminDashboard(routePath: '/admin/rolling', routeName: 'rolling_admin')]
+#[AdminDashboard(routePath: '/ea/role', routeName: 'rolling_admin')]
 final class RollingDashboardController extends AbstractDashboardController
 {
     public function index(): Response

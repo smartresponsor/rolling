@@ -2,88 +2,13 @@ rolling_admin_easyadmin:
   resource: 'routes/rolling_admin_easyadmin.yaml'
   prefix: /ea
 
-health:
-  resource: 'routes/health.yaml'
+role_public_business:
+  resource: 'routes/role_public.yaml'
 
-metrics:
-  resource: 'routes/metrics.yaml'
-
-role_admin:
-  resource: 'routes/role_admin.yaml'
+role_admin_business:
+  resource: 'routes/role_business_admin.yaml'
   prefix: /ea
 
-role_bulk:
-  resource: 'routes/role_bulk.yaml'
-  prefix: /ea
-
-role_check:
-  resource: 'routes/role_check.yaml'
-  prefix: /ea
-
-role_consistency:
-  resource: 'routes/role_consistency.yaml'
-  prefix: /ea
-
-role_context:
-  resource: 'routes/role_context.yaml'
-  prefix: /ea
-
-role_eval:
-  resource: 'routes/role_eval.yaml'
-  prefix: /ea
-
-role_explain:
-  resource: 'routes/role_explain.yaml'
-  prefix: /ea
-
-role_obligations:
-  resource: 'routes/role_obligations.yaml'
-  prefix: /ea
-
-role_pdp:
-  resource: 'routes/role_pdp.yaml'
-  prefix: /ea
-
-role_pel:
-  resource: 'routes/role_pel.yaml'
-  prefix: /ea
-
-role_perm_catalog:
-  resource: 'routes/role_perm_catalog.yaml'
-  prefix: /ea
-
-role_policy:
-  resource: 'routes/role_policy.yaml'
-  prefix: /ea
-
-role_rebac:
-  resource: 'routes/role_rebac.yaml'
-  prefix: /ea
-
-role_residency:
-  resource: 'routes/role_residency.yaml'
-  prefix: /ea
-
-role_security:
-  resource: 'routes/role_security.yaml'
-  prefix: /ea
-
-role_shadow:
-  resource: 'routes/role_shadow.yaml'
-  prefix: /ea
-
-role_sod:
-  resource: 'routes/role_sod.yaml'
-  prefix: /ea
-
-role_tenants:
-  resource: 'routes/role_tenants.yaml'
-  prefix: /ea
-
-role_whatif:
-  resource: 'routes/role_whatif.yaml'
-  prefix: /ea
-
-role:
-  resource: 'routes/role.yaml'
+role_ops_business:
+  resource: 'routes/role_ops.yaml'
   prefix: /ea

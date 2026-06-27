@@ -1,0 +1,8 @@
+role_approval:
+  resource: 'role_admin.yaml'
+
+role_vendor:
+  resource: 'role_vendor.yaml'
+
+role_hierarchy:
+  resource: 'role_hierarchy.yaml'

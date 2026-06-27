@@ -1,0 +1,50 @@
+role_access:
+  resource: 'role.yaml'
+
+role_bulk:
+  resource: 'role_bulk.yaml'
+
+role_check:
+  resource: 'role_check.yaml'
+
+role_relation_watch:
+  resource: 'role_consistency.yaml'
+
+role_context:
+  resource: 'role_context.yaml'
+
+role_eval:
+  resource: 'role_eval.yaml'
+
+role_explain:
+  resource: 'role_explain.yaml'
+
+role_obligation:
+  resource: 'role_obligations.yaml'
+
+role_pel:
+  resource: 'role_pel.yaml'
+
+role_permission:
+  resource: 'role_perm_catalog.yaml'
+
+role_policy:
+  resource: 'role_policy.yaml'
+
+role_relation:
+  resource: 'role_rebac.yaml'
+
+role_residency:
+  resource: 'role_residency.yaml'
+
+role_key:
+  resource: 'role_security.yaml'
+
+role_shadow:
+  resource: 'role_shadow.yaml'
+
+role_sod:
+  resource: 'role_sod.yaml'
+
+role_simulation:
+  resource: 'role_whatif.yaml'

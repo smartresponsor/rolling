@@ -1,9 +1,9 @@
-role_obligations_apply:
-  path: /v2/obligations/apply
+role_obligation_apply:
+  path: /role/obligation/apply
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\Api\ObligationHttpService::apply'
 
-role_check_oblige:
-  path: /v2/check/oblige
+role_obligation_check:
+  path: /role/obligation/check
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\Api\ObligationHttpService::checkAndApply'

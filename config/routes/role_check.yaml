@@ -1,5 +1,5 @@
 # config/routes/role_check.yaml
 role_check:
-  path: /v2/check
+  path: /role/tuple/check
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\Api\CheckHttpService::check'

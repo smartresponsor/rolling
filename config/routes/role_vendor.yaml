@@ -1,0 +1,21 @@
+# Canonical vendor routes.
+
+role_vendor_quota_get:
+  path: /role/vendor/quota
+  methods: [ GET ]
+  controller: 'App\Rolling\Service\Http\Role\Api\Admin\VendorAdminHttpService::quotaGet'
+
+role_vendor_quota_set:
+  path: /role/vendor/quota
+  methods: [ POST ]
+  controller: 'App\Rolling\Service\Http\Role\Api\Admin\VendorAdminHttpService::quotaSet'
+
+role_vendor_backup:
+  path: /role/vendor/backup
+  methods: [ POST ]
+  controller: 'App\Rolling\Service\Http\Role\Api\Admin\VendorAdminHttpService::backup'
+
+role_vendor_restore:
+  path: /role/vendor/restore
+  methods: [ POST ]
+  controller: 'App\Rolling\Service\Http\Role\Api\Admin\VendorAdminHttpService::restore'

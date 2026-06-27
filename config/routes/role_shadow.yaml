@@ -1,4 +1,4 @@
-role_debug_policy_shadow_compare:
-  path: /v2/debug/policy/shadow
+role_shadow_compare:
+  path: /role/shadow/compare
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\V2\DebugPolicyShadowHttpService::compare'

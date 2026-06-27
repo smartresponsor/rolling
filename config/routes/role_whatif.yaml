@@ -1,4 +1,4 @@
 role_what_if:
-  path: /v2/role/what-if
+  path: /role/simulation/run
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\Api\WhatIfHttpService::run'

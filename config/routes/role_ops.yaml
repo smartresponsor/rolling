@@ -1,0 +1,5 @@
+role_health:
+  resource: 'health.yaml'
+
+role_metric:
+  resource: 'metrics.yaml'

@@ -1,0 +1,9 @@
+role_hierarchy_review:
+  path: /role/hierarchy/review
+  methods: [ POST ]
+  controller: 'App\Rolling\Service\Http\Role\Api\HierarchyHttpService::review'
+
+role_hierarchy_apply:
+  path: /role/hierarchy/apply
+  methods: [ POST ]
+  controller: 'App\Rolling\Service\Http\Role\Api\HierarchyHttpService::apply'

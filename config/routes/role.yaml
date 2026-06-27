@@ -1,9 +1,9 @@
 role_access_check:
-  path: /v2/access/check
+  path: /role/access/check
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\V2\AccessHttpService::check'
 
-role_access_check_batch:
-  path: /v2/access/check:batch
+role_access_batch:
+  path: /role/access/batch
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\V2\AccessHttpService::checkBatch'

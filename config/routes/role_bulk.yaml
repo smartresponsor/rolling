@@ -1,4 +1,4 @@
-role_access_check_stream:
-  path: /v2/access/check:stream
+role_access_stream:
+  path: /role/access/stream
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\V2\BulkHttpService::stream'

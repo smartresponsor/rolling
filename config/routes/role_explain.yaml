@@ -1,4 +1,4 @@
 role_explain:
-  path: /v2/role/explain
+  path: /role/explain/run
   methods: [ POST ]
   controller: 'App\Rolling\Service\Http\Role\Api\ExplainHttpService::explain'
