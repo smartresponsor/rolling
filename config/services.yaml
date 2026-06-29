@@ -21,6 +21,10 @@ services:
 
   App\Rolling\Service\:
     resource: '../src/Service/'
+    exclude:
+      - '../src/Service/Admin/RebacStatsService.php'
+      - '../src/Service/Attribute/AttributeContextResolverService.php'
+      - '../src/Service/Obligation/'
 
   App\Rolling\Service\Config\RollingConfigurationRoleRuntimeService:
     arguments:
@@ -36,7 +40,36 @@ services:
   App\Rolling\Infrastructure\Rebac\InMemoryTupleStore: ~
   App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface: '@App\Rolling\Infrastructure\Rebac\InMemoryTupleStore'
 
+  App\Rolling\Infrastructure\Admin\InMemoryApprovalRequestRepository: ~
+  App\Rolling\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface: '@App\Rolling\Infrastructure\Admin\InMemoryApprovalRequestRepository'
+
+  App\Rolling\ServiceInterface\Admin\Guard\ApprovalGuardInterface: '@App\Rolling\Service\Admin\Guard\FourEyesApprovalGuard'
+  App\Rolling\ServiceInterface\Admin\Action\GrantRoleActionInterface: '@App\Rolling\Service\Admin\Action\GrantRoleAction'
+  App\Rolling\Service\Admin\Action\GrantRoleAction:
+    arguments:
+      $reportDir: '%kernel.project_dir%/var/admin'
+
+  App\Rolling\Infrastructure\Admin\OverrideFsPolicy:
+    arguments:
+      $baseDir: '%kernel.project_dir%/var/admin'
+  App\Rolling\ServiceInterface\Admin\OverridePolicyInterface: '@App\Rolling\Infrastructure\Admin\OverrideFsPolicy'
+
+  App\Rolling\Infrastructure\Admin\ApprovalFsStore:
+    arguments:
+      $baseDir: '%kernel.project_dir%/var/admin'
+  App\Rolling\ServiceInterface\Admin\ApprovalStoreInterface: '@App\Rolling\Infrastructure\Admin\ApprovalFsStore'
+
+  App\Rolling\Infrastructure\Admin\ApproverFsDirectory:
+    arguments:
+      $baseDir: '%kernel.project_dir%/var/admin'
+  App\Rolling\ServiceInterface\Admin\ApproverDirectoryInterface: '@App\Rolling\Infrastructure\Admin\ApproverFsDirectory'
+
   App\Rolling\Integration\Symfony\DemoPdpV2: ~
+
+  App\Rolling\Service\Model\FileSchemaStorage:
+    arguments:
+      $path: '%kernel.project_dir%/var/rolling/model_schema.json'
+  App\Rolling\ServiceInterface\Model\SchemaStorageInterface: '@App\Rolling\Service\Model\FileSchemaStorage'
 
   App\Rolling\ServiceInterface\Policy\PdpV2Interface: '@App\Rolling\Integration\Symfony\DemoPdpV2'
 
@@ -94,6 +127,11 @@ services:
       $dir: '%kernel.project_dir%/var/policy'
 
   App\Rolling\ServiceInterface\PolicyStoreInterface: '@App\Rolling\Infrastructure\Policy\PolicyFsStore'
+
+  App\Rolling\Infrastructure\Approval\FileApprovalStore:
+    arguments:
+      $dir: '%kernel.project_dir%/var/approval'
+  App\Rolling\ServiceInterface\Approval\ApprovalStoreInterface: '@App\Rolling\Infrastructure\Approval\FileApprovalStore'
 
   App\Rolling\Infrastructure\Security\HmacKeyFsStore:
     arguments:
