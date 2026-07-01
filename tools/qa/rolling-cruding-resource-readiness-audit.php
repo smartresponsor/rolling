@@ -21,6 +21,15 @@ foreach ($definitions as $definition) {
     }
 }
 
+$staleLegacyControllers = [];
+$stalePermissionController = $root.'/src/Controller/Admin/RollingPermissionCrudController.php';
+if (is_file($stalePermissionController)) {
+    $staleLegacyControllers[] = [
+        'file' => 'src/Controller/Admin/RollingPermissionCrudController.php',
+        'reason' => 'Controller points to RolePermissionEntity but exposes componentName and description fields that are not present on that entity. Use rolling.role-permission metadata instead.',
+    ];
+}
+
 $payload = [
     'status' => 'report',
     'dependencies' => [
@@ -29,6 +38,7 @@ $payload = [
     ],
     'resource_definition_count' => count($definitions),
     'legacy_controller_backed_definition_count' => $legacyControllerCount,
+    'stale_legacy_controllers' => $staleLegacyControllers,
     'definitions' => $definitions,
     'next_steps' => [
         'add cruding/crud composer dependency with lock update',

@@ -37,9 +37,9 @@ final readonly class RollingCrudResourceDefinitionProvider implements RollingCru
                 ['legacy_controller' => 'RollingRoleCrudController'],
             ),
             new RollingCrudResourceDefinition(
-                'rolling.permission',
+                'rolling.role-permission',
                 RolePermissionEntity::class,
-                'Rolling permission',
+                'Rolling role permission',
                 ['index', 'show', 'new', 'edit'],
                 [
                     $this->field('id', 'integer', false),
