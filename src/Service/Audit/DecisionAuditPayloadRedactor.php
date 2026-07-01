@@ -6,9 +6,7 @@ namespace App\Rolling\Service\Audit;
 
 final class DecisionAuditPayloadRedactor
 {
-    /** @var array */
     private array $maskFields;
-    /** @var array */
     private array $redactRules;
 
     /**
@@ -21,11 +19,6 @@ final class DecisionAuditPayloadRedactor
         $this->redactRules = $redactRules;
     }
 
-    /**
-     * @param array $event
-     *
-     * @return array
-     */
     public function apply(array $event): array
     {
         foreach ($this->maskFields as $path) {
@@ -38,12 +31,6 @@ final class DecisionAuditPayloadRedactor
         return $event;
     }
 
-    /**
-     * @param array  $event
-     * @param string $path
-     *
-     * @return array
-     */
     private function maskPath(array $event, string $path): array
     {
         $parts = '' === $path ? [] : explode('.', $path);
@@ -66,13 +53,6 @@ final class DecisionAuditPayloadRedactor
         return $event;
     }
 
-    /**
-     * @param array  $event
-     * @param string $path
-     * @param string $pattern
-     *
-     * @return array
-     */
     private function redactPath(array $event, string $path, string $pattern): array
     {
         if ('' === $path || '' === $pattern) {
@@ -95,11 +75,6 @@ final class DecisionAuditPayloadRedactor
         return $event;
     }
 
-    /**
-     * @param mixed $v
-     *
-     * @return string
-     */
     private function maskValue(mixed $v): string
     {
         if (is_string($v)) {

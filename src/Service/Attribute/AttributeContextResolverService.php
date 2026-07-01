@@ -8,11 +8,6 @@ use App\Rolling\Service\Attribute\Cache\InMemoryAttributeContextCache;
 
 final class AttributeContextResolverService
 {
-    /**
-     * @param array                              $providers
-     * @param InMemoryAttributeContextCache|null $cache
-     * @param int                                $ttlSec
-     */
     public function __construct(private readonly array $providers, private readonly ?InMemoryAttributeContextCache $cache = null, private readonly int $ttlSec = 30)
     {
     }

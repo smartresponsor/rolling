@@ -77,9 +77,6 @@ final class AdminApprovalWorkflowService implements ApprovalWorkflowInterface
         return $req;
     }
 
-    /**
-     * @return string
-     */
     private static function newId(): string
     {
         try {

@@ -16,10 +16,6 @@ use App\Rolling\ServiceInterface\Approval\ApprovalStoreInterface;
  */
 final class FourEyesApprovalGateService implements ApprovalGateInterface
 {
-    /**
-     * @param ApprovalStoreInterface $store
-     * @param array                  $rule
-     */
     public function __construct(
         private readonly ApprovalStoreInterface $store,
         /** @var array<string,mixed> */
@@ -32,14 +28,6 @@ final class FourEyesApprovalGateService implements ApprovalGateInterface
     ) {
     }
 
-    /**
-     * @param array  $decision
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource
-     *
-     * @return array
-     */
     public function gate(array $decision, array $subject, string $action, array $resource): array
     {
         $need = false;
@@ -78,11 +66,6 @@ final class FourEyesApprovalGateService implements ApprovalGateInterface
         return $decision;
     }
 
-    /**
-     * @param string $id
-     *
-     * @return array|null
-     */
     public function resolve(string $id): ?array
     {
         $rec = $this->store->read($id);

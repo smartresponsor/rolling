@@ -6,11 +6,6 @@ namespace App\Rolling\Service\Audit;
 
 final class DecisionAuditLogWriter
 {
-    /**
-     * @param string                       $dir
-     * @param DecisionAuditPayloadRedactor $redactor
-     * @param bool                         $enabled
-     */
     public function __construct(
         private readonly string $dir = __DIR__.'/../../../../var/log/role',
         private readonly DecisionAuditPayloadRedactor $redactor = new DecisionAuditPayloadRedactor(),
@@ -22,10 +17,7 @@ final class DecisionAuditLogWriter
     }
 
     /**
-     * @param array $event       @param array{mask?:list<string>,redact?:list<array{path:string,pattern:string}>} $obligations
-     * @param array $obligations
-     *
-     * @return array
+     * @param array $event @param array{mask?:list<string>,redact?:list<array{path:string,pattern:string}>} $obligations
      */
     public function write(array $event, array $obligations = []): array
     {

@@ -13,9 +13,6 @@ use App\Rolling\ServiceInterface\Admin\Action\GrantRoleActionInterface;
 
 final class GrantRoleAction implements GrantRoleActionInterface
 {
-    /**
-     * @param string $reportDir
-     */
     public function __construct(private readonly string $reportDir)
     {
     }

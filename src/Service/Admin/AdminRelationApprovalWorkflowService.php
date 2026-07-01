@@ -11,11 +11,6 @@ use App\Rolling\ServiceInterface\Admin\OverridePolicyInterface;
 
 final class AdminRelationApprovalWorkflowService
 {
-    /**
-     * @param ApprovalStoreInterface     $store
-     * @param ApproverDirectoryInterface $dir
-     * @param OverridePolicyInterface    $ovr
-     */
     public function __construct(
         private readonly ApprovalStoreInterface $store,
         private readonly ApproverDirectoryInterface $dir,
@@ -23,15 +18,6 @@ final class AdminRelationApprovalWorkflowService
     ) {
     }
 
-    /**
-     * @param string $tenant
-     * @param string $relation
-     * @param string $resource
-     * @param string $requester
-     * @param array  $opts
-     *
-     * @return array
-     */
     public function start(string $tenant, string $relation, string $resource, string $requester, array $opts = []): array
     {
         $row = [
@@ -45,13 +31,6 @@ final class AdminRelationApprovalWorkflowService
         return ['id' => $id] + $row;
     }
 
-    /**
-     * @param string $id
-     * @param string $subject
-     * @param string $comment
-     *
-     * @return array
-     */
     public function approve(string $id, string $subject, string $comment = ''): array
     {
         $cur = $this->need($id);
@@ -88,13 +67,6 @@ final class AdminRelationApprovalWorkflowService
         return $cur;
     }
 
-    /**
-     * @param string $id
-     * @param string $subject
-     * @param string $reason
-     *
-     * @return array
-     */
     public function reject(string $id, string $subject, string $reason = ''): array
     {
         $cur = $this->need($id);
@@ -108,13 +80,6 @@ final class AdminRelationApprovalWorkflowService
         return $cur;
     }
 
-    /**
-     * @param string $id
-     * @param string $actor
-     * @param string $reason
-     *
-     * @return array
-     */
     public function override(string $id, string $actor, string $reason = ''): array
     {
         $cur = $this->need($id);
@@ -129,11 +94,6 @@ final class AdminRelationApprovalWorkflowService
         return $cur;
     }
 
-    /**
-     * @param string $id
-     *
-     * @return array
-     */
     private function need(string $id): array
     {
         $j = $this->store->load($id);

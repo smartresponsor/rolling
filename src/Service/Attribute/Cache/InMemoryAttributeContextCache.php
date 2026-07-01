@@ -6,14 +6,8 @@ namespace App\Rolling\Service\Attribute\Cache;
 
 final class InMemoryAttributeContextCache
 {
-    /** @var array */
     private array $m = [];
 
-    /**
-     * @param string $k
-     * @param array  $val
-     * @param int    $ttl
-     */
     public function set(string $k, array $val, int $ttl): void
     {
         $this->m[$k] = ['exp' => time() + $ttl, 'val' => $val];

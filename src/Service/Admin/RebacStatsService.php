@@ -8,9 +8,6 @@ use App\Rolling\Infrastructure\Rebac\PdoTupleStore;
 
 final class RebacStatsService
 {
-    /**
-     * @param object $store
-     */
     public function __construct(private readonly object $store)
     {
     }

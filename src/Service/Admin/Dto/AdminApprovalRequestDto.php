@@ -14,20 +14,6 @@ final class AdminApprovalRequestDto
     public const string STATUS_APPROVED = 'approved';
     public const string STATUS_REJECTED = 'rejected';
 
-    /**
-     * @param string      $id
-     * @param string      $requestedBy
-     * @param string      $subjectId
-     * @param string      $role
-     * @param string|null $tenant
-     * @param array       $approvers
-     * @param string      $status
-     * @param string|null $rejectedBy
-     * @param string|null $rejectReason
-     * @param int         $requiredApprovals
-     * @param int         $createdAt
-     * @param int         $updatedAt
-     */
     public function __construct(
         public string $id,
         public string $requestedBy,
@@ -47,11 +33,6 @@ final class AdminApprovalRequestDto
         $this->updatedAt = $this->updatedAt ?: $this->createdAt;
     }
 
-    /**
-     * @param string $approverId
-     *
-     * @return void
-     */
     public function addApproval(string $approverId): void
     {
         if (!in_array($approverId, $this->approvers, true)) {
