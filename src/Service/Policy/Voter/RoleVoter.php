@@ -13,29 +13,15 @@ use App\Rolling\ServiceInterface\Policy\VoterInterface;
 
 final class RoleVoter implements VoterInterface
 {
-    /**
-     * @param GrantRepositoryInterface $repo
-     */
     public function __construct(private readonly GrantRepositoryInterface $repo)
     {
     }
 
-    /**
-     * @return string
-     */
     public function id(): string
     {
         return 'role';
     }
 
-    /**
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource
-     * @param array  $context
-     *
-     * @return int
-     */
     public function vote(array $subject, string $action, array $resource, array $context = []): int
     {
         $tenant = $context['tenant'] ?? null;

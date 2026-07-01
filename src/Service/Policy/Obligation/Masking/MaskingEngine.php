@@ -13,21 +13,10 @@ use App\Rolling\ServiceInterface\Policy\Obligation\ObligationApplierInterface;
 
 final class MaskingEngine implements ObligationApplierInterface
 {
-    /**
-     * @param MaskingRuleRepositoryInterface $repo
-     */
     public function __construct(private readonly MaskingRuleRepositoryInterface $repo)
     {
     }
 
-    /**
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource
-     * @param array  $context
-     *
-     * @return array
-     */
     public function apply(array $subject, string $action, array $resource, array $context = []): array
     {
         $tenant = $context['tenant'] ?? ($resource['tenant'] ?? ($subject['tenant'] ?? null));
@@ -78,11 +67,6 @@ final class MaskingEngine implements ObligationApplierInterface
         ];
     }
 
-    /**
-     * @param string $s
-     *
-     * @return string
-     */
     private static function redact(string $s): string
     {
         $len = mb_strlen($s);

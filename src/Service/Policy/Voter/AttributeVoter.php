@@ -16,22 +16,11 @@ use App\Rolling\ServiceInterface\Policy\VoterInterface;
  */
 final class AttributeVoter implements VoterInterface
 {
-    /**
-     * @return string
-     */
     public function id(): string
     {
         return 'attr';
     }
 
-    /**
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource
-     * @param array  $context
-     *
-     * @return int
-     */
     public function vote(array $subject, string $action, array $resource, array $context = []): int
     {
         if (($resource['ownerId'] ?? null) && ($subject['id'] ?? null)) {

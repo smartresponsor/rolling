@@ -16,12 +16,6 @@ use App\Rolling\ServiceInterface\Resilience\Time\SleeperInterface;
 
 final class ResilientInvoker implements ResilientInvokerInterface
 {
-    /**
-     * @param CircuitBreakerInterface  $breaker
-     * @param BackoffStrategyInterface $backoff
-     * @param ClockInterface           $clock
-     * @param SleeperInterface         $sleeper
-     */
     public function __construct(
         private readonly CircuitBreakerInterface $breaker,
         private readonly BackoffStrategyInterface $backoff,
@@ -34,19 +28,9 @@ final class ResilientInvoker implements ResilientInvokerInterface
      * @throws \Throwable
      */
     /**
-     * @param callable $fn
-     * @param array    $options
-     *
-     * @return mixed
-     *
      * @throws \Throwable
      */
     /**
-     * @param callable $fn
-     * @param array    $options
-     *
-     * @return mixed
-     *
      * @throws \Throwable
      */
     public function invoke(callable $fn, array $options = [])

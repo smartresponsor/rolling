@@ -18,12 +18,6 @@ final class SimpleCircuitBreaker implements CircuitBreakerInterface
     private int $lastFailAt = 0;
     private int $halfOpenProbeAt = 0;
 
-    /**
-     * @param ClockInterface $clock
-     * @param int            $threshold
-     * @param int            $windowMs
-     * @param int            $coolDownMs
-     */
     public function __construct(
         private readonly ClockInterface $clock,
         private readonly int $threshold = 5,
@@ -32,9 +26,6 @@ final class SimpleCircuitBreaker implements CircuitBreakerInterface
     ) {
     }
 
-    /**
-     * @return bool
-     */
     public function allow(): bool
     {
         $now = $this->clock->nowMs();
@@ -57,20 +48,12 @@ final class SimpleCircuitBreaker implements CircuitBreakerInterface
         return true;
     }
 
-    /**
-     * @return void
-     */
     public function onSuccess(): void
     {
         $this->state = self::CLOSED;
         $this->failCount = 0;
     }
 
-    /**
-     * @param \Throwable $e
-     *
-     * @return void
-     */
     public function onFailure(\Throwable $e): void
     {
         $now = $this->clock->nowMs();
@@ -85,17 +68,11 @@ final class SimpleCircuitBreaker implements CircuitBreakerInterface
         }
     }
 
-    /**
-     * @return string
-     */
     public function state(): string
     {
         return $this->state;
     }
 
-    /**
-     * @return array
-     */
     public function getMetrics(): array
     {
         return [

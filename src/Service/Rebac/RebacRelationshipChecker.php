@@ -8,22 +8,10 @@ use App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface;
 
 final class RebacRelationshipChecker
 {
-    /**
-     * @param TupleStoreInterface $store
-     * @param int                 $maxDepth
-     */
     public function __construct(private readonly TupleStoreInterface $store, private readonly int $maxDepth = 8)
     {
     }
 
-    /**
-     * @param string $ns
-     * @param string $subject
-     * @param string $object
-     * @param string $relation
-     *
-     * @return array
-     */
     public function check(string $ns, string $subject, string $object, string $relation): array
     {
         // subject: "user:123" ; object: "doc:1" ; relation: "viewer"
@@ -35,17 +23,6 @@ final class RebacRelationshipChecker
         return ['allow' => $allow, 'reason' => $allow ? 'ok' : 'not_found', 'rev' => (string) $rev];
     }
 
-    /**
-     * @param string $ns
-     * @param string $subjType
-     * @param string $subjId
-     * @param string $objType
-     * @param string $objId
-     * @param string $relation
-     * @param int    $depth
-     *
-     * @return bool
-     */
     private function dfs(string $ns, string $subjType, string $subjId, string $objType, string $objId, string $relation, int $depth): bool
     {
         if ($depth > $this->maxDepth) {

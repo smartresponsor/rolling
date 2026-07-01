@@ -16,22 +16,11 @@ use App\Rolling\ServiceInterface\Policy\VoterInterface;
  */
 final class TenantBoundaryVoter implements VoterInterface
 {
-    /**
-     * @return string
-     */
     public function id(): string
     {
         return 'tenant-boundary';
     }
 
-    /**
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource
-     * @param array  $context
-     *
-     * @return int
-     */
     public function vote(array $subject, string $action, array $resource, array $context = []): int
     {
         $subTenant = $subject['tenant'] ?? null;

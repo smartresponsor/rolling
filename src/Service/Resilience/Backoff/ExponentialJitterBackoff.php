@@ -12,21 +12,12 @@ use App\Rolling\ServiceInterface\Resilience\BackoffStrategyInterface;
 
 final class ExponentialJitterBackoff implements BackoffStrategyInterface
 {
-    /**
-     * @param int $baseMs
-     * @param int $maxMs
-     */
     public function __construct(
         private readonly int $baseMs = 50,
         private readonly int $maxMs = 2000,
     ) {
     }
 
-    /**
-     * @param int $attempt
-     *
-     * @return int
-     */
     public function nextDelayMs(int $attempt): int
     {
         $cap = min($this->maxMs, $this->baseMs * (1 << max(0, $attempt - 1)));
@@ -40,9 +31,6 @@ final class ExponentialJitterBackoff implements BackoffStrategyInterface
         return $cap - (int) floor($cap * 0.3) + $jitter;
     }
 
-    /**
-     * @return void
-     */
     public function reset(): void
     {
     }

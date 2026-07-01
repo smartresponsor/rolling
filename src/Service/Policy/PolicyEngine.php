@@ -16,26 +16,15 @@ final class PolicyEngine implements PolicyEngineInterface
     /** @var VoterInterface[] */
     private array $voters = [];
 
-    /**
-     * @param string $strategy
-     */
     public function __construct(private readonly string $strategy = 'affirmative')
     {
     }
 
-    /**
-     * @return string
-     */
     public function getStrategy(): string
     {
         return $this->strategy;
     }
 
-    /**
-     * @param VoterInterface $voter
-     *
-     * @return void
-     */
     public function addVoter(VoterInterface $voter): void
     {
         $this->voters[$voter->id()] = $voter;
@@ -49,14 +38,6 @@ final class PolicyEngine implements PolicyEngineInterface
         return array_values($this->voters);
     }
 
-    /**
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource
-     * @param array  $context
-     *
-     * @return PolicyEngineDecision
-     */
     public function decide(array $subject, string $action, array $resource, array $context = []): PolicyEngineDecision
     {
         $grants = 0;
