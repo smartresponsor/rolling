@@ -12,18 +12,10 @@ use App\Rolling\InfrastructureInterface\Audit\AuditRepositoryInterface;
 
 final class FileAuditRepository implements AuditRepositoryInterface
 {
-    /**
-     * @param string $path
-     */
     public function __construct(private readonly string $path)
     {
     }
 
-    /**
-     * @param array $data
-     *
-     * @return void
-     */
     public function save(array $data): void
     {
         @mkdir(dirname($this->path), 0775, true);

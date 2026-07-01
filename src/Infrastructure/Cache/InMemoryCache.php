@@ -12,15 +12,8 @@ use App\Rolling\InfrastructureInterface\Cache\CacheInterface;
 
 final class InMemoryCache implements CacheInterface
 {
-    /** @var array */
     private array $data = [];
 
-    /**
-     * @param string     $key
-     * @param mixed|null $default
-     *
-     * @return mixed
-     */
     public function get(string $key, mixed $default = null): mixed
     {
         $now = time();
@@ -31,13 +24,6 @@ final class InMemoryCache implements CacheInterface
         return $default;
     }
 
-    /**
-     * @param string $key
-     * @param mixed  $value
-     * @param int    $ttl
-     *
-     * @return bool
-     */
     public function set(string $key, mixed $value, int $ttl): bool
     {
         $this->data[$key] = ['v' => $value, 'exp' => time() + max(0, $ttl)];
@@ -45,11 +31,6 @@ final class InMemoryCache implements CacheInterface
         return true;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
     public function delete(string $key): bool
     {
         unset($this->data[$key]);

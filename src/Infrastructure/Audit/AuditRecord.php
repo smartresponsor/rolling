@@ -7,14 +7,7 @@ namespace App\Rolling\Infrastructure\Audit;
 final class AuditRecord
 {
     /**
-     * @param int    $ts
-     * @param string $subjectId
-     * @param string $action
-     * @param string $scopeKey
-     * @param string $decision
-     * @param string $reason
-     * @param array  $obligations @param array<string,mixed> $context
-     * @param array  $context
+     * @param array $obligations @param array<string,mixed> $context
      */
     public function __construct(
         public int $ts,

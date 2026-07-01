@@ -9,21 +9,10 @@ use App\Rolling\ServiceInterface\Admin\ApproverDirectoryInterface;
 
 final class ApproverFsDirectory implements ApproverDirectoryInterface
 {
-    /**
-     * @param string $baseDir
-     */
     public function __construct(private readonly string $baseDir)
     {
     } // var/admin/approvers.json + delegations.json
 
-    /**
-     * @param string $tenant
-     * @param string $subject
-     * @param string $relation
-     * @param string $resource
-     *
-     * @return bool
-     */
     public function canApprove(string $tenant, string $subject, string $relation, string $resource): bool
     {
         $file = $this->baseDir.'/approvers.json';
@@ -34,12 +23,6 @@ final class ApproverFsDirectory implements ApproverDirectoryInterface
         return in_array($subject, $allow, true);
     }
 
-    /**
-     * @param string $tenant
-     * @param string $subject
-     *
-     * @return string|null
-     */
     public function resolveDelegate(string $tenant, string $subject): ?string
     {
         $file = $this->baseDir.'/delegations.json';

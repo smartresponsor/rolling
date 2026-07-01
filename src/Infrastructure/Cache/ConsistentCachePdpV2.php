@@ -10,12 +10,8 @@ use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class ConsistentCachePdpV2 implements PdpV2Interface
 {
-    /** @var array */
     private array $cache = [];
 
-    /**
-     * @param \Closure $tokenFn
-     */
     public function __construct(
         private readonly PdpV2Interface $inner,
         private readonly \Closure $tokenFn, // fn(?string $subjectId): ConsistencyTokenSet
@@ -42,15 +38,6 @@ final class ConsistentCachePdpV2 implements PdpV2Interface
         return $dec;
     }
 
-    /**
-     * @param string $sid
-     * @param string $act
-     * @param string $scopeKey
-     * @param array  $ctx
-     * @param string $tokenStr
-     *
-     * @return string
-     */
     private function makeKey(string $sid, string $act, string $scopeKey, array $ctx, string $tokenStr): string
     {
         ksort($ctx);

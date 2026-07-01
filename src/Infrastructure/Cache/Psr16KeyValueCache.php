@@ -13,7 +13,6 @@ use App\Rolling\InfrastructureInterface\Cache\CacheInterface;
  */
 final class Psr16KeyValueCache implements CacheInterface
 {
-    /** @var object */
     private object $psr;
 
     /**

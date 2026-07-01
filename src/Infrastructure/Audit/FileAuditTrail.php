@@ -12,9 +12,6 @@ use App\Rolling\ServiceInterface\Audit\AuditTrailInterface;
 
 final class FileAuditTrail implements AuditTrailInterface
 {
-    /**
-     * @param string $dir
-     */
     public function __construct(private readonly string $dir = __DIR__.'/../../../../var/audit')
     {
         if (!is_dir($this->dir)) {
@@ -22,9 +19,6 @@ final class FileAuditTrail implements AuditTrailInterface
         }
     }
 
-    /**
-     * @param array $rec
-     */
     public function write(array $rec): void
     {
         $day = date('Y-m-d');

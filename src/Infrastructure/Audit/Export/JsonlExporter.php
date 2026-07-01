@@ -6,12 +6,6 @@ namespace App\Rolling\Infrastructure\Audit\Export;
 
 final class JsonlExporter implements \App\Rolling\InfrastructureInterface\Audit\Export\ExporterInterface
 {
-    /**
-     * @param iterable $records
-     * @param string   $path
-     *
-     * @return void
-     */
     public function export(iterable $records, string $path): void
     {
         $f = fopen($path, 'w');

@@ -10,11 +10,6 @@ final class PdoAuditWriter implements \App\Rolling\InfrastructureInterface\Audit
     private string $table;
     private bool $maskPII;
 
-    /**
-     * @param \PDO   $pdo
-     * @param string $table
-     * @param bool   $maskPII
-     */
     public function __construct(\PDO $pdo, string $table = 'role_audit', bool $maskPII = true)
     {
         $this->pdo = $pdo;
@@ -22,11 +17,6 @@ final class PdoAuditWriter implements \App\Rolling\InfrastructureInterface\Audit
         $this->maskPII = $maskPII;
     }
 
-    /**
-     * @param AuditRecord $rec
-     *
-     * @return void
-     */
     public function write(AuditRecord $rec): void
     {
         $ctx = $this->maskPII ? $this->maskedContext($rec->context) : $rec->context;
@@ -50,8 +40,6 @@ final class PdoAuditWriter implements \App\Rolling\InfrastructureInterface\Audit
 
     /**
      * @param array $ctx @return array<string,mixed>
-     *
-     * @return array
      */
     private function maskedContext(array $ctx): array
     {

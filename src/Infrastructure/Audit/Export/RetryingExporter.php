@@ -6,11 +6,6 @@ namespace App\Rolling\Infrastructure\Audit\Export;
 
 final class RetryingExporter implements \App\Rolling\InfrastructureInterface\Audit\Export\ExporterInterface
 {
-    /**
-     * @param \App\Rolling\InfrastructureInterface\Audit\Export\ExporterInterface $inner
-     * @param int                                                                 $retries
-     * @param int                                                                 $baseMs
-     */
     public function __construct(private readonly \App\Rolling\InfrastructureInterface\Audit\Export\ExporterInterface $inner, private readonly int $retries = 2, private readonly int $baseMs = 50)
     {
     }
@@ -19,11 +14,6 @@ final class RetryingExporter implements \App\Rolling\InfrastructureInterface\Aud
      * @throws \Throwable
      */
     /**
-     * @param iterable $records
-     * @param string   $path
-     *
-     * @return void
-     *
      * @throws \Throwable
      */
     public function export(iterable $records, string $path): void
@@ -48,10 +38,6 @@ final class RetryingExporter implements \App\Rolling\InfrastructureInterface\Aud
      * @throws \Exception
      */
     /**
-     * @param int $attempt
-     *
-     * @return int
-     *
      * @throws \Exception
      */
     private function backoff(int $attempt): int
