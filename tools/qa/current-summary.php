@@ -37,6 +37,7 @@ $summary = [
 $readyForBootstrap = $summary['artifacts']['dependency_readiness']['data']['ready_for_bootstrap'] ?? null;
 $autoloadBroken = $summary['artifacts']['autoload_audit']['data']['broken_entries'] ?? null;
 $externalRoots = $summary['artifacts']['canon_scan']['data']['external_root_count'] ?? null;
+$forbiddenDirectories = $summary['artifacts']['canon_scan']['data']['forbidden_directory_count'] ?? null;
 $nonAppDrift = $summary['artifacts']['namespace_audit']['data']['non_app_drift_in_active_roots'] ?? null;
 $missingExtensions = $summary['artifacts']['dependency_readiness']['data']['missing_extensions'] ?? [];
 $composerOnPath = $summary['artifacts']['dependency_readiness']['data']['composer_on_path'] ?? null;
@@ -61,6 +62,9 @@ if (is_int($autoloadBroken) && $autoloadBroken > 0) {
 if (is_int($externalRoots) && $externalRoots > 0) {
     $blockers[] = 'Canon scan reports external root drift.';
 }
+if (is_int($forbiddenDirectories) && $forbiddenDirectories > 0) {
+    $blockers[] = 'Canon scan reports forbidden directory drift.';
+}
 if (is_int($nonAppDrift) && $nonAppDrift > 0) {
     $blockers[] = 'Namespace audit reports non-App drift in active roots.';
 }
@@ -69,6 +73,7 @@ $summary['status'] = [
     'ready_for_bootstrap' => $readyForBootstrap,
     'autoload_broken_entries' => $autoloadBroken,
     'external_root_count' => $externalRoots,
+    'forbidden_directory_count' => $forbiddenDirectories,
     'non_app_drift_in_active_roots' => $nonAppDrift,
     'composer_on_path' => $composerOnPath,
     'vendor_autoload_exists' => $vendorAutoloadExists,
@@ -92,6 +97,7 @@ $pretty[] = '  vendor/autoload.php exists: ' . ($vendorAutoloadExists === true ?
 $pretty[] = '  Missing extensions: ' . (is_array($missingExtensions) && $missingExtensions !== [] ? implode(', ', $missingExtensions) : '(none)');
 $pretty[] = '  Autoload broken entries: ' . (is_int($autoloadBroken) ? (string) $autoloadBroken : 'unknown');
 $pretty[] = '  External root count: ' . (is_int($externalRoots) ? (string) $externalRoots : 'unknown');
+$pretty[] = '  Forbidden directory count: ' . (is_int($forbiddenDirectories) ? (string) $forbiddenDirectories : 'unknown');
 $pretty[] = '  Non-App drift in active roots: ' . (is_int($nonAppDrift) ? (string) $nonAppDrift : 'unknown');
 $pretty[] = '';
 $pretty[] = 'Blockers';
