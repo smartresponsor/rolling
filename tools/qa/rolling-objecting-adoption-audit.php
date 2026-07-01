@@ -170,3 +170,9 @@ final class RollingObjectingAdoptionAudit
         return str_replace('\\', '/', ltrim(substr($file, strlen($this->root)), DIRECTORY_SEPARATOR));
     }
 }
+
+$audit = new RollingObjectingAdoptionAudit(dirname(__DIR__, 2));
+$report = $audit->run();
+
+echo json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL;
+exit(0);
