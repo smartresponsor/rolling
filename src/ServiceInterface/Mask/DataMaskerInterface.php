@@ -11,10 +11,7 @@ namespace App\Rolling\ServiceInterface\Mask;
 interface DataMaskerInterface
 {
     /**
-     * @param array $data  @return array<string,mixed>
-     * @param array $rules
-     *
-     * @return array
+     * @param array $data @return array<string,mixed>
      */
     public function mask(array $data, array $rules): array;
 }

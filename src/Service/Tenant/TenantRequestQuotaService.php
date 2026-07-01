@@ -10,18 +10,10 @@ namespace App\Rolling\Service\Tenant;
  */
 final class TenantRequestQuotaService
 {
-    /**
-     * @param string $baseDir
-     */
     public function __construct(private readonly string $baseDir = __DIR__.'/../../../../var/tenants')
     {
     }
 
-    /**
-     * @param string $tenant
-     *
-     * @return string
-     */
     private function dir(string $tenant): string
     {
         return rtrim($this->baseDir, '/').'/'.preg_replace('~[^a-zA-Z0-9_.-]~', '_', $tenant);
@@ -43,12 +35,6 @@ final class TenantRequestQuotaService
         return ['limit_per_min' => $limit];
     }
 
-    /**
-     * @param string $tenant
-     * @param int    $perMin
-     *
-     * @return void
-     */
     public function setLimit(string $tenant, int $perMin): void
     {
         $path = $this->dir($tenant).'/quota_limits.json';
@@ -75,12 +61,6 @@ final class TenantRequestQuotaService
         return ['window_start' => $ws, 'count' => $cnt];
     }
 
-    /**
-     * @param string $tenant
-     * @param array  $u
-     *
-     * @return void
-     */
     private function saveUsage(string $tenant, array $u): void
     {
         $path = $this->dir($tenant).'/quota_usage.json';

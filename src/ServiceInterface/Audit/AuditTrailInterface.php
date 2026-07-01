@@ -10,8 +10,5 @@ namespace App\Rolling\ServiceInterface\Audit;
 
 interface AuditTrailInterface
 {
-    /**
-     * @param array $rec
-     */
     public function write(array $rec): void;
 }

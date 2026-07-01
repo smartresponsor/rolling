@@ -12,10 +12,5 @@ use App\Rolling\Service\Audit\Dto\AuditDecisionRecordDto;
 
 interface AuditLoggerInterface
 {
-    /**
-     * @param AuditDecisionRecordDto $rec
-     *
-     * @return void
-     */
     public function log(AuditDecisionRecordDto $rec): void;
 }

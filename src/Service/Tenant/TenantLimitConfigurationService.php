@@ -9,18 +9,10 @@ namespace App\Rolling\Service\Tenant;
  */
 final class TenantLimitConfigurationService
 {
-    /**
-     * @param string $baseDir
-     */
     public function __construct(private readonly string $baseDir = __DIR__.'/../../../../var/tenants')
     {
     }
 
-    /**
-     * @param string $tenant
-     *
-     * @return string
-     */
     private function path(string $tenant): string
     {
         $dir = rtrim($this->baseDir, '/').'/'.preg_replace('~[^a-zA-Z0-9_.-]~', '_', $tenant);
@@ -43,13 +35,6 @@ final class TenantLimitConfigurationService
         ];
     }
 
-    /**
-     * @param string      $tenant
-     * @param int|null    $maxTuples
-     * @param string|null $residency
-     *
-     * @return void
-     */
     public function set(string $tenant, ?int $maxTuples, ?string $residency): void
     {
         $p = $this->path($tenant);

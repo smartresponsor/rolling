@@ -12,9 +12,6 @@ use App\Rolling\ServiceInterface\Resilience\Time\ClockInterface;
 
 final class SystemClock implements ClockInterface
 {
-    /**
-     * @return int
-     */
     public function nowMs(): int
     {
         return (int) floor(microtime(true) * 1000);

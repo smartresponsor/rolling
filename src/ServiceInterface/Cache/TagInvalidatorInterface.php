@@ -16,17 +16,7 @@ interface TagInvalidatorInterface
     /** @param string[] $tags */
     public function invalidateTags(array $tags): void;
 
-    /**
-     * @param string $tag
-     *
-     * @return void
-     */
     public function bumpTag(string $tag): void;
 
-    /**
-     * @param string $tag
-     *
-     * @return int
-     */
     public function getTagVersion(string $tag): int;
 }

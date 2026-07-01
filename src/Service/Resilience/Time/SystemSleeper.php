@@ -12,11 +12,6 @@ use App\Rolling\ServiceInterface\Resilience\Time\SleeperInterface;
 
 final class SystemSleeper implements SleeperInterface
 {
-    /**
-     * @param int $ms
-     *
-     * @return void
-     */
     public function sleepMs(int $ms): void
     {
         usleep($ms * 1000);

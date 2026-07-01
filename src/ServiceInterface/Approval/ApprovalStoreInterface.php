@@ -19,19 +19,7 @@ interface ApprovalStoreInterface
     /** @return array<string,mixed>|null */
     public function read(string $id): ?array;
 
-    /**
-     * @param string $id
-     * @param array  $by
-     *
-     * @return void
-     */
     public function approve(string $id, array $by): void;
 
-    /**
-     * @param string $id
-     * @param array  $by
-     *
-     * @return void
-     */
     public function reject(string $id, array $by): void;
 }

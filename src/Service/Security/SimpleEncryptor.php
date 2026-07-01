@@ -15,17 +15,11 @@ use App\Rolling\ServiceInterface\Key\KeyProviderInterface;
  */
 final class SimpleEncryptor
 {
-    /**
-     * @param KeyProviderInterface $provider
-     */
     public function __construct(private readonly KeyProviderInterface $provider)
     {
     }
 
     /**
-     * @param string $tenant
-     * @param string $plain
-     *
      * @return array{kid:string, iv:string, ct:string, tag:string}
      */
     public function encrypt(string $tenant, string $plain): array
@@ -44,15 +38,6 @@ final class SimpleEncryptor
         return ['kid' => $k['kid'], 'iv' => base64_encode($iv), 'ct' => base64_encode($ct ?: ''), 'tag' => base64_encode($tag)];
     }
 
-    /**
-     * @param string $tenant
-     * @param string $kid
-     * @param string $ivB64
-     * @param string $ctB64
-     * @param string $tagB64
-     *
-     * @return string|null
-     */
     public function decrypt(string $tenant, string $kid, string $ivB64, string $ctB64, string $tagB64): ?string
     {
         $k = $this->provider->getById($tenant, $kid);
