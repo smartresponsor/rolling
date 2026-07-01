@@ -30,7 +30,6 @@ final class RollingDashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Rolling dashboard', 'fa fa-shield-halved');
         yield MenuItem::section('ACL catalog');
         yield MenuItem::linkTo(RollingRoleCrudController::class, 'Roles', 'fa fa-user-shield');
-        yield MenuItem::linkTo(RollingPermissionCrudController::class, 'Permissions', 'fa fa-key');
         yield MenuItem::linkTo(RollingRolePermissionCrudController::class, 'Role permissions', 'fa fa-link');
         yield MenuItem::linkTo(RollingSubjectRoleAssignmentCrudController::class, 'Subject assignments', 'fa fa-users-gear');
         yield MenuItem::linkTo(RollingAclRuleCrudController::class, 'ACL rules', 'fa fa-scale-balanced');

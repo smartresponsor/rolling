@@ -22,11 +22,12 @@ foreach ($definitions as $definition) {
 }
 
 $staleLegacyControllers = [];
-$stalePermissionController = $root.'/src/Controller/Admin/RollingPermissionCrudController.php';
-if (is_file($stalePermissionController)) {
+$deprecatedPermissionController = $root.'/src/Controller/Admin/RollingPermissionCrudController.php';
+if (is_file($deprecatedPermissionController)) {
     $staleLegacyControllers[] = [
         'file' => 'src/Controller/Admin/RollingPermissionCrudController.php',
-        'reason' => 'Controller points to RolePermissionEntity but exposes componentName and description fields that are not present on that entity. Use rolling.role-permission metadata instead.',
+        'classification' => 'deprecated_duplicate_awaiting_deletion',
+        'reason' => 'Controller is removed from the dashboard and mirrors role-permission fields only because repository tooling blocked file deletion. Delete it when deletion is available.',
     ];
 }
 

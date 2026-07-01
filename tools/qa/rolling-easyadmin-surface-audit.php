@@ -6,7 +6,6 @@ $root = dirname(__DIR__, 2);
 $legacyFiles = [
     'src/Controller/Admin/RollingDashboardController.php',
     'src/Controller/Admin/RollingRoleCrudController.php',
-    'src/Controller/Admin/RollingPermissionCrudController.php',
     'src/Controller/Admin/RollingRolePermissionCrudController.php',
     'src/Controller/Admin/RollingSubjectRoleAssignmentCrudController.php',
     'src/Controller/Admin/RollingAclRuleCrudController.php',
