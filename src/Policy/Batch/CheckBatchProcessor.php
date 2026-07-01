@@ -14,9 +14,6 @@ final class CheckBatchProcessor
     private const int DEFAULT_CHUNK_SIZE = 100;
     private const int DEFAULT_MAX_ITEMS = 1000;
 
-    /**
-     * @param PdpV2Interface $pdp
-     */
     public function __construct(private readonly PdpV2Interface $pdp)
     {
     }

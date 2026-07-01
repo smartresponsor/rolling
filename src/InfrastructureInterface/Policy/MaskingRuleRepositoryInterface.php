@@ -30,10 +30,5 @@ interface MaskingRuleRepositoryInterface
      */
     public function find(string $resourceType, string $action, ?string $tenant, array $roles): array;
 
-    /**
-     * @param string $path
-     *
-     * @return void
-     */
     public function loadFromNdjson(string $path): void;
 }

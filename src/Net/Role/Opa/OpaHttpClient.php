@@ -8,11 +8,6 @@ use App\Rolling\InfrastructureInterface\Net\Opa\OpaClientInterface;
 
 final class OpaHttpClient implements OpaClientInterface
 {
-    /**
-     * @param string $baseUrl
-     * @param int    $timeoutMs
-     * @param array  $headers
-     */
     public function __construct(
         private readonly string $baseUrl, // e.g. http://127.0.0.1:8181
         private readonly int $timeoutMs = 1500,
@@ -20,12 +15,6 @@ final class OpaHttpClient implements OpaClientInterface
     ) {
     }
 
-    /**
-     * @param string $dataPath
-     * @param array  $input
-     *
-     * @return array
-     */
     public function evaluate(string $dataPath, array $input): array
     {
         $url = rtrim($this->baseUrl, '/').'/v1/data/'.ltrim($dataPath, '/');

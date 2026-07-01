@@ -12,9 +12,6 @@ use App\Rolling\Infrastructure\Rebac\Tuple;
 
 interface RebacClientInterface
 {
-    /**
-     * @return array
-     */
     public function health(): array;
 
     /**

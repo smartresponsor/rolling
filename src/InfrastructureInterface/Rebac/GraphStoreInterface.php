@@ -15,26 +15,8 @@ use App\Rolling\ServiceInterface\Rebac\NamespaceConstraintInterface;
  */
 interface GraphStoreInterface
 {
-    /**
-     * @param string $tenant
-     * @param string $namespace
-     * @param string $subject
-     * @param string $relation
-     * @param string $object
-     *
-     * @return void
-     */
     public function addEdge(string $tenant, string $namespace, string $subject, string $relation, string $object): void;
 
-    /**
-     * @param string $tenant
-     * @param string $namespace
-     * @param string $subject
-     * @param string $relation
-     * @param string $object
-     *
-     * @return void
-     */
     public function removeEdge(string $tenant, string $namespace, string $subject, string $relation, string $object): void;
 
     /** @return array<int,array{subject:string,relation:string,object:string,namespace:string}> */

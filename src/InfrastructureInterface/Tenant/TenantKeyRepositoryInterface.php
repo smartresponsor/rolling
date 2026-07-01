@@ -15,12 +15,6 @@ interface TenantKeyRepositoryInterface
      */
     public function get(string $tenant): ?string;
 
-    /**
-     * @param string $tenant
-     * @param string $key
-     *
-     * @return bool
-     */
     public function put(string $tenant, string $key): bool;
 
     /**

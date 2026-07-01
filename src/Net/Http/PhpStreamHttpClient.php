@@ -6,15 +6,6 @@ namespace App\Rolling\Net\Http;
 
 final class PhpStreamHttpClient implements SimpleHttpClientInterface
 {
-    /**
-     * @param string      $method
-     * @param string      $url
-     * @param array       $headers
-     * @param string|null $body
-     * @param int         $timeoutMs
-     *
-     * @return array
-     */
     public function request(string $method, string $url, array $headers = [], ?string $body = null, int $timeoutMs = 5000): array
     {
         $hdr = '';
