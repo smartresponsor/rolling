@@ -77,6 +77,7 @@
     "surface:audit": "@php tools/qa/rolling-surface-audit.php",
     "symfony81:audit": "@php tools/qa/rolling-symfony81-audit.php",
     "http-payload:audit": "@php tools/qa/rolling-http-payload-audit.php",
+    "docblock:coverage": "@php tools/qa/rolling-docblock-coverage-audit.php",
     "checkbox-form:audit": "@php tools/qa/rolling-checkbox-form-audit.php",
     "easyadmin-surface:audit": "@php tools/qa/rolling-easyadmin-surface-audit.php",
     "solid-canon:audit": "@php tools/qa/rolling-solid-canon-audit.php"
