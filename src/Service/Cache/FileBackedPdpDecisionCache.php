@@ -19,11 +19,6 @@ final class FileBackedPdpDecisionCache
     private CacheStampedeGuardService $guard;
     private TagInvalidatorInterface $tags;
 
-    /**
-     * @param TagInvalidatorInterface        $tags
-     * @param CacheStampedeGuardService|null $guard
-     * @param string                         $cacheDir
-     */
     public function __construct(TagInvalidatorInterface $tags, ?CacheStampedeGuardService $guard = null, string $cacheDir = '/tmp/role_cache')
     {
         $this->cacheDir = $cacheDir;
@@ -35,12 +30,7 @@ final class FileBackedPdpDecisionCache
     }
 
     /**
-     * @param array    $keyParts
-     * @param int      $ttlMs
      * @param string[] $tags
-     * @param callable $producer
-     *
-     * @return mixed
      */
     public function get(array $keyParts, int $ttlMs, array $tags, callable $producer)
     {

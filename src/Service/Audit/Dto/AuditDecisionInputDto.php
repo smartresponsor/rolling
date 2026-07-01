@@ -11,11 +11,7 @@ namespace App\Rolling\Service\Audit\Dto;
 final class AuditDecisionInputDto
 {
     /**
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource
-     * @param array  $context
-     * @param array  $voterTrace
+     * @param array $voterTrace
      */
     public function __construct(
         public array $subject,

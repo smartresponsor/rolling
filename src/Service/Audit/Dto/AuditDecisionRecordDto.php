@@ -10,16 +10,6 @@ namespace App\Rolling\Service\Audit\Dto;
 
 final class AuditDecisionRecordDto
 {
-    /**
-     * @param string                 $id
-     * @param AuditDecisionInputDto  $input
-     * @param AuditDecisionResultDto $result
-     * @param array                  $explain
-     * @param int                    $ts
-     * @param string|null            $tenant
-     * @param string|null            $requestor
-     * @param string|null            $correlationId
-     */
     public function __construct(
         public string $id,
         public AuditDecisionInputDto $input,
@@ -36,9 +26,6 @@ final class AuditDecisionRecordDto
         $this->requestor = $this->requestor ?? ($input->subject['id'] ?? null);
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return [

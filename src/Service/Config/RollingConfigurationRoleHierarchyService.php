@@ -138,8 +138,6 @@ final readonly class RollingConfigurationRoleHierarchyService implements ConfigT
     }
 
     /**
-     * @param mixed $edges
-     *
      * @return list<string>
      */
     private function defaultEdges(mixed $edges): array

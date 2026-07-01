@@ -6,16 +6,10 @@ namespace App\Rolling\Service\Consistency\Policy;
 
 final class PolicyConsistencyToken
 {
-    /**
-     * @param int $rev
-     */
     public function __construct(public int $rev)
     {
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return (string) $this->rev;

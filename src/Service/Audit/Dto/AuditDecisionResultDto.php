@@ -10,13 +10,6 @@ namespace App\Rolling\Service\Audit\Dto;
 
 final class AuditDecisionResultDto
 {
-    /**
-     * @param bool        $allow
-     * @param string      $policyVersion
-     * @param string|null $ruleId
-     * @param array       $obligations
-     * @param array       $meta
-     */
     public function __construct(
         public bool $allow,
         public string $policyVersion,

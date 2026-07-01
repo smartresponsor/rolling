@@ -13,10 +13,6 @@ namespace App\Rolling\Service\Cache;
  */
 final class CacheStampedeGuardService
 {
-    /**
-     * @param string $lockDir
-     * @param int    $jitterPercent
-     */
     public function __construct(
         private readonly string $lockDir = '/tmp/role_cache_locks',
         private readonly int $jitterPercent = 15,
@@ -29,8 +25,6 @@ final class CacheStampedeGuardService
     /**
      * @template T
      *
-     * @param string       $key
-     * @param int          $ttlMs
      * @param callable():T $producer
      *
      * @return array{value:mixed, ttlMs:int, expiresAt:int}
@@ -60,11 +54,6 @@ final class CacheStampedeGuardService
         return ['value' => $value, 'ttlMs' => $effectiveTtl, 'expiresAt' => (int) (microtime(true) * 1000) + $effectiveTtl];
     }
 
-    /**
-     * @param int $ttlMs
-     *
-     * @return int
-     */
     private function applyJitter(int $ttlMs): int
     {
         $p = max(0, min(90, $this->jitterPercent));

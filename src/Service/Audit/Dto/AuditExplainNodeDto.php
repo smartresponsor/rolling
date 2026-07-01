@@ -13,12 +13,6 @@ final class AuditExplainNodeDto
     /** @var AuditExplainNodeDto[] */
     public array $children = [];
 
-    /**
-     * @param string $type
-     * @param string $label
-     * @param bool   $pass
-     * @param array  $data
-     */
     public function __construct(
         public string $type,
         public string $label,
@@ -27,19 +21,11 @@ final class AuditExplainNodeDto
     ) {
     }
 
-    /**
-     * @param AuditExplainNodeDto $n
-     *
-     * @return void
-     */
     public function add(self $n): void
     {
         $this->children[] = $n;
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return [

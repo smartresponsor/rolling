@@ -16,23 +16,14 @@ use App\Rolling\ServiceInterface\Cache\TagInvalidatorInterface;
 final class FileBackedCacheTagInvalidator implements TagInvalidatorInterface
 {
     private string $path;
-    /** @var array */
     private array $versions = [];
 
-    /**
-     * @param string $path
-     */
     public function __construct(string $path = '/tmp/role_tag_versions.json')
     {
         $this->path = $path;
         $this->load();
     }
 
-    /**
-     * @param string $tag
-     *
-     * @return void
-     */
     public function bumpTag(string $tag): void
     {
         $this->versions[$tag] = ($this->versions[$tag] ?? 0) + 1;
@@ -47,19 +38,11 @@ final class FileBackedCacheTagInvalidator implements TagInvalidatorInterface
         }
     }
 
-    /**
-     * @param string $tag
-     *
-     * @return int
-     */
     public function getTagVersion(string $tag): int
     {
         return (int) ($this->versions[$tag] ?? 0);
     }
 
-    /**
-     * @return void
-     */
     private function load(): void
     {
         if (is_file($this->path)) {
@@ -70,9 +53,6 @@ final class FileBackedCacheTagInvalidator implements TagInvalidatorInterface
         }
     }
 
-    /**
-     * @return void
-     */
     private function persist(): void
     {
         @file_put_contents($this->path, json_encode($this->versions));

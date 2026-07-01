@@ -6,9 +6,6 @@ namespace App\Rolling\Service\Cache;
 
 final class RollingDecisionCacheInvalidator
 {
-    /**
-     * @param RollingDecisionCache $cache
-     */
     public function __construct(private readonly RollingDecisionCache $cache)
     {
     }

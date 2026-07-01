@@ -9,11 +9,6 @@ use App\Rolling\Service\Consistency\Rebac\RebacConsistencyToken;
 
 final class ConsistencyTokenComposer
 {
-    /**
-     * @param \Closure      $policyTokenFn
-     * @param \Closure      $rebacTokenFn
-     * @param \Closure|null $subjectEpochFn
-     */
     public function __construct(
         private readonly ?\Closure $policyTokenFn = null, // fn(): PolicyConsistencyToken
         private readonly ?\Closure $rebacTokenFn = null,  // fn(): RebacConsistencyToken
@@ -21,11 +16,6 @@ final class ConsistencyTokenComposer
     ) {
     }
 
-    /**
-     * @param string|null $subjectId
-     *
-     * @return ConsistencyTokenSet
-     */
     public function token(?string $subjectId = null): ConsistencyTokenSet
     {
         /** @var PolicyConsistencyToken $pt */
