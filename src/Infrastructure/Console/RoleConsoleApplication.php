@@ -11,6 +11,7 @@ use App\Rolling\Infrastructure\Console\Support\RoleConsoleRuntime;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 final class RoleConsoleApplication
 {
@@ -30,9 +31,9 @@ final class RoleConsoleApplication
         return $application;
     }
 
-    public function run(array $argv): int
+    public function run(array $argv, ?OutputInterface $output = null): int
     {
-        return $this->build()->run(new ArgvInput($argv), new ConsoleOutput());
+        return $this->build()->run(new ArgvInput($argv), $output ?? new ConsoleOutput());
     }
 
     private function registry(): RoleCommandRegistryInterface
