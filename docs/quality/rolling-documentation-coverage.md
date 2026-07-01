@@ -17,7 +17,7 @@ The target state is 100% documentation coverage for the public API surface:
 
 Private helpers are documented only when they carry non-obvious business rules or security-sensitive invariants.
 
-Boilerplate constructors, simple getters, setters, boolean accessors, and scalar value accessors are intentionally excluded from the missing list. Their semantics should be covered by class, DTO, property, or entity invariant documentation instead of repeated on every accessor.
+Boilerplate constructors, simple getters, setters, boolean accessors, entity scalar accessors, and scalar value accessors are intentionally excluded from the missing list. Their semantics should be covered by class, DTO, property, or entity invariant documentation instead of repeated on every accessor. Domain operations, repository methods, service contracts, and conversion methods such as `toValue()` remain actionable documentation targets.
 
 ## Audit command
 

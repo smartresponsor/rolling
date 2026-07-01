@@ -99,7 +99,6 @@ final class RollingDocblockCoverageAudit
                     $missing[] = ['type' => 'class', 'file' => $relative, 'name' => $className];
                 }
                 $lastDocComment = null;
-                $classStack[] = $className;
             }
         }
 
@@ -183,12 +182,33 @@ final class RollingDocblockCoverageAudit
         }
 
         return in_array($name, [
+            'action',
+            'assignedAt',
+            'createdAt',
+            'decision',
+            'effect',
+            'enabled',
             'id',
             'key',
+            'label',
+            'parentRoleKey',
+            'permissionKey',
+            'reason',
+            'requestedBySubject',
+            'resourceId',
+            'roleKey',
+            'safeMessage',
+            'scopeKey',
+            'scopePattern',
+            'status',
+            'subjectId',
+            'subjectIdentifier',
+            'succeeded',
+            'systemRole',
+            'tenantId',
+            'timestamp',
             'type',
             'value',
-            'tenantId',
-            'resourceId',
         ], true);
     }
 
