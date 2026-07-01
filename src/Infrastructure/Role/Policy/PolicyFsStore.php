@@ -9,28 +9,15 @@ use App\Rolling\InfrastructureInterface\Policy\PolicyStoreInterface;
 
 final class PolicyFsStore implements PolicyStoreInterface
 {
-    /**
-     * @param string $dir
-     */
     public function __construct(private readonly string $dir)
     {
     }
 
-    /**
-     * @param string $tenant
-     *
-     * @return string
-     */
     private function tdir(string $tenant): string
     {
         return rtrim($this->dir, '/')."/$tenant";
     }
 
-    /**
-     * @param string $tenant
-     *
-     * @return string
-     */
     public function getDraft(string $tenant): string
     {
         $f = $this->tdir($tenant).'/draft.pel';
@@ -38,24 +25,12 @@ final class PolicyFsStore implements PolicyStoreInterface
         return is_file($f) ? (string) file_get_contents($f) : '';
     }
 
-    /**
-     * @param string $tenant
-     * @param string $expr
-     *
-     * @return void
-     */
     public function putDraft(string $tenant, string $expr): void
     {
         @mkdir($this->tdir($tenant), 0o775, true);
         file_put_contents($this->tdir($tenant).'/draft.pel', $expr);
     }
 
-    /**
-     * @param string $tenant
-     * @param string $note
-     *
-     * @return string
-     */
     public function publish(string $tenant, string $note = ''): string
     {
         @mkdir($this->tdir($tenant).'/versions', 0o775, true);
@@ -68,11 +43,6 @@ final class PolicyFsStore implements PolicyStoreInterface
         return $ver;
     }
 
-    /**
-     * @param string $tenant
-     *
-     * @return string
-     */
     public function getEffective(string $tenant): string
     {
         $pf = $this->tdir($tenant).'/published.ver';

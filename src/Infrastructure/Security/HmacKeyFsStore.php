@@ -9,26 +9,16 @@ use App\Rolling\InfrastructureInterface\Security\KeyStoreInterface;
 
 final class HmacKeyFsStore implements KeyStoreInterface
 {
-    /**
-     * @param string $baseDir
-     */
     public function __construct(private readonly string $baseDir)
     {
     } // var/keys/<tenant>/hmac/{current.key,archive/*.key}
 
-    /**
-     * @param string $tenant
-     *
-     * @return string
-     */
     private function tdir(string $tenant): string
     {
         return rtrim($this->baseDir, '/')."/$tenant";
     }
 
     /**
-     * @param string $tenant
-     *
      * @return array|string[]
      */
     public function currentHmac(string $tenant): array
@@ -53,12 +43,6 @@ final class HmacKeyFsStore implements KeyStoreInterface
         return ['kid' => (string) $j['kid'], 'key' => (string) $j['key']];
     }
 
-    /**
-     * @param string      $tenant
-     * @param string|null $note
-     *
-     * @return string
-     */
     public function rotateHmac(string $tenant, ?string $note = null): string
     {
         $dir = $this->tdir($tenant).'/hmac';
@@ -79,12 +63,6 @@ final class HmacKeyFsStore implements KeyStoreInterface
         return $kid;
     }
 
-    /**
-     * @param string $tenant
-     * @param string $kid
-     *
-     * @return string|null
-     */
     public function loadHmac(string $tenant, string $kid): ?string
     {
         $dir = $this->tdir($tenant).'/hmac';
@@ -102,8 +80,6 @@ final class HmacKeyFsStore implements KeyStoreInterface
     }
 
     /**
-     * @param string $tenant
-     *
      * @return array[]
      */
     public function jwks(string $tenant): array
@@ -114,12 +90,6 @@ final class HmacKeyFsStore implements KeyStoreInterface
         return is_array($j) ? $j : ['keys' => []];
     }
 
-    /**
-     * @param string $tenant
-     * @param array  $jwks
-     *
-     * @return void
-     */
     public function putJwks(string $tenant, array $jwks): void
     {
         $file = $this->tdir($tenant).'/jwks.json';

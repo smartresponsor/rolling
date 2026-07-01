@@ -8,19 +8,11 @@ use App\Rolling\Service\Consistency\Rebac\RebacConsistencyToken;
 
 final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface
 {
-    /**
-     * @param \PDO $pdo
-     */
     public function __construct(private readonly \PDO $pdo)
     {
     }
 
     /**
-     * @param string $ns
-     * @param array  $tuples
-     *
-     * @return RebacConsistencyToken
-     *
      * @throws \Throwable
      */
     public function write(string $ns, array $tuples): RebacConsistencyToken
@@ -43,11 +35,6 @@ final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\
     }
 
     /**
-     * @param string $ns
-     * @param Tuple  $tuple
-     *
-     * @return RebacConsistencyToken
-     *
      * @throws \Throwable
      */
     public function delete(string $ns, Tuple $tuple): RebacConsistencyToken
@@ -66,14 +53,6 @@ final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\
         return $this->currentToken();
     }
 
-    /**
-     * @param string $ns
-     * @param string $objType
-     * @param string $objId
-     * @param string $relation
-     *
-     * @return iterable
-     */
     public function readByObject(string $ns, string $objType, string $objId, string $relation): iterable
     {
         $sel = $this->pdo->prepare('SELECT ns,obj_type,obj_id,relation,subj_type,subj_id,subj_rel FROM role_tuple WHERE ns=? AND obj_type=? AND obj_id=? AND relation=?');
@@ -83,14 +62,6 @@ final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\
         }
     }
 
-    /**
-     * @param string      $ns
-     * @param string      $subjType
-     * @param string      $subjId
-     * @param string|null $subjRel
-     *
-     * @return iterable
-     */
     public function readBySubject(string $ns, string $subjType, string $subjId, ?string $subjRel = null): iterable
     {
         $sel = $this->pdo->prepare('SELECT ns,obj_type,obj_id,relation,subj_type,subj_id,subj_rel FROM role_tuple WHERE ns=? AND subj_type=? AND subj_id=? AND (subj_rel IS ? OR subj_rel=?)');
@@ -100,9 +71,6 @@ final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\
         }
     }
 
-    /**
-     * @return RebacConsistencyToken
-     */
     public function currentToken(): RebacConsistencyToken
     {
         $rev = (int) $this->pdo->query('SELECT rev FROM role_rev WHERE id=1')->fetchColumn();
@@ -110,9 +78,6 @@ final class PdoTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\
         return new RebacConsistencyToken($rev);
     }
 
-    /**
-     * @return void
-     */
     private function bumpRev(): void
     {
         $this->pdo->exec('UPDATE role_rev SET rev = rev + 1 WHERE id=1');

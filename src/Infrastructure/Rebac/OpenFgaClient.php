@@ -12,27 +12,15 @@ use App\Rolling\InfrastructureInterface\Rebac\RebacClientInterface;
 
 class OpenFgaClient implements RebacClientInterface
 {
-    /**
-     * @param RebacRelationshipHttpJsonClient $http
-     * @param string                          $storeId
-     */
     public function __construct(private readonly RebacRelationshipHttpJsonClient $http, private readonly string $storeId)
     {
     }
 
-    /**
-     * @return array
-     */
     public function health(): array
     {
         return ['ok' => true, 'backend' => 'openfga'];
     }
 
-    /**
-     * @param string $schemaYaml
-     *
-     * @return bool
-     */
     public function upsertSchema(string $schemaYaml): bool
     {
         // OpenFGA uses type system in JSON; convert is out of scope here.
@@ -40,11 +28,6 @@ class OpenFgaClient implements RebacClientInterface
         return true;
     }
 
-    /**
-     * @param array $tuples
-     *
-     * @return bool
-     */
     public function writeTuples(array $tuples): bool
     {
         $writes = [];
@@ -60,11 +43,6 @@ class OpenFgaClient implements RebacClientInterface
         return $res['ok'] ?? false;
     }
 
-    /**
-     * @param array $tuples
-     *
-     * @return bool
-     */
     public function deleteTuples(array $tuples): bool
     {
         $deletes = [];
@@ -80,14 +58,6 @@ class OpenFgaClient implements RebacClientInterface
         return $res['ok'] ?? false;
     }
 
-    /**
-     * @param array  $subject
-     * @param string $relation
-     * @param array  $object
-     * @param array  $context
-     *
-     * @return bool
-     */
     public function check(array $subject, string $relation, array $object, array $context = []): bool
     {
         $payload = [

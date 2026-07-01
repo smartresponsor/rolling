@@ -10,19 +10,10 @@ use App\Rolling\InfrastructureInterface\Security\KeyStoreInterface;
 
 final class JwksFsVerifier implements JwksVerifierInterface
 {
-    /**
-     * @param KeyStoreInterface $store
-     */
     public function __construct(private readonly KeyStoreInterface $store)
     {
     }
 
-    /**
-     * @param string $tenant
-     * @param string $jwt
-     *
-     * @return array
-     */
     public function verify(string $tenant, string $jwt): array
     {
         $parts = explode('.', $jwt);
@@ -58,13 +49,6 @@ final class JwksFsVerifier implements JwksVerifierInterface
         return ['ok' => false, 'header' => $header, 'payload' => $payload, 'kid' => $kid];
     }
 
-    /**
-     * @param string      $tenant
-     * @param array       $payload
-     * @param string|null $kid
-     *
-     * @return string
-     */
     public function signHs256(string $tenant, array $payload, ?string $kid = null): string
     {
         $cur = $this->store->currentHmac($tenant);

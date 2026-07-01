@@ -12,12 +12,8 @@ use App\Rolling\InfrastructureInterface\Tenant\TenantKeyRepositoryInterface;
 
 final class InMemoryTenantKeyRepository implements TenantKeyRepositoryInterface
 {
-    /** @var array */
     private array $map = [];
 
-    /**
-     * @param array $seed
-     */
     public function __construct(array $seed = [])
     {
         foreach ($seed as $tenant => $key) {
@@ -25,22 +21,11 @@ final class InMemoryTenantKeyRepository implements TenantKeyRepositoryInterface
         }
     }
 
-    /**
-     * @param string $tenant
-     *
-     * @return string|null
-     */
     public function get(string $tenant): ?string
     {
         return $this->map[$tenant] ?? null;
     }
 
-    /**
-     * @param string $tenant
-     * @param string $key
-     *
-     * @return bool
-     */
     public function put(string $tenant, string $key): bool
     {
         $this->map[$tenant] = $key;

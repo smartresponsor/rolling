@@ -10,20 +10,10 @@ namespace App\Rolling\Infrastructure\Rebac;
 
 class RebacRelationshipHttpJsonClient
 {
-    /**
-     * @param string      $baseUrl
-     * @param string|null $token
-     */
     public function __construct(private readonly string $baseUrl, private readonly ?string $token = null)
     {
     }
 
-    /**
-     * @param string $path
-     * @param array  $payload
-     *
-     * @return array
-     */
     public function postJson(string $path, array $payload): array
     {
         $url = rtrim($this->baseUrl, '/').'/'.ltrim($path, '/');

@@ -12,8 +12,6 @@ interface AuditRepositoryInterface
 {
     /**
      * Persist audit record as associative array.
-     *
-     * @param array $data
      */
     public function save(array $data): void;
 }
