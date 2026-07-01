@@ -15,11 +15,6 @@ use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class OpaPdpV2 implements PdpV2Interface
 {
-    /**
-     * @param OpaClientInterface $client
-     * @param InputBuilder       $input
-     * @param string             $decisionPath
-     */
     public function __construct(
         private readonly OpaClientInterface $client,
         private readonly InputBuilder $input,
@@ -27,14 +22,6 @@ final class OpaPdpV2 implements PdpV2Interface
     ) {
     }
 
-    /**
-     * @param SubjectId     $s
-     * @param PermissionKey $a
-     * @param Scope         $sc
-     * @param array         $context
-     *
-     * @return DecisionWithObligations
-     */
     public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $context = []): DecisionWithObligations
     {
         $in = $this->input->build($s, $a, $sc, $context);

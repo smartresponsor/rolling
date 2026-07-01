@@ -15,22 +15,10 @@ use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
 
 final class AuditingPdp implements PdpV2Interface
 {
-    /**
-     * @param PdpV2Interface       $inner
-     * @param AuditWriterInterface $writer
-     */
     public function __construct(private readonly PdpV2Interface $inner, private readonly AuditWriterInterface $writer)
     {
     }
 
-    /**
-     * @param SubjectId     $subject
-     * @param PermissionKey $action
-     * @param Scope         $objectScope
-     * @param array         $context
-     *
-     * @return DecisionWithObligations
-     */
     public function check(SubjectId $subject, PermissionKey $action, Scope $objectScope, array $context = []): DecisionWithObligations
     {
         $d = $this->inner->check($subject, $action, $objectScope, $context);

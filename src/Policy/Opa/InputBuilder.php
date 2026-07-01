@@ -10,14 +10,6 @@ use App\Rolling\Entity\Role\SubjectId;
 
 final class InputBuilder
 {
-    /**
-     * @param SubjectId     $s
-     * @param PermissionKey $a
-     * @param Scope         $sc
-     * @param array         $context
-     *
-     * @return array
-     */
     public function build(SubjectId $s, PermissionKey $a, Scope $sc, array $context = []): array
     {
         return [

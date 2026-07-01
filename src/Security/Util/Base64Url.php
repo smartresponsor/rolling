@@ -6,21 +6,11 @@ namespace App\Rolling\Security\Util;
 
 final class Base64Url
 {
-    /**
-     * @param string $bin
-     *
-     * @return string
-     */
     public static function enc(string $bin): string
     {
         return rtrim(strtr(base64_encode($bin), '+/', '-_'), '=');
     }
 
-    /**
-     * @param string $txt
-     *
-     * @return string
-     */
     public static function dec(string $txt): string
     {
         $re = strtr($txt, '-_', '+/');

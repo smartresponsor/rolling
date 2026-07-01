@@ -8,23 +8,10 @@ use App\Rolling\Security\Util\Base64Url;
 
 final class Verifier
 {
-    /**
-     * @param SecretProviderInterface  $secrets
-     * @param NonceStoreInterface|null $nonces
-     * @param int                      $maxSkewSec
-     */
     public function __construct(private readonly SecretProviderInterface $secrets, private readonly ?NonceStoreInterface $nonces = null, private readonly int $maxSkewSec = 300)
     {
     }
 
-    /**
-     * @param string $method
-     * @param string $pathWithQuery
-     * @param string $body
-     * @param array  $headers
-     *
-     * @return bool
-     */
     public function verify(string $method, string $pathWithQuery, string $body, array $headers): bool
     {
         $kid = $headers['x-role-key'] ?? '';

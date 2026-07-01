@@ -11,12 +11,6 @@ final class InMemoryNonceStore implements NonceStoreInterface
      */
     private array $exp = [];
 
-    /**
-     * @param string $nonce
-     * @param int    $ttlSec
-     *
-     * @return bool
-     */
     public function seen(string $nonce, int $ttlSec): bool
     {
         $now = time();

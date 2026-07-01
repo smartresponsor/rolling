@@ -19,12 +19,6 @@ use App\Rolling\ServiceInterface\Policy\PdpV2Interface;
  */
 final class CachedPdpV2 implements PdpV2Interface
 {
-    /**
-     * @param PdpV2Interface            $inner
-     * @param CacheInterface            $cache
-     * @param SubjectCacheEpochRegistry $epochs
-     * @param int                       $ttlSeconds
-     */
     public function __construct(
         private readonly PdpV2Interface $inner,
         private readonly CacheInterface $cache,
@@ -33,14 +27,6 @@ final class CachedPdpV2 implements PdpV2Interface
     ) {
     }
 
-    /**
-     * @param SubjectId     $s
-     * @param PermissionKey $a
-     * @param Scope         $sc
-     * @param array         $context
-     *
-     * @return DecisionWithObligations
-     */
     public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $context = []): DecisionWithObligations
     {
         $sid = $s->value();
@@ -71,11 +57,6 @@ final class CachedPdpV2 implements PdpV2Interface
         return $dec;
     }
 
-    /**
-     * @param array $ctx
-     *
-     * @return string
-     */
     private static function ctxHash(array $ctx): string
     {
         $norm = self::normalize($ctx);
@@ -83,17 +64,12 @@ final class CachedPdpV2 implements PdpV2Interface
         return hash('sha256', json_encode($norm, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     }
 
-    /**
-     * @param array $a
-     *
-     * @return array
-     */
     private static function normalize(array $a): array
     {
         ksort($a);
         foreach ($a as $k => $v) {
             if (is_array($v)) {
-                /** @var array<string,mixed> $v */
+                /* @var array<string,mixed> $v */
                 $a[$k] = self::normalize($v);
             }
         }
@@ -101,15 +77,6 @@ final class CachedPdpV2 implements PdpV2Interface
         return $a;
     }
 
-    /**
-     * @param string $sid
-     * @param string $act
-     * @param string $scope
-     * @param string $ctxHash
-     * @param int    $epoch
-     *
-     * @return string
-     */
     private static function key(string $sid, string $act, string $scope, string $ctxHash, int $epoch): string
     {
         return "v2:$sid:$scope:$act:ctx:$ctxHash:se:$epoch";

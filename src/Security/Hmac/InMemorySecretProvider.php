@@ -13,11 +13,6 @@ final class InMemorySecretProvider implements SecretProviderInterface
     {
     }
 
-    /**
-     * @param string $keyId
-     *
-     * @return string|null
-     */
     public function secret(string $keyId): ?string
     {
         return $this->map[$keyId] ?? null;
