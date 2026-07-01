@@ -17,11 +17,6 @@ interface PolicyEngineInterface
      */
     public function getStrategy(): string;
 
-    /**
-     * @param VoterInterface $voter
-     *
-     * @return void
-     */
     public function addVoter(VoterInterface $voter): void;
 
     /**
@@ -29,13 +24,5 @@ interface PolicyEngineInterface
      */
     public function getVoters(): array;
 
-    /**
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource
-     * @param array  $context
-     *
-     * @return PolicyEngineDecision
-     */
     public function decide(array $subject, string $action, array $resource, array $context = []): PolicyEngineDecision;
 }

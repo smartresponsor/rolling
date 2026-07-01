@@ -15,8 +15,6 @@ interface ResilientInvokerInterface
      *
      * @param callable $fn      A function to call (may throw exceptions)
      * @param array    $options Options like maxAttempts, classifyPermanent
-     *
-     * @return mixed
      */
     public function invoke(callable $fn, array $options = []);
 }

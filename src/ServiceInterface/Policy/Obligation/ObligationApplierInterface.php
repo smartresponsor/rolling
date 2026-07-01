@@ -13,10 +13,7 @@ interface ObligationApplierInterface
     /**
      * Apply post-decision obligations (e.g., masking/redaction) to returned resource payload.
      *
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource Original resource payload
-     * @param array  $context
+     * @param array $resource Original resource payload
      *
      * @return array{resource: array, meta: array}
      */

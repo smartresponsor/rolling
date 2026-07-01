@@ -13,12 +13,6 @@ namespace App\Rolling\ServiceInterface\Rebac;
  */
 interface NamespaceConstraintInterface
 {
-    /**
-     * @param string $fromNamespace
-     * @param string $toNamespace
-     *
-     * @return bool
-     */
     public function canTraverse(string $fromNamespace, string $toNamespace): bool;
 
     /** Enforce tenant boundary: must be same tenant unless explicitly allowed. */

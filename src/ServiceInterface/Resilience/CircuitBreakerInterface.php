@@ -14,26 +14,12 @@ interface CircuitBreakerInterface
     public const string OPEN = 'open';
     public const string HALF_OPEN = 'half_open';
 
-    /**
-     * @return bool
-     */
     public function allow(): bool;
 
-    /**
-     * @return void
-     */
     public function onSuccess(): void;
 
-    /**
-     * @param \Throwable $e
-     *
-     * @return void
-     */
     public function onFailure(\Throwable $e): void;
 
-    /**
-     * @return string
-     */
     public function state(): string;
 
     /**

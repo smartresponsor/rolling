@@ -10,8 +10,5 @@ namespace App\Rolling\ServiceInterface\Resilience\Time;
 
 interface ClockInterface
 {
-    /**
-     * @return int
-     */
     public function nowMs(): int;
 }

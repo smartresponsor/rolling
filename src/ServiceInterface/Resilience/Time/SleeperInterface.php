@@ -10,10 +10,5 @@ namespace App\Rolling\ServiceInterface\Resilience\Time;
 
 interface SleeperInterface
 {
-    /**
-     * @param int $ms
-     *
-     * @return void
-     */
     public function sleepMs(int $ms): void;
 }

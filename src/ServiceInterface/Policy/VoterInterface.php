@@ -24,8 +24,5 @@ interface VoterInterface
      */
     public function vote(array $subject, string $action, array $resource, array $context = []): int;
 
-    /**
-     * @return string
-     */
     public function id(): string;
 }

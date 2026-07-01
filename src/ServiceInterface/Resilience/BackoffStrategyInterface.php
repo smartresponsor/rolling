@@ -10,15 +10,7 @@ namespace App\Rolling\ServiceInterface\Resilience;
 
 interface BackoffStrategyInterface
 {
-    /**
-     * @param int $attempt
-     *
-     * @return int
-     */
     public function nextDelayMs(int $attempt): int;
 
-    /**
-     * @return void
-     */
     public function reset(): void;
 }

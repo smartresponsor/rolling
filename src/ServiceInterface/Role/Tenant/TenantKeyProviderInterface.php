@@ -10,11 +10,6 @@ namespace App\Rolling\ServiceInterface\Role\Tenant;
 
 interface TenantKeyProviderInterface
 {
-    /**
-     * @param string $tenant
-     *
-     * @return string|null
-     */
     public function getKey(string $tenant): ?string;
 
     /**
