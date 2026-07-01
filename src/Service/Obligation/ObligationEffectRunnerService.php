@@ -17,11 +17,6 @@ use App\Rolling\ServiceInterface\Obligation\ObligationRunnerInterface;
  */
 final class ObligationEffectRunnerService implements ObligationRunnerInterface
 {
-    /**
-     * @param AuditTrailInterface $audit
-     * @param DataMaskerInterface $masker
-     * @param array               $config
-     */
     public function __construct(
         private readonly AuditTrailInterface $audit,
         private readonly DataMaskerInterface $masker,
@@ -33,13 +28,6 @@ final class ObligationEffectRunnerService implements ObligationRunnerInterface
     ) {
     }
 
-    /**
-     * @param array $decision
-     * @param array $subject
-     * @param array $resource
-     *
-     * @return array
-     */
     public function apply(array $decision, array $subject, array $resource): array
     {
         $effects = [];

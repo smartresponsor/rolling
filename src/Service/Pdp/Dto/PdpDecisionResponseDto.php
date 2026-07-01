@@ -13,12 +13,6 @@ namespace App\Rolling\Service\Pdp\Dto;
  */
 final class PdpDecisionResponseDto
 {
-    /**
-     * @param bool   $allowed
-     * @param string $ruleId
-     * @param string $reason
-     * @param float  $latencyMs
-     */
     public function __construct(
         public readonly bool $allowed,
         public readonly string $ruleId,

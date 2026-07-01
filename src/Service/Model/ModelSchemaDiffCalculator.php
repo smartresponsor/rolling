@@ -7,9 +7,6 @@ namespace App\Rolling\Service\Model;
 final class ModelSchemaDiffCalculator
 {
     /**
-     * @param array $from
-     * @param array $to
-     *
      * @return array{breaking:bool, added:list<string>, removed:list<string>, changed:list<string>}
      */
     public static function compute(array $from, array $to): array

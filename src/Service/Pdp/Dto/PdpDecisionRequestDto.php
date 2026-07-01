@@ -14,10 +14,7 @@ namespace App\Rolling\Service\Pdp\Dto;
 final class PdpDecisionRequestDto
 {
     /**
-     * @param array  $subject  @param array<string,mixed> $resource @param array<string,mixed> $context
-     * @param string $action
-     * @param array  $resource
-     * @param array  $context
+     * @param array $subject @param array<string,mixed> $resource @param array<string,mixed> $context
      */
     public function __construct(
         public readonly array $subject,

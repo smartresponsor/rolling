@@ -21,7 +21,6 @@ use App\Rolling\ServiceInterface\Pdp\BatchDecisionInterface;
  */
 final class PdpBatchDecisionService implements BatchDecisionInterface
 {
-    /** {@inheritDoc} */
     public function decideMany(array $requests): array
     {
         $out = [];

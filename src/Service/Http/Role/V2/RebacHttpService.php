@@ -15,19 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RebacHttpService
 {
-    /**
-     * @param RebacRelationshipWriter  $writer
-     * @param RebacRelationshipChecker $checker
-     */
     public function __construct(private readonly RebacRelationshipWriter $writer, private readonly RebacRelationshipChecker $checker, private readonly JsonPayloadReader $payloadReader)
     {
     }
 
-    /**
-     * @param Request $req
-     *
-     * @return JsonResponse
-     */
     public function write(Request $req): JsonResponse
     {
         $payload = RebacWritePayload::fromArray($this->payloadReader->readObject($req));
@@ -48,11 +39,6 @@ final class RebacHttpService
         return new JsonResponse(['ok' => true, 'rev' => (string) $rev]);
     }
 
-    /**
-     * @param Request $req
-     *
-     * @return JsonResponse
-     */
     public function check(Request $req): JsonResponse
     {
         $payload = RebacCheckPayload::fromArray($this->payloadReader->readObject($req));

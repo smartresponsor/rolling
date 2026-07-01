@@ -7,16 +7,8 @@ namespace App\Rolling\Service\Pipeline;
 
 final class RollingPipelineTrace
 {
-    /** @var array */
     private array $steps = [];
 
-    /**
-     * @param string $stage
-     * @param string $msg
-     * @param array  $data
-     *
-     * @return void
-     */
     public function add(string $stage, string $msg, array $data = []): void
     {
         $this->steps[] = ['stage' => $stage, 'msg' => $msg, 'data' => $data, 'ts' => gmdate('c')];

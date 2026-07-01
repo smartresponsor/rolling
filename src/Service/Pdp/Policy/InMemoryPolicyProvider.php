@@ -12,28 +12,13 @@ use App\Rolling\ServiceInterface\Pdp\PolicyDecisionProviderInterface;
 
 class InMemoryPolicyProvider implements PolicyDecisionProviderInterface
 {
-    /** @var array */
     private array $rules = [];
 
-    /**
-     * @param string $id
-     * @param array  $rule
-     *
-     * @return void
-     */
     public function addRule(string $id, array $rule): void
     {
         $this->rules[$id] = $rule;
     }
 
-    /**
-     * @param array  $subject
-     * @param string $action
-     * @param array  $resource
-     * @param array  $context
-     *
-     * @return bool
-     */
     public function isAllowed(array $subject, string $action, array $resource, array $context = []): bool
     {
         $roles = $subject['roles'] ?? [];

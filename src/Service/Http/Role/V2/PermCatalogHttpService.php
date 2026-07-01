@@ -10,18 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class PermCatalogHttpService
 {
-    /**
-     * @param PermissionCatalogSnapshotService $svc
-     */
     public function __construct(private readonly PermissionCatalogSnapshotService $svc)
     {
     }
 
-    /**
-     * @param Request $r
-     *
-     * @return JsonResponse
-     */
     public function index(Request $r): JsonResponse
     {
         $component = $r->query->get('component');

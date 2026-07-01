@@ -8,9 +8,6 @@ use App\Rolling\ServiceInterface\Model\SchemaStorageInterface;
 
 final class FileSchemaStorage implements SchemaStorageInterface
 {
-    /**
-     * @param string $path
-     */
     public function __construct(private readonly string $path)
     {
         if (!is_dir(dirname($this->path))) {
@@ -21,9 +18,6 @@ final class FileSchemaStorage implements SchemaStorageInterface
         }
     }
 
-    /**
-     * @return array
-     */
     public function load(): array
     {
         $raw = (string) @file_get_contents($this->path);
@@ -36,11 +30,6 @@ final class FileSchemaStorage implements SchemaStorageInterface
         return $data;
     }
 
-    /**
-     * @param array $state
-     *
-     * @return void
-     */
     public function save(array $state): void
     {
         file_put_contents($this->path, json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));

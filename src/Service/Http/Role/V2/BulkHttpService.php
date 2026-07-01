@@ -17,9 +17,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class BulkHttpService
 {
-    /**
-     * @param ConsistencyTokenComposer $composer
-     */
     public function __construct(private readonly PdpV2Interface $pdp, private readonly ConsistencyTokenComposer $composer)
     {
     }

@@ -7,12 +7,6 @@ namespace App\Rolling\Service\Pipeline;
 
 final class RollingPipelineDecision
 {
-    /**
-     * @param bool   $allow
-     * @param string $reason
-     * @param array  $headers
-     * @param array  $explain
-     */
     public function __construct(public bool $allow, public string $reason, public array $headers = [], public array $explain = [])
     {
     }
