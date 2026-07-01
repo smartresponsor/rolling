@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Housekeeping;
+namespace App\Rolling\Tests\Role\Housekeeping;
 
 use App\Rolling\Infrastructure\Housekeeping\PdoAuditGc;
 use PHPUnit\Framework\TestCase;
 
 final class AuditGcTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testDeletesOlderThan(): void
     {
         if (!extension_loaded('pdo_sqlite')) {

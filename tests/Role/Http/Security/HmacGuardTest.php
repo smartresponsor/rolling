@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Http\Security;
+namespace App\Rolling\Tests\Role\Http\Security;
 
 use App\Rolling\InfrastructureInterface\Security\ReplayNonceStoreInterface;
 use App\Rolling\Security\Http\HandlerInterface;

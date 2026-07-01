@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Tests\Panther;
+namespace App\Rolling\Tests\Panther;
 
-use RuntimeException;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Symfony\Component\Panther\PantherTestCase;
 
@@ -19,7 +18,7 @@ final class HealthPantherTest extends PantherTestCase
         $process = proc_open($command, [STDIN, STDOUT, STDERR], $pipes, dirname(__DIR__, 2));
 
         if (!is_resource($process)) {
-            throw new RuntimeException('Could not start the local PHP server for Panther.');
+            throw new \RuntimeException('Could not start the local PHP server for Panther.');
         }
 
         try {
@@ -47,21 +46,21 @@ final class HealthPantherTest extends PantherTestCase
 
         do {
             $body = @file_get_contents($url);
-            if ($body !== false) {
+            if (false !== $body) {
                 return;
             }
 
             usleep(100000);
         } while (microtime(true) < $deadline);
 
-        throw new RuntimeException('Timed out while waiting for the Panther web server.');
+        throw new \RuntimeException('Timed out while waiting for the Panther web server.');
     }
 
     private function reservePort(): int
     {
         $socket = @stream_socket_server('tcp://127.0.0.1:0', $errno, $errstr);
-        if ($socket === false) {
-            throw new RuntimeException(sprintf('Could not reserve a localhost port: %s', $errstr));
+        if (false === $socket) {
+            throw new \RuntimeException(sprintf('Could not reserve a localhost port: %s', $errstr));
         }
 
         $address = stream_socket_get_name($socket, false);

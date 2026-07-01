@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\E2E\Role;
+namespace App\Rolling\Tests\E2E\Role;
 
 use App\Rolling\Tests\Support\RoleFixtureCatalog;
 use App\Rolling\Tests\Support\RoleScenarioRunner;

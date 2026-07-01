@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Context;
+namespace App\Rolling\Tests\Role\Context;
 
 use App\Rolling\Integration\Http\V2\Context\ContextMerge;
 use PHPUnit\Framework\TestCase;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Acl;
+namespace App\Rolling\Tests\Role\Acl;
 
 use App\Rolling\Entity\Role\Scope;
 use App\Rolling\Entity\Role\SubjectId;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Audit;
+namespace App\Rolling\Tests\Role\Audit;
 
 use App\Rolling\Infrastructure\Audit\AuditRecord;
 use App\Rolling\Infrastructure\Audit\PdoAuditWriter;
@@ -10,9 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 final class PdoAuditWriterTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testInsertRecord(): void
     {
         if (!extension_loaded('pdo_sqlite')) {

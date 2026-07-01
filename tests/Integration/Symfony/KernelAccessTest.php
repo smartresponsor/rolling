@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\Symfony;
+namespace App\Rolling\Tests\Integration\Symfony;
 
 use App\Rolling\Infrastructure\Symfony\DependencyInjection\RoleExtension;
 use App\Rolling\Infrastructure\Symfony\EventSubscriber\HmacGuardSubscriber;
@@ -11,9 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 final class KernelAccessTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testBundleClassesExist(): void
     {
         $this->assertTrue(class_exists(RoleBundle::class));

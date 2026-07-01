@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Policy\Registry;
+namespace App\Rolling\Tests\Role\Policy\Registry;
 
 use App\Rolling\Entity\Role\PermissionKey;
 use App\Rolling\Entity\Role\Scope;

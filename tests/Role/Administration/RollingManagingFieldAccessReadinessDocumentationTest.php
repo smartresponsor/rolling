@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Administration;
+namespace App\Rolling\Tests\Role\Administration;
 
 use PHPUnit\Framework\TestCase;
 

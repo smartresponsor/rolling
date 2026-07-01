@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Observability;
+namespace App\Rolling\Tests\Role\Observability;
 
 use App\Rolling\Entity\Role\PermissionKey;
 use App\Rolling\Entity\Role\Scope;
@@ -17,19 +17,11 @@ use PHPUnit\Framework\TestCase;
 
 final class MetricsSmokeTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testExportContainsMetrics(): void
     {
         $reg = new Registry();
         $pdp = new class implements PdpV2Interface {
             /**
-             * @param SubjectId     $s
-             * @param PermissionKey $a
-             * @param Scope         $sc
-             * @param array         $c
-             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $c = []): DecisionWithObligations

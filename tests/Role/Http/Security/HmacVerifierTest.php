@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Http\Security;
+namespace App\Rolling\Tests\Role\Http\Security;
 
 use App\Rolling\Security\Http\HmacRequestVerifier;
 use PHPUnit\Framework\TestCase;
 
 final class HmacVerifierTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testVerifyOk(): void
     {
         $v = new HmacRequestVerifier('secret', 300);
@@ -26,9 +23,6 @@ final class HmacVerifierTest extends TestCase
         $this->assertTrue($res['ok']);
     }
 
-    /**
-     * @return void
-     */
     public function testVerifySkewFails(): void
     {
         $v = new HmacRequestVerifier('secret', 1);

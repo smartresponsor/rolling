@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Consistency;
+namespace App\Rolling\Tests\Role\Consistency;
 
 use App\Rolling\Service\Consistency\ConsistencyTokenSet;
 use PHPUnit\Framework\TestCase;

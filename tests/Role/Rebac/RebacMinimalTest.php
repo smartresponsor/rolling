@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Rebac;
+namespace App\Rolling\Tests\Role\Rebac;
 
 use App\Rolling\Infrastructure\Rebac\InMemoryTupleStore;
 use App\Rolling\Infrastructure\Rebac\Tuple;
@@ -12,9 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 final class RebacMinimalTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testDirectAndGroupMembership(): void
     {
         $store = new InMemoryTupleStore();

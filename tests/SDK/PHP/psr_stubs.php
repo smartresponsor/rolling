@@ -84,7 +84,7 @@ namespace Psr\Http\Client {
     }
 }
 
-namespace Tests\Support {
+namespace App\Rolling\Tests\Support {
     use Psr\Http\Client\ClientInterface;
     use Psr\Http\Message\RequestFactoryInterface;
     use Psr\Http\Message\RequestInterface;
@@ -112,9 +112,6 @@ namespace Tests\Support {
             return $this->buf;
         }
 
-        /**
-         * @return void
-         */
         public function close(): void
         {
         }
@@ -174,19 +171,10 @@ namespace Tests\Support {
             return false;
         }
 
-        /**
-         * @return void
-         */
-        /**
-         * @return void
-         */
         public function seek($o, $w = SEEK_SET): void
         {
         }
 
-        /**
-         * @return void
-         */
         public function rewind(): void
         {
         }

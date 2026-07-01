@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Form\Config;
+namespace App\Rolling\Tests\Role\Form\Config;
 
 use App\Rolling\Form\Config\RollingConfigurationRoleHierarchyFormType;
 use App\Rolling\Form\Config\RollingConfigurationRoleRuntimeFormType;

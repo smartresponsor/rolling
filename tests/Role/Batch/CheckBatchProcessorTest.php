@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Batch;
+namespace App\Rolling\Tests\Role\Batch;
 
 use App\Rolling\Entity\Role\PermissionKey;
 use App\Rolling\Entity\Role\Scope;
@@ -15,18 +15,10 @@ use PHPUnit\Framework\TestCase;
 
 final class CheckBatchProcessorTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testPartialSuccessAndIndices(): void
     {
         $inner = new class implements PdpV2Interface {
             /**
-             * @param SubjectId     $s
-             * @param PermissionKey $a
-             * @param Scope         $sc
-             * @param array         $ctx
-             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
@@ -61,18 +53,10 @@ final class CheckBatchProcessorTest extends TestCase
         $this->assertSame(10, $fail);
     }
 
-    /**
-     * @return void
-     */
     public function testMemoryStability(): void
     {
         $inner = new class implements PdpV2Interface {
             /**
-             * @param SubjectId     $s
-             * @param PermissionKey $a
-             * @param Scope         $sc
-             * @param array         $ctx
-             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations

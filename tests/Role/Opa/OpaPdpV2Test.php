@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Opa;
+namespace App\Rolling\Tests\Role\Opa;
 
 use App\Rolling\Entity\Role\PermissionKey;
 use App\Rolling\Entity\Role\Scope;

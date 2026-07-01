@@ -2,24 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Tests\SDK\PHP;
+namespace App\Rolling\Tests\SDK\PHP;
 
 require_once __DIR__.'/psr_stubs.php';
 
+use App\Rolling\Tests\Support\DummyHttpClient;
+use App\Rolling\Tests\Support\MemoryRequestFactory;
+use App\Rolling\Tests\Support\MemoryResponse;
+use App\Rolling\Tests\Support\MemoryStreamFactory;
 use PHPUnit\Framework\TestCase;
 use Role\SDK\V2\Client;
 use Role\SDK\V2\Exceptions;
 use Role\SDK\V2\Types;
-use Tests\Support\DummyHttpClient;
-use Tests\Support\MemoryRequestFactory;
-use Tests\Support\MemoryResponse;
-use Tests\Support\MemoryStreamFactory;
 
 final class ClientContractTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testCheckSuccessAndHmac(): void
     {
         $fixedTs = 1_700_000_000;
@@ -47,9 +44,6 @@ final class ClientContractTest extends TestCase
         $this->assertSame(gmdate('D, d M Y H:i:s \G\M\T', $fixedTs), $http->last->getHeaderLine('Date'));
     }
 
-    /**
-     * @return void
-     */
     public function testErrorBecomesException(): void
     {
         $http = new DummyHttpClient(fn ($req) => new MemoryResponse(401, ['Content-Type' => ['application/json']], '{"error":"unauthorized"}'));

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Audit;
+namespace App\Rolling\Tests\Role\Audit;
 
 use App\Rolling\Infrastructure\Audit\AuditRecord;
 use App\Rolling\Infrastructure\Audit\Export\JsonlExporter;
@@ -12,9 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 final class ExporterTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testJsonlExporterWritesLines(): void
     {
         $path = sys_get_temp_dir().'/audit.jsonl';
@@ -34,21 +31,12 @@ final class ExporterTest extends TestCase
         self::removeFile($path);
     }
 
-    /**
-     * @return void
-     */
     public function testRetryingExporterRetries(): void
     {
         $calls = 0;
         $inner = new class implements ExporterInterface {
             public int $calls = 0;
 
-            /**
-             * @param iterable $records
-             * @param string   $path
-             *
-             * @return void
-             */
             public function export(iterable $records, string $path): void
             {
                 ++$this->calls;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Policy;
+namespace App\Rolling\Tests\Role\Policy;
 
 use App\Rolling\Entity\Role\PermissionKey;
 use App\Rolling\Entity\Role\Scope;
@@ -18,26 +18,15 @@ use PHPUnit\Framework\TestCase;
 
 final class CachedPdpV2Test extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testHitMissAndBypass(): void
     {
         $calls = 0;
         $inner = new class($calls) implements PdpV2Interface {
-            /**
-             * @param int $calls
-             */
             public function __construct(private int &$calls)
             {
             }
 
             /**
-             * @param SubjectId     $s
-             * @param PermissionKey $a
-             * @param Scope         $sc
-             * @param array         $ctx
-             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
@@ -64,11 +53,6 @@ final class CachedPdpV2Test extends TestCase
         // bypass when obligations not empty
         $inner2 = new class implements PdpV2Interface {
             /**
-             * @param SubjectId     $s
-             * @param PermissionKey $a
-             * @param Scope         $sc
-             * @param array         $ctx
-             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
@@ -84,26 +68,15 @@ final class CachedPdpV2Test extends TestCase
         $this->assertTrue($d4->isAllow());
     }
 
-    /**
-     * @return void
-     */
     public function testInvalidationBump(): void
     {
         $calls = 0;
         $inner = new class($calls) implements PdpV2Interface {
-            /**
-             * @param int $calls
-             */
             public function __construct(private int &$calls)
             {
             }
 
             /**
-             * @param SubjectId     $s
-             * @param PermissionKey $a
-             * @param Scope         $sc
-             * @param array         $ctx
-             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations

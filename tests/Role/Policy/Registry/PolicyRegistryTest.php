@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Policy\Registry;
+namespace App\Rolling\Tests\Role\Policy\Registry;
 
 use App\Rolling\Infrastructure\Policy\Registry\InMemoryStore;
 use App\Rolling\Infrastructure\Policy\Registry\RegistryService;

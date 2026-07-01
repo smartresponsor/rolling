@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Consistency;
+namespace App\Rolling\Tests\Role\Consistency;
 
 use App\Rolling\Entity\Role\PermissionKey;
 use App\Rolling\Entity\Role\Scope;
@@ -18,9 +18,6 @@ use PHPUnit\Framework\TestCase;
 
 final class TokenAndCacheTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testCompositeTokenAndCacheInvalidation(): void
     {
         $policyRev = 1;
@@ -36,9 +33,6 @@ final class TokenAndCacheTest extends TestCase
             /** @var int */
             private $ref;
 
-            /**
-             * @param int $callsRef
-             */
             public function __construct(int &$callsRef)
             {
                 $this->calls = 0;
@@ -46,11 +40,6 @@ final class TokenAndCacheTest extends TestCase
             }
 
             /**
-             * @param SubjectId     $s
-             * @param PermissionKey $a
-             * @param Scope         $sc
-             * @param array         $ctx
-             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations

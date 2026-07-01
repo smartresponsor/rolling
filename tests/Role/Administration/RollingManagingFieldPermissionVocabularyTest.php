@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Administration;
+namespace App\Rolling\Tests\Role\Administration;
 
 use App\Rolling\Service\Administration\RollingAdministrationPermissionCatalog;
 use App\Rolling\Value\Administration\RollingFieldAccessDecision;

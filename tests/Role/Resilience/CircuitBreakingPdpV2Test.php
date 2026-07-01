@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Role\Resilience;
+namespace App\Rolling\Tests\Role\Resilience;
 
 use App\Rolling\Entity\Role\PermissionKey;
 use App\Rolling\Entity\Role\Scope;
@@ -17,58 +17,35 @@ use PHPUnit\Framework\TestCase;
 
 final class CircuitBreakingPdpV2Test extends TestCase
 {
-    /**
-     * @return SubjectId
-     */
     private function sid(): SubjectId
     {
         return new SubjectId('u1');
     }
 
-    /**
-     * @return PermissionKey
-     */
     private function act(): PermissionKey
     {
         return new PermissionKey('read');
     }
 
-    /**
-     * @return Scope
-     */
     private function sc(): Scope
     {
         return Scope::global();
     }
 
-    /**
-     * @return void
-     */
     public function testOpenAndHalfOpenFlow(): void
     {
         // fake clock
         $now = 1_700_000_000;
         $clock = new class($now) implements ClockInterface {
-            /**
-             * @param int $t
-             */
             public function __construct(private int $t)
             {
             }
 
-            /**
-             * @return int
-             */
             public function nowMs(): int
             {
                 return $this->t * 1000;
             }
 
-            /**
-             * @param int $sec
-             *
-             * @return void
-             */
             public function tick(int $sec): void
             {
                 $this->t += $sec;
@@ -78,19 +55,11 @@ final class CircuitBreakingPdpV2Test extends TestCase
         // inner fails with RemoteHttpException(500) first two times, then success
         $calls = 0;
         $inner = new class($calls) implements PdpV2Interface {
-            /**
-             * @param int $calls
-             */
             public function __construct(private int &$calls)
             {
             }
 
             /**
-             * @param SubjectId     $s
-             * @param PermissionKey $a
-             * @param Scope         $sc
-             * @param array         $ctx
-             *
              * @return \Policy\Role\V2\DecisionWithObligations
              */
             public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $ctx = []): DecisionWithObligations
