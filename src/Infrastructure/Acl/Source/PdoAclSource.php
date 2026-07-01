@@ -10,11 +10,6 @@ use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
 
 final class PdoAclSource implements AclSourceInterface
 {
-    /**
-     * @param \PDO   $pdo
-     * @param string $bindingsTable
-     * @param string $permsTable
-     */
     public function __construct(
         private readonly \PDO $pdo,
         private readonly string $bindingsTable = 'role_bindings',
@@ -22,13 +17,6 @@ final class PdoAclSource implements AclSourceInterface
     ) {
     }
 
-    /**
-     * @param SubjectId $subject
-     * @param Scope     $scope
-     * @param array     $ctx
-     *
-     * @return array
-     */
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
     {
         $key = $scope->key();
@@ -56,11 +44,6 @@ final class PdoAclSource implements AclSourceInterface
         return array_values(array_map(fn ($r) => (string) $r['role'], $stmt->fetchAll(\PDO::FETCH_ASSOC)));
     }
 
-    /**
-     * @param string $role
-     *
-     * @return array
-     */
     public function permissionsForRole(string $role): array
     {
         $stmt = $this->pdo->prepare("SELECT permission FROM {$this->permsTable} WHERE role = :r");

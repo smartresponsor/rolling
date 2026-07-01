@@ -24,16 +24,10 @@ use App\Rolling\Net\Http\SimpleHttpClientInterface;
  */
 final class GithubAclSource implements AclSourceInterface
 {
-    /** @var array */
     private array $cfg;
     private SimpleHttpClientInterface $http;
     private GithubSubjectResolverInterface $resolver;
 
-    /**
-     * @param SimpleHttpClientInterface      $http
-     * @param array                          $config
-     * @param GithubSubjectResolverInterface $resolver
-     */
     public function __construct(SimpleHttpClientInterface $http, array $config, GithubSubjectResolverInterface $resolver)
     {
         $this->http = $http;
@@ -41,13 +35,6 @@ final class GithubAclSource implements AclSourceInterface
         $this->resolver = $resolver;
     }
 
-    /**
-     * @param SubjectId $subject
-     * @param Scope     $scope
-     * @param array     $ctx
-     *
-     * @return array
-     */
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
     {
         $login = $this->resolver->githubLogin($subject);
@@ -88,25 +75,12 @@ final class GithubAclSource implements AclSourceInterface
         return array_values(array_unique($roles));
     }
 
-    /**
-     * @param string $role
-     *
-     * @return array
-     */
     public function permissionsForRole(string $role): array
     {
         // GitHub source does not own permissions; other sources provide them.
         return [];
     }
 
-    /**
-     * @param string $org
-     * @param string $team
-     * @param string $login
-     * @param array  $headers
-     *
-     * @return bool
-     */
     private function isMember(string $org, string $team, string $login, array $headers): bool
     {
         $url = "https://api.github.com/orgs/{$org}/teams/{$team}/memberships/{$login}";

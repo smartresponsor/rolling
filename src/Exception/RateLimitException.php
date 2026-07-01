@@ -6,9 +6,6 @@ namespace App\Rolling\Exception;
 
 final class RateLimitException extends ApiException
 {
-    /**
-     * @return int|null
-     */
     public function retryAfterSeconds(): ?int
     {
         $v = $this->headers['retry-after'] ?? $this->headers['Retry-After'] ?? null;

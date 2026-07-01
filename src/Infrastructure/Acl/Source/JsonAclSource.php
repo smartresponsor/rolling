@@ -10,12 +10,8 @@ use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
 
 final class JsonAclSource implements AclSourceInterface
 {
-    /** @var array */
     private array $cfg;
 
-    /**
-     * @param array|string $cfgOrPath
-     */
     public function __construct(array|string $cfgOrPath)
     {
         if (is_string($cfgOrPath)) {
@@ -26,13 +22,6 @@ final class JsonAclSource implements AclSourceInterface
         }
     }
 
-    /**
-     * @param SubjectId $subject
-     * @param Scope     $scope
-     * @param array     $ctx
-     *
-     * @return array
-     */
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
     {
         $key = $scope->key();
@@ -50,11 +39,6 @@ final class JsonAclSource implements AclSourceInterface
         return array_values(array_unique($roles));
     }
 
-    /**
-     * @param string $role
-     *
-     * @return array
-     */
     public function permissionsForRole(string $role): array
     {
         $perms = (array) (($this->cfg['roles'] ?? [])[$role] ?? []);

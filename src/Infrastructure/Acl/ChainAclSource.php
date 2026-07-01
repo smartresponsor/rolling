@@ -15,13 +15,6 @@ final class ChainAclSource implements AclSourceInterface
     {
     }
 
-    /**
-     * @param SubjectId $subject
-     * @param Scope     $scope
-     * @param array     $ctx
-     *
-     * @return array
-     */
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
     {
         $roles = [];
@@ -54,7 +47,7 @@ final class ChainAclSource implements AclSourceInterface
             $unique[$value] = true;
         }
 
-        /** @var list<string> */
+        /* @var list<string> */
         return array_keys($unique);
     }
 }

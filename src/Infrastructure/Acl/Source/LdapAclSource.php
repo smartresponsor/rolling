@@ -23,24 +23,13 @@ use App\Rolling\InfrastructureInterface\Acl\AclSourceInterface;
  */
 final class LdapAclSource implements AclSourceInterface
 {
-    /** @var array */
     private array $cfg;
 
-    /**
-     * @param array $config
-     */
     public function __construct(array $config)
     {
         $this->cfg = $config;
     }
 
-    /**
-     * @param SubjectId $subject
-     * @param Scope     $scope
-     * @param array     $ctx
-     *
-     * @return array
-     */
     public function rolesFor(SubjectId $subject, Scope $scope, array $ctx = []): array
     {
         if (!function_exists('ldap_connect')) {
@@ -102,11 +91,6 @@ final class LdapAclSource implements AclSourceInterface
         return array_values(array_unique($roles));
     }
 
-    /**
-     * @param string $role
-     *
-     * @return array
-     */
     public function permissionsForRole(string $role): array
     {
         return [];

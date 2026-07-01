@@ -21,7 +21,7 @@ final readonly class PipelineEvalBatchPayload
         $items = [];
         foreach ((array) ($payload['list'] ?? []) as $row) {
             if (is_array($row)) {
-                /** @var array<string,mixed> $row */
+                /* @var array<string,mixed> $row */
                 $items[] = PipelineEvalPayload::fromArray($row);
             }
         }

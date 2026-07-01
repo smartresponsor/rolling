@@ -23,7 +23,7 @@ final readonly class RebacWritePayload
         $tuples = [];
         foreach ((array) ($payload['tuples'] ?? []) as $tuple) {
             if (is_array($tuple)) {
-                /** @var array<string,mixed> $tuple */
+                /* @var array<string,mixed> $tuple */
                 $tuples[] = $tuple;
             }
         }
