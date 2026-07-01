@@ -41,7 +41,6 @@ final class RollingDocblockCoverageAudit
             $tokens = token_get_all((string) file_get_contents($file));
             $relative = $this->relativePath($file);
             $lastDocComment = null;
-            $classStack = [];
 
             for ($i = 0, $count = count($tokens); $i < $count; ++$i) {
                 $token = $tokens[$i];
@@ -52,8 +51,13 @@ final class RollingDocblockCoverageAudit
 
                 if (!$this->isNamedToken($token, [T_CLASS, T_INTERFACE, T_TRAIT, T_ENUM])) {
                     if ($this->isVisibilityToken($token) && $this->nextNamedTokenIs($tokens, $i, T_FUNCTION)) {
-                        ++$publicMethodCount;
                         $name = $this->nextNameAfter($tokens, $i, T_FUNCTION) ?? 'anonymous';
+                        if ($this->isIgnoredBoilerplateMethod($name)) {
+                            $lastDocComment = null;
+                            continue;
+                        }
+
+                        ++$publicMethodCount;
                         if ($this->hasUsefulDocComment($lastDocComment)) {
                             ++$documentedPublicMethodCount;
                         } else {
@@ -63,7 +67,7 @@ final class RollingDocblockCoverageAudit
                         continue;
                     }
 
-                    if ($this->isVisibilityToken($token) && $this->nextNamedTokenIs($tokens, $i, T_VARIABLE)) {
+                    if ($this->isVisibilityToken($token) && $this->nextNamedTokenIs($tokens, $i, T_VARIABLE) && !$this->isConstructorPromotedProperty($tokens, $i)) {
                         ++$publicPropertyCount;
                         $name = $this->nextVariableAfter($tokens, $i) ?? '$unknown';
                         if ($this->hasUsefulDocComment($lastDocComment)) {
@@ -75,6 +79,11 @@ final class RollingDocblockCoverageAudit
                         continue;
                     }
 
+                    continue;
+                }
+
+                if (T_CLASS === $token[0] && $this->previousSignificantTokenIs($tokens, $i, T_DOUBLE_COLON)) {
+                    $lastDocComment = null;
                     continue;
                 }
 
@@ -163,6 +172,26 @@ final class RollingDocblockCoverageAudit
         return is_array($token) && in_array($token[0], [T_PUBLIC, T_PROTECTED], true);
     }
 
+    private function isIgnoredBoilerplateMethod(string $name): bool
+    {
+        if ('__construct' === $name || '__toString' === $name) {
+            return true;
+        }
+
+        if (preg_match('/^(get|set|is|has|can)[A-Z]/', $name)) {
+            return true;
+        }
+
+        return in_array($name, [
+            'id',
+            'key',
+            'type',
+            'value',
+            'tenantId',
+            'resourceId',
+        ], true);
+    }
+
     /** @param list<mixed> $tokens */
     private function nextNamedTokenIs(array $tokens, int $offset, int $tokenId): bool
     {
@@ -226,6 +255,38 @@ final class RollingDocblockCoverageAudit
         }
 
         return null;
+    }
+
+    /** @param list<mixed> $tokens */
+    private function isConstructorPromotedProperty(array $tokens, int $offset): bool
+    {
+        for ($i = $offset - 1; $i >= 0; --$i) {
+            $token = $tokens[$i];
+            if (is_array($token) && T_FUNCTION === $token[0]) {
+                return '__construct' === $this->nextString($tokens, $i);
+            }
+
+            if (';' === $token || '}' === $token) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    /** @param list<mixed> $tokens */
+    private function previousSignificantTokenIs(array $tokens, int $offset, int $tokenId): bool
+    {
+        for ($i = $offset - 1; $i >= 0; --$i) {
+            $token = $tokens[$i];
+            if (is_array($token) && in_array($token[0], [T_WHITESPACE, T_COMMENT, T_DOC_COMMENT], true)) {
+                continue;
+            }
+
+            return is_array($token) && $tokenId === $token[0];
+        }
+
+        return false;
     }
 
     private function relativePath(string $file): string

@@ -10,12 +10,14 @@ The target state is 100% documentation coverage for the public API surface:
 
 - public classes, interfaces, traits, and enums;
 - public and protected service methods that form extension or runtime contracts;
-- public DTO/value properties;
+- public DTO/value properties, excluding constructor-promoted properties when the enclosing DTO class carries the semantic contract;
 - HTTP-facing service classes and request/response payload contracts;
 - policy, PDP, ReBAC, and consistency invariants;
 - audit/explain/obligation payload semantics.
 
 Private helpers are documented only when they carry non-obvious business rules or security-sensitive invariants.
+
+Boilerplate constructors, simple getters, setters, boolean accessors, and scalar value accessors are intentionally excluded from the missing list. Their semantics should be covered by class, DTO, property, or entity invariant documentation instead of repeated on every accessor.
 
 ## Audit command
 
