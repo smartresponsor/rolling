@@ -18,10 +18,6 @@ final class MetricsPdpV2 implements PdpV2Interface
     private Counter $req;
     private Histogram $lat;
 
-    /**
-     * @param Registry $reg
-     * @param string   $component
-     */
     public function __construct(private readonly PdpV2Interface $inner, Registry $reg, private readonly string $component = 'pdp')
     {
         $this->req = $reg->counter('role_pdp_requests_total', 'Role PDP requests', ['component', 'decision']);

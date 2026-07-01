@@ -10,10 +10,6 @@ namespace App\Rolling\Infrastructure\Housekeeping;
  */
 final class PdoAuditGc
 {
-    /**
-     * @param \PDO   $pdo
-     * @param string $table
-     */
     public function __construct(private readonly \PDO $pdo, private readonly string $table = 'role_audit')
     {
     }

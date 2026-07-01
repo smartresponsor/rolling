@@ -9,17 +9,11 @@ use App\Rolling\ServiceInterface\ObligationStoreInterface;
 
 final class ObligationFsStore implements ObligationStoreInterface
 {
-    /**
-     * @param string $baseDir
-     */
     public function __construct(private readonly string $baseDir)
     {
     } // var/policy/<tenant>/<version>/obligations.json
 
     /**
-     * @param string $tenant
-     * @param string $version
-     *
      * @return array[]
      */
     public function load(string $tenant, string $version = 'active'): array

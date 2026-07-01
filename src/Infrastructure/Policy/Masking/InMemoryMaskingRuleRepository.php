@@ -12,22 +12,13 @@ use App\Rolling\InfrastructureInterface\Policy\MaskingRuleRepositoryInterface;
 
 final class InMemoryMaskingRuleRepository implements MaskingRuleRepositoryInterface
 {
-    /** @var array */
     private array $rules;
 
-    /**
-     * @param array $seed
-     */
     public function __construct(array $seed = [])
     {
         $this->rules = $seed;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return void
-     */
     public function loadFromNdjson(string $path): void
     {
         if (!is_file($path)) {
@@ -43,14 +34,6 @@ final class InMemoryMaskingRuleRepository implements MaskingRuleRepositoryInterf
         fclose($fh);
     }
 
-    /**
-     * @param string      $resourceType
-     * @param string      $action
-     * @param string|null $tenant
-     * @param array       $roles
-     *
-     * @return array
-     */
     public function find(string $resourceType, string $action, ?string $tenant, array $roles): array
     {
         $out = [];

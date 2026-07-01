@@ -9,17 +9,10 @@ use App\Rolling\Infrastructure\Housekeeping\Archive\JsonlAuditArchiver;
 /** Оркестратор: читает config и запускает архив/GC. */
 final class Janitor
 {
-    /**
-     * @param \PDO  $pdo
-     * @param array $cfg
-     */
     public function __construct(private readonly \PDO $pdo, private readonly array $cfg)
     {
     }
 
-    /**
-     * @return array
-     */
     public function run(): array
     {
         $now = Clock::now();

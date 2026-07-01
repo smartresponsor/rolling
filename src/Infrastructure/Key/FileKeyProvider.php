@@ -16,9 +16,6 @@ use App\Rolling\ServiceInterface\Key\KeyProviderInterface;
  */
 final class FileKeyProvider implements KeyProviderInterface
 {
-    /**
-     * @param string $dir
-     */
     public function __construct(private readonly string $dir = __DIR__.'/../../../var/keys')
     {
         if (!is_dir($this->dir)) {
@@ -26,11 +23,6 @@ final class FileKeyProvider implements KeyProviderInterface
         }
     }
 
-    /**
-     * @param string $tenant
-     *
-     * @return string
-     */
     private function tenantDir(string $tenant): string
     {
         $d = $this->dir.'/'.$tenant;
@@ -61,9 +53,6 @@ final class FileKeyProvider implements KeyProviderInterface
     }
 
     /**
-     * @param string $tenant
-     * @param string $kid
-     *
      * @return string[]|null
      */
     public function getById(string $tenant, string $kid): ?array
@@ -80,11 +69,6 @@ final class FileKeyProvider implements KeyProviderInterface
         return ['kid' => (string) $j['kid'], 'material' => (string) $j['material']];
     }
 
-    /**
-     * @param string $tenant
-     *
-     * @return array
-     */
     public function rotate(string $tenant): array
     {
         $d = $this->tenantDir($tenant);

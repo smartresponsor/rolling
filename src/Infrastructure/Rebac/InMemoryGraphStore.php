@@ -16,18 +16,8 @@ use App\Rolling\ServiceInterface\Rebac\NamespaceConstraintInterface;
  */
 final class InMemoryGraphStore implements GraphStoreInterface
 {
-    /** @var array */
     private array $edges = []; // [tenant][namespace][] = edge
 
-    /**
-     * @param string $tenant
-     * @param string $namespace
-     * @param string $subject
-     * @param string $relation
-     * @param string $object
-     *
-     * @return void
-     */
     public function addEdge(string $tenant, string $namespace, string $subject, string $relation, string $object): void
     {
         $this->edges[$tenant][$namespace][] = [
@@ -35,15 +25,6 @@ final class InMemoryGraphStore implements GraphStoreInterface
         ];
     }
 
-    /**
-     * @param string $tenant
-     * @param string $namespace
-     * @param string $subject
-     * @param string $relation
-     * @param string $object
-     *
-     * @return void
-     */
     public function removeEdge(string $tenant, string $namespace, string $subject, string $relation, string $object): void
     {
         $list = &$this->edges[$tenant][$namespace];
@@ -55,13 +36,6 @@ final class InMemoryGraphStore implements GraphStoreInterface
         }));
     }
 
-    /**
-     * @param string $tenant
-     * @param string $namespace
-     * @param string $subject
-     *
-     * @return array
-     */
     public function edgesFrom(string $tenant, string $namespace, string $subject): array
     {
         $out = [];
@@ -74,16 +48,6 @@ final class InMemoryGraphStore implements GraphStoreInterface
         return $out;
     }
 
-    /**
-     * @param string                       $tenant
-     * @param string                       $startNamespace
-     * @param string                       $subject
-     * @param string                       $relation
-     * @param string                       $object
-     * @param NamespaceConstraintInterface $constraints
-     *
-     * @return bool
-     */
     public function checkAccess(string $tenant, string $startNamespace, string $subject, string $relation, string $object, NamespaceConstraintInterface $constraints): bool
     {
         // Tenant boundary check is enforced at traversal; all edges are within single tenant map anyway.

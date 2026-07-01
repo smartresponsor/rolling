@@ -12,22 +12,13 @@ use App\Rolling\InfrastructureInterface\Policy\GrantRepositoryInterface;
 
 final class InMemoryGrantRepository implements GrantRepositoryInterface
 {
-    /** @var array */
     private array $grants;
 
-    /**
-     * @param array $seed
-     */
     public function __construct(array $seed = [])
     {
         $this->grants = $seed;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return void
-     */
     public function loadFromNdjson(string $path): void
     {
         if (!is_file($path)) {
@@ -43,13 +34,6 @@ final class InMemoryGrantRepository implements GrantRepositoryInterface
         fclose($fh);
     }
 
-    /**
-     * @param string      $resourceType
-     * @param string      $action
-     * @param string|null $tenant
-     *
-     * @return array
-     */
     public function findGrants(string $resourceType, string $action, ?string $tenant): array
     {
         $out = [];

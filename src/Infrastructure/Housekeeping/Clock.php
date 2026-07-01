@@ -6,9 +6,6 @@ namespace App\Rolling\Infrastructure\Housekeeping;
 
 final class Clock
 {
-    /**
-     * @return int
-     */
     public static function now(): int
     {
         return time();

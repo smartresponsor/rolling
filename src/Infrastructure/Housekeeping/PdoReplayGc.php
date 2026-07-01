@@ -7,20 +7,10 @@ namespace App\Rolling\Infrastructure\Housekeeping;
 /** Чистит просроченные nonce из таблицы replay_nonce. */
 final class PdoReplayGc
 {
-    /**
-     * @param \PDO   $pdo
-     * @param string $table
-     */
     public function __construct(private readonly \PDO $pdo, private readonly string $table = 'replay_nonce')
     {
     }
 
-    /**
-     * @param int $nowEpoch
-     * @param int $batchSize
-     *
-     * @return int
-     */
     public function deleteExpired(int $nowEpoch, int $batchSize = 1000): int
     {
         $total = 0;

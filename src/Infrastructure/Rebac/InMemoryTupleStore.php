@@ -8,16 +8,9 @@ use App\Rolling\Service\Consistency\Rebac\RebacConsistencyToken;
 
 final class InMemoryTupleStore implements \App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface
 {
-    /** @var array */
     private array $tuples = [];
     private int $rev = 0;
 
-    /**
-     * @param string $ns
-     * @param array  $tuples
-     *
-     * @return RebacConsistencyToken
-     */
     public function write(string $ns, array $tuples): RebacConsistencyToken
     {
         foreach ($tuples as $t) {
@@ -28,12 +21,6 @@ final class InMemoryTupleStore implements \App\Rolling\InfrastructureInterface\R
         return new RebacConsistencyToken($this->rev);
     }
 
-    /**
-     * @param string $ns
-     * @param Tuple  $tuple
-     *
-     * @return RebacConsistencyToken
-     */
     public function delete(string $ns, Tuple $tuple): RebacConsistencyToken
     {
         $subjectRelation = $tuple->subjRel;
@@ -48,14 +35,6 @@ final class InMemoryTupleStore implements \App\Rolling\InfrastructureInterface\R
         return new RebacConsistencyToken($this->rev);
     }
 
-    /**
-     * @param string $ns
-     * @param string $objType
-     * @param string $objId
-     * @param string $relation
-     *
-     * @return iterable
-     */
     public function readByObject(string $ns, string $objType, string $objId, string $relation): iterable
     {
         foreach ($this->tuples as $t) {
@@ -65,14 +44,6 @@ final class InMemoryTupleStore implements \App\Rolling\InfrastructureInterface\R
         }
     }
 
-    /**
-     * @param string      $ns
-     * @param string      $subjType
-     * @param string      $subjId
-     * @param string|null $subjRel
-     *
-     * @return iterable
-     */
     public function readBySubject(string $ns, string $subjType, string $subjId, ?string $subjRel = null): iterable
     {
         foreach ($this->tuples as $t) {
@@ -82,9 +53,6 @@ final class InMemoryTupleStore implements \App\Rolling\InfrastructureInterface\R
         }
     }
 
-    /**
-     * @return RebacConsistencyToken
-     */
     public function currentToken(): RebacConsistencyToken
     {
         return new RebacConsistencyToken($this->rev);
