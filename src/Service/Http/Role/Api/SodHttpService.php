@@ -18,11 +18,6 @@ final class SodHttpService
     ) {
     }
 
-    /**
-     * @param Request $r
-     *
-     * @return JsonResponse
-     */
     public function check(Request $r): JsonResponse
     {
         $payload = SodCheckPayload::fromArray($this->payloadReader->readObject($r));

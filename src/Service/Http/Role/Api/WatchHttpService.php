@@ -11,9 +11,6 @@ final class WatchHttpService
 {
     private string $path;
 
-    /**
-     * @param string $streamPath
-     */
     public function __construct(string $streamPath = __DIR__.'/../../../../var/tuples.ndjson')
     {
         $this->path = $streamPath;

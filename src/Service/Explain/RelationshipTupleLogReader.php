@@ -10,9 +10,6 @@ namespace App\Rolling\Service\Explain;
  */
 final class RelationshipTupleLogReader
 {
-    /**
-     * @param string $path
-     */
     public function __construct(private readonly string $path = __DIR__.'/../../../../var/tuples.ndjson')
     {
     }

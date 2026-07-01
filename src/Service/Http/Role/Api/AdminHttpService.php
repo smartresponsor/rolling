@@ -17,9 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class AdminHttpService
 {
-    /**
-     * @param string $baseDir
-     */
     public function __construct(
         private readonly JsonPayloadReader $payloadReader,
         private readonly string $baseDir = __DIR__.'/../../../../var',

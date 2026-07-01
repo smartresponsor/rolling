@@ -19,11 +19,6 @@ final class WhatIfHttpService
     {
     }
 
-    /**
-     * @param Request $r
-     *
-     * @return JsonResponse
-     */
     public function run(Request $r): JsonResponse
     {
         $payload = WhatIfPayload::fromArray($this->payloadReader->readObject($r));

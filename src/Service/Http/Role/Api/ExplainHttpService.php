@@ -18,11 +18,6 @@ final class ExplainHttpService
     {
     }
 
-    /**
-     * @param Request $req
-     *
-     * @return JsonResponse
-     */
     public function explain(Request $req): JsonResponse
     {
         $payload = PipelineEvalPayload::fromArray($this->payloadReader->readObject($req));

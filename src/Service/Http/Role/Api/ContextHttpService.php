@@ -11,11 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class ContextHttpService
 {
-    /**
-     * @param Request $r
-     *
-     * @return JsonResponse
-     */
     public function capture(Request $r): JsonResponse
     {
         $h = (new HeaderRequestContextReader())->capture($r);

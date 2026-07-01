@@ -25,10 +25,6 @@ final class TenantAdminHttpService
     private TenantBackupArchiveWriter $backup;
     private TenantBackupArchiveRestorer $restore;
 
-    /**
-     * @param string $secretPath
-     * @param string $varDir
-     */
     public function __construct(
         private readonly JsonPayloadReader $payloadReader,
         string $secretPath = __DIR__.'/../../../../../var/admin_secret.txt',
@@ -41,11 +37,6 @@ final class TenantAdminHttpService
         $this->restore = new TenantBackupArchiveRestorer($varDir);
     }
 
-    /**
-     * @param Request $req
-     *
-     * @return JsonResponse
-     */
     public function quotaGet(Request $req): JsonResponse
     {
         if (!$this->voter->isAdmin($req)) {
@@ -60,11 +51,6 @@ final class TenantAdminHttpService
         return new JsonResponse(['ok' => true, 'tenant' => $tenant, 'limit' => $limit]);
     }
 
-    /**
-     * @param Request $req
-     *
-     * @return JsonResponse
-     */
     public function quotaSet(Request $req): JsonResponse
     {
         if (!$this->voter->isAdmin($req)) {
@@ -79,11 +65,6 @@ final class TenantAdminHttpService
         return new JsonResponse(['ok' => true, 'tenant' => $payload->tenant, 'limit' => ['limit_per_min' => $payload->perMinute]]);
     }
 
-    /**
-     * @param Request $req
-     *
-     * @return JsonResponse
-     */
     public function backup(Request $req): JsonResponse
     {
         if (!$this->voter->isAdmin($req)) {
@@ -98,11 +79,6 @@ final class TenantAdminHttpService
         return new JsonResponse($res, $res['ok'] ? 200 : 500);
     }
 
-    /**
-     * @param Request $req
-     *
-     * @return JsonResponse
-     */
     public function restore(Request $req): JsonResponse
     {
         if (!$this->voter->isAdmin($req, [Roles::OWNER])) {

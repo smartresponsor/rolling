@@ -14,10 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class CheckHttpService
 {
-    /**
-     * @param string $tuplesPath
-     * @param string $logDir
-     */
     public function __construct(
         private readonly JsonPayloadReader $payloadReader,
         private readonly string $tuplesPath = __DIR__.'/../../../../var/tuples.ndjson',
@@ -25,11 +21,6 @@ final class CheckHttpService
     ) {
     }
 
-    /**
-     * @param Request $req
-     *
-     * @return JsonResponse
-     */
     public function check(Request $req): JsonResponse
     {
         $payload = RoleCheckPayload::fromArray($this->payloadReader->readObject($req));

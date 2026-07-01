@@ -8,9 +8,6 @@ final class DecisionExplanationDotRenderer
 {
     /**
      * @param array $nodes @param list<array{from:string,to:string,label:string}> $edges
-     * @param array $edges
-     *
-     * @return string
      */
     public static function toDot(array $nodes, array $edges): string
     {

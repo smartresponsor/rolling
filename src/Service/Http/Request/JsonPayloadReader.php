@@ -23,7 +23,7 @@ final class JsonPayloadReader
             return [];
         }
 
-        /** @var array<string,mixed> $decoded */
+        /* @var array<string,mixed> $decoded */
         return $decoded;
     }
 
@@ -45,7 +45,7 @@ final class JsonPayloadReader
         $items = [];
         foreach ($decoded as $item) {
             if (is_array($item)) {
-                /** @var array<string,mixed> $item */
+                /* @var array<string,mixed> $item */
                 $items[] = $item;
             }
         }
