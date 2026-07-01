@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace App\Rolling\Entity\Role;
 
+use App\Objecting\EntityInterface\ObjectStatefulInterface;
+use App\Objecting\EntityTrait\Embeddable\ObjectStateEmbeddableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: \App\Rolling\Repository\Role\RoleRepository::class)]
 #[ORM\Table(name: 'rolling_role')]
 #[ORM\UniqueConstraint(name: 'uniq_rolling_role_key', columns: ['role_key'])]
-#[ORM\Index(name: 'idx_rolling_role_enabled', columns: ['enabled'])]
-class RoleEntity
+#[ORM\Index(name: 'idx_rolling_role_object_enabled', columns: ['object_enabled'])]
+class RoleEntity implements ObjectStatefulInterface
 {
+    use ObjectStateEmbeddableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -26,13 +30,11 @@ class RoleEntity
     #[ORM\Column(name: 'system_role', type: 'boolean')]
     private bool $systemRole = false;
 
-    #[ORM\Column(name: 'enabled', type: 'boolean')]
-    private bool $enabled = true;
-
     public function __construct(string $roleKey = '', string $label = '')
     {
         $this->roleKey = $roleKey;
         $this->label = '' !== $label ? $label : $roleKey;
+        $this->initializeObjectState();
     }
 
     public function id(): ?int
@@ -98,17 +100,17 @@ class RoleEntity
 
     public function enabled(): bool
     {
-        return $this->enabled;
+        return $this->isObjectEnabled();
     }
 
     public function isEnabled(): bool
     {
-        return $this->enabled;
+        return $this->isObjectEnabled();
     }
 
     public function setEnabled(bool $enabled): self
     {
-        $this->enabled = $enabled;
+        $this->setObjectEnabled($enabled);
 
         return $this;
     }

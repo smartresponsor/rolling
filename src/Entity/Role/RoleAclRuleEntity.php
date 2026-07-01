@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace App\Rolling\Entity\Role;
 
+use App\Objecting\EntityInterface\ObjectStatefulInterface;
+use App\Objecting\EntityTrait\Embeddable\ObjectStateEmbeddableTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: \App\Rolling\Repository\Role\RoleAclRuleRepository::class)]
 #[ORM\Table(name: 'rolling_acl_rule')]
+#[ORM\Index(name: 'idx_rolling_acl_rule_object_enabled', columns: ['object_enabled'])]
 #[ORM\Index(name: 'idx_rolling_acl_rule_subject', columns: ['subject_identifier'])]
 #[ORM\Index(name: 'idx_rolling_acl_rule_permission', columns: ['permission_key'])]
 #[ORM\Index(name: 'idx_rolling_acl_rule_subject_permission', columns: ['subject_identifier', 'permission_key'])]
-class RoleAclRuleEntity
+class RoleAclRuleEntity implements ObjectStatefulInterface
 {
+    use ObjectStateEmbeddableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -35,9 +40,6 @@ class RoleAclRuleEntity
     #[ORM\Column(name: 'conditions', type: Types::JSON)]
     private array $conditions = [];
 
-    #[ORM\Column(name: 'enabled', type: 'boolean')]
-    private bool $enabled = true;
-
     /** @param array<string, mixed> $conditions */
     public function __construct(string $subjectIdentifier = '', string $permissionKey = '', string $scopeKey = 'global', string $effect = 'allow', array $conditions = [])
     {
@@ -46,6 +48,7 @@ class RoleAclRuleEntity
         $this->scopeKey = '' !== $scopeKey ? $scopeKey : 'global';
         $this->effect = in_array($effect, ['allow', 'deny'], true) ? $effect : 'allow';
         $this->conditions = $conditions;
+        $this->initializeObjectState();
     }
 
     public function id(): ?int
@@ -150,17 +153,17 @@ class RoleAclRuleEntity
 
     public function enabled(): bool
     {
-        return $this->enabled;
+        return $this->isObjectEnabled();
     }
 
     public function isEnabled(): bool
     {
-        return $this->enabled;
+        return $this->isObjectEnabled();
     }
 
     public function setEnabled(bool $enabled): self
     {
-        $this->enabled = $enabled;
+        $this->setObjectEnabled($enabled);
 
         return $this;
     }

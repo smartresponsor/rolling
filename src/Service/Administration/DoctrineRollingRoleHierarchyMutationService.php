@@ -197,9 +197,9 @@ final readonly class DoctrineRollingRoleHierarchyMutationService implements Roll
     private function enabledHierarchyAdjacency(string $proposedParentRoleKey, string $proposedChildRoleKey): array
     {
         $adjacency = [];
-        $edges = $this->manager()->getRepository(RoleHierarchyEntity::class)->findBy(['enabled' => true]);
+        $edges = $this->manager()->getRepository(RoleHierarchyEntity::class)->findAll();
         foreach ($edges as $edge) {
-            if (!$edge instanceof RoleHierarchyEntity) {
+            if (!$edge instanceof RoleHierarchyEntity || !$edge->isEnabled()) {
                 continue;
             }
 
