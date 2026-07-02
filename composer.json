@@ -4,20 +4,21 @@
   "type": "symfony-bundle",
   "license": "MIT",
   "require": {
-    "configuring/config": "dev-master",
-    "doctrine/dbal": "^4.0",
-    "doctrine/doctrine-bundle": "^3.0",
-    "doctrine/doctrine-migrations-bundle": "^4.0",
-    "doctrine/orm": "^3.0",
-    "easycorp/easyadmin-bundle": "^5.0",
+    "php": "^8.4",
     "ext-ctype": "*",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
     "ext-openssl": "*",
     "ext-pdo": "*",
+    "configuring/config": "dev-master",
+    "cruding/crud": "dev-master",
+    "doctrine/dbal": "^4.0",
+    "doctrine/doctrine-bundle": "^3.0",
+    "doctrine/doctrine-migrations-bundle": "^4.0",
+    "doctrine/orm": "^3.0",
+    "easycorp/easyadmin-bundle": "^5.0",
     "objecting/object": "dev-master",
-    "php": "^8.4",
     "psr/simple-cache": "^3.0",
     "symfony/config": "^8.0",
     "symfony/dependency-injection": "^8.0",
@@ -93,6 +94,13 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "repositories": [
+    {
+      "type": "path",
+      "url": "../Cruding",
+      "options": {
+        "symlink": true
+      }
+    },
     {
       "type": "path",
       "url": "../Objecting",
