@@ -11,9 +11,9 @@ use App\Rolling\Tests\Support\MemoryRequestFactory;
 use App\Rolling\Tests\Support\MemoryResponse;
 use App\Rolling\Tests\Support\MemoryStreamFactory;
 use PHPUnit\Framework\TestCase;
-use Role\SDK\V2\Client;
-use Role\SDK\V2\Exceptions;
-use Role\SDK\V2\Types;
+use Rolling\SDK\V2\Client;
+use Rolling\SDK\V2\Exceptions;
+use Rolling\SDK\V2\Types;
 
 final class ClientContractTest extends TestCase
 {

@@ -2,6 +2,7 @@ parameters:
   level: 0
   paths:
     - src
+    - SDK/php
     - tests
   tmpDir: var/cache/phpstan
   excludePaths:

@@ -52,7 +52,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "App\\Rolling\\Tests\\": "tests/"
+      "App\\Rolling\\Tests\\": "tests/",
+      "Rolling\\SDK\\V2\\": "SDK/php/"
     },
     "exclude-from-classmap": [
       "tests/SDK/PHP/psr_stubs.php"
