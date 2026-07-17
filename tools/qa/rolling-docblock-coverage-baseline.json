@@ -1,11 +1,17 @@
 {
   "classes": {
+    "documented": 171,
+    "missing": 174,
     "coverage": 49.57
   },
   "public_methods": {
+    "documented": 254,
+    "missing": 364,
     "coverage": 41.1
   },
   "public_properties": {
+    "documented": 0,
+    "missing": 0,
     "coverage": 100.0
   }
 }

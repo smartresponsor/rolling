@@ -124,7 +124,7 @@ final class RollingDocblockCoverageAudit
         ];
     }
 
-    /** @return array<string, array{coverage: float}> */
+    /** @return array<string, array{documented: int, missing: int, coverage: float}> */
     private function loadBaseline(): array
     {
         $path = $this->root.DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, self::BASELINE_FILE);
@@ -138,29 +138,37 @@ final class RollingDocblockCoverageAudit
     }
 
     /**
-     * @param array<string, array{coverage: float}> $summary
-     * @param array<string, array{coverage: float}> $baseline
+     * @param array<string, array{documented: int, missing: int, coverage: float}> $summary
+     * @param array<string, array{documented: int, missing: int, coverage: float}> $baseline
      *
-     * @return list<array{metric: string, baseline: float, actual: float}>
+     * @return list<array{metric: string, measurement: string, baseline: int|float, actual: int|float}>
      */
     private function findRegressions(array $summary, array $baseline): array
     {
         $regressions = [];
         foreach ($baseline as $metric => $expected) {
-            $actualCoverage = $summary[$metric]['coverage'] ?? null;
-            $baselineCoverage = $expected['coverage'] ?? null;
-            if (!is_float($actualCoverage) && !is_int($actualCoverage)) {
+            if (!isset($summary[$metric])) {
                 throw new RuntimeException(sprintf('Missing docblock coverage metric "%s".', $metric));
             }
-            if (!is_float($baselineCoverage) && !is_int($baselineCoverage)) {
-                throw new RuntimeException(sprintf('Invalid baseline coverage metric "%s".', $metric));
-            }
-            if ((float) $actualCoverage < (float) $baselineCoverage) {
-                $regressions[] = [
-                    'metric' => $metric,
-                    'baseline' => (float) $baselineCoverage,
-                    'actual' => (float) $actualCoverage,
-                ];
+
+            foreach (['documented', 'missing', 'coverage'] as $measurement) {
+                $actual = $summary[$metric][$measurement] ?? null;
+                $baselineValue = $expected[$measurement] ?? null;
+                if ((!is_float($actual) && !is_int($actual)) || (!is_float($baselineValue) && !is_int($baselineValue))) {
+                    throw new RuntimeException(sprintf('Invalid docblock baseline measurement "%s.%s".', $metric, $measurement));
+                }
+
+                $regressed = 'missing' === $measurement
+                    ? $actual > $baselineValue
+                    : $actual < $baselineValue;
+                if ($regressed) {
+                    $regressions[] = [
+                        'metric' => $metric,
+                        'measurement' => $measurement,
+                        'baseline' => $baselineValue,
+                        'actual' => $actual,
+                    ];
+                }
             }
         }
 
