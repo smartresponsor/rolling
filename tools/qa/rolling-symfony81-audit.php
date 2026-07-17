@@ -120,9 +120,9 @@ $checks = [
     'httpclient_cache_ttl_candidates' => rolling81ScanPattern(
         $textFiles,
         $root,
-        '/CachingHttpClient|HttpClient|CacheInterface|Psr16|SimpleCache|ttl|TTL|max_ttl|maxTtl|null\s*\)/i',
+        '/\\b(?:CachingHttpClient|max_ttl|maxTtl)\\b|Symfony\\\\\\\\Contracts\\\\\\\\HttpClient\\\\\\\\HttpClientInterface|Symfony\\\\\\\\Component\\\\\\\\HttpClient\\\\\\\\/i',
         'review',
-        'Audit cache TTL assumptions; Symfony 8.1 defaults CachingHttpClient maxTtl to 86400s.'
+        'Audit Symfony HttpClient cache TTL assumptions; Symfony 8.1 defaults CachingHttpClient maxTtl to 86400s.'
     ),
     'console_execution_result_candidates' => rolling81ScanPattern(
         array_values(array_unique(array_merge($testPhpFiles, $commandPhpFiles))),
