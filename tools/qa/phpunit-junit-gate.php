@@ -73,6 +73,14 @@ $tests = (int) ($xml['tests'] ?? 0);
 $failures = (int) ($xml['failures'] ?? 0);
 $errors = (int) ($xml['errors'] ?? 0);
 
+if (0 === $tests && 'testsuites' === $xml->getName()) {
+    foreach ($xml->testsuite as $suite) {
+        $tests += (int) ($suite['tests'] ?? 0);
+        $failures += (int) ($suite['failures'] ?? 0);
+        $errors += (int) ($suite['errors'] ?? 0);
+    }
+}
+
 if (0 !== $exitCode || 0 === $tests || 0 < $failures || 0 < $errors) {
     fwrite(STDERR, sprintf(
         "PHPUnit gate failed: exit=%d tests=%d failures=%d errors=%d.\n",

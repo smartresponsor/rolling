@@ -88,7 +88,7 @@ final class CircuitBreakingPdpV2Test extends TestCase
         } catch (\Throwable $e) {
         }
         $this->assertFalse($res2->isAllow(), 'fallback deny');
-        $this->assertStringContainsString('circuit_breaker', $res2->reason);
+        $this->assertStringContainsString('circuit_breaker', $res2->reason());
 
         // still open before window passes
         try {
