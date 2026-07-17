@@ -22,7 +22,7 @@ Feature-complete baseline for Role:
 ## Known limitations
 
 - Storage: dev-grade NDJSON for tuples (no external DB). Not HA.
-- Strong consistency is stub-level for dev mode.
+- Strong consistency is limited to development-mode behavior.
 - Perf targets are not locked; see add-ons below.
 
 ## Add‑ons (post‑RC4 tracks, renamed from D11–D12)

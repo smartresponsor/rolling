@@ -14,5 +14,5 @@ cat report/mask_demo.json
 
 ## Notes
 
-- EN-only comments; single-hyphen naming; layer-first isolation; no stubs/TODO.
+- EN-only comments; single-hyphen naming; layer-first isolation; complete implementation notes only.
 - Extend with DB/secret-store backed repository and field-level codecs if needed.
