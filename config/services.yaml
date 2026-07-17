@@ -26,7 +26,9 @@ services:
       - '../src/Service/Attribute/AttributeContextResolverService.php'
       - '../src/Service/Obligation/'
 
-  App\Rolling\ServiceInterface\Cruding\RollingCrudResourceDefinitionProviderInterface: '@App\Rolling\Service\Cruding\RollingCrudResourceDefinitionProvider'
+  App\Rolling\ServiceInterface\Cruding\RollingCrudResourceDefinitionProviderInterface:
+    alias: 'App\Rolling\Service\Cruding\RollingCrudResourceDefinitionProvider'
+    public: true
 
   App\Rolling\Service\Config\RollingConfigurationRoleRuntimeService:
     arguments:
@@ -156,6 +158,8 @@ services:
 
   App\Rolling\Controller\Admin\:
     resource: '../src/Controller/Admin/'
+    exclude:
+      - '../src/Controller/Admin/RollingPermissionCrudController.php'
     public: true
     tags: ['controller.service_arguments']
 

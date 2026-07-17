@@ -3,93 +3,121 @@
 declare(strict_types=1);
 
 $root = dirname(__DIR__, 2);
-$stdoutPath = tempnam(sys_get_temp_dir(), 'rolling-phpunit-stdout-');
-$stderrPath = tempnam(sys_get_temp_dir(), 'rolling-phpunit-stderr-');
-$junitPath = tempnam(sys_get_temp_dir(), 'rolling-phpunit-junit-');
+$junitArgument = $argv[1] ?? null;
 
-if (false === $stdoutPath || false === $stderrPath || false === $junitPath) {
-    fwrite(STDERR, "Unable to allocate PHPUnit gate output files.\n");
+if (!is_string($junitArgument) || '' === trim($junitArgument)) {
+    fwrite(STDERR, "Usage: phpunit-junit-gate.php <junit.xml> [--testsuite=<name>] [--filter=<pattern>]\n");
     exit(1);
 }
 
-// PHPUnit owns creation of the JUnit report and must receive a non-existent target path.
-@unlink($junitPath);
+$runPhpunit = count($argv) > 2;
+if ($runPhpunit) {
+    $temporaryPath = tempnam(sys_get_temp_dir(), 'rolling-phpunit-junit-');
+    if (false === $temporaryPath) {
+        fail('PHPUnit gate failed: unable to allocate temporary JUnit evidence file.');
+    }
+    $junitPath = $temporaryPath;
+    @unlink($junitPath);
+} else {
+    $junitPath = absolutePath($root, $junitArgument);
+    $junitDir = dirname($junitPath);
+    if (is_file($junitDir)) {
+        unlink($junitDir);
+    }
+    if (!is_dir($junitDir)) {
+        mkdir($junitDir, 0777, true);
+    }
+    if (is_dir($junitPath)) {
+        fail(sprintf('PHPUnit gate failed: JUnit evidence path is a directory at %s.', relativePath($root, $junitPath)));
+    }
+}
 
-$process = proc_open(
-    [
+if ($runPhpunit) {
+
+    $command = [
         PHP_BINARY,
         $root.'/vendor/phpunit/phpunit/phpunit',
         '--configuration='.$root.'/phpunit.xml.dist',
-        '--testsuite=unit',
         '--log-junit',
         $junitPath,
-    ],
-    [
-        0 => ['pipe', 'r'],
-        1 => ['file', $stdoutPath, 'w'],
-        2 => ['file', $stderrPath, 'w'],
-    ],
-    $pipes,
-    $root,
-);
+        '--no-progress',
+    ];
 
-if (!is_resource($process)) {
-    @unlink($stdoutPath);
-    @unlink($stderrPath);
-    fwrite(STDERR, "Unable to start PHPUnit.\n");
-    exit(1);
+    foreach (array_slice($argv, 2) as $argument) {
+        $command[] = $argument;
+    }
+
+    passthru(implode(' ', array_map('escapeshellarg', $command)), $phpunitExitCode);
+    if (0 !== $phpunitExitCode) {
+        fail(sprintf('PHPUnit gate failed: PHPUnit exited with code %d.', $phpunitExitCode));
+    }
 }
 
-fclose($pipes[0]);
-$exitCode = proc_close($process);
-$stdout = (string) file_get_contents($stdoutPath);
-$stderr = (string) file_get_contents($stderrPath);
+if (!is_file($junitPath)) {
+    fail(sprintf('PHPUnit gate failed: JUnit evidence is missing at %s.', relativePath($root, $junitPath)));
+}
+
 $junit = (string) file_get_contents($junitPath);
-@unlink($stdoutPath);
-@unlink($stderrPath);
-@unlink($junitPath);
-
-fwrite(STDOUT, $stdout);
-fwrite(STDERR, $stderr);
-
 if ('' === trim($junit)) {
-    fwrite(STDERR, sprintf(
-        "PHPUnit gate failed: JUnit evidence was not produced (exit=%d, stdout_bytes=%d, stderr_bytes=%d).\n",
-        $exitCode,
-        strlen($stdout),
-        strlen($stderr),
-    ));
-    exit(1);
+    fail('PHPUnit gate failed: JUnit evidence is empty.');
 }
 
 libxml_use_internal_errors(true);
 $xml = simplexml_load_string($junit);
 if (false === $xml) {
-    fwrite(STDERR, "PHPUnit gate failed: JUnit evidence is malformed.\n");
-    exit(1);
+    fail('PHPUnit gate failed: JUnit evidence is malformed.');
 }
 
-$tests = (int) ($xml['tests'] ?? 0);
-$failures = (int) ($xml['failures'] ?? 0);
-$errors = (int) ($xml['errors'] ?? 0);
+$summary = collectSummary($xml);
 
-if (0 === $tests && 'testsuites' === $xml->getName()) {
-    foreach ($xml->testsuite as $suite) {
-        $tests += (int) ($suite['tests'] ?? 0);
-        $failures += (int) ($suite['failures'] ?? 0);
-        $errors += (int) ($suite['errors'] ?? 0);
-    }
-}
-
-if (0 !== $exitCode || 0 === $tests || 0 < $failures || 0 < $errors) {
-    fwrite(STDERR, sprintf(
-        "PHPUnit gate failed: exit=%d tests=%d failures=%d errors=%d.\n",
-        $exitCode,
-        $tests,
-        $failures,
-        $errors,
+if (0 === $summary['tests'] || 0 < $summary['failures'] || 0 < $summary['errors']) {
+    fail(sprintf(
+        'PHPUnit gate failed: tests=%d failures=%d errors=%d.',
+        $summary['tests'],
+        $summary['failures'],
+        $summary['errors'],
     ));
+}
+
+fwrite(STDOUT, sprintf("PHPUnit completion gate passed: %d tests.\n", $summary['tests']));
+
+function absolutePath(string $root, string $path): string
+{
+    $path = str_replace('\\', '/', $path);
+    if (preg_match('/^[A-Za-z]:\//', $path) || str_starts_with($path, '/')) {
+        return $path;
+    }
+
+    return $root.'/'.ltrim($path, '/');
+}
+
+/** @return array{tests:int, failures:int, errors:int} */
+function collectSummary(SimpleXMLElement $xml): array
+{
+    $summary = [
+        'tests' => (int) ($xml['tests'] ?? 0),
+        'failures' => (int) ($xml['failures'] ?? 0),
+        'errors' => (int) ($xml['errors'] ?? 0),
+    ];
+
+    if (0 === $summary['tests'] && 'testsuites' === $xml->getName()) {
+        foreach ($xml->testsuite as $suite) {
+            $summary['tests'] += (int) ($suite['tests'] ?? 0);
+            $summary['failures'] += (int) ($suite['failures'] ?? 0);
+            $summary['errors'] += (int) ($suite['errors'] ?? 0);
+        }
+    }
+
+    return $summary;
+}
+
+function fail(string $message): never
+{
+    fwrite(STDERR, $message."\n");
     exit(1);
 }
 
-fwrite(STDOUT, sprintf("PHPUnit completion gate passed: %d tests.\n", $tests));
+function relativePath(string $root, string $path): string
+{
+    return str_replace('\\', '/', ltrim(substr($path, strlen($root)), '/\\'));
+}

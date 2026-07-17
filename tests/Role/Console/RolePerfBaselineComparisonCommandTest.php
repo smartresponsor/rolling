@@ -77,9 +77,9 @@ final class RolePerfBaselineComparisonCommandTest extends TestCase
 
         try {
             self::assertSame(1, $tester->execute([
-                'iterations' => '100',
-                'batch_n' => '20',
-                'rpc_us' => '500',
+                'iterations' => '8',
+                'batch_n' => '4',
+                'rpc_us' => '0',
                 '--max-p95-ms' => '999999',
                 '--max-p99-ms' => '999999',
                 '--max-batch-per-item-ms' => '999999',

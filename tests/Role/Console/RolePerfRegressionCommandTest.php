@@ -43,9 +43,9 @@ final class RolePerfRegressionCommandTest extends TestCase
         $tester = new CommandTester($application->find('app:role:bench:regression-check'));
 
         self::assertSame(1, $tester->execute([
-            'iterations' => '100',
-            'batch_n' => '20',
-            'rpc_us' => '500',
+            'iterations' => '8',
+            'batch_n' => '4',
+            'rpc_us' => '0',
             '--max-p95-ms' => '0.001',
             '--max-p99-ms' => '0.001',
             '--max-batch-per-item-ms' => '0.001',

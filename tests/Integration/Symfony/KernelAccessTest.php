@@ -9,6 +9,7 @@ use App\Rolling\Infrastructure\Symfony\RoleBundle;
 use App\Rolling\Service\Cruding\RollingCrudResourceDefinitionProvider;
 use App\Rolling\Service\Http\Role\HealthHttpService;
 use App\Rolling\ServiceInterface\Cruding\RollingCrudResourceDefinitionProviderInterface;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -37,6 +38,7 @@ final class KernelAccessTest extends TestCase
             self::assertTrue($container->has(HealthHttpService::class));
         } finally {
             $kernel->shutdown();
+            self::restoreSymfonyHandlers();
         }
     }
 
@@ -51,7 +53,14 @@ final class KernelAccessTest extends TestCase
             self::assertNotNull($routes->get('role_access_check'));
         } finally {
             $kernel->shutdown();
+            self::restoreSymfonyHandlers();
         }
+    }
+
+    private static function restoreSymfonyHandlers(): void
+    {
+        restore_exception_handler();
+        restore_error_handler();
     }
 }
 
@@ -61,6 +70,7 @@ final class RollingHostSmokeKernel extends Kernel
     {
         return [
             new FrameworkBundle(),
+            new DoctrineBundle(),
             new TwigBundle(),
             new RoleBundle(),
         ];
@@ -80,6 +90,25 @@ final class RollingHostSmokeKernel extends Kernel
                 'handle_all_throwables' => true,
             ]);
 
+            $container->loadFromExtension('doctrine', [
+                'dbal' => [
+                    'driver' => 'pdo_sqlite',
+                    'memory' => true,
+                ],
+                'orm' => [
+                    'auto_mapping' => false,
+                    'mappings' => [
+                        'Rolling' => [
+                            'is_bundle' => false,
+                            'type' => 'attribute',
+                            'dir' => '%kernel.project_dir%/src/Entity',
+                            'prefix' => 'App\\Rolling\\Entity',
+                            'alias' => 'Rolling',
+                        ],
+                    ],
+                ],
+            ]);
+
             $container->loadFromExtension('twig', [
                 'strict_variables' => true,
                 'paths' => [],
@@ -89,12 +118,12 @@ final class RollingHostSmokeKernel extends Kernel
 
     public function getCacheDir(): string
     {
-        return dirname(__DIR__, 3).'/var/cache/host-smoke/'.$this->environment;
+        return sys_get_temp_dir().'/rolling-host-smoke/cache/'.$this->environment.'/'.getmypid();
     }
 
     public function getLogDir(): string
     {
-        return dirname(__DIR__, 3).'/var/log/host-smoke';
+        return sys_get_temp_dir().'/rolling-host-smoke/log/'.getmypid();
     }
 
     public function getProjectDir(): string
