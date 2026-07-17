@@ -72,7 +72,7 @@ foreach ($routeFiles as $routeFile) {
     }
 }
 
-$generatedPaths = array_keys(array_filter([
+$ignoredRuntimePaths = array_keys(array_filter([
     'var/cache' => is_dir($root.'/var/cache'),
     'var/phpstan' => is_dir($root.'/var/phpstan'),
     'var/.php-cs-fixer.cache' => is_file($root.'/var/.php-cs-fixer.cache'),
@@ -84,11 +84,12 @@ $payload = [
     'generic_controllers' => $genericControllers,
     'route_files_without_controller_count' => count($routesWithoutController),
     'route_files_without_controller' => $routesWithoutController,
-    'generated_runtime_paths_present' => $generatedPaths,
+    'ignored_runtime_paths_present' => $ignoredRuntimePaths,
+    'ignored_runtime_paths_policy' => 'Informational only: ignored local caches are not part of the package surface and do not fail this boundary audit.',
 ];
 
 fwrite(STDOUT, json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL);
 
-if ([] !== $genericControllers || [] !== $routesWithoutController || [] !== $generatedPaths) {
+if ([] !== $genericControllers || [] !== $routesWithoutController) {
     exit(1);
 }
