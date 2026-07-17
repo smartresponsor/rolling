@@ -74,7 +74,16 @@
     "qa": [
       "@lint",
       "@phpstan",
-      "@test"
+      "@test",
+      "@surface:audit",
+      "@symfony81:audit",
+      "@http-payload:audit",
+      "@docblock:coverage",
+      "@checkbox-form:audit",
+      "@cruding-resource-readiness-audit",
+      "@easyadmin-surface:audit",
+      "@objecting:adoption:audit",
+      "@solid-canon:audit"
     ],
     "surface:audit": "@php tools/qa/rolling-surface-audit.php",
     "symfony81:audit": "@php tools/qa/rolling-symfony81-audit.php",
