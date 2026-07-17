@@ -82,6 +82,7 @@
     "docblock:coverage": "@php tools/qa/rolling-docblock-coverage-audit.php",
     "checkbox-form:audit": "@php tools/qa/rolling-checkbox-form-audit.php",
     "cruding-resource-readiness-audit": "@php tools/qa/rolling-cruding-resource-readiness-audit.php",
+    "cruding:resource-readiness:audit": "@cruding-resource-readiness-audit",
     "easyadmin-surface:audit": "@php tools/qa/rolling-easyadmin-surface-audit.php",
     "objecting:adoption:audit": "@php tools/qa/rolling-objecting-adoption-audit.php",
     "solid-canon:audit": "@php tools/qa/rolling-solid-canon-audit.php"
