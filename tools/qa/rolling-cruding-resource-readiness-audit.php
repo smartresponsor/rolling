@@ -22,17 +22,28 @@ foreach ($definitions as $definition) {
 }
 
 $staleLegacyControllers = [];
-$deprecatedPermissionController = $root.'/src/Controller/Admin/RollingPermissionCrudController.php';
-if (is_file($deprecatedPermissionController)) {
+$forbiddenDuplicateControllers = [
+    'src/Controller/Admin/RollingPermissionCrudController.php' => [
+        'class' => 'RollingPermissionCrudController',
+        'classification' => 'deprecated_duplicate',
+        'reason' => 'Role-permission CRUD is represented by RollingRolePermissionCrudController and rolling.role-permission metadata. The duplicate controller class must not return.',
+    ],
+];
+
+foreach ($forbiddenDuplicateControllers as $relativePath => $finding) {
+    $contents = (string) @file_get_contents($root.'/'.$relativePath);
+    if ('' === $contents || !str_contains($contents, 'class '.$finding['class'])) {
+        continue;
+    }
+
     $staleLegacyControllers[] = [
-        'file' => 'src/Controller/Admin/RollingPermissionCrudController.php',
-        'classification' => 'deprecated_duplicate_awaiting_deletion',
-        'reason' => 'Controller is removed from the dashboard and mirrors role-permission fields only because repository tooling blocked file deletion. Delete it when deletion is available.',
+        'file' => $relativePath,
+        ...$finding,
     ];
 }
 
 $payload = [
-    'status' => 'report',
+    'status' => [] === $staleLegacyControllers ? 'ready' : 'blocked',
     'dependencies' => [
         'cruding_required' => is_array($composer) && isset($composer['require']['cruding/crud']),
         'cruding_constraint' => is_array($composer) ? ($composer['require']['cruding/crud'] ?? null) : null,
@@ -42,11 +53,10 @@ $payload = [
     'stale_legacy_controllers' => $staleLegacyControllers,
     'definitions' => $definitions,
     'next_steps' => [
-        'add cruding/crud composer dependency with lock update',
         'translate RollingCrudResourceDefinition into Cruding provider registrations',
         'remove transitional EasyAdmin CRUD controllers after Cruding parity',
     ],
 ];
 
 echo json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL;
-exit(0);
+exit([] === $staleLegacyControllers ? 0 : 1);

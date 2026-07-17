@@ -68,7 +68,6 @@ The current EasyAdmin admin surface is transitional and should migrate to Crudin
 
 ```text
 src/Controller/Admin/RollingRoleCrudController.php
-src/Controller/Admin/RollingPermissionCrudController.php (deprecated duplicate awaiting deletion)
 src/Controller/Admin/RollingRolePermissionCrudController.php
 src/Controller/Admin/RollingSubjectRoleAssignmentCrudController.php
 src/Controller/Admin/RollingAclRuleCrudController.php
