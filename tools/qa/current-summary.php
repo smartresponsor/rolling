@@ -40,8 +40,8 @@ $externalRoots = $summary['artifacts']['canon_scan']['data']['external_root_coun
 $forbiddenDirectories = $summary['artifacts']['canon_scan']['data']['forbidden_directory_count'] ?? null;
 $nonAppDrift = $summary['artifacts']['namespace_audit']['data']['non_app_drift_in_active_roots'] ?? null;
 $missingExtensions = $summary['artifacts']['dependency_readiness']['data']['missing_extensions'] ?? [];
-$composerOnPath = $summary['artifacts']['dependency_readiness']['data']['composer_on_path'] ?? null;
-$vendorAutoloadExists = $summary['artifacts']['dependency_readiness']['data']['vendor_autoload_exists'] ?? null;
+$composerOnPath = $summary['artifacts']['dependency_readiness']['data']['composer_binary_present'] ?? null;
+$vendorAutoloadExists = $summary['artifacts']['dependency_readiness']['data']['vendor_autoload_present'] ?? null;
 
 $blockers = [];
 if ($readyForBootstrap === false) {
