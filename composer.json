@@ -65,6 +65,7 @@
     "canon:no-namespace-audit": "@php bin/no-namespace-audit.php",
     "canon:autoload-audit": "@php bin/autoload-continuity-audit.php",
     "test": "@php tools/qa/phpunit-junit-gate.php",
+    "host-smoke": "@php vendor/phpunit/phpunit/phpunit --configuration=phpunit.xml.dist --testsuite=e2e --filter=KernelAccessTest --no-progress",
     "lint": [
       "@php tools/qa/php-lint.php"
     ],
