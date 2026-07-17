@@ -64,7 +64,10 @@
     "canon:namespace-audit": "@php bin/namespace-audit.php",
     "canon:no-namespace-audit": "@php bin/no-namespace-audit.php",
     "canon:autoload-audit": "@php bin/autoload-continuity-audit.php",
-    "test": "@php vendor/phpunit/phpunit/phpunit --configuration=phpunit.xml.dist --testsuite=unit --testdox --no-progress",
+    "test": [
+      "@php vendor/phpunit/phpunit/phpunit --configuration=phpunit.xml.dist --testsuite=unit --no-output --log-junit var/phpunit/unit-junit.xml",
+      "@php tools/qa/phpunit-junit-gate.php var/phpunit/unit-junit.xml"
+    ],
     "lint": [
       "@php tools/qa/php-lint.php"
     ],
