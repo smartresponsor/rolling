@@ -33,7 +33,10 @@ final class RoleConsoleApplication
 
     public function run(array $argv, ?OutputInterface $output = null): int
     {
-        return $this->build()->run(new ArgvInput($argv), $output ?? new ConsoleOutput());
+        $application = $this->build();
+        $application->setAutoExit(false);
+
+        return $application->run(new ArgvInput($argv), $output ?? new ConsoleOutput());
     }
 
     private function registry(): RoleCommandRegistryInterface
