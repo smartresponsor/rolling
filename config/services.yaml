@@ -26,6 +26,8 @@ services:
       - '../src/Service/Attribute/AttributeContextResolverService.php'
       - '../src/Service/Obligation/'
 
+  App\Rolling\ServiceInterface\Cruding\RollingCrudResourceDefinitionProviderInterface: '@App\Rolling\Service\Cruding\RollingCrudResourceDefinitionProvider'
+
   App\Rolling\Service\Config\RollingConfigurationRoleRuntimeService:
     arguments:
       $projectDir: '%kernel.project_dir%'
