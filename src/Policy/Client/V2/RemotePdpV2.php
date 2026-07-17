@@ -20,6 +20,6 @@ final class RemotePdpV2 implements PdpV2Interface
 
     public function check(SubjectId $s, PermissionKey $a, Scope $sc, array $c = []): DecisionWithObligations
     {
-        return DecisionWithObligations::allow('remote-placeholder', Obligations::empty());
+        return DecisionWithObligations::deny('remote_pdp_unavailable', Obligations::empty());
     }
 }
