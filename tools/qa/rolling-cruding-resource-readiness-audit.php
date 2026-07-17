@@ -3,18 +3,19 @@
 declare(strict_types=1);
 
 use App\Rolling\Service\Cruding\RollingCrudResourceDefinitionProvider;
+use App\Rolling\ServiceInterface\Cruding\RollingCrudResourceDefinitionProviderInterface;
 
 require dirname(__DIR__, 2).'/vendor/autoload.php';
 
 $root = dirname(__DIR__, 2);
 $composer = json_decode((string) file_get_contents($root.'/composer.json'), true);
 $services = (string) file_get_contents($root.'/config/services.yaml');
-$providerInterface = 'App\\Rolling\\ServiceInterface\\Cruding\\RollingCrudResourceDefinitionProviderInterface';
-$providerService = 'App\\Rolling\\Service\\Cruding\\RollingCrudResourceDefinitionProvider';
-$providerAliasConfigured = str_contains(
-    $services,
-    $providerInterface.": '@".$providerService."'",
-);
+$providerInterface = RollingCrudResourceDefinitionProviderInterface::class;
+$providerService = RollingCrudResourceDefinitionProvider::class;
+$inlineAliasPattern = '/^[ \\t]+'.preg_quote($providerInterface, '/').':[ \\t]+[\'\"]?@?'.preg_quote($providerService, '/').'[\'\"]?[ \\t]*$/m';
+$structuredAliasPattern = '/^[ \\t]+'.preg_quote($providerInterface, '/').':\\R[ \\t]+alias:[ \\t]+[\'\"]?@?'.preg_quote($providerService, '/').'[\'\"]?[ \\t]*$/m';
+$providerAliasConfigured = 1 === preg_match($inlineAliasPattern, $services)
+    || 1 === preg_match($structuredAliasPattern, $services);
 
 $provider = new RollingCrudResourceDefinitionProvider();
 $definitions = array_map(

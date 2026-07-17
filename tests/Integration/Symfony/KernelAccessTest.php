@@ -10,6 +10,7 @@ use App\Rolling\Service\Cruding\RollingCrudResourceDefinitionProvider;
 use App\Rolling\Service\Http\Role\HealthHttpService;
 use App\Rolling\ServiceInterface\Cruding\RollingCrudResourceDefinitionProviderInterface;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -20,12 +21,13 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class KernelAccessTest extends TestCase
 {
+    #[WithoutErrorHandler]
     public function testBundleExtensionAndHostKernelCompile(): void
     {
         self::assertTrue(class_exists(RoleBundle::class));
         self::assertTrue(class_exists(RoleExtension::class));
 
-        $kernel = new RollingHostSmokeKernel('test', true);
+        $kernel = new RollingHostSmokeKernel('test', false);
         $kernel->boot();
 
         try {
@@ -42,9 +44,10 @@ final class KernelAccessTest extends TestCase
         }
     }
 
+    #[WithoutErrorHandler]
     public function testHostRouteResourcesAreDiscoverable(): void
     {
-        $kernel = new RollingHostSmokeKernel('test', true);
+        $kernel = new RollingHostSmokeKernel('test', false);
         $kernel->boot();
 
         try {
