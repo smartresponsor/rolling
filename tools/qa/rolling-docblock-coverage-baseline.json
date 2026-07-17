@@ -1,0 +1,11 @@
+{
+  "classes": {
+    "coverage": 49.57
+  },
+  "public_methods": {
+    "coverage": 41.1
+  },
+  "public_properties": {
+    "coverage": 100.0
+  }
+}

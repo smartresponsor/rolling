@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 final class RollingDocblockCoverageAudit
 {
+    private const BASELINE_FILE = 'tools/qa/rolling-docblock-coverage-baseline.json';
+
     private const SOURCE_DIRS = [
         'src/Controller',
         'src/Command',
@@ -102,17 +104,67 @@ final class RollingDocblockCoverageAudit
             }
         }
 
+        $summary = [
+            'classes' => $this->metric($classCount, $documentedClassCount),
+            'public_methods' => $this->metric($publicMethodCount, $documentedPublicMethodCount),
+            'public_properties' => $this->metric($publicPropertyCount, $documentedPublicPropertyCount),
+        ];
+        $baseline = $this->loadBaseline();
+        $regressions = $this->findRegressions($summary, $baseline);
+
         return [
-            'status' => 'report',
+            'status' => [] === $regressions ? 'pass' : 'fail',
             'scope' => self::SOURCE_DIRS,
-            'summary' => [
-                'classes' => $this->metric($classCount, $documentedClassCount),
-                'public_methods' => $this->metric($publicMethodCount, $documentedPublicMethodCount),
-                'public_properties' => $this->metric($publicPropertyCount, $documentedPublicPropertyCount),
-            ],
+            'baseline_file' => self::BASELINE_FILE,
+            'baseline' => $baseline,
+            'summary' => $summary,
+            'regressions' => $regressions,
             'missing' => array_slice($missing, 0, 250),
             'missing_truncated' => count($missing) > 250,
         ];
+    }
+
+    /** @return array<string, array{coverage: float}> */
+    private function loadBaseline(): array
+    {
+        $path = $this->root.DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, self::BASELINE_FILE);
+        $decoded = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+
+        if (!is_array($decoded)) {
+            throw new RuntimeException('Docblock coverage baseline must decode to an object.');
+        }
+
+        return $decoded;
+    }
+
+    /**
+     * @param array<string, array{coverage: float}> $summary
+     * @param array<string, array{coverage: float}> $baseline
+     *
+     * @return list<array{metric: string, baseline: float, actual: float}>
+     */
+    private function findRegressions(array $summary, array $baseline): array
+    {
+        $regressions = [];
+        foreach ($baseline as $metric => $expected) {
+            $actualCoverage = $summary[$metric]['coverage'] ?? null;
+            $baselineCoverage = $expected['coverage'] ?? null;
+            if (!is_float($actualCoverage) && !is_int($actualCoverage)) {
+                throw new RuntimeException(sprintf('Missing docblock coverage metric "%s".', $metric));
+            }
+            if (!is_float($baselineCoverage) && !is_int($baselineCoverage)) {
+                throw new RuntimeException(sprintf('Invalid baseline coverage metric "%s".', $metric));
+            }
+            if ((float) $actualCoverage < (float) $baselineCoverage) {
+                $regressions[] = [
+                    'metric' => $metric,
+                    'baseline' => (float) $baselineCoverage,
+                    'actual' => (float) $actualCoverage,
+                ];
+            }
+        }
+
+        return $regressions;
     }
 
     /** @return list<string> */
@@ -319,4 +371,4 @@ $audit = new RollingDocblockCoverageAudit(dirname(__DIR__, 2));
 $report = $audit->run();
 
 echo json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL;
-exit(0);
+exit('pass' === $report['status'] ? 0 : 1);
