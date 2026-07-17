@@ -4,6 +4,8 @@ Rolling now exposes a safe diagnostic issue register for its ACL administration 
 
 The diagnostic provider derives issues from Rolling-owned health checks and only emits metadata suitable for Administering visualization.
 
+Informational health descriptors, including protected security-boundary guards, are not active diagnostic issues. When no warning, error, or blocking descriptor remains, the provider emits one explicit `rolling.diagnostics.clear` descriptor.
+
 == Blocking example
 
 If ACL storage is still bootstrap-only, diagnostics expose that state as a blocking issue. Real ACL mutation execution must remain blocked until Doctrine-backed storage is ready.

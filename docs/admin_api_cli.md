@@ -3,7 +3,8 @@
 Admin operations are exposed by the package and become active only after the host Symfony application registers the bundle and imports the package route files.
 
 Primary runtime pieces:
-- admin controllers under `src/Controller/Api/Admin/`
+- native EasyAdmin controllers under `src/Controller/Admin/`
+- HTTP endpoint services under `src/Service/Http/Role/`
 - admin security classes under `src/Security/Admin/`
 - policy registry infrastructure under `src/Infrastructure/Policy/Registry/`
 - package console surface built from `App\Rolling\Infrastructure\Console\RoleConsoleApplication` and Symfony commands discovered from the bundle container

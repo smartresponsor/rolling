@@ -24,13 +24,14 @@ final readonly class RollingAclDiagnosticReportProvider implements RollingAclDia
         $issues = [];
         foreach ($this->healthReportProvider->report()->checks() as $check) {
             $data = $check->toSafeArray();
-            $status = (string) $data['status'];
             $severity = (string) $data['severity'];
             $blocking = (bool) ($data['blocking'] ?? false);
 
-            if (!$blocking && 'healthy' === $status && 'info' === $severity) {
+            if (!$blocking && 'info' === $severity) {
                 continue;
             }
+
+            $status = (string) $data['status'];
 
             $issues[] = new RollingAclDiagnosticIssue(
                 (string) $data['key'],

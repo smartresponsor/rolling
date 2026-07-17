@@ -1,6 +1,6 @@
 # Rolling / Role
 
-Symfony-first Rollin workspace for the Rolling component recovery track.
+Symfony-first workspace for the Rolling component recovery track.
 
 ## Current status
 
