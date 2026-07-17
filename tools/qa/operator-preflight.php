@@ -26,9 +26,16 @@ foreach ($commands as $nameEntity => $command) {
     ];
 }
 
+$failedChecks = array_keys(array_filter(
+    $results,
+    static fn (array $result): bool => $result['exit_code'] !== 0,
+));
+
 $summary = [
     'generated_at_utc' => gmdate('c'),
     'project_root' => $projectRoot,
+    'status' => $failedChecks === [] ? 'pass' : 'fail',
+    'failed_checks' => $failedChecks,
     'results' => $results,
 ];
 
@@ -44,6 +51,8 @@ $pretty = [];
 $pretty[] = 'Operator preflight';
 $pretty[] = 'Generated at UTC: ' . $summary['generated_at_utc'];
 $pretty[] = 'Project root: ' . $projectRoot;
+$pretty[] = 'Status: ' . $summary['status'];
+$pretty[] = 'Failed checks: ' . ($failedChecks === [] ? '(none)' : implode(', ', $failedChecks));
 $pretty[] = '';
 foreach ($results as $nameEntity => $result) {
     $pretty[] = sprintf('[%s] exit=%d', $nameEntity, $result['exit_code']);
@@ -55,3 +64,5 @@ foreach ($results as $nameEntity => $result) {
 file_put_contents($reportDir . '/current-operator-preflight.pretty.txt', implode(PHP_EOL, $pretty) . PHP_EOL);
 
 echo json_encode($summary, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL;
+
+exit($failedChecks === [] ? 0 : 1);
