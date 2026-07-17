@@ -75,6 +75,7 @@ function rolling81ScanPattern(array $files, string $root, string $pattern, strin
 }
 
 $phpFiles = rolling81CollectFiles($root, ['php']);
+$srcPhpFiles = array_values(array_filter($phpFiles, static fn (string $file): bool => str_contains($file, '/src/')));
 $textFiles = rolling81CollectFiles($root, ['php', 'yaml', 'yml', 'xml', 'neon', 'md', 'adoc', 'json', 'sh', 'ps1']);
 $testPhpFiles = array_values(array_filter($phpFiles, static fn (string $file): bool => str_contains($file, '/tests/')));
 $commandPhpFiles = array_values(array_filter($phpFiles, static fn (string $file): bool => str_contains($file, '/Command/') || str_contains($file, '/Console/Command/')));
@@ -89,11 +90,11 @@ $checks = [
         'Symfony 8.1 keeps these as BC aliases, but they are deprecated; use DependencyInjection namespaces.'
     ),
     'implicit_target_candidates' => rolling81ScanPattern(
-        $phpFiles,
+        $srcPhpFiles,
         $root,
-        '/function\s+__construct\s*\(|private\s+readonly\s+[^$\n]+\$[a-zA-Z0-9_]*(logger|cache|client|provider|store|repository|resolver|registry|bus|connection|entityManager)[a-zA-Z0-9_]*\b/i',
+        '/\b(?:public|protected|private)\s+(?:readonly\s+)?\??[A-Z][A-Za-z0-9_\\\\]*(?:Interface)?\s+\$[A-Za-z0-9_]*(logger|cache|client|provider|store|repository|resolver|registry|bus|connection|entityManager)[A-Za-z0-9_]*\b/',
         'review',
-        'Constructor/service argument may rely on implicit named aliasing; use #[Target(...)] when multiple implementations exist.'
+        'Typed production dependency may rely on implicit named aliasing; use #[Target(...)] only when multiple implementations exist.'
     ),
     'tagged_iterator_magic_priority' => rolling81ScanPattern(
         $phpFiles,
