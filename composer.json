@@ -64,6 +64,12 @@
     "canon:namespace-audit": "@php bin/namespace-audit.php",
     "canon:no-namespace-audit": "@php bin/no-namespace-audit.php",
     "canon:autoload-audit": "@php bin/autoload-continuity-audit.php",
+    "recovery:bootstrap-preflight": "@php tools/qa/bootstrap-preflight-report.php",
+    "recovery:dependency-readiness": "@php tools/qa/dependency-readiness.php",
+    "recovery:audits": "@php tools/qa/recovery-audits.php",
+    "recovery:readiness-smoke": "@php tools/qa/readiness-smoke.php",
+    "recovery:operator-preflight": "@php tools/qa/operator-preflight.php",
+    "recovery:current-summary": "@php tools/qa/current-summary.php",
     "test": [
       "@php tools/qa/phpunit-junit-gate.php unit-role-a tests/Role/Acl tests/Role/Administration tests/Role/Audit tests/Role/Batch tests/Role/Consistency --no-output",
       "@php tools/qa/phpunit-junit-gate.php unit-role-b tests/Role/Console --no-output",

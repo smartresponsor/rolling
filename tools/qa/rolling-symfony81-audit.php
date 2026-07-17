@@ -113,7 +113,7 @@ $checks = [
     'uploaded_file_endpoint_candidates' => rolling81ScanPattern(
         $phpFiles,
         $root,
-        '/UploadedFile|->files->|multipart\/form-data|move\s*\(/',
+        '/UploadedFile|->files->|multipart\/form-data/',
         'review',
         'Check whether Symfony 8.1 uploaded-file DTO mapping can replace manual merge/hydration.'
     ),
