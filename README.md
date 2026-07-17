@@ -85,6 +85,8 @@ Still required before an RC-style verdict:
 
 See `docs/recovery/current-operator-workflow.md` for the stable current-state operator workflow.
 
+See `docs/recovery/rc-maturity-track.md` for the separated RC-critical and post-RC growth tracks, market baseline, boundary safeguards, and closeout criteria.
+
 Bootstrap preflight artifacts:
 - `report/recovery/current-bootstrap-preflight.json`
 - `report/recovery/current-bootstrap-preflight.pretty.txt`
