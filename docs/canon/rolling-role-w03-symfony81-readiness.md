@@ -48,6 +48,7 @@ or:
 
 - Blockers return exit code `1`.
 - Review-only findings return exit code `0` and should be triaged manually.
+- Review-only matching must stay specific to the named Symfony readiness risk. Do not use broad tokens such as every constructor, every cache abstraction, or every `move()` call when the risk is limited to dependency-target ambiguity, Symfony HttpClient cache TTL behavior, or uploaded-file request mapping.
 
 ## Non-goals
 
