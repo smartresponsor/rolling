@@ -34,6 +34,31 @@ $summary = [
     ],
 ];
 
+$requiredArtifactNames = [
+    'bootstrap_preflight',
+    'dependency_readiness',
+    'readiness_smoke',
+    'operator_preflight',
+    'recovery_audits',
+    'autoload_audit',
+    'canon_scan',
+    'namespace_audit',
+];
+
+$missingArtifacts = [];
+$invalidArtifacts = [];
+foreach ($requiredArtifactNames as $artifactName) {
+    $artifact = $summary['artifacts'][$artifactName] ?? ['available' => false];
+    if (($artifact['available'] ?? false) !== true) {
+        $missingArtifacts[] = $artifactName;
+        continue;
+    }
+
+    if (($artifact['invalid_json'] ?? false) === true) {
+        $invalidArtifacts[] = $artifactName;
+    }
+}
+
 $readyForBootstrap = $summary['artifacts']['dependency_readiness']['data']['ready_for_bootstrap'] ?? null;
 $autoloadBroken = $summary['artifacts']['autoload_audit']['data']['broken_entries'] ?? null;
 $externalRoots = $summary['artifacts']['canon_scan']['data']['external_root_count'] ?? null;
@@ -44,6 +69,12 @@ $composerOnPath = $summary['artifacts']['dependency_readiness']['data']['compose
 $vendorAutoloadExists = $summary['artifacts']['dependency_readiness']['data']['vendor_autoload_present'] ?? null;
 
 $blockers = [];
+if ($missingArtifacts !== []) {
+    $blockers[] = 'Required evidence is missing: ' . implode(', ', $missingArtifacts) . '.';
+}
+if ($invalidArtifacts !== []) {
+    $blockers[] = 'Required evidence contains invalid JSON: ' . implode(', ', $invalidArtifacts) . '.';
+}
 if ($readyForBootstrap === false) {
     $blockers[] = 'Bootstrap is not ready.';
 }
@@ -78,6 +109,9 @@ $summary['status'] = [
     'composer_on_path' => $composerOnPath,
     'vendor_autoload_exists' => $vendorAutoloadExists,
     'missing_extensions' => $missingExtensions,
+    'missing_artifacts' => $missingArtifacts,
+    'invalid_artifacts' => $invalidArtifacts,
+    'evidence_complete' => $missingArtifacts === [] && $invalidArtifacts === [],
     'blockers' => $blockers,
 ];
 
@@ -95,6 +129,9 @@ $pretty[] = '  Ready for bootstrap: ' . ($readyForBootstrap === true ? 'yes' : (
 $pretty[] = '  Composer on PATH: ' . ($composerOnPath === true ? 'yes' : ($composerOnPath === false ? 'no' : 'unknown'));
 $pretty[] = '  vendor/autoload.php exists: ' . ($vendorAutoloadExists === true ? 'yes' : ($vendorAutoloadExists === false ? 'no' : 'unknown'));
 $pretty[] = '  Missing extensions: ' . (is_array($missingExtensions) && $missingExtensions !== [] ? implode(', ', $missingExtensions) : '(none)');
+$pretty[] = '  Evidence complete: ' . ($summary['status']['evidence_complete'] ? 'yes' : 'no');
+$pretty[] = '  Missing artifacts: ' . ($missingArtifacts !== [] ? implode(', ', $missingArtifacts) : '(none)');
+$pretty[] = '  Invalid artifacts: ' . ($invalidArtifacts !== [] ? implode(', ', $invalidArtifacts) : '(none)');
 $pretty[] = '  Autoload broken entries: ' . (is_int($autoloadBroken) ? (string) $autoloadBroken : 'unknown');
 $pretty[] = '  External root count: ' . (is_int($externalRoots) ? (string) $externalRoots : 'unknown');
 $pretty[] = '  Forbidden directory count: ' . (is_int($forbiddenDirectories) ? (string) $forbiddenDirectories : 'unknown');

@@ -39,6 +39,8 @@ An RC-ready repository-level result requires:
 
 `current-summary.php` is an aggregator, not a substitute for the underlying gates. Missing artifacts remain visible as `unknown`; explicit failed prerequisites are emitted as blockers.
 
+The summary is fail-closed for evidence completeness: every required `current-*` input must exist and contain valid JSON. Missing or malformed evidence is listed in `status.missing_artifacts` or `status.invalid_artifacts`, sets `status.evidence_complete` to `false`, and is emitted as an RC blocker.
+
 ## Responsibility boundary
 
 Rolling owns role and authorization behavior, its Symfony bundle wiring, diagnostics, and readiness evidence. Objecting owns reusable object system-field packs. Cruding owns generic CRUD controller and route formation. Viewing, Interfacing, and Navigating retain their presentation, shell, and navigation responsibilities. Do not move those surfaces into this repository to make a local gate pass.
