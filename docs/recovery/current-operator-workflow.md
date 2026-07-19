@@ -11,7 +11,7 @@ This runbook is the stable RC-readiness workflow for the Rolling Symfony bundle.
 
 ## Execution order
 
-Run the checks from the repository root:
+Run the checks from the repository root. Direct PHP entrypoints are authoritative for local operator use; Composer aliases exist for package scripts, but generated `current-*` evidence must still be tied to the exact source tree being evaluated:
 
 ```text
 php tools/qa/dependency-readiness.php

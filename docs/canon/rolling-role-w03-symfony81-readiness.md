@@ -35,7 +35,8 @@ The audit checks for:
 ## Execution
 
 ```powershell
-composer symfony81:audit
+composer run-script symfony81:audit
+composer run-script qa
 ```
 
 or:
