@@ -2,6 +2,9 @@ rolling_admin_easyadmin:
   resource: 'routes/rolling_admin_easyadmin.yaml'
   prefix: /ea
 
+role_access:
+  resource: 'routes/role.yaml'
+
 role_public_business:
   resource: 'routes/role_public.yaml'
 
