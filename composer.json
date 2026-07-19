@@ -87,6 +87,7 @@
       "@lint",
       "@phpstan",
       "@test",
+      "@host-smoke",
       "@surface:audit",
       "@symfony81:audit",
       "@http-payload:audit",
