@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Rolling\DTO\Permission;
 
+/**
+ * Immutable permission catalog definition transport object.
+ */
 final class PermissionDefinitionDTO
 {
     /** @param list<string> $scopes */
