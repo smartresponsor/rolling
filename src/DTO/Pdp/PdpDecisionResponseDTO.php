@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
+ * All code comments MUST be in English.
+ */
+declare(strict_types=1);
+
+namespace App\Rolling\DTO\Pdp;
+
+/**
+ * Result of a single decision, with explain metadata.
+ */
+final class PdpDecisionResponseDTO
+{
+    public function __construct(
+        public readonly bool $allowed,
+        public readonly string $ruleId,
+        public readonly string $reason,
+        public readonly float $latencyMs,
+    ) {
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'allowed' => $this->allowed,
+            'ruleId' => $this->ruleId,
+            'reason' => $this->reason,
+            'latencyMs' => $this->latencyMs,
+        ];
+    }
+}
