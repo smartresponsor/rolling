@@ -170,3 +170,46 @@ Re-check PR head/base after this journal update, merge if still conflict-free, t
 - Post-update verification: `composer validate --strict --check-lock` PASS; `composer qa` PASS before the security-only package bump; after the bump, the aggregate wrapper timed out, so deterministic sub-gates were re-run: PHPStan PASS, PHPUnit PASS (26 + 28 + 22 + 2), host smoke PASS (2 tests, 7 assertions), and prior `cs:check` remained clean before the package-only update.
 - No sibling repository was modified; only Rolling manifest/lock/vendor installation state and existing Rolling task files were changed.
 
+## engine-20260906053559-rolling-07b38a
+
+### Iteration 1 — reconnaissance and baseline
+
+- Recovery baseline re-inspected from the live worktree: `master` at `cfa3f270bc9490ae6c4bea4f74817aaabfdf2775`, tracking `origin/master`, ahead `1`, behind `0`; the only pre-existing/generated untracked tail is `src/var/` and remains excluded from authored-source canonization.
+- Read the authoritative recovery specification, Rolling README/composer contract, Canonization AGENTS and Canon000/001/003/004/012 rules, plus Objecting and Cruding ownership/package contracts. Confirmed the required application dependency contour is declared in Rolling (`objecting/object`, `cruding/crud`, `viewing/view`, `interfacing/interface`) with local path repositories.
+- Preserve the existing commit `cfa3f270` (`Canonize Rolling DTO and dependency contour`); do not revert, duplicate, or pretend to redo work already present.
+- RC-critical workstream: run the repository's own canon/surface/DTO/Cruding/Objecting audits against the current tree, close only newly proven in-scope naming/tree and ownership debt, then execute lint/static/tests/style/Composer gates and Git integration.
+- Growth workstream remains non-blocking: authorization DX/diagnostics and broader competitive maturity improvements are deferred unless required for correctness or operability.
+- Material risks: generated `src/var/` must remain untouched; generic CRUD controller debt must be removed only when the current Cruding readiness contract proves parity; DTO classification must distinguish true transport DTOs from value objects/messages/view models.
+- Planned gates: canon scan + namespace/autoload audits; HTTP payload, surface, Cruding readiness, EasyAdmin, Objecting, SOLID and docblock audits; `composer validate --strict --check-lock`; lint; PHPStan; PHPUnit; host smoke; CS check; final branch/upstream/worktree verification.
+
+### Progress
+
+- Iteration 1 baseline initialized from the live recovery state.
+
+### Iteration 2 — material implementation
+
+- Enumerated the tracked PHP surface from the live repository (614 PHP files linted by the configured gate; 638 PHP files inspected by the Symfony readiness audit including support surfaces) and reconciled naming/tree findings against Canon000/001/003/004.
+- Added `/src/var/` to `.gitignore` because this exact path is the known pre-existing/generated runtime tail; generated output is now excluded from source-canon Git status without deleting or mutating generated contents.
+- Re-ran Canon/HTTP/Cruding/Objecting audits. Confirmed remaining naming debt includes `src/DTO/Http/Role/**/*Payload.php` and multiple `src/Service/**/Dto/*Dto.php` classes. Canon003 requires real DTOs to move to `src/DTO/**` and use exact `DTO` suffix/casing.
+- Confirmed Cruding parity data exists for six Rolling resource definitions; five remain explicitly marked as legacy-controller-backed. EasyAdmin audit identifies seven transitional generic CRUD/admin artifacts whose target owner is Cruding.
+- Because `Destructive operations: FORBIDDEN`, the semantic moves cannot be completed factually in this run: adding canonical duplicates while retaining obsolete source classes/routes would violate the one-current-model canon. No fake duplicate migration was created.
+
+### Iteration 3 — verification and fix
+
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa`: PASS. PHP lint covered 614 files; PHPStan PASS; PHPUnit groups PASS (26 + 28 + 22 + 2); host smoke PASS (2 tests, 7 assertions); configured surface/Symfony/HTTP/docblock/checkbox/Cruding/EasyAdmin/Objecting/SOLID audits completed.
+- `composer cs:check`: PASS, 0 of 600 files fixable.
+- Objecting adoption audit reports zero system-field migration candidates and two explicit business exception candidates only (`status`, `createdAt` on the ACL mutation execution event).
+
+### Iteration 4 — debt closure and integration
+
+- The current dependency contour is correct: Rolling declares Objecting, Cruding, Viewing, and Interfacing and uses sibling path repositories for local development.
+- RC-blocking structural debt remains bounded and explicit: true DTO `Payload`/`Dto` paths plus transitional generic EasyAdmin CRUD controllers/routes. Removing obsolete paths is necessary for a factual canonical completion, but deletion is prohibited by the task capability envelope.
+- No sibling repository was modified. No speculative feature/growth work was introduced.
+
+### Iteration 5 — final acceptance and handoff
+
+- Verified checkpoint is quality-green but structural canonization is not factually complete under the current `Destructive operations: FORBIDDEN` constraint.
+- Safe work completed in this continuation: factual recovery baseline, full mandatory contract reconciliation, generated-tail Git hygiene, current-tree audits, and complete configured QA/style validation.
+- Acceptance status: `CHECKPOINT_GREEN_WITH_BOUNDED_CANON_BLOCKER`. A future task that explicitly permits exact source-path removals can finish the DTO renames/moves and Cruding controller/route cleanup from this verified baseline without redoing commit `cfa3f270`.
+
