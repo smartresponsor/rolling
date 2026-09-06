@@ -210,6 +210,9 @@ Re-check PR head/base after this journal update, merge if still conflict-free, t
 - The current dependency contour is correct: Rolling declares Objecting, Cruding, Viewing, and Interfacing and uses sibling path repositories for local development.
 - RC-blocking structural debt remains bounded and explicit: true DTO `Payload`/`Dto` paths plus transitional generic EasyAdmin CRUD controllers/routes. Removing obsolete paths is necessary for a factual canonical completion, but deletion is prohibited by the task capability envelope.
 - No sibling repository was modified. No speculative feature/growth work was introduced.
+- Iteration 4 continuation migrated the active permission catalog model to canonical `App\\Rolling\\DTO\\Permission\\PermissionDefinitionDTO`, retargeting `PermissionCatalog`, `PermissionCatalogConfigLoader`, `PermissionCatalogSnapshotService`, and `PermissionCatalogVersionHasher`. The obsolete `src/Service/Permission/Model/PermissionDefinitionDto.php` source remains only because exact source deletion is outside the current destructive-operation capability.
+- Verification: changed-file PHP lint PASS; PHPStan PASS; PHPUnit groups PASS (26 + 28 + 22 + 2); `cs:check` PASS with 0/607 fixable files; no active `App\\Rolling\\Service\\Permission\\Model\\PermissionDefinitionDto` references remain under `src/`.
+- Remaining Canon003 debt is now concentrated in the HTTP `*Payload.php` family and obsolete source-path tails from already-migrated DTO contours. Those tails cannot be factually removed in this run because destructive operations remain forbidden.
 
 ### Iteration 5 — final acceptance and handoff
 

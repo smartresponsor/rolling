@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Permission\Catalog;
 
-use App\Rolling\Service\Permission\Model\PermissionDefinitionDto;
+use App\Rolling\DTO\Permission\PermissionDefinitionDTO;
 
 final class PermissionCatalog
 {
-    /** @var array<string, PermissionDefinitionDto> */
+    /** @var array<string, PermissionDefinitionDTO> */
     private array $items = [];
 
-    public function add(PermissionDefinitionDto $permission): void
+    public function add(PermissionDefinitionDTO $permission): void
     {
         $this->items[$permission->key] = $permission;
     }
 
-    /** @return list<PermissionDefinitionDto> */
+    /** @return list<PermissionDefinitionDTO> */
     public function all(): array
     {
         return array_values($this->items);
     }
 
-    /** @return list<PermissionDefinitionDto> */
+    /** @return list<PermissionDefinitionDTO> */
     public function byComponent(?string $component): array
     {
         if (null === $component) {
@@ -31,7 +31,7 @@ final class PermissionCatalog
 
         return array_values(array_filter(
             $this->items,
-            static fn (PermissionDefinitionDto $permission): bool => $permission->component === $component,
+            static fn (PermissionDefinitionDTO $permission): bool => $permission->component === $component,
         ));
     }
 }
