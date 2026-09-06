@@ -21,6 +21,11 @@ final class PdpDecisionResponseDTO
     ) {
     }
 
+    /**
+     * Export the decision response as a transport-ready array.
+     *
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [

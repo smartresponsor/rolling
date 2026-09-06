@@ -21,11 +21,19 @@ final class AuditExplainNodeDTO
     ) {
     }
 
+    /**
+     * Append a child node to the explanation tree.
+     */
     public function add(self $n): void
     {
         $this->children[] = $n;
     }
 
+    /**
+     * Export this explanation node and its descendants as an array.
+     *
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [
