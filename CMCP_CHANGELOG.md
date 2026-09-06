@@ -86,6 +86,8 @@
 - `composer qa`: PASS. PHP lint covered 614 files; PHPStan PASS; PHPUnit groups PASS (26 + 28 + 22 + 2); host smoke PASS (2 tests, 7 assertions); configured surface/Symfony/HTTP/docblock/checkbox/Cruding/EasyAdmin/Objecting/SOLID audits completed.
 - `composer cs:check`: PASS, 0 of 600 files fixable.
 - Objecting adoption audit reports zero system-field migration candidates and two explicit business exception candidates only (`status`, `createdAt` on the ACL mutation execution event).
+- Iteration 3 continuation verified the post-Audit residual Canon003 surface and migrated the active PDP DTO pair to `App\\Rolling\\DTO\\Pdp\\PdpDecisionRequestDTO` / `PdpDecisionResponseDTO`, retargeting `PdpBatchDecisionService` and `BatchDecisionInterface`. The obsolete `src/Service/Pdp/Dto/*Dto.php` sources remain only because exact source deletion is outside the current destructive-operation capability.
+- Verification/fix result: changed-file PHP lint initially caught one missing closing brace in `PdpDecisionResponseDTO.php`; fixed immediately. Re-run lint PASS; PHPStan PASS; PHPUnit groups PASS (26 + 28 + 22 + 2); `cs:check` PASS with 0/606 fixable files; no active `App\\Rolling\\Service\\Pdp\\Dto` references remain under `src/`.
 
 ### Iteration 4 — debt closure and integration
 
