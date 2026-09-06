@@ -13,6 +13,7 @@
 /var/run/
 /var/phpstan/
 /var/*.log
+/src/var/
 
 # Tooling caches
 /.codebase-memory/
