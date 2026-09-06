@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Permission\Catalog;
 
-use App\Rolling\Service\Permission\Model\PermissionDefinitionDto;
+use App\Rolling\DTO\Permission\PermissionDefinitionDTO;
 
 final class PermissionCatalogConfigLoader
 {
-    /** @return list<PermissionDefinitionDto> */
+    /** @return list<PermissionDefinitionDTO> */
     public function loadJsonFile(string $path): array
     {
         $raw = file_get_contents($path);
@@ -27,7 +27,7 @@ final class PermissionCatalogConfigLoader
                 throw new \RuntimeException('perm_config_bad_permission_row');
             }
 
-            $permissions[] = new PermissionDefinitionDto(
+            $permissions[] = new PermissionDefinitionDTO(
                 (string) $row['key'],
                 array_values($row['scopes'] ?? ['global']),
                 (string) ($row['description'] ?? ''),
