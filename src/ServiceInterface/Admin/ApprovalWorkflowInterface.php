@@ -8,15 +8,15 @@ declare(strict_types=1);
 
 namespace App\Rolling\ServiceInterface\Admin;
 
-use App\Rolling\Service\Admin\Dto\AdminApprovalRequestDto;
+use App\Rolling\DTO\Admin\AdminApprovalRequestDTO;
 
 interface ApprovalWorkflowInterface
 {
-    public function create(string $requestedBy, string $subjectId, string $role, ?string $tenant = null): AdminApprovalRequestDto;
+    public function create(string $requestedBy, string $subjectId, string $role, ?string $tenant = null): AdminApprovalRequestDTO;
 
-    public function approve(string $requestId, string $approverId): AdminApprovalRequestDto;
+    public function approve(string $requestId, string $approverId): AdminApprovalRequestDTO;
 
-    public function reject(string $requestId, string $approverId, string $reason): AdminApprovalRequestDto;
+    public function reject(string $requestId, string $approverId, string $reason): AdminApprovalRequestDTO;
 
-    public function get(string $requestId): ?AdminApprovalRequestDto;
+    public function get(string $requestId): ?AdminApprovalRequestDTO;
 }
