@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__.'/source-revision.php';
+
 $projectRoot = dirname(__DIR__, 2);
 $reportDir = $projectRoot . '/report/recovery';
 if (!is_dir($reportDir)) {
@@ -20,8 +22,11 @@ $readJson = static function (string $path): array {
         : ['available' => true, 'invalid_json' => true];
 };
 
+$sourceCommit = rollingResolveSourceRevision($projectRoot);
+
 $summary = [
     'generated_at' => gmdate(DATE_ATOM),
+    'source_commit' => $sourceCommit,
     'artifacts' => [
         'bootstrap_preflight' => $readJson($reportDir . '/current-bootstrap-preflight.json'),
         'dependency_readiness' => $readJson($reportDir . '/current-dependency-readiness.json'),
@@ -69,6 +74,9 @@ $composerOnPath = $summary['artifacts']['dependency_readiness']['data']['compose
 $vendorAutoloadExists = $summary['artifacts']['dependency_readiness']['data']['vendor_autoload_present'] ?? null;
 
 $blockers = [];
+if ($sourceCommit === null) {
+    $blockers[] = 'Source Git commit could not be resolved; RC evidence cannot be tied to an exact commit.';
+}
 if ($missingArtifacts !== []) {
     $blockers[] = 'Required evidence is missing: ' . implode(', ', $missingArtifacts) . '.';
 }
@@ -101,6 +109,8 @@ if (is_int($nonAppDrift) && $nonAppDrift > 0) {
 }
 
 $summary['status'] = [
+    'source_commit' => $sourceCommit,
+    'source_revision_known' => $sourceCommit !== null,
     'ready_for_bootstrap' => $readyForBootstrap,
     'autoload_broken_entries' => $autoloadBroken,
     'external_root_count' => $externalRoots,
@@ -111,7 +121,7 @@ $summary['status'] = [
     'missing_extensions' => $missingExtensions,
     'missing_artifacts' => $missingArtifacts,
     'invalid_artifacts' => $invalidArtifacts,
-    'evidence_complete' => $missingArtifacts === [] && $invalidArtifacts === [],
+    'evidence_complete' => $sourceCommit !== null && $missingArtifacts === [] && $invalidArtifacts === [],
     'blockers' => $blockers,
 ];
 
@@ -123,8 +133,10 @@ file_put_contents(
 $pretty = [];
 $pretty[] = 'Current recovery summary';
 $pretty[] = 'Generated at UTC: ' . $summary['generated_at'];
+$pretty[] = 'Source commit: ' . ($sourceCommit ?? 'unknown');
 $pretty[] = '';
 $pretty[] = 'Status';
+$pretty[] = '  Source revision known: ' . ($sourceCommit !== null ? 'yes' : 'no');
 $pretty[] = '  Ready for bootstrap: ' . ($readyForBootstrap === true ? 'yes' : ($readyForBootstrap === false ? 'no' : 'unknown'));
 $pretty[] = '  Composer on PATH: ' . ($composerOnPath === true ? 'yes' : ($composerOnPath === false ? 'no' : 'unknown'));
 $pretty[] = '  vendor/autoload.php exists: ' . ($vendorAutoloadExists === true ? 'yes' : ($vendorAutoloadExists === false ? 'no' : 'unknown'));
