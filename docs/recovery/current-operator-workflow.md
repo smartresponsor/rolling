@@ -26,10 +26,13 @@ The final command reads the generated `report/recovery/current-*.json` artifacts
 - `report/recovery/current-summary.json`
 - `report/recovery/current-summary.pretty.txt`
 
+It also records the exact 40-character Git revision as `source_commit`. Resolution accepts a valid CI commit (`GITHUB_SHA` or `CI_COMMIT_SHA`) or local Git metadata, including detached HEAD, loose refs, packed refs, and gitfile worktrees. If no exact commit can be resolved, `status.source_revision_known` is `false`, `status.evidence_complete` is `false`, and the summary emits an RC blocker instead of presenting provenance as known.
+
 ## Verdict interpretation
 
 An RC-ready repository-level result requires:
 
+- an exact source commit is resolved and recorded in the summary;
 - dependency readiness reports Composer and `vendor/autoload.php` as present;
 - no missing required PHP extensions;
 - zero broken autoload entries;
@@ -39,7 +42,7 @@ An RC-ready repository-level result requires:
 
 `current-summary.php` is an aggregator, not a substitute for the underlying gates. Missing artifacts remain visible as `unknown`; explicit failed prerequisites are emitted as blockers.
 
-The summary is fail-closed for evidence completeness: every required `current-*` input must exist and contain valid JSON. Missing or malformed evidence is listed in `status.missing_artifacts` or `status.invalid_artifacts`, sets `status.evidence_complete` to `false`, and is emitted as an RC blocker.
+The summary is fail-closed for evidence completeness: the source revision must resolve, and every required `current-*` input must exist and contain valid JSON. Missing or malformed evidence is listed in `status.missing_artifacts` or `status.invalid_artifacts`; unresolved source provenance is exposed through `status.source_revision_known`. Any of these conditions sets `status.evidence_complete` to `false` and is emitted as an RC blocker.
 
 ## Responsibility boundary
 
