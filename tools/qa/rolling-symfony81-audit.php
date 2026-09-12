@@ -74,6 +74,70 @@ function rolling81ScanPattern(array $files, string $root, string $pattern, strin
     return $hits;
 }
 
+/** @return list<array{file:string,line:int,match:string,severity:string,note:string}> */
+function rolling81ComposerFloorHits(string $root): array
+{
+    $composerPath = $root.'/composer.json';
+    $raw = @file_get_contents($composerPath);
+    if (false === $raw) {
+        return [[
+            'file' => 'composer.json',
+            'line' => 1,
+            'match' => 'composer.json unreadable',
+            'severity' => 'blocker',
+            'note' => 'Canon026 requires explicit Symfony >=8.1 and <9 package constraints.',
+        ]];
+    }
+
+    $composer = json_decode($raw, true);
+    if (!is_array($composer)) {
+        return [[
+            'file' => 'composer.json',
+            'line' => 1,
+            'match' => 'composer.json invalid JSON',
+            'severity' => 'blocker',
+            'note' => 'Canon026 cannot be verified from an invalid Composer manifest.',
+        ]];
+    }
+
+    $hits = [];
+    foreach (['require', 'require-dev'] as $scope) {
+        $requirements = $composer[$scope] ?? [];
+        if (!is_array($requirements)) {
+            continue;
+        }
+
+        foreach ($requirements as $package => $constraint) {
+            if (
+                !is_string($package)
+                || !str_starts_with($package, 'symfony/')
+                || 'symfony/panther' === $package
+                || !is_string($constraint)
+            ) {
+                continue;
+            }
+
+            $allows80 = preg_match('/(?:^|[^0-9])8\\.0(?:[^0-9]|$)/', $constraint) === 1;
+            $allows9 = preg_match('/(?:^|[^0-9])9(?:\\.[0-9]+)?(?:[^0-9]|$)/', $constraint) === 1;
+            $has81PlusFloor = preg_match('/(?:^|[^0-9])8\\.(?:[1-9]|[1-9][0-9])(?:[^0-9]|$)/', $constraint) === 1;
+
+            if (!$allows80 && !$allows9 && $has81PlusFloor) {
+                continue;
+            }
+
+            $hits[] = [
+                'file' => 'composer.json',
+                'line' => 1,
+                'match' => sprintf('%s %s: %s', $scope, $package, $constraint),
+                'severity' => 'blocker',
+                'note' => 'Canon026 requires Symfony constraints with a minimum of 8.1 and no Symfony 9 allowance.',
+            ];
+        }
+    }
+
+    return $hits;
+}
+
 $phpFiles = rolling81CollectFiles($root, ['php']);
 $srcPhpFiles = array_values(array_filter($phpFiles, static fn (string $file): bool => str_contains($file, '/src/')));
 $textFiles = rolling81CollectFiles($root, ['php', 'yaml', 'yml', 'xml', 'neon', 'md', 'adoc', 'json', 'sh', 'ps1']);
@@ -82,6 +146,7 @@ $commandPhpFiles = array_values(array_filter($phpFiles, static fn (string $file)
 $messengerTextFiles = array_values(array_filter($textFiles, static fn (string $file): bool => !str_ends_with($file, '/config/reference.php')));
 
 $checks = [
+    'composer_platform_floor' => rolling81ComposerFloorHits($root),
     'deprecated_httpkernel_moved_classes' => rolling81ScanPattern(
         $phpFiles,
         $root,
@@ -168,7 +233,7 @@ foreach ($checks as $hits) {
 
 $payload = [
     'gate' => 'Rolling Symfony 8.1 readiness audit',
-    'source_policy' => 'Audit only; does not require composer update and does not transform business code.',
+    'source_policy' => 'Audit only; enforces the Canon026 Composer floor and does not transform business code.',
     'summary' => [
         'php_files_scanned' => count($phpFiles),
         'text_files_scanned' => count($textFiles),
