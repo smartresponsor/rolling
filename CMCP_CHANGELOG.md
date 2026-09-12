@@ -234,3 +234,63 @@ Re-check PR head/base after this journal update, merge if still conflict-free, t
 - Recovery evidence still reports two factual blockers/warnings: Composer is not visible on PATH to the nested PHP readiness probe despite Console MCP being able to invoke Composer, and the legacy canon scan reports 207 forbidden-directory drift entries. These are not reclassified as PASS or silently suppressed.
 - RC status remains bounded: functional/static/style/security/host-smoke gates are green after local reconciliation, while structural canon debt already documented in the prior recovery journal remains outside this non-destructive closure.
 
+## engine-20260912093156-rolling-7d6aba
+
+### Iteration 1 — reconnaissance and baseline
+
+- Live workspace inspected through Console MCP only: clean branch `cmcp/engine-20260911155012-rolling-local-reconcile`; no sibling repository mutation is authorized.
+- Read Rolling `README.md`, `composer.json`, current RC/operator documentation, Symfony 8.1 audit, current CMCP journal, and live Git/package context.
+- Read mandatory dependency contour from current Objecting, Cruding, Viewing, and Interfacing repositories. Rolling declares all four runtime packages explicitly and uses local `path` repositories with `symlink: true`; ownership boundaries remain unchanged.
+- Read Canonization textual rules Canon007, Canon008, and Canon026 plus the canonical rules journal and guard matrix. Canon026 is directly applicable: canonical platform components must require PHP 8.4+ and Symfony 8.1+ within Symfony 8.x.
+- Concrete target-to-canon finding: Rolling already requires PHP `^8.4`, but every Symfony runtime constraint in `composer.json` is still `^8.0`, which permits Symfony 8.0 and therefore violates the current Canon026 floor. The existing `rolling-symfony81-audit.php` checks API/runtime candidates but does not enforce Composer's minimum version.
+- Market/enterprise baseline remains the repository's documented authorization baseline: deny-by-default deterministic decisions, auditable role/permission changes, policy isolation from CRUD/presentation, explicit diagnostics, migration/cache lifecycle safety, and consuming-container verification. Mature comparators include Symfony Security voters, Casbin-style policy engines, OPA deployments, relationship-based authorization systems, and identity platforms. Growth capabilities such as simulation, impact analysis, delegated administration, policy history, and distributed PDP integration remain post-RC and are not required for this correction.
+- Selected RC-critical workstream: align Rolling's Symfony Composer floor with Canon026 and harden the repository-owned Symfony 8.1 audit so future regression to `<8.1` fails deterministically.
+- Growth workstream: no speculative authorization feature work in this task.
+- Material risks: manifest/lock drift if constraints change without a corresponding lock refresh; a gate that merely scans source APIs can miss package-level platform regression; sibling package constraints must not be rewritten from Rolling.
+- Planned gates: focused Symfony 8.1 audit, Composer validation/lock consistency, lint, PHPStan, PHPUnit, host smoke, full `composer qa`, style check, and final Git/worktree/upstream verification where available.
+
+#### Что имеем?
+A factual Canon026 mismatch in Rolling's own Composer manifest, with a repository-owned audit that does not currently guard the package floor.
+
+#### Что осталось?
+Raise the Symfony floor to 8.1, add deterministic manifest-floor enforcement to the existing audit, refresh lock metadata if required, run the quality envelope, then integrate only the verified Rolling changes.
+
+### Iteration 2 — material implementation
+
+- Raised all 16 Symfony framework/component constraints in Rolling `composer.json` from `^8.0` to `^8.1`; `symfony/panther` remains correctly on its independent `^2.2` version line.
+- Hardened `tools/qa/rolling-symfony81-audit.php` with a deterministic `composer_platform_floor` blocker check for Canon026, including fail-closed handling for unreadable/invalid Composer metadata.
+- Refreshed Rolling `composer.lock` package-scoped after the constraint change. Composer updated three Symfony testing packages plus their crawler dependency and refreshed current path-package references for Cruding, Objecting, and Viewing in the lock only; no sibling worktree was mutated.
+
+#### Что имеем?
+The manifest now expresses the canonical Symfony 8.1 floor and the repository owns a regression guard for it.
+
+#### Что осталось?
+Verify the new guard, lock consistency, full quality envelope, and any integration tail.
+
+### Iteration 3 — verification and fix
+
+- First `symfony81:audit` correctly exercised the new guard but exposed one false positive: `symfony/panther:^2.2` was treated as a Symfony framework version. The audit was corrected to exempt Panther's independent package version line.
+- Re-run `composer symfony81:audit`: PASS with `blocker_count=0`; existing review-only candidates remain informational.
+- `composer validate --strict --check-lock`: initially failed only because the lock hash was stale after the manifest edit; after the package-scoped lock refresh it PASSed.
+- Full `composer qa`: PASS. PHP lint covered 622 files; PHPStan PASS; PHPUnit groups PASS (32 + 28 + 22 + 2); host smoke PASS (2 tests, 7 assertions); configured surface/Symfony/HTTP/docblock/checkbox/Cruding/EasyAdmin/Objecting/SOLID audits completed without failing the aggregate gate.
+- `composer cs:check`: PASS, 0/608 fixable files.
+- `composer audit`: PASS, no security vulnerability advisories found.
+
+#### Что имеем?
+The Canon026 correction is verified across manifest consistency, static analysis, tests, host smoke, repository audits, style, and dependency security.
+
+#### Что осталось?
+Review the exact diff, create a coherent signed commit, publish it, and perform post-integration acceptance.
+
+### Iteration 4 — debt closure and integration
+
+- Final pre-commit diff is bounded to `CMCP_CHANGELOG.md`, `composer.json`, `composer.lock`, and `tools/qa/rolling-symfony81-audit.php`.
+- No production authorization behavior, Entity/Doctrine model, CRUD route/controller, rendering, shell, navigation, or sibling repository source changed.
+- Attempted to create a new task branch, but Console MCP correctly blocked branch switching while the worktree was dirty. No stash/force bypass was used; integration proceeds as one coherent commit on the existing non-protected published CMCP reconciliation branch.
+
+#### Что имеем?
+A green, scope-bounded Canon026 hardening change ready for Git integration.
+
+#### Что осталось?
+Create and push the signed commit, then inspect post-commit HEAD/upstream/worktree and close iteration 5 from actual resulting state.
+
