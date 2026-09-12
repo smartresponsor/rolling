@@ -294,3 +294,16 @@ A green, scope-bounded Canon026 hardening change ready for Git integration.
 #### Что осталось?
 Create and push the signed commit, then inspect post-commit HEAD/upstream/worktree and close iteration 5 from actual resulting state.
 
+### Iteration 5 — final acceptance and handoff
+
+- Signed implementation commit created: `1edfee152393be5d05deb9eebc63d4c4e7d68ccb` (`Harden Rolling Symfony 8.1 platform floor`).
+- Push to the configured upstream succeeded. The remote emitted a repository-moved notice pointing to `git@github.com:smartresponsor/rolling.git`; the configured upstream nevertheless accepted the commit.
+- Post-push Git inspection: branch `cmcp/engine-20260911155012-rolling-local-reconcile` is clean and exactly synchronized with its configured upstream (`ahead=0`, `behind=0`).
+- Final acceptance for the bounded task: Canon026 manifest floor is corrected and regression-guarded; Composer lock is consistent; full Rolling QA, host smoke, style, and security audit are green. Existing separately documented structural canon debt is unchanged and was not expanded or misreported as solved.
+
+#### Что имеем?
+A published, verified Rolling change that enforces Symfony 8.1+ at both Composer declaration and repository-audit levels without crossing component ownership boundaries.
+
+#### Что осталось?
+No authorized in-scope tail remains for task `engine-20260912093156-rolling-7d6aba`. The repository-moved remote notice is operational metadata for a later remote-URL maintenance task, not a blocker for this completed RC-hardening workstream.
+
