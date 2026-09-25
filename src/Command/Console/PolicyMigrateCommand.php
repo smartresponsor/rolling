@@ -1,0 +1,60 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Rolling\Command\Console;
+
+use App\Rolling\Infrastructure\Console\Support\RoleConsoleRuntime;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+#[AsCommand(name: 'app:role:policy:migrate', description: 'Record and activate a policy migration.')]
+/**
+ * Implements the PolicyMigrateCommand console workflow.
+ */
+final class PolicyMigrateCommand extends AbstractRoleCommand
+{
+    public function __construct(private readonly RoleConsoleRuntime $runtime)
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Configure command arguments and options.
+     */
+    protected function configure(): void
+    {
+        $this
+            ->addArgument('nameEntity', InputArgument::REQUIRED, 'Policy nameEntity.')
+            ->addArgument('from', InputArgument::REQUIRED, 'From version.')
+            ->addArgument('to', InputArgument::REQUIRED, 'To version.')
+            ->addArgument('note', InputArgument::OPTIONAL, 'Optional note.');
+    }
+
+    /**
+     * Execute the command and return a Symfony Console status code.
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        try {
+            $nameEntity = (string) $input->getArgument('nameEntity');
+            $from = (string) $input->getArgument('from');
+            $to = (string) $input->getArgument('to');
+            $note = $input->getArgument('note');
+            $this->runtime->policyMigrate($nameEntity, $from, $to, is_string($note) ? $note : null);
+
+            return $this->writeJson($output, [
+                'ok' => true,
+                'ns' => $this->runtime->rolePolicyNs(),
+                'nameEntity' => $nameEntity,
+                'from' => $from,
+                'to' => $to,
+                'note' => is_string($note) ? $note : null,
+            ]);
+        } catch (\Throwable $throwable) {
+            return $this->writeThrowable($output, $throwable);
+        }
+    }
+}

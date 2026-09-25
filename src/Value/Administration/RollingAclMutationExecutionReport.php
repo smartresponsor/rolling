@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Rolling\Value\Administration;
 
+use App\Rolling\Event\RollingAclMutationExecutionEvent;
+
 /**
  * Safe report for Administering/host diagnostics around ACL mutation execution.
  */

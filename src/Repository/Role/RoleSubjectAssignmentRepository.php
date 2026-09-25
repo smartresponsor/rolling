@@ -19,6 +19,7 @@ final class RoleSubjectAssignmentRepository extends ServiceEntityRepository impl
         parent::__construct($registry, RoleSubjectAssignmentEntity::class);
     }
 
+    /** Finds matching repository values for the supplied criteria. */
     public function findOneAssignment(string $subjectIdentifier, string $roleKey, string $scopeKey): ?RoleSubjectAssignmentEntity
     {
         $assignment = $this->findOneBy([
@@ -30,6 +31,7 @@ final class RoleSubjectAssignmentRepository extends ServiceEntityRepository impl
         return $assignment instanceof RoleSubjectAssignmentEntity ? $assignment : null;
     }
 
+    /** Persists the supplied value in the repository. */
     public function save(RoleSubjectAssignmentEntity $assignment, bool $flush = false): void
     {
         $this->getEntityManager()->persist($assignment);
@@ -39,6 +41,7 @@ final class RoleSubjectAssignmentRepository extends ServiceEntityRepository impl
         }
     }
 
+    /** Executes the remove operation. */
     public function remove(RoleSubjectAssignmentEntity $assignment, bool $flush = false): void
     {
         $this->getEntityManager()->remove($assignment);

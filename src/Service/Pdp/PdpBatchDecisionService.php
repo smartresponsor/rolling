@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Pdp;
 
-use App\Rolling\Service\Pdp\Dto\PdpDecisionResponseDto;
+use App\Rolling\DTO\Pdp\PdpDecisionResponseDTO;
 use App\Rolling\ServiceInterface\Pdp\BatchDecisionInterface;
 
 /**
@@ -56,7 +56,7 @@ final class PdpBatchDecisionService implements BatchDecisionInterface
             }
 
             $latency = (microtime(true) - $start) * 1000.0;
-            $out[] = new PdpDecisionResponseDto($allowed, $rule, $reason, $latency);
+            $out[] = new PdpDecisionResponseDTO($allowed, $rule, $reason, $latency);
         }
 
         return $out;

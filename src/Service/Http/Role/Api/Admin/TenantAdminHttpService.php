@@ -8,18 +8,18 @@ use App\Rolling\DTO\Http\Role\Admin\TenantBackupPayload;
 use App\Rolling\DTO\Http\Role\Admin\TenantQuotaSetPayload;
 use App\Rolling\DTO\Http\Role\Admin\TenantRestorePayload;
 use App\Rolling\Security\Admin\Roles;
-use App\Rolling\Security\Admin\Voter;
 use App\Rolling\Service\Http\Request\JsonPayloadReader;
 use App\Rolling\Service\Tenant\TenantBackupArchiveRestorer;
 use App\Rolling\Service\Tenant\TenantBackupArchiveWriter;
 use App\Rolling\Service\Tenant\TenantLimitConfigurationService;
 use App\Rolling\Service\Tenant\TenantRequestQuotaService;
+use App\Rolling\Voter\AdminVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 final class TenantAdminHttpService
 {
-    private Voter $voter;
+    private AdminVoter $voter;
     private TenantRequestQuotaService $quota;
     private TenantLimitConfigurationService $limits;
     private TenantBackupArchiveWriter $backup;
@@ -30,7 +30,7 @@ final class TenantAdminHttpService
         string $secretPath = __DIR__.'/../../../../../var/admin_secret.txt',
         string $varDir = __DIR__.'/../../../../../var',
     ) {
-        $this->voter = new Voter($secretPath);
+        $this->voter = new AdminVoter($secretPath);
         $this->quota = new TenantRequestQuotaService($varDir.'/tenants');
         $this->limits = new TenantLimitConfigurationService($varDir.'/tenants');
         $this->backup = new TenantBackupArchiveWriter($varDir, $varDir.'/backup');

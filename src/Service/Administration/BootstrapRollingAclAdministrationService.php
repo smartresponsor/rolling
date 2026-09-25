@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
+use App\Rolling\Event\RollingAclMutationAuditEvent;
 use App\Rolling\ServiceInterface\Administration\RollingAclAdministrationServiceInterface;
 use App\Rolling\ServiceInterface\Administration\RollingAclMutationAuditRecorderInterface;
 use App\Rolling\ServiceInterface\Administration\RollingAclMutationValidatorInterface;
-use App\Rolling\Value\Administration\RollingAclMutationAuditEvent;
 use App\Rolling\Value\Administration\RollingAclMutationRequest;
 use App\Rolling\Value\Administration\RollingAclMutationResult;
 

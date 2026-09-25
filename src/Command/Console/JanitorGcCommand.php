@@ -1,0 +1,51 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Rolling\Command\Console;
+
+use App\Rolling\Infrastructure\Console\Support\RoleConsoleRuntime;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+#[AsCommand(name: 'app:role:janitor:gc', description: 'Run audit/replay janitor using retention config.')]
+/**
+ * Implements the JanitorGcCommand console workflow.
+ */
+final class JanitorGcCommand extends AbstractRoleCommand
+{
+    public function __construct(private readonly RoleConsoleRuntime $runtime)
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Configure command arguments and options.
+     */
+    protected function configure(): void
+    {
+        $this
+            ->addOption('dsn', null, InputOption::VALUE_REQUIRED, 'Audit DSN override.')
+            ->addOption('config', null, InputOption::VALUE_REQUIRED, 'Retention config path override.');
+    }
+
+    /**
+     * Execute the command and return a Symfony Console status code.
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        try {
+            $dsn = (string) ($input->getOption('dsn') ?: $this->runtime->auditDsn());
+            $config = (string) ($input->getOption('config') ?: $this->runtime->retentionConfigPath());
+            $result = $this->runtime->janitor($dsn, $config)->run();
+            $result['dsn'] = $dsn;
+            $result['config'] = $config;
+
+            return $this->writeJson($output, $result);
+        } catch (\Throwable $throwable) {
+            return $this->writeThrowable($output, $throwable);
+        }
+    }
+}

@@ -9,7 +9,7 @@
   "audit": {
     "retain_days": 30,
     "archive_before_delete": true,
-    "archive_path": "/var/log/smartresponsor/role_audit_%Y-%m.jsonl",
+    "archive_path": "/var/log/rolling/role_audit_%Y-%m.jsonl",
     "gzip": true,
     "batch": 1000
   },
@@ -32,7 +32,7 @@ php bin/role-janitor.php gc-audit 45 2000
 php bin/role-janitor.php gc-replay 10000
 
 # Архивировать + удалить (старше N дней) в JSONL (с gzip=true добавится .gz)
-php bin/role-janitor.php archive-audit 90 /var/log/smartresponsor/role_audit_older90.jsonl 2000 1
+php bin/role-janitor.php archive-audit 90 /var/log/rolling/role_audit_older90.jsonl 2000 1
 ```
 
 ## systemd‑таймер

@@ -1,0 +1,163 @@
+{
+  "name": "rolling/role",
+  "description": "Rolling role Symfony bundle package",
+  "type": "symfony-bundle",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "require": {
+    "php": "^8.4",
+    "ext-ctype": "*",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
+    "ext-pdo": "*",
+    "configuring/config": "dev-master",
+    "cruding/crud": "dev-master",
+    "doctrine/dbal": "^4.0",
+    "doctrine/doctrine-bundle": "^3.0",
+    "doctrine/doctrine-migrations-bundle": "^4.0",
+    "doctrine/orm": "^3.0",
+    "easycorp/easyadmin-bundle": "^5.0",
+    "interfacing/interface": "dev-master",
+    "objecting/object": "dev-master",
+    "psr/simple-cache": "^3.0",
+    "symfony/config": "^8.1",
+    "symfony/dependency-injection": "^8.1",
+    "symfony/error-handler": "^8.1",
+    "symfony/event-dispatcher": "^8.1",
+    "symfony/form": "^8.1",
+    "symfony/framework-bundle": "^8.1",
+    "symfony/http-foundation": "^8.1",
+    "symfony/http-kernel": "^8.1",
+    "symfony/routing": "^8.1",
+    "symfony/security-csrf": "^8.1",
+    "symfony/twig-bundle": "^8.1",
+    "symfony/validator": "^8.1",
+    "symfony/yaml": "^8.1",
+    "twig/twig": "^3.24",
+    "viewing/view": "dev-master"
+  },
+  "require-dev": {
+    "dbrekelmans/bdi": "^1.4.1",
+    "friendsofphp/php-cs-fixer": "^3.94",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^11.5",
+    "symfony/browser-kit": "^8.1",
+    "symfony/css-selector": "^8.1",
+    "symfony/panther": "^2.2",
+    "symfony/var-dumper": "^8.1",
+    "gating/gate": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\Rolling\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Rolling\\Tests\\": "tests/",
+      "Rolling\\SDK\\V2\\": "SDK/php/"
+    },
+    "exclude-from-classmap": [
+      "tests/SDK/PHP/psr_stubs.php"
+    ]
+  },
+  "scripts": {
+    "canon:scan": "@php bin/canon-scan.php",
+    "canon:namespace-audit": "@php bin/namespace-audit.php",
+    "canon:no-namespace-audit": "@php bin/no-namespace-audit.php",
+    "canon:autoload-audit": "@php bin/autoload-continuity-audit.php",
+    "recovery:bootstrap-preflight": "@php tools/qa/bootstrap-preflight-report.php",
+    "recovery:dependency-readiness": "@php tools/qa/dependency-readiness.php",
+    "recovery:audits": "@php tools/qa/recovery-audits.php",
+    "recovery:readiness-smoke": "@php tools/qa/readiness-smoke.php",
+    "recovery:operator-preflight": "@php tools/qa/operator-preflight.php",
+    "recovery:current-summary": "@php tools/qa/current-summary.php",
+    "test": [
+      "@php tools/qa/phpunit-junit-gate.php unit-role-a tests/Role/Acl tests/Role/Administration tests/Role/Audit tests/Role/Batch tests/Role/Consistency --no-output",
+      "@php tools/qa/phpunit-junit-gate.php unit-role-b tests/Role/Console --no-output",
+      "@php tools/qa/phpunit-junit-gate.php unit-role-c tests/Role/Context tests/Role/Housekeeping tests/Role/Http tests/Role/Model tests/Role/Observability tests/Role/Opa tests/Role/Policy tests/Role/Rebac tests/Role/Resilience --no-output",
+      "@php tools/qa/phpunit-junit-gate.php unit-sdk tests/SDK --no-output"
+    ],
+    "host-smoke": "@php tools/qa/phpunit-junit-gate.php host-smoke --testsuite=e2e --filter=KernelAccessTest --do-not-fail-on-risky",
+    "lint": [
+      "@php tools/qa/php-lint.php"
+    ],
+    "phpstan": "vendor/bin/phpstan analyse --memory-limit=1G",
+    "cs:check": "vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff --verbose",
+    "cs:fix": "vendor/bin/php-cs-fixer fix --allow-risky=yes --verbose",
+    "qa": [
+      "@lint",
+      "@phpstan",
+      "@test",
+      "@host-smoke",
+      "@surface:audit",
+      "@symfony81:audit",
+      "@http-payload:audit",
+      "@docblock:coverage",
+      "@checkbox-form:audit",
+      "@cruding-resource-readiness-audit",
+      "@easyadmin-surface:audit",
+      "@objecting:adoption:audit",
+      "@solid-canon:audit"
+    ],
+    "surface:audit": "@php tools/qa/rolling-surface-audit.php",
+    "symfony81:audit": "@php tools/qa/rolling-symfony81-audit.php",
+    "http-payload:audit": "@php tools/qa/rolling-http-payload-audit.php",
+    "docblock:coverage": "@php tools/qa/rolling-docblock-coverage-audit.php",
+    "checkbox-form:audit": "@php tools/qa/rolling-checkbox-form-audit.php",
+    "cruding-resource-readiness-audit": "@php tools/qa/rolling-cruding-resource-readiness-audit.php",
+    "cruding:resource-readiness:audit": "@cruding-resource-readiness-audit",
+    "easyadmin-surface:audit": "@php tools/qa/rolling-easyadmin-surface-audit.php",
+    "objecting:adoption:audit": "@php tools/qa/rolling-objecting-adoption-audit.php",
+    "objecting-adoption-audit": "@php tools/qa/rolling-objecting-adoption-audit.php",
+    "solid-canon:audit": "@php tools/qa/rolling-solid-canon-audit.php",
+    "gate": "@php vendor/bin/gating check --target=.",
+    "quality": [
+      "@cs:check",
+      "@phpstan",
+      "@test",
+      "@gate"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:smartresponsor/viewing.git",
+      "no-api": true
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:smartresponsor/interfacing.git",
+      "no-api": true
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:smartresponsor/cruding.git",
+      "no-api": true
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:smartresponsor/objecting.git",
+      "no-api": true
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:smartresponsor/configuring.git",
+      "no-api": true
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/smartresponsor/gating.git",
+      "no-api": true
+    }
+  ]
+}
