@@ -343,6 +343,31 @@ Executable Gating integration and local Composer dependency identity are repaire
 
 Run the non-Gating quality envelope for the current manifest/lock change, integrate only verified safe files, and leave deletion/move-dependent canon debt explicitly blocked rather than misreporting RC green.
 
+### Final verification and integration
+
+- Canon002 obsolete duplicate `ServiceInterface/Role/Tenant/TenantKeyProviderInterface.php` was removed from the authored source tree through a preservative move into ignored local `var/`.
+- The obsolete broad-deletion cleanup helper was removed from the authored tooling surface; Gating mutation safety is green.
+- Canonical typed-role migration completed for command, repository, event subscriber, voter, and ACL mutation event classes, with callers/configuration reconciled.
+- Changed-file PHP lint PASS across 62 PHP files.
+- Gating PASS: 9 rules, 0 failed, 0 warning, 2 profile-related skips.
+- PHPStan PASS with no errors.
+- PHPUnit PASS: 32 + 28 + 22 + 2 tests.
+- Host smoke PASS: 2 tests, 7 assertions.
+- CS check PASS: 0/607 fixable files.
+- Full `composer qa` PASS after the final tree settled.
+- `composer validate --strict --check-lock` PASS.
+- `composer audit` PASS with no security advisories.
+- Integration commit `f9c6ad9924a5a0eec2e71c08b44fd0e931010bc4` (`Canonize Rolling typed role topology`) is present on the configured upstream; branch was observed at ahead=0 / behind=0 before this journal-only closeout.
+- The remaining EasyAdmin audit is explicitly growth/ownership debt: seven migration candidates still point to Cruding, but this no longer causes the standard Gating or QA envelope to fail.
+
+#### Что имеем?
+
+Rolling now has a green canonical typed-role topology checkpoint with executable Gating, static analysis, unit tests, host smoke, style, aggregate QA, Composer consistency, and security audit all verified.
+
+#### Что осталось?
+
+Only the separately documented Cruding/EasyAdmin ownership migration remains as a future bounded workstream; it is not an active failure in the verified RC gate envelope.
+
 ### Continuation implementation and verification
 
 - Removed the consumer-side Gating owner copy from `.gating/`; preserved local recovery copies under ignored `var/` quarantine. Rolling now executes the installed `gating/gate` package rather than a copied rule tree.
