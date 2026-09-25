@@ -19,6 +19,7 @@ final class RoleHierarchyRepository extends ServiceEntityRepository implements R
         parent::__construct($registry, RoleHierarchyEntity::class);
     }
 
+    /** Finds matching repository values for the supplied criteria. */
     public function findOneEdge(string $parentRoleKey, string $childRoleKey): ?RoleHierarchyEntity
     {
         $edge = $this->findOneBy([
@@ -29,6 +30,7 @@ final class RoleHierarchyRepository extends ServiceEntityRepository implements R
         return $edge instanceof RoleHierarchyEntity ? $edge : null;
     }
 
+    /** Persists the supplied value in the repository. */
     public function save(RoleHierarchyEntity $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

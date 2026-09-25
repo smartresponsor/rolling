@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Entity\Role;
 
-use App\Rolling\Value\Administration\RollingAclMutationExecutionEvent;
+use App\Rolling\Event\RollingAclMutationExecutionEvent;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 

@@ -81,12 +81,12 @@ Representative mismatches between file path and declared namespace:
 - `src/Entity/Role/PermissionKey.php` → declared `src\Entity\Role`, expected `App\Rolling\Entity\Role`
 - `src/Entity/Role/Scope.php` → declared `src\Entity\Role`, expected `App\Rolling\Entity\Role`
 - `src/Entity/Role/SubjectId.php` → declared `src\Entity\Role`, expected `App\Rolling\Entity\Role`
-- `src/Exception/ApiException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
-- `src/Exception/BadRequestException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
-- `src/Exception/ForbiddenException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
-- `src/Exception/RateLimitException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
-- `src/Exception/RemoteErrorException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
-- `src/Exception/UnauthorizedException.php` → declared `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/ApiException.php` → historical consumer/domain declaration `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/BadRequestException.php` → historical consumer/domain declaration `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/ForbiddenException.php` → historical consumer/domain declaration `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/RateLimitException.php` → historical consumer/domain declaration `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/RemoteErrorException.php` → historical consumer/domain declaration `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
+- `src/Exception/UnauthorizedException.php` → historical consumer/domain declaration `SmartResponsor\RoleSdk\V2\Exception`, expected `App\Rolling\Exception`
 - `src/Infrastructure/Cache/InMemoryCache.php` → declared `App\Rolling\Infra\Cache`, expected `App\Rolling\Infrastructure\Cache`
 - `src/Infrastructure/Role/Admin/ApprovalFsStore.php` → declared `App\Rolling\Infra\Role\Admin`, expected `App\Rolling\Legacy\Infrastructure\Admin`
 - `src/Infrastructure/Role/Admin/ApproverFsDirectory.php` → declared `App\Rolling\Infra\Role\Admin`, expected `App\Rolling\Legacy\Infrastructure\Admin`

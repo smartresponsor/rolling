@@ -2,7 +2,7 @@
 
 Includes:
 
-- `tools/lint/sr_lint.php` — SmartResponsor Canon checks (EN-only, singular names, mirrors, single hyphen).
+- `tools/lint/sr_lint.php` — repository canon checks (EN-only, singular names, mirrors, single hyphen).
 - `tools/diff/file_diff.php` — line-level diff A vs B → `report/file_diff_g9.json`.
 - `tools/diff/zip_diff.php` — inventory diff of two archives → `report/zip_diff_g9.json`.
 - `tools/diff/repo_manifest.php` — repo manifest → `report/manifest_g9.json`.

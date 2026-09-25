@@ -2,7 +2,7 @@
   "name": "rolling/role",
   "description": "Rolling role Symfony bundle package",
   "type": "symfony-bundle",
-  "license": "MIT",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "require": {
     "php": "^8.4",
     "ext-ctype": "*",
@@ -45,7 +45,8 @@
     "symfony/browser-kit": "^8.1",
     "symfony/css-selector": "^8.1",
     "symfony/panther": "^2.2",
-    "symfony/var-dumper": "^8.1"
+    "symfony/var-dumper": "^8.1",
+    "gating/gate": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -110,7 +111,14 @@
     "easyadmin-surface:audit": "@php tools/qa/rolling-easyadmin-surface-audit.php",
     "objecting:adoption:audit": "@php tools/qa/rolling-objecting-adoption-audit.php",
     "objecting-adoption-audit": "@php tools/qa/rolling-objecting-adoption-audit.php",
-    "solid-canon:audit": "@php tools/qa/rolling-solid-canon-audit.php"
+    "solid-canon:audit": "@php tools/qa/rolling-solid-canon-audit.php",
+    "gate": "@php vendor/bin/gating check --target=.",
+    "quality": [
+      "@cs:check",
+      "@phpstan",
+      "@test",
+      "@gate"
+    ]
   },
   "config": {
     "sort-packages": true,
@@ -118,42 +126,87 @@
       "php-http/discovery": true
     }
   },
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "repositories": [
     {
       "type": "path",
       "url": "../Viewing",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "viewing/view": "dev-master"
+        }
       }
     },
     {
       "type": "path",
       "url": "../Interfacing",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "interfacing/interface": "dev-master"
+        }
       }
     },
     {
       "type": "path",
       "url": "../Cruding",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "cruding/crud": "dev-master"
+        }
       }
     },
     {
       "type": "path",
       "url": "../Objecting",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "objecting/object": "dev-master"
+        }
       }
     },
     {
       "type": "path",
       "url": "../Configuring",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "configuring/config": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Gating",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "gating/gate": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Collectioning",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "collectioning/collection": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Tabling",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "tabling/table": "dev-master"
+        }
       }
     }
   ]

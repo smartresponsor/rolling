@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
+use App\Rolling\Event\RollingAclMutationAuditEvent;
 use App\Rolling\ServiceInterface\Administration\RollingAclMutationAuditRecorderInterface;
-use App\Rolling\Value\Administration\RollingAclMutationAuditEvent;
 
 /**
  * Default safe no-op recorder until a Doctrine-backed audit sink is configured.

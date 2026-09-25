@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\ServiceInterface\Administration;
 
-use App\Rolling\Value\Administration\RollingAclMutationAuditEvent;
+use App\Rolling\Event\RollingAclMutationAuditEvent;
 
 /**
  * Records safe metadata about ACL administration mutations.

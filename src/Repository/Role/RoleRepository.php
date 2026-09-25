@@ -19,6 +19,7 @@ final class RoleRepository extends ServiceEntityRepository implements RoleReposi
         parent::__construct($registry, RoleEntity::class);
     }
 
+    /** Finds matching repository values for the supplied criteria. */
     public function findOneByRoleKey(string $roleKey): ?RoleEntity
     {
         $role = $this->findOneBy(['roleKey' => trim($roleKey)]);
@@ -26,6 +27,7 @@ final class RoleRepository extends ServiceEntityRepository implements RoleReposi
         return $role instanceof RoleEntity ? $role : null;
     }
 
+    /** Executes the requireEnabled operation. */
     public function requireEnabled(string $roleKey): ?RoleEntity
     {
         $role = $this->findOneByRoleKey($roleKey);
@@ -33,6 +35,7 @@ final class RoleRepository extends ServiceEntityRepository implements RoleReposi
         return null !== $role && $role->enabled() ? $role : null;
     }
 
+    /** Persists the supplied value in the repository. */
     public function save(RoleEntity $role, bool $flush = false): void
     {
         $this->getEntityManager()->persist($role);

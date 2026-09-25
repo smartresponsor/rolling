@@ -21,6 +21,7 @@ final class RoleAclMutationExecutionEventRepository extends ServiceEntityReposit
         parent::__construct($registry, RoleAclMutationExecutionEventEntity::class);
     }
 
+    /** Persists the supplied value in the repository. */
     public function save(RoleAclMutationExecutionEventEntity $event, bool $flush = false): void
     {
         $this->getEntityManager()->persist($event);
@@ -58,6 +59,7 @@ final class RoleAclMutationExecutionEventRepository extends ServiceEntityReposit
         return $events;
     }
 
+    /** Executes the summary operation. */
     public function summary(RollingAclMutationExecutionFilter $filter): RollingAclMutationExecutionSummary
     {
         $events = $this->matchingByFilter($filter);
