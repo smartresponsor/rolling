@@ -1,5 +1,26 @@
 # CMCP orchestration journal
 
+## engine-20260717190907-rolling-9eee9c
+
+### Continuation acceptance and RC integration
+
+- Re-read the authoritative M5 execution specification and continued from the live Console-MCP-resolved Rolling worktree rather than reconstructing repository state elsewhere.
+- Confirmed the in-progress RC slice reconciles Rolling with Canon021: Cruding owns generic application CRUD, while native EasyAdmin administrative/back-office CRUD remains an allowed exception.
+- Re-read the required Objecting, Cruding, Viewing, Interfacing, Navigating and Canonization responsibility surfaces; no sibling repository mutation was required.
+- Market maturity check reconfirmed the RC focus on deterministic authorization, auditable policy decisions, role hierarchy and contextual/conditional access. Distributed PDP/simulation growth remains outside this bounded RC slice.
+- Verification rerun: EasyAdmin audit allowed; Cruding readiness ready with 6 definitions and 5 admin-controller metadata links; PHPStan PASS; PHPUnit PASS (34 + 28 + 22 + 2); host smoke PASS (2 tests, 7 assertions); CS dry-run PASS (0/608 fixable); Gating PASS (0 failed, 0 warning); Composer validate strict/check-lock PASS; Composer audit PASS with no advisories.
+- Full aggregate composer qa was requested again. The synchronous Console MCP wrapper timed out, while the asynchronous retry was correctly not started because runtime capacity admitted light work only under RESOURCE_PRESSURE_WATCH / ENGINE_BACKLOG_HIGH. This is recorded as execution-plane capacity evidence, not a code failure; all independently executed constituents relevant to this slice are green.
+- No browser/mobile UI, navigation, form behavior or user-observable flow changed, so screenshot/visual evidence is not applicable.
+
+#### Что имеем?
+
+The Canon021/Cruding ownership drift is corrected, regression-covered and independently verified by the applicable deterministic gates. The remaining aggregate-QA signal is infrastructure capacity/timeout rather than failing repository output.
+
+#### Что осталось?
+
+Integrate the seven coherent Rolling files in one signed commit, push the configured non-protected upstream, and verify clean synchronized Git state.
+
+
 ## engine-20260717190328-rolling-396207
 
 ### Reconnaissance and baseline
