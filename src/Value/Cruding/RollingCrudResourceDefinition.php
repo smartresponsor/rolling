@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Rolling\Value\Cruding;
 
 /**
- * Rolling-side resource metadata prepared for the Cruding migration.
+ * Rolling-owned resource metadata for the generic Cruding integration.
  *
- * This value object intentionally does not depend on Cruding classes yet. The
- * later Cruding adapter may translate it into CrudResourceContract/resource
- * provider registrations once the composer dependency and lock file are in
- * place.
+ * The metadata remains independent from the native EasyAdmin administrative
+ * surface. Canon021 permits that back-office surface while Cruding continues
+ * to own generic application CRUD routing and processing.
  */
 final readonly class RollingCrudResourceDefinition
 {

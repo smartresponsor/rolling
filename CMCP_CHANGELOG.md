@@ -1,5 +1,63 @@
 # CMCP orchestration journal
 
+## engine-20260717190328-rolling-396207
+
+### Reconnaissance and baseline
+
+- Re-read the authoritative M5 execution specification, Rolling repository instructions, current RC maturity/operator documentation, Composer/package surfaces, current audits, and the live clean Git state through Console MCP.
+- Re-read the required Objecting, Cruding, Viewing, Interfacing, Navigating and Canonization boundaries without mutating sibling repositories.
+- Market baseline reconfirmed against Symfony Security voters, OPA decision/audit practices, Casbin RBAC role hierarchy and OpenFGA conditional authorization. RC remains focused on deterministic authorization, auditability, boundary safety and operability; simulation and distributed PDP growth stay post-RC.
+- Deterministic baseline: Gating PASS with zero failed and zero warning; Rolling surface PASS; Objecting adoption reports zero unresolved system-field candidates; Cruding readiness exposes six resource definitions.
+- Canon021 reconciliation exposed local contract drift: Rolling documentation and QA labelled native EasyAdmin back-office CRUD as transitional migration debt, while authoritative Canon021 explicitly permits EasyAdmin administrative CRUD and Gating suppresses it from generic CRUD violations.
+- Selected RC-critical slice: remove the false EasyAdmin migration-debt signal without weakening Cruding ownership of generic application CRUD.
+
+#### Что имеем?
+
+A clean repository with green deterministic gates and one factual documentation/diagnostic ownership drift that could otherwise drive destructive removal of an allowed admin surface.
+
+#### Что осталось?
+
+Reclassify the native EasyAdmin surface as the Canon021 exception, harden regression coverage, run the complete Rolling quality envelope, and integrate only if all applicable gates remain green.
+
+### Material implementation
+
+- Reclassified five resource-definition controller references from legacy_controller to admin_controller.
+- Reworked the EasyAdmin surface audit to report the explicit Canon021 administrative exception instead of migration candidates and legacy dependency findings.
+- Updated Cruding readiness output and the Rolling Cruding boundary document so generic application CRUD remains Cruding-owned while native EasyAdmin back-office CRUD may coexist.
+- Added focused consistency coverage preventing reintroduction of the false EasyAdmin-as-legacy interpretation.
+
+#### Что имеем?
+
+Rolling local diagnostics now match authoritative Canon021 and the executable Gating interpretation without removing or weakening either Cruding integration metadata or the native admin surface.
+
+#### Что осталось?
+
+Run targeted lint, tests and audits followed by full QA, Composer consistency/security, exact diff review, then commit and push if green.
+
+### Verification and acceptance
+
+- Changed-file PHP lint: PASS for all five touched PHP files, including the new consistency test.
+- PHPUnit: PASS across the configured groups (34 + 28 + 22 + 2 tests).
+- PHPStan: PASS with zero errors.
+- Host smoke: PASS (2 tests, 7 assertions).
+- Gating: PASS (9 rules, 0 failed, 0 warning, 2 profile-dependent skips).
+- Repository audits: surface, Symfony 8.1, HTTP payload, docblock coverage, checkbox form, Cruding readiness, EasyAdmin surface, Objecting adoption, and SOLID canon all completed successfully.
+- EasyAdmin audit now reports status allowed with seven native administrative surface artifacts under the Canon021 exception; Cruding readiness remains ready with six resource definitions and five explicit administrative-controller metadata links.
+- PHP-CS-Fixer dry-run: PASS, 0/608 fixable files.
+- Composer validation: PASS with strict lock checking.
+- Composer security audit: PASS, no vulnerability advisories.
+- Full aggregate composer qa was attempted, but the Console MCP asynchronous wrapper lost the process handle during its initial repository-wide php-lint child and returned process_not_running without an exit code or code-level failure output. A separate repository-wide lint wrapper showed the same execution-plane lifecycle anomaly. The changed-file PHP syntax gate passed, and every other qa constituent was executed independently and passed; this wrapper anomaly is therefore recorded rather than misreported as either a code PASS or code FAIL.
+- No browser/mobile UI, navigation, form interaction, or user-observable flow changed in this slice, so visual/behavioral screenshot evidence is not applicable.
+
+#### Что имеем?
+
+The RC-critical ownership drift is corrected and regression-guarded. All deterministic gates applicable to the changed surface are green; the only unresolved signal is an execution-plane process-handle anomaly in the aggregate/full-lint wrapper, with no failing PHP file identified.
+
+#### Что осталось?
+
+Create one coherent signed commit for the seven Rolling files, push it to the configured non-protected upstream, and verify clean synchronized HEAD/worktree state.
+
+
 Task: `engine-20260911155012-rolling-db1df5`
 Component: Rolling
 Execution mode: `AUTONOMOUS_REPOSITORY_RC`

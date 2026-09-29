@@ -23,10 +23,10 @@ $definitions = array_map(
     $provider->definitions(),
 );
 
-$legacyControllerCount = 0;
+$adminControllerCount = 0;
 foreach ($definitions as $definition) {
-    if (isset($definition['metadata']['legacy_controller'])) {
-        ++$legacyControllerCount;
+    if (isset($definition['metadata']['admin_controller'])) {
+        ++$adminControllerCount;
     }
 }
 
@@ -63,12 +63,12 @@ $payload = [
         'provider_service' => $providerService,
     ],
     'resource_definition_count' => count($definitions),
-    'legacy_controller_backed_definition_count' => $legacyControllerCount,
+    'administrative_controller_backed_definition_count' => $adminControllerCount,
     'stale_legacy_controllers' => $staleLegacyControllers,
     'definitions' => $definitions,
     'next_steps' => [
         'translate RollingCrudResourceDefinition into Cruding provider registrations',
-        'remove transitional EasyAdmin CRUD controllers after Cruding parity',
+        'keep native EasyAdmin back-office controllers independent from generic Cruding delivery',
     ],
 ];
 
