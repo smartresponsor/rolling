@@ -1,5 +1,118 @@
 # CMCP orchestration journal
 
+## engine-20260717190902-rolling-ad47f1
+
+### Reconnaissance and baseline
+
+- Re-read the authoritative M5 RC specification, current Rolling instructions, RC maturity/canonicalization documentation, Composer scripts, and current repository state through Console MCP.
+- Re-read the required Objecting/Cruding/Canonization ownership contour and reconciled the recent Canon021 EasyAdmin correction already integrated by a concurrent Rolling execution.
+- Reconfirmed the market baseline against OPA, Cerbos, and Zanzibar-style authorization systems: deterministic decisions, auditable evidence, bounded policy ownership, and reliable operator diagnostics are RC concerns; richer simulation/graph UX remains growth work.
+- Current executable gates are green for Gating, generic surface ownership, Cruding readiness, EasyAdmin exception handling, Objecting adoption, checkbox semantics, Symfony 8.1 blockers, and SOLID boundary checks.
+- Recovery diagnostics exposed one factual operability defect on Windows: Composer-run recovery scripts reported `composer_binary_present=false` because the shared bootstrap helper used the Unix-only `command -v composer` locator.
+
+#### Что имеем?
+
+A clean post-concurrency Rolling baseline with green authorization/boundary gates and one reproducible cross-platform recovery-diagnostic defect.
+
+#### Что осталось?
+
+Make Composer discovery platform-aware, preserve Composer script environment evidence across nested PHP recovery checks, add deterministic regression coverage, then run targeted and complete available verification.
+
+### Material implementation
+
+- Added a single shared Composer-binary resolver that first consumes Composer's inherited `COMPOSER_BINARY` script environment and otherwise uses the platform-native locator (`where` on Windows, `command -v` on Unix-like systems).
+- Updated runtime requirement status to use nullable resolved Composer evidence instead of assuming Unix shell semantics.
+- Added focused PHPUnit consistency coverage for inherited Composer script evidence.
+
+#### Что имеем?
+
+Recovery diagnostics no longer depend on a Unix-only shell command and can retain truthful Composer availability when nested checks are launched from a Composer script.
+
+#### Что осталось?
+
+Run changed-file lint, focused tests, recovery preflight/smoke, aggregate QA, Composer validation/security, inspect the exact diff, and integrate only if green.
+
+### Verification and acceptance
+
+- Changed-file PHP lint: PASS for the runtime requirements helper and the new consistency test.
+- Recovery operator preflight: PASS; nested dependency diagnostics now report `composer_binary_present=true` with `C:\\ProgramData\\ComposerSetup\\bin\\composer.phar`, and bootstrap messaging reports `Bootstrap preflight passed.`.
+- Recovery readiness smoke: PASS with the same truthful Composer evidence and no spurious Windows shell-path warning.
+- PHPUnit: PASS across configured groups (35 + 28 + 22 + 2 tests).
+- PHPStan: PASS with zero errors after making standalone helper invocation statically discoverable through guarded callable strings.
+- Full `composer qa`: PASS; 623 PHP files linted, static analysis/tests/host smoke and all configured Rolling audits completed successfully.
+- Gating: PASS, 9 rules with 0 failed and 0 warning; 2 profile-dependent skips.
+- PHP-CS-Fixer dry-run: PASS, 0/609 fixable files.
+- Composer validation: PASS with `--strict --check-lock`.
+- Composer security audit: PASS, no vulnerability advisories.
+- No browser/mobile UI, navigation, forms, or user-observable flow changed, so behavioral screenshot evidence is not applicable.
+
+#### Что имеем?
+
+Rolling recovery diagnostics now discover Composer correctly on Windows and through inherited Composer script context, eliminating a contradictory false recovery warning without changing authorization runtime behavior.
+
+#### Что осталось?
+
+Create one coherent signed commit for the helper, regression test, and orchestration journal; push it to the configured non-protected upstream; then verify clean synchronized HEAD/worktree state.
+
+
+## engine-20260717190857-rolling-299d80
+
+### Reconnaissance and M5 baseline
+
+- Read the authoritative M5 specification and current Rolling repository contract, Composer/package surfaces, RC maturity documentation, current Git state, and repository-owned QA/audit tools through Console MCP.
+- Re-read the required Objecting, Cruding, Canonization, Viewing, Interfacing, and Navigating responsibility boundaries without mutating sibling repositories.
+- Market baseline reconfirmed against Symfony Security voters, OPA decision logging/diagnostics, Casbin RBAC hierarchy, and mature authorization-engine practices: RC evidence must be deterministic, auditable, fail-safe, and platform-independent; simulation/impact-analysis/distributed-policy features remain growth work.
+- Baseline Git state was clean and synchronized with the configured upstream. Gating, surface, Cruding readiness, EasyAdmin/Canon021 classification, Objecting adoption, and SOLID audits were green.
+- RC-critical defect found in `tools/qa/rolling-http-payload-audit.php`: Windows path separators prevented the canonical `JsonPayloadReader.php` exclusion from matching, producing a false `manual_get_content_json_decode_count = 1` and mixed-separator evidence paths.
+
+#### Что имеем?
+
+A clean, canon-aligned Rolling baseline with one reproducible cross-platform evidence defect in the HTTP payload audit.
+
+#### Что осталось?
+
+Normalize repository-relative audit paths, fail closed when the canonical reader exclusion cannot be established, verify the corrected evidence, run the complete quality envelope, then integrate only the verified Rolling files.
+
+### Material implementation
+
+- Normalized Windows and POSIX filesystem separators before deriving repository-relative paths in the HTTP payload audit.
+- Added an explicit `canonical_reader_exclusion_applied` invariant to the emitted audit summary.
+- Changed the audit to fail closed when its canonical `JsonPayloadReader` exclusion cannot be established.
+- Focused verification changed the prior false positive from `manual_get_content_json_decode_count = 1` to `0`, with normalized forward-slash evidence paths and `canonical_reader_exclusion_applied = true`.
+- No production authorization behavior, Entity/Doctrine model, CRUD route/controller, rendering, navigation, browser UI, or sibling repository source was changed.
+
+#### Что имеем?
+
+The HTTP audit now reports the actual runtime contour instead of a Windows path-format artifact, and its key exclusion is self-verifying.
+
+#### Что осталось?
+
+Run lint/static analysis/tests/Gating/Composer validation and security checks, inspect the exact diff, then commit and push if all applicable gates remain green.
+
+### Verification and integration
+
+- Focused PHP lint: PASS for `tools/qa/rolling-http-payload-audit.php`.
+- HTTP payload audit: PASS with `canonical_reader_exclusion_applied=true`, `manual_get_content_json_decode_count=0`, and normalized repository-relative evidence paths.
+- PHPUnit groups: PASS (35 + 28 + 22 + 2 tests).
+- Host smoke: PASS (2 tests, 7 assertions).
+- Gating: PASS (9 rules, 0 failed, 0 warning, 2 profile-dependent skips).
+- Surface audit: PASS with zero generic controllers and zero controller-less application routes.
+- PHP-CS-Fixer dry-run: PASS, 0/609 fixable files.
+- Composer validation: PASS with strict lock checking.
+- Composer security audit: PASS, no vulnerability advisories.
+- Aggregate `composer qa` was attempted and stopped in PHPStan on concurrent worktree file `tests/Role/Consistency/RuntimeRequirementComposerDiscoveryTest.php`, which references two helper functions not discoverable by PHPStan. That test and its paired `bin/bootstrap-runtime-requirements.php` mutation belong to concurrent task `engine-20260717190902-rolling-ad47f1`; they were preserved and excluded from this task's commit.
+- Signed bounded commit created and pushed: `8fdf71f` (`Harden Rolling HTTP audit path evidence`).
+- No browser/mobile/UI behavior changed, so runtime restart and visual evidence are not applicable to this slice.
+
+#### Что имеем?
+
+The M5 HTTP evidence defect is fixed, fail-closed, independently verified, committed, and published without absorbing concurrent repository mutations.
+
+#### Что осталось?
+
+The shared worktree remains intentionally dirty because concurrent task `engine-20260717190902-rolling-ad47f1` is editing the root journal, runtime-requirement helper, and a new consistency test. Its PHPStan issue prevents a truthful whole-worktree QA-green verdict for this conversation, but it does not invalidate the published bounded HTTP-audit fix.
+
+
 ## engine-20260717190907-rolling-9eee9c
 
 ### Continuation acceptance and RC integration
