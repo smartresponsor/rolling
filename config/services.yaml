@@ -14,6 +14,8 @@ services:
 
   App\Rolling\Command\:
     resource: '../src/Command/'
+    exclude:
+      - '../src/Command/Console/'
 
   App\Rolling\Infrastructure\Observability\Metrics\:
     resource: '../src/Infrastructure/Observability/Metrics/'
@@ -44,8 +46,8 @@ services:
   App\Rolling\Infrastructure\Rebac\InMemoryTupleStore: ~
   App\Rolling\InfrastructureInterface\Rebac\TupleStoreInterface: '@App\Rolling\Infrastructure\Rebac\InMemoryTupleStore'
 
-  App\Rolling\Infrastructure\Admin\InMemoryApprovalRequestRepository: ~
-  App\Rolling\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface: '@App\Rolling\Infrastructure\Admin\InMemoryApprovalRequestRepository'
+  App\Rolling\Repository\InMemoryApprovalRequestRepository: ~
+  App\Rolling\InfrastructureInterface\Admin\ApprovalRequestRepositoryInterface: '@App\Rolling\Repository\InMemoryApprovalRequestRepository'
 
   App\Rolling\ServiceInterface\Admin\Guard\ApprovalGuardInterface: '@App\Rolling\Service\Admin\Guard\FourEyesApprovalGuard'
   App\Rolling\ServiceInterface\Admin\Action\GrantRoleActionInterface: '@App\Rolling\Service\Admin\Action\GrantRoleAction'

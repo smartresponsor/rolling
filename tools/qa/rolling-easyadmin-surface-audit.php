@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 $root = dirname(__DIR__, 2);
-$legacyFiles = [
+$adminFiles = [
     'src/Controller/Admin/RollingDashboardController.php',
     'src/Controller/Admin/RollingRoleCrudController.php',
     'src/Controller/Admin/RollingRolePermissionCrudController.php',
@@ -13,13 +13,13 @@ $legacyFiles = [
     'config/routes/rolling_admin_easyadmin.yaml',
 ];
 
-$migrationCandidates = [];
-foreach ($legacyFiles as $relativePath) {
+$adminSurface = [];
+foreach ($adminFiles as $relativePath) {
     if (is_file($root.'/'.$relativePath)) {
-        $migrationCandidates[] = [
+        $adminSurface[] = [
             'file' => $relativePath,
-            'target_owner' => 'cruding/crud',
-            'reason' => 'Generic EasyAdmin CRUD/admin surface is transitional in Rolling and should migrate to Cruding.',
+            'classification' => 'canon021_easyadmin_exception',
+            'reason' => 'Native EasyAdmin administrative/back-office CRUD is permitted by Canon021 and remains separate from generic Cruding delivery.',
         ];
     }
 }
@@ -30,34 +30,21 @@ $dependencies = [
     'cruding_present' => is_array($composer) && isset($composer['require']['cruding/crud']),
 ];
 
-$findings = [];
-if ($dependencies['easyadmin_present']) {
-    $findings[] = [
-        'file' => 'composer.json',
-        'classification' => 'legacy_dependency_candidate',
-        'reason' => 'easycorp/easyadmin-bundle remains required while Rolling owns transitional EasyAdmin CRUD controllers.',
-    ];
-}
-
 $routes = (string) @file_get_contents($root.'/config/routes/rolling_admin_easyadmin.yaml');
-if ('' !== $routes && str_contains($routes, 'src/Controller/Admin') && str_contains($routes, 'type: attribute')) {
-    $findings[] = [
-        'file' => 'config/routes/rolling_admin_easyadmin.yaml',
-        'classification' => 'legacy_route_import_candidate',
-        'reason' => 'Rolling imports EasyAdmin admin controllers directly; target state routes generic CRUD through Cruding.',
-    ];
-}
+$adminRouteConfigured = '' !== $routes
+    && str_contains($routes, 'src/Controller/Admin')
+    && str_contains($routes, 'type: attribute');
 
 $payload = [
-    'status' => 'report',
-    'surface_rule' => 'Rolling must not treat EasyAdmin CRUD controllers as canonical once Cruding owns generic CRUD.',
-    'target_state' => 'zero generic CRUD controllers and zero generic CRUD routes in Rolling',
+    'status' => $dependencies['easyadmin_present'] && $adminRouteConfigured ? 'allowed' : 'attention',
+    'surface_rule' => 'Canon021 keeps generic application CRUD in Cruding while explicitly permitting native EasyAdmin administrative/back-office CRUD.',
+    'target_state' => 'zero component-local generic application CRUD duplication; native EasyAdmin back-office surface may remain',
     'dependencies' => $dependencies,
-    'migration_candidates' => $migrationCandidates,
-    'findings' => $findings,
+    'admin_route_configured' => $adminRouteConfigured,
+    'administrative_surface' => $adminSurface,
     'summary' => [
-        'migration_candidate_count' => count($migrationCandidates),
-        'finding_count' => count($findings),
+        'administrative_surface_count' => count($adminSurface),
+        'canon021_exception_applies' => true,
     ],
 ];
 

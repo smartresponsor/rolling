@@ -4,6 +4,8 @@ parameters:
     - src
     - SDK/php
     - tests
+  scanFiles:
+    - tools/qa/source-revision.php
   tmpDir: var/cache/phpstan
   excludePaths:
     analyse:

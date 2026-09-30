@@ -4,7 +4,7 @@ This wave normalizes the last non-legacy non-`App\Rolling\...` namespace cluster
 
 ## Changes
 
-- rewired `src/Exception/*.php` from `SmartResponsor\RoleSdk\V2\Exception` to `App\Rolling\Exception`;
+- historical consumer/domain namespace migration rewired `src/Exception/*.php` from `SmartResponsor\RoleSdk\V2\Exception` to `App\Rolling\Exception`;
 - updated canonical in-repository usage in `src/Legacy/Http/ResponseErrorMapper.php` to import `App\Rolling\Exception\...`;
 - added a Composer autoload files bridge at `src/Legacy/Compatibility/role_sdk_exception_aliases.php`
   so the old SDK exception FQCNs continue to resolve as aliases.

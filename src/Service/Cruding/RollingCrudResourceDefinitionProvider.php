@@ -14,8 +14,11 @@ use App\Rolling\ServiceInterface\Cruding\RollingCrudResourceDefinitionProviderIn
 use App\Rolling\Value\Cruding\RollingCrudResourceDefinition;
 
 /**
- * Defines Rolling resources that should move from EasyAdmin CRUD controllers
- * into Cruding resource providers.
+ * Defines Rolling resources exposed to the generic Cruding integration.
+ *
+ * Native EasyAdmin controllers remain a separate administrative/back-office
+ * surface allowed by Canon021; they are not migration predecessors for these
+ * resource definitions.
  */
 final readonly class RollingCrudResourceDefinitionProvider implements RollingCrudResourceDefinitionProviderInterface
 {
@@ -34,7 +37,7 @@ final readonly class RollingCrudResourceDefinitionProvider implements RollingCru
                     $this->field('systemRole', 'boolean'),
                     $this->field('enabled', 'boolean'),
                 ],
-                ['legacy_controller' => 'RollingRoleCrudController'],
+                ['admin_controller' => 'RollingRoleCrudController'],
             ),
             new RollingCrudResourceDefinition(
                 'rolling.role-permission',
@@ -48,7 +51,7 @@ final readonly class RollingCrudResourceDefinitionProvider implements RollingCru
                     $this->field('scopePattern', 'string'),
                     $this->field('effect', 'choice', true, ['allow', 'deny']),
                 ],
-                ['legacy_controller' => 'RollingRolePermissionCrudController'],
+                ['admin_controller' => 'RollingRolePermissionCrudController'],
             ),
             new RollingCrudResourceDefinition(
                 'rolling.subject-assignment',
@@ -62,7 +65,7 @@ final readonly class RollingCrudResourceDefinitionProvider implements RollingCru
                     $this->field('scopeKey', 'string'),
                     $this->field('assignedAt', 'datetime', false),
                 ],
-                ['legacy_controller' => 'RollingSubjectRoleAssignmentCrudController'],
+                ['admin_controller' => 'RollingSubjectRoleAssignmentCrudController'],
             ),
             new RollingCrudResourceDefinition(
                 'rolling.acl-rule',
@@ -78,7 +81,7 @@ final readonly class RollingCrudResourceDefinitionProvider implements RollingCru
                     $this->field('conditions', 'json', false),
                     $this->field('enabled', 'boolean'),
                 ],
-                ['legacy_controller' => 'RollingAclRuleCrudController'],
+                ['admin_controller' => 'RollingAclRuleCrudController'],
             ),
             new RollingCrudResourceDefinition(
                 'rolling.role-hierarchy',
@@ -105,7 +108,7 @@ final readonly class RollingCrudResourceDefinitionProvider implements RollingCru
                     $this->field('succeeded', 'boolean', false),
                     $this->field('createdAt', 'datetime', false),
                 ],
-                ['legacy_controller' => 'RollingAclMutationExecutionEventCrudController'],
+                ['admin_controller' => 'RollingAclMutationExecutionEventCrudController'],
             ),
         ];
     }

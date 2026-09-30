@@ -19,6 +19,7 @@ final class RoleAuditRepository extends ServiceEntityRepository implements RoleA
         parent::__construct($registry, RoleAuditEntity::class);
     }
 
+    /** Persists the supplied value in the repository. */
     public function save(RoleAuditEntity $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

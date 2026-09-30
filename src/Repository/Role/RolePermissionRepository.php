@@ -19,6 +19,7 @@ final class RolePermissionRepository extends ServiceEntityRepository implements 
         parent::__construct($registry, RolePermissionEntity::class);
     }
 
+    /** Finds matching repository values for the supplied criteria. */
     public function findOneGrant(string $roleKey, string $permissionKey, string $scopePattern): ?RolePermissionEntity
     {
         $grant = $this->findOneBy([
@@ -30,6 +31,7 @@ final class RolePermissionRepository extends ServiceEntityRepository implements 
         return $grant instanceof RolePermissionEntity ? $grant : null;
     }
 
+    /** Persists the supplied value in the repository. */
     public function save(RolePermissionEntity $grant, bool $flush = false): void
     {
         $this->getEntityManager()->persist($grant);
@@ -39,6 +41,7 @@ final class RolePermissionRepository extends ServiceEntityRepository implements 
         }
     }
 
+    /** Executes the remove operation. */
     public function remove(RolePermissionEntity $grant, bool $flush = false): void
     {
         $this->getEntityManager()->remove($grant);

@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace App\Rolling\ServiceInterface\Admin\Action;
 
-use App\Rolling\Service\Admin\Dto\AdminApprovalRequestDto;
+use App\Rolling\DTO\Admin\AdminApprovalRequestDTO;
 
 interface GrantRoleActionInterface
 {
     /**
      * Apply the role grant described by the request (idempotent).
      */
-    public function apply(AdminApprovalRequestDto $req): void;
+    public function apply(AdminApprovalRequestDTO $req): void;
 }

@@ -232,7 +232,7 @@ Applied direction:
 
 - The canonical TypeScript SDK entry point is now `SDK/js/index.ts`.
 - `SDK/js/package.json` now publishes `dist/index.js` and `dist/index.d.ts` instead of exposing `dist/client.*` as the package root.
-- `SDK/js/README.md` now imports from `@smartresponsor/role-sdk` and no longer points at the obsolete `/v2` entry form.
+- consumer/domain package `SDK/js/README.md` now imports from `@smartresponsor/role-sdk` and no longer points at the obsolete `/v2` entry form.
 - The old root-level TypeScript client files `client.ts`, `index.ts`, and `index.ts.example` are classified as duplicate root SDK entry points and are removed by the apply script with backup.
 - `tools/qa/rolling-structure-audit.php` now reports and fails on those forbidden root SDK entry points if they reappear.
 - `playwright.config.js` now points at the actual case-sensitive `tests/E2E` directory.
@@ -360,7 +360,7 @@ Canonicalized generic ReBAC service names:
 - `src/Service/Rebac/Checker.php` -> `src/Service/Rebac/RebacRelationshipChecker.php`
 - `src/Service/Rebac/Writer.php` -> `src/Service/Rebac/RebacRelationshipWriter.php`
 
-The old files are removed only by the apply script with backup. The service meaning stays unchanged; this wave only makes the class-form explicit for the Smart Responsor naming convention.
+The old files are removed only by the apply script with backup. The service meaning stays unchanged; this wave only makes the class-form explicit for the component naming convention.
 
 
 ## Wave 9 applied note — model service class-form normalization

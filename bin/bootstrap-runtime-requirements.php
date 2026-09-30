@@ -2,6 +2,32 @@
 
 declare(strict_types=1);
 
+function role_composer_binary_path(): ?string
+{
+    $composerBinary = getenv('COMPOSER_BINARY');
+    if (is_string($composerBinary) && '' !== trim($composerBinary)) {
+        return trim($composerBinary);
+    }
+
+    $locatorCommand = 'Windows' === PHP_OS_FAMILY
+        ? 'where composer 2>NUL'
+        : 'command -v composer 2>/dev/null';
+    $output = shell_exec($locatorCommand);
+
+    if (!is_string($output) || '' === trim($output)) {
+        return null;
+    }
+
+    foreach (preg_split('/\\R/', trim($output)) ?: [] as $candidate) {
+        $candidate = trim($candidate);
+        if ('' !== $candidate) {
+            return $candidate;
+        }
+    }
+
+    return null;
+}
+
 function role_runtime_requirement_status(string $projectRoot): array
 {
     $composerJsonPath = $projectRoot . '/composer.json';
@@ -32,7 +58,7 @@ function role_runtime_requirement_status(string $projectRoot): array
 
     $vendorAutoloadPath = $projectRoot . '/vendor/autoload.php';
     $composerLockPath = $projectRoot . '/composer.lock';
-    $composerBinaryPath = trim((string) shell_exec('command -v composer 2>/dev/null'));
+    $composerBinaryPath = role_composer_binary_path();
 
     return [
         'project_root' => $projectRoot,
@@ -43,8 +69,8 @@ function role_runtime_requirement_status(string $projectRoot): array
         'vendor_autoload_path' => $vendorAutoloadPath,
         'vendor_autoload_present' => is_file($vendorAutoloadPath),
         'composer_lock_present' => is_file($composerLockPath),
-        'composer_binary_present' => $composerBinaryPath !== '',
-        'composer_binary_path' => $composerBinaryPath !== '' ? $composerBinaryPath : null,
+        'composer_binary_present' => null !== $composerBinaryPath,
+        'composer_binary_path' => $composerBinaryPath,
         'ready_for_bootstrap' => is_file($vendorAutoloadPath) && $missingExtensions === [],
     ];
 }

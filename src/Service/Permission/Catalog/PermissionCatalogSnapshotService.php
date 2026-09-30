@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Permission\Catalog;
 
-use App\Rolling\Service\Permission\Model\PermissionDefinitionDto;
+use App\Rolling\DTO\Permission\PermissionDefinitionDTO;
 
 final class PermissionCatalogSnapshotService
 {
@@ -20,7 +20,7 @@ final class PermissionCatalogSnapshotService
 
         return [
             'version' => $version,
-            'items' => array_map(static fn (PermissionDefinitionDto $permission): array => $permission->toArray(), $items),
+            'items' => array_map(static fn (PermissionDefinitionDTO $permission): array => $permission->toArray(), $items),
         ];
     }
 }

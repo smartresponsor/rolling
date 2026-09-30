@@ -2,7 +2,7 @@
   "name": "rolling/role",
   "description": "Rolling role Symfony bundle package",
   "type": "symfony-bundle",
-  "license": "MIT",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "require": {
     "php": "^8.4",
     "ext-ctype": "*",
@@ -18,32 +18,35 @@
     "doctrine/doctrine-migrations-bundle": "^4.0",
     "doctrine/orm": "^3.0",
     "easycorp/easyadmin-bundle": "^5.0",
+    "interfacing/interface": "dev-master",
     "objecting/object": "dev-master",
     "psr/simple-cache": "^3.0",
-    "symfony/config": "^8.0",
-    "symfony/dependency-injection": "^8.0",
-    "symfony/error-handler": "^8.0",
-    "symfony/event-dispatcher": "^8.0",
-    "symfony/form": "^8.0",
-    "symfony/framework-bundle": "^8.0",
-    "symfony/http-foundation": "^8.0",
-    "symfony/http-kernel": "^8.0",
-    "symfony/routing": "^8.0",
-    "symfony/security-csrf": "^8.0",
-    "symfony/twig-bundle": "^8.0",
-    "symfony/validator": "^8.0",
-    "symfony/yaml": "^8.0",
-    "twig/twig": "^3.24"
+    "symfony/config": "^8.1",
+    "symfony/dependency-injection": "^8.1",
+    "symfony/error-handler": "^8.1",
+    "symfony/event-dispatcher": "^8.1",
+    "symfony/form": "^8.1",
+    "symfony/framework-bundle": "^8.1",
+    "symfony/http-foundation": "^8.1",
+    "symfony/http-kernel": "^8.1",
+    "symfony/routing": "^8.1",
+    "symfony/security-csrf": "^8.1",
+    "symfony/twig-bundle": "^8.1",
+    "symfony/validator": "^8.1",
+    "symfony/yaml": "^8.1",
+    "twig/twig": "^3.24",
+    "viewing/view": "dev-master"
   },
   "require-dev": {
     "dbrekelmans/bdi": "^1.4.1",
     "friendsofphp/php-cs-fixer": "^3.94",
     "phpstan/phpstan": "^2.1",
     "phpunit/phpunit": "^11.5",
-    "symfony/browser-kit": "^8.0",
-    "symfony/css-selector": "^8.0",
+    "symfony/browser-kit": "^8.1",
+    "symfony/css-selector": "^8.1",
     "symfony/panther": "^2.2",
-    "symfony/var-dumper": "^8.0"
+    "symfony/var-dumper": "^8.1",
+    "gating/gate": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -108,7 +111,14 @@
     "easyadmin-surface:audit": "@php tools/qa/rolling-easyadmin-surface-audit.php",
     "objecting:adoption:audit": "@php tools/qa/rolling-objecting-adoption-audit.php",
     "objecting-adoption-audit": "@php tools/qa/rolling-objecting-adoption-audit.php",
-    "solid-canon:audit": "@php tools/qa/rolling-solid-canon-audit.php"
+    "solid-canon:audit": "@php tools/qa/rolling-solid-canon-audit.php",
+    "gate": "@php vendor/bin/gating check --target=.",
+    "quality": [
+      "@cs:check",
+      "@phpstan",
+      "@test",
+      "@gate"
+    ]
   },
   "config": {
     "sort-packages": true,
@@ -116,28 +126,87 @@
       "php-http/discovery": true
     }
   },
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "repositories": [
     {
       "type": "path",
+      "url": "../Viewing",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "viewing/view": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Interfacing",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "interfacing/interface": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
       "url": "../Cruding",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "cruding/crud": "dev-master"
+        }
       }
     },
     {
       "type": "path",
       "url": "../Objecting",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "objecting/object": "dev-master"
+        }
       }
     },
     {
       "type": "path",
       "url": "../Configuring",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "configuring/config": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Gating",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "gating/gate": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Collectioning",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "collectioning/collection": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Tabling",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "tabling/table": "dev-master"
+        }
       }
     }
   ]

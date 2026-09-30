@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
+use App\Rolling\Event\RollingAclMutationExecutionEvent;
 use App\Rolling\ServiceInterface\Administration\RollingAclMutationExecutionEventRecorderInterface;
-use App\Rolling\Value\Administration\RollingAclMutationExecutionEvent;
 
 /**
  * Safe default recorder until Doctrine-backed Rolling execution events are introduced.

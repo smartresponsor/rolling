@@ -19,6 +19,7 @@ final class RoleAclRuleRepository extends ServiceEntityRepository implements Rol
         parent::__construct($registry, RoleAclRuleEntity::class);
     }
 
+    /** Persists the supplied value in the repository. */
     public function save(RoleAclRuleEntity $rule, bool $flush = false): void
     {
         $this->getEntityManager()->persist($rule);

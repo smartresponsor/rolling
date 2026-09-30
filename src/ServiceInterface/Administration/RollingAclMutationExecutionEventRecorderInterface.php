@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolling\ServiceInterface\Administration;
 
-use App\Rolling\Value\Administration\RollingAclMutationExecutionEvent;
+use App\Rolling\Event\RollingAclMutationExecutionEvent;
 
 /**
  * Records safe Rolling-owned execution events for reviewed ACL mutations.

@@ -2,7 +2,7 @@
 
 Cruding is the canonical owner of generic CRUD runtime for Symfony host applications.
 
-Rolling owns role, permission, ACL, ReBAC, PDP, policy, audit, explain, obligation, hierarchy, security, tenancy, and administration business semantics. Rolling must not duplicate generic CRUD routing or CRUD controllers once Cruding is available as the platform CRUD owner.
+Rolling owns role, permission, ACL, ReBAC, PDP, policy, audit, explain, obligation, hierarchy, security, tenancy, and administration business semantics. Rolling must not duplicate generic application CRUD routing or CRUD processing once Cruding is available as the platform CRUD owner. Canon021 explicitly permits native EasyAdmin administrative/back-office CRUD controllers and routes; that surface does not compete with Cruding.
 
 ## Cruding-owned responsibilities
 
@@ -62,9 +62,9 @@ shadow-compare
 
 Those routes are business operations, not generic CRUD routes.
 
-## Current Rolling migration candidates
+## Native EasyAdmin administrative surface
 
-The current EasyAdmin admin surface is transitional and should migrate to Cruding:
+The current EasyAdmin admin surface is a permitted Canon021 exception and may coexist with Cruding:
 
 ```text
 src/Controller/Admin/RollingRoleCrudController.php
@@ -76,22 +76,19 @@ src/Controller/Admin/RollingDashboardController.php
 config/routes/rolling_admin_easyadmin.yaml
 ```
 
-`RollingPermissionCrudController` is no longer linked from the dashboard and no longer references missing `componentName` or `description` fields. It remains only because repository tooling blocked file deletion during this slice.
-
 ## Dependency rule
 
 Rolling should depend on `cruding/crud` only when it directly references Cruding public contracts or registers Cruding resource providers. The dependency must be committed together with a synchronized `composer.lock` update.
 
 Do not add a Composer dependency without updating the lock file.
 
-## Migration sequence
+## Integration sequence
 
-1. Keep current EasyAdmin files only as transitional surface.
-2. Add report-first audits that list EasyAdmin CRUD controllers as Cruding migration candidates.
-3. Introduce Rolling resource metadata/provider contracts for Cruding.
-4. Add `cruding/crud` dependency with lock update.
-5. Translate `RollingCrudResourceDefinition` into Cruding provider registrations.
-6. Remove Rolling EasyAdmin CRUD controllers and route import after Cruding parity.
-7. Keep only business action routes/controllers/services in Rolling.
+1. Keep native EasyAdmin files as the administrative/back-office surface.
+2. Audit them as the explicit Canon021 exception, not as generic CRUD ownership drift.
+3. Maintain Rolling resource metadata/provider contracts for Cruding.
+4. Keep the `cruding/crud` dependency synchronized with Composer metadata when Rolling consumes its public contracts.
+5. Translate `RollingCrudResourceDefinition` into Cruding provider registrations where generic application CRUD delivery is required.
+6. Keep business action routes/controllers/services in Rolling.
 
-The target state is zero generic CRUD controllers and zero generic CRUD routes in Rolling.
+The target state is zero component-local generic application CRUD duplication. Native EasyAdmin back-office CRUD remains allowed and is not an RC migration blocker.

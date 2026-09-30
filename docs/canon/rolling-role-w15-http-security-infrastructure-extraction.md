@@ -10,7 +10,7 @@
 - `App\Rolling\Security\Http\HmacRequestVerifier`
 - `App\Rolling\InfrastructureInterface\Security\ReplayNonceStoreInterface`
 - `App\Rolling\Infrastructure\Security\Replay\PdoReplayNonceStore`
-- `App\Rolling\Infrastructure\Symfony\EventSubscriber\HmacGuardSubscriber`
+- `App\Rolling\EventSubscriber\HmacGuardSubscriber`
 - `App\Rolling\Infrastructure\Symfony\DependencyInjection\Configuration`
 - `App\Rolling\Infrastructure\Symfony\DependencyInjection\RoleExtension`
 - `App\Rolling\Infrastructure\Symfony\RoleBundle`

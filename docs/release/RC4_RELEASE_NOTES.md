@@ -1,4 +1,4 @@
-# SmartResponsor/Role — RC4 Release Notes
+# Rolling Role — RC4 Release Notes
 
 Version: 0.4.0-rc4
 Date (UTC): 2025-10-27T06:41:35.280988Z

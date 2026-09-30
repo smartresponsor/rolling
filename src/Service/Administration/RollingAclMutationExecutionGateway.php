@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Rolling\Service\Administration;
 
+use App\Rolling\Event\RollingAclMutationExecutionEvent;
 use App\Rolling\ServiceInterface\Administration\RollingAclAdministrationServiceInterface;
 use App\Rolling\ServiceInterface\Administration\RollingAclMutationExecutionEventRecorderInterface;
 use App\Rolling\ServiceInterface\Administration\RollingAclMutationExecutionGatewayInterface;
 use App\Rolling\Value\Administration\RollingAclMutationApplyRequest;
-use App\Rolling\Value\Administration\RollingAclMutationExecutionEvent;
 use App\Rolling\Value\Administration\RollingAclMutationResult;
 
 /**

@@ -1,16 +1,16 @@
-# SmartResponsor Role — TS SDK
+# Rolling Role — TS SDK
 
 ## Установка
 
 ```bash
-npm i @smartresponsor/role-sdk
+npm i @smartresponsor/role-sdk # consumer/domain package locator
 # или локально: скопируйте SDK/js и соберите tsc
 ```
 
 ## Использование (Node)
 
 ```ts
-import { Client } from '@smartresponsor/role-sdk';
+import { Client } from '@smartresponsor/role-sdk'; // consumer/domain package locator
 
 const client = new Client('https://pdp.internal', { apiKey: process.env.ROLE_PDP_API_KEY, hmacSecret: process.env.ROLE_PDP_HMAC });
 const res = await client.check({
