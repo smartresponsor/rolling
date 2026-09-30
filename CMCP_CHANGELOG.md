@@ -687,3 +687,18 @@ The current Rolling executable acceptance envelope is green, and the only author
 
 Create the coherent signed commit, push the synchronized current branch, and confirm final HEAD/upstream/worktree state.
 
+### Final integration acceptance
+
+- Signed commit published: `24bc71bee8259f6f09dbe56280861a0b2777f468` (`Align Rolling Gating ownership guidance`).
+- Push succeeded to the configured upstream branch. The remote emitted a repository-moved notice pointing to `git@github.com:smartresponsor/rolling.git`, but the configured upstream accepted the commit successfully.
+- Immediate post-push state: worktree clean; branch synchronized with upstream at ahead=0 / behind=0.
+- No additional source, runtime, UI, or behavioral changes were introduced after verification.
+
+### Что имеем?
+
+The current Rolling task is factually complete: updated Gating ownership guidance is verified, journaled, signed, published, and the branch is synchronized.
+
+### Что осталось?
+
+No authorized in-scope implementation or integration tail remains for task `engine-20260930143438-rolling-bee708`. The repository-moved remote notice is operational metadata for a separate maintenance task.
+
