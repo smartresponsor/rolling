@@ -631,3 +631,59 @@ Rolling now passes the executable Gating contract and the complete repository QA
 
 Perform selective Git integration of the verified Rolling RC files while preserving unrelated/concurrent worktree tails, push the signed commit, and verify HEAD/upstream/worktree state from the resulting repository.
 
+## 2026-09-30 — engine-20260930143438-rolling-bee708
+
+### Reconnaissance and current canon reconciliation
+
+- Re-read the authoritative task specification, current Rolling `AGENTS.md`, `README.md`, `composer.json`, the existing recovery evidence, and the 2026-09-29 CanonScanning Gating/Inspecting reports.
+- Confirmed the current branch `cmcp/engine-20260911155012-rolling-local-reconcile` is synchronized with its upstream and began with one preserved local change: `AGENTS.md`.
+- Classified that `AGENTS.md` change as valuable in-scope reconciliation rather than unrelated drift: it replaces the obsolete instruction that policy may live in consumer `.gating/` with the current Canonization/Gating contract that consumer `.gating/` is artifact-only and executable policy is owned by the installed `gating/gate` package.
+- Re-read the mandatory application dependency contour. Rolling explicitly requires `cruding/crud`, `interfacing/interface`, `objecting/object`, and `viewing/view`, and development resolves them through canonical sibling path repositories with symlinks.
+- Re-read current Canonization/Gating evidence for DTO naming, technical-role topology, consumer `.gating/` ownership, and subject/profile behavior. The supplied 2026-09-29 CanonScanning RED report is stale relative to the current Gating package behavior and the modified repository fingerprint.
+- Current `composer gate` result: PASS, 9 rules, 0 failures, 0 warnings, 2 profile-dependent skips. The old 68-rule RED report is retained as historical evidence and is not silently rewritten as current.
+- Existing Inspecting evidence was consumed as the structural baseline: 17 findings, including one high-complexity finding in `ModelSchemaValidator::validate()`; these remain observational unless promoted by an active gate or selected bounded remediation.
+
+### Market / maturity baseline
+
+- Mature authorization systems separate policy-decision responsibility from application CRUD/presentation concerns, support deterministic policy evaluation, explicit auditability/decision tracing, and multiple authorization models such as RBAC/ReBAC/ABAC.
+- Rolling already contains the relevant RC-oriented authorization primitives and diagnostics; speculative simulation/impact-analysis UX and broader policy-management product features remain growth work and are not required for this reconciliation.
+
+### Selected RC-critical workstream
+
+- Reconcile Rolling with the updated Gating ownership contract, preserve the valid `AGENTS.md` correction, refresh deterministic repository evidence, and integrate only after the full quality envelope is green.
+
+### Growth workstream
+
+- Future authorization maturity may extend explainability, impact analysis, policy lifecycle UX, and distributed PDP observability, but no speculative growth implementation is mixed into this RC checkpoint.
+
+### Что имеем?
+
+The stale CanonScanning RED has been reconciled against the current executable Gating contract, and the sole pre-existing worktree change is semantically aligned with current Canonization/Gating ownership.
+
+### Что осталось?
+
+Run the full Rolling quality/recovery verification envelope against the current fingerprint, update this journal with factual results, then create and publish a coherent signed commit if all required gates remain green.
+
+### Verification and acceptance
+
+- `composer gate`: PASS — 9 rules, 0 failures, 0 warnings, 2 profile-dependent skips.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit --format=summary`: PASS, no security advisories.
+- `composer cs:check`: PASS, 0/609 fixable files.
+- `composer lint`: PASS, 623 PHP files.
+- `composer phpstan`: PASS, no errors across 610 analyzed files.
+- `composer test`: PASS, 35 + 28 + 22 + 2 = 87 tests across the configured groups.
+- `composer host-smoke`: PASS, 2 tests / 7 assertions.
+- Repository audits `surface:audit`, `symfony81:audit`, `http-payload:audit`, `docblock:coverage`, `checkbox-form:audit`, `cruding-resource-readiness-audit`, `easyadmin-surface:audit`, `objecting:adoption:audit`, and `solid-canon:audit`: all completed successfully.
+- Aggregate `composer qa` was not admitted as one heavy process because Console MCP reported `ENGINE_BACKLOG_HIGH`; every configured constituent was executed individually and passed.
+- No browser/mobile/UI surface changed in this task, so behavioral visual evidence is not applicable.
+- No `src/` code changed after the supplied Inspecting report; a duplicate Inspecting run would not provide new source evidence for this documentation/policy reconciliation.
+
+### Что имеем после verification?
+
+The current Rolling executable acceptance envelope is green, and the only authored changes are the updated Gating ownership instruction plus this orchestration journal.
+
+### Что осталось до RC?
+
+Create the coherent signed commit, push the synchronized current branch, and confirm final HEAD/upstream/worktree state.
+
